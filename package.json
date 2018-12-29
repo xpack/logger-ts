@@ -1,0 +1,49 @@
+{
+  "name": "@xpack/cli-start-options",
+  "version": "1.0.0",
+  "description": "A generic console logger class",
+  "main": "./index.js",
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib",
+    "test": "./test"
+  },
+  "bin": {},
+  "scripts": {
+    "prepublishOnly": "standard && npm run test-tap -s",
+    "test": "standard && npm run test-tap -s",
+    "test-coverage": "tap --coverage --reporter=classic --timeout 600 --no-color \"test/tap/*.js\"",
+    "test-tap": "tap --reporter=classic --timeout 300 --no-color \"test/tap/*.js\"",
+    "tap": "tap --reporter=spec --timeout 300 --no-color",
+    "fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xpack/logger-js.git"
+  },
+  "keywords": [
+    "cli",
+    "options"
+  ],
+  "author": {
+    "name": "Liviu Ionescu",
+    "email": "ilg@livius.net",
+    "url": "http://liviusdotnet.wordpress.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xpack/logger-js/issues"
+  },
+  "homepage": "https://github.com/xpack/logger-js",
+  "dependencies": {},
+  "devDependencies": {
+    "standard": "~12.0.1",
+    "tap": "~12.1.1"
+  },
+  "peerDependencies": {},
+  "bundledDependencies": [],
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">7.7.0"
+  }
+}
