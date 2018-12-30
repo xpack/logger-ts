@@ -4,6 +4,12 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/cli-start-options-js/issues).
 
+### v2.0.0 (2018-12-30)
+
+Incompatible changes:
+
+- [#1] Change the logger constructor to use the generic arguments object
+    
 ### v1.0.1 (2018-12-30)
 
 - package.json: add more keywords
