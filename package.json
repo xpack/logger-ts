@@ -23,7 +23,17 @@
   },
   "keywords": [
     "cli",
-    "options"
+    "logger",
+    "log",
+    "console",
+    "level",
+    "silent", 
+    "error",
+    "warn",
+    "info",
+    "verbose",
+    "debug",
+    "trace"
   ],
   "author": {
     "name": "Liviu Ionescu",
