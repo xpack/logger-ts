@@ -4,7 +4,12 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/cli-start-options-js/issues).
 
-### v1.0.0 (2018-12-29)
+### v1.0.1 (2018-12-30)
+
+- package.json: add more keywords
+- README.md: add more types in prototypes; cosmetics
+
+### v1.0.0 (2018-12-30)
 
 - update for standalone usage
 - tests added; coverage 100%
