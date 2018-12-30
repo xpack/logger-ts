@@ -33,6 +33,30 @@ The development repository is available from the GitHub
 [xpack/logger-js](https://github.com/xpack/logger-js) 
 project.
 
+## Compatibility notices
+
+According to [semver](https://semver.org) requirements, 
+incompatible API changes require higher major numbers.
+
+### v2.x
+
+The logger constructor was changed to use the generic arguments object.
+
+If upgrading from previous versions, change the syntax from:
+
+```javascript
+const logger = new Logger(console, 'info')
+```
+
+to:
+
+```javascript
+const logger = new Logger({
+  console,
+  level: 'info'
+})
+```
+
 ## User info
 
 This section is intended for those who want to use this module in their
