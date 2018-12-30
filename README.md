@@ -6,9 +6,9 @@
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues)
 [![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
 
-## A generic logger class
+## A generic console logger class
 
-A Node.js module with a classes that implements a generic console logger.
+A Node.js module with a class that implements a generic console logger.
 
 ## Prerequisites
 
@@ -19,14 +19,14 @@ syntax is used.
 
 The module is available as 
 [`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger) 
-from the public repository, use `npm` to install it inside the module where 
+from the public repository; use `npm` to install it inside the module where 
 it is needed:
 
 ```bash
 $ npm install @xpack/logger --save
 ```
 
-The module does not provide any executables, and generally there are few 
+The module does not provide any executables, and generally there are no 
 reasons to install it globally.
 
 The development repository is available from the GitHub 
@@ -35,15 +35,268 @@ project.
 
 ## User info
 
-The module can be included in Node.js applications as usual.
+This section is intended for those who want to use this module in their
+own code.
+
+The module can be included in Node.js applications as usual, with `require()`.
 
 ```javascript
 const Logger = require('@xpack/logger').Logger
 ```
 
-TODO: add more explanations.
+### Log levels
+
+The following strings are recognised as valid level names:
+
+- `'silent'` (0)
+- `'error'` (10)
+- `'warn'` (20)
+- `'info'` (30)
+- `'verbose'` (40)
+- `'debug'` (50)
+- `'trace'` (60)
+- `'all'` (70)
+
+Internally they are converted to integer values, and these integers 
+(the values in parenthesis) are used in comparisons. Higher values 
+mean the log is more verbose.
+
+### Delayed log level use cases
+
+There are cases when the logger must be created very early in the
+life cycle of an application, even before it is practically possible
+to determine the log level.
+
+For these cases, if the logger is created without a log level,
+the logger is set to a **preliminary state**, and **all log lines are
+stored in an internal buffer**, until the moment when the log
+level is set, when the buffer is walked and the lines are processed.
+
+### Constructor
+
+#### `Logger(Object console, String level)`
+
+The common use case is to create the logger instance with a console and a 
+string level name.
+
+The console is an object with at least two methods, `log()` and `error()`, as
+defined in the Node.js documentation.
+
+Example:
+
+```javascript
+const logger = new Logger(console, 'info')
+```
+
+#### `Logger(Object console)`
+
+Create the logger in a preliminary state, when all log lines are stored 
+in an internal buffer until the log level is set.
+
+Example:
+
+```javascript
+const logger = new Logger(console)
+```
+
+### Managing the log levels
+
+The log level is managed by a setter/getter pair.
+
+#### `set level (String level)`
+
+Set the log level. If this is the first time the log level is set, flush the
+internal buffer.
+
+Example:
+
+```javascript
+logger.level = 'info'
+```
+
+#### `String get level ()`
+
+Get the current log level, as a string.
+
+Example:
+
+```javascript
+console.log(logger.level)
+```
+
+### Logging lines
+
+All functions accept an optional string message and possibly some arguments,
+as processed by the standard Node.js `util.format(msg, ...args)` function.
+
+#### `always (String msg = '', ...args)`
+
+Log always, regardless of the log level, even `'silent'`, when no other 
+messages are logged. The message is passed via `console.log`
+
+Example:
+
+```javascript
+logger.always(version)
+```
+
+#### `error (String msg = '', ...args)`
+
+Log errors, if the log level is `'error'` or higher. The message is prefixed 
+with `error: ` and passed via `console.error`.
+
+Example:
+
+```javascript
+logger.error('Not good...')
+```
+
+#### `error (Error err)`
+
+This is a special case when the input is an `Error` object. It is expanded,
+including a full stack trace, and passed via `console.error`.
+
+Example:
+
+```javascript
+try {
+  // ...
+} catch (ex) {
+  log.error(ex)
+}
+```
+
+#### `output (msg = '', ...args)`
+
+Log errors, if the log level is `'error'` or higher. The message is passed 
+via `console.log`.
+
+It differs from `error()` by not prefixing the string with `error: ` and using 
+`console.log` instead of `console.error`.
+
+Examples:
+
+```javascript
+log.output('Not good either...')
+```
+
+```javascript
+try {
+  // ...
+} catch (ex) {
+  // Do not show the stack trace.
+  log.output(ex.message)
+}
+```
+
+#### `warn (msg = '', ...args)`
+
+Log warnings, if the log level is `'warn'` or higher. The message is prefixed 
+with `warning: ` and passed via `console.error`.
+
+Example:
+
+```javascript
+log.warn('Beware...')
+```
+
+#### `info (msg = '', ...args)`
+
+Log informative messages, if the log level is `'info'` or higher. 
+The message  passed via `console.log`.
+
+Example:
+
+```javascript
+log.info(title)
+```
+
+#### `verbose (msg = '', ...args)`
+
+Log more informative messages, if the log level is `'verbose'` or higher. 
+The message  passed via `console.log`.
+
+Example:
+
+```javascript
+log.verbose('Configurations:')
+```
+
+#### `debug (msg = '', ...args)`
+
+Log debug messages, if the log level is `'debug'` or higher. 
+The message  passed via `console.log`.
+
+Example:
+
+```javascript
+log.debug(`spawn: ${cmd}`)
+```
+
+#### `trace (msg = '', ...args)`
+
+Log debug messages, if the log level is `'trace'` or higher. 
+The message  passed via `console.log`.
+
+Example:
+
+```javascript
+log.trace(`${this.constructor.name}.doRun()`)
+```
+
+### Checking log levels
+
+If the code is more complex than a single line, for example it needs a long 
+loop, it is recommended to explicitly check the log level and
+skip the code entirely if the log level is not high enough.
+
+Example:
+
+```javascript
+  if (log.isVerbose()) {
+    for (const [folderName, folder] of Object.entries(folders)) {
+      log.trace(`'${folderName}' ${folder.toolchainOptions}`)
+    }
+  }
+```
+
+#### `isSilent ()`
+
+Return `true` if the log level is `'silent'` or higher.
+
+#### `isError ()`
+
+Return `true` if the log level is `'error'` or higher.
+
+#### `isWarn ()`
+
+Return `true` if the log level is `'warn'` or higher.
+
+#### `isInfo ()`
+
+Return `true` if the log level is `'info'` or higher.
+
+#### `isVerbose ()`
+
+Return `true` if the log level is `'verbose'` or higher.
+
+#### `isDebug ()`
+
+Return `true` if the log level is `'debug'` or higher.
+
+#### `isTrace ()`
+
+Return `true` if the log level is `'trace'` or higher.
+
+#### `isAll ()`
+
+Return `true` if the log level is `'all'`.
+
 
 ## Developer info
+
+This section is intended for those who want to contribute to the
+development of this module.
 
 ### Git repo
 
@@ -57,9 +310,9 @@ $ npm link
 $ ls -l ${HOME}/Library/npm/lib/node_modules/@xpack
 ```
 
-(For setups where npm is installed in system folders, use `sudo`.)
+For setups where `npm` is installed in system folders, use `sudo npm link`.
 
-A link to the development folder should be present in the system
+A link to the development folder should appear in the 
 `node_modules` folder.
 
 In projects that use this module under development, link back from the
@@ -75,102 +328,56 @@ The tests use the [`node-tap`](http://www.node-tap.org) framework
 (_A Test-Anything-Protocol library for Node.js_, written by Isaac Schlueter).
 
 As for any `npm` package, the standard way to run the project tests is via 
-`npm test`:
+`npm run test`:
 
-```bash
+```console
 $ cd logger-js.git
 $ npm install
-$ npm test
+$ npm run test
 ```
 
 A typical test result looks like:
 
-```
+```console
 $ npm run test
 
-> @xpack/logger@0.1.15 test /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> @xpack/logger@1.0.0 test /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
 > standard && npm run test-tap -s
 
-test/tap/author.js .................................... 8/8
-test/tap/cmd-copy.js ................................ 40/40
-test/tap/errors.js .................................. 18/18
-test/tap/interactive.js ............................. 14/14
-test/tap/logger.js ................................ 147/147
-test/tap/module-invocation.js ......................... 9/9
-test/tap/options-common.js ........................ 126/126
-total ............................................. 362/362
+test/tap/010-mock-console.js .......................... 7/7
+test/tap/020-logger-single.js ..................... 183/183
+test/tap/030-logger-multi.js ...................... 184/184
+test/tap/040-is-level.js ............................ 72/72
+test/tap/050-buffer.js ............................ 108/108
+test/tap/060-logger-empty.js ........................ 25/25
+total ............................................. 579/579
 
-  362 passing (10s)
+  579 passing (2s)
 
   ok
 ```
 
 To run a specific test with more verbose output, use `npm run tap`:
 
-```
-$ npm run tap test/tap/cmd-copy.js -s
+```console
+$ npm run tap test/tap/010-mock-console.js
 
-test/tap/cmd-copy.js
-  xtest copy
-    ✓ exit code is syntax
-    ✓ has two errors
-    ✓ has --file error
-    ✓ has --output error
-    ✓ has Usage
+> @xpack/logger@1.0.0 tap /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> tap --reporter=spec --timeout 300 --no-color "test/tap/010-mock-console.js"
 
-  xtest copy -h
-    ✓ exit code is success
-    ✓ has enough output
-    ✓ has title
-    ✓ has Usage
-    ✓ has copy options
-    ✓ has --file
-    ✓ has --output
-    ✓ stderr is empty
 
-  xtest cop -h
-    ✓ exit code is success
-    ✓ has enough output
-    ✓ has title
-    ✓ has Usage
-    ✓ stderr is empty
-
-  xtest cop --file xxx --output yyy
-    ✓ exit code is input
-    ✓ stdout is empty
-    ✓ strerr is ENOENT
-
-  unpack
-    ✓ cmd-code.tgz unpacked into /var/folders/n7/kxqjc5zs4qs0nb44v1l2r2j00000gn/T/xtest-copy
-    ✓ chmod ro file
-    ✓ mkdir folder
-    ✓ chmod ro folder
-
-  xtest cop --file input.json --output output.json
-    ✓ exit code is success
+test/tap/010-mock-console.js
+  mock console
     ✓ stdout is empty
     ✓ stderr is empty
-    ✓ content is read in
-    ✓ json was parsed
-    ✓ has name
-
-  xtest cop --file input --output output -v
-    ✓ exit code
-    ✓ message is Done
+    ✓ stdout has one entry
+    ✓ stdout is output
     ✓ stderr is empty
-
-  xtest cop --file input --output ro/output -v
-    ✓ exit code is output
-    ✓ up to writing
-    ✓ stderr is EACCES
-
-  cleanup
-    ✓ chmod rw file
-    ✓ chmod rw folder
-    ✓ remove tmpdir
+    ✓ stderr has one entry
+    ✓ stderr is error
 
 
-  40 passing (2s)
+  7 passing (367.947ms)
 ```
 
 ### Coverage tests
@@ -181,38 +388,32 @@ for all 4 criteria (statements, branches, functions, lines).
 
 To run the coverage tests, use `npm run test-coverage`:
 
-```
+```console
 $ npm run test-coverage
 
-> @xpack/logger@0.1.15 test-coverage /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> @xpack/logger@1.0.0 test-coverage /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
 > tap --coverage --reporter=classic --timeout 600 --no-color "test/tap/*.js"
 
-test/tap/author.js .................................... 8/8
-test/tap/cmd-copy.js ................................ 40/40
-test/tap/errors.js .................................. 18/18
-test/tap/interactive.js ............................. 14/14
-test/tap/logger.js ................................ 147/147
-test/tap/module-invocation.js ......................... 9/9
-test/tap/options-common.js ........................ 126/126
-total ............................................. 362/362
+test/tap/010-mock-console.js .......................... 7/7
+test/tap/020-logger-single.js ..................... 183/183
+test/tap/030-logger-multi.js ...................... 184/184
+test/tap/040-is-level.js ............................ 72/72
+test/tap/050-buffer.js ............................ 108/108
+test/tap/060-logger-empty.js ........................ 25/25
+total ............................................. 579/579
 
-  362 passing (20s)
+  579 passing (4s)
 
   ok
-------------------------------|----------|----------|----------|----------|----------------|
-File                          |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
-------------------------------|----------|----------|----------|----------|----------------|
-All files                     |      100 |    89.01 |    96.43 |      100 |                |
- logger-js.git     |      100 |      100 |      100 |      100 |                |
-  index.js                    |      100 |      100 |      100 |      100 |                |
- logger-js.git/lib |      100 |    89.01 |    96.43 |      100 |                |
-  cli-application.js          |      100 |    85.71 |    90.91 |      100 |                |
-  cli-command.js              |      100 |    78.57 |      100 |      100 |                |
-  cli-error.js                |      100 |      100 |      100 |      100 |                |
-  cli-help.js                 |      100 |    90.43 |      100 |      100 |                |
-  cli-logger.js               |      100 |       72 |      100 |      100 |                |
-  cli-options.js              |      100 |    98.39 |      100 |      100 |                |
-------------------------------|----------|----------|----------|----------|----------------|
+-------------------|----------|----------|----------|----------|-------------------|
+File               |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-------------------|----------|----------|----------|----------|-------------------|
+All files          |      100 |      100 |      100 |      100 |                   |
+ logger-js.git     |      100 |      100 |      100 |      100 |                   |
+  index.js         |      100 |      100 |      100 |      100 |                   |
+ logger-js.git/lib |      100 |      100 |      100 |      100 |                   |
+  logger.js        |      100 |      100 |      100 |      100 |                   |
+-------------------|----------|----------|----------|----------|-------------------|
 ```
 
 ### Continuous Integration (CI)
@@ -232,15 +433,14 @@ automatically checked at each commit via Travis CI.
 
 Known and accepted exceptions:
 
-- `// eslint-disable-line node/no-deprecated-api` to continue using the 
-deprecated `domain` module
+- none
 
 To manually fix compliance with the style guide (where possible):
 
-```
+```console
 $ npm run fix
 
-> @xpack/logger@0.1.12 fix /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> @xpack/logger@1.0.0 fix /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
 > standard --fix
 
 ```
@@ -252,7 +452,7 @@ The documentation metadata follows the [JSdoc](http://usejsdoc.org) tags.
 To enforce checking at file level, add the following comments right after 
 the `use strict`:
 
-```
+```javascript
 'use strict'
 /* eslint valid-jsdoc: "error" */
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
@@ -269,7 +469,7 @@ Note: be sure C style comments are used, C++ styles are not parsed by
 * `npm version patch`
 * push all changes to GitHub; this should trigger CI
 * wait for CI tests to complete
-* `npm publish`
+* `npm publish` (use `--access public` when published for the first time)
 
 ## License
 
