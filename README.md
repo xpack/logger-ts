@@ -38,7 +38,8 @@ project.
 This section is intended for those who want to use this module in their
 own code.
 
-The module can be included in Node.js applications as usual, with `require()`.
+The `@xpack/logger` module can be included in Node.js applications as 
+usual, with `require()`.
 
 ```javascript
 const Logger = require('@xpack/logger').Logger
@@ -59,7 +60,7 @@ The following strings are recognised as valid level names:
 
 Internally they are converted to integer values, and these integers 
 (the values in parenthesis) are used in comparisons. Higher values 
-mean the log is more verbose.
+mean more verbosity.
 
 ### Delayed log level use cases
 
@@ -68,8 +69,8 @@ life cycle of an application, even before it is practically possible
 to determine the log level.
 
 For these cases, if the logger is created without a log level,
-the logger is set to a **preliminary state**, and **all log lines are
-stored in an internal buffer**, until the moment when the log
+it is set to a **preliminary state**, and **all log lines are
+stored in an internal buffer**, until the moment the log
 level is set, when the buffer is walked and the lines are processed.
 
 ### Constructor
@@ -79,8 +80,8 @@ level is set, when the buffer is walked and the lines are processed.
 The common use case is to create the logger instance with a console and a 
 string level name.
 
-The console is an object with at least two methods, `log()` and `error()`, as
-defined in the Node.js documentation.
+The console must be an object with at least two methods, 
+`log()` and `error()`, as defined in the Node.js documentation.
 
 Example:
 
@@ -166,7 +167,7 @@ try {
 }
 ```
 
-#### `output (msg = '', ...args)`
+#### `output (String msg = '', ...args)`
 
 Log errors, if the log level is `'error'` or higher. The message is passed 
 via `console.log`.
@@ -189,7 +190,7 @@ try {
 }
 ```
 
-#### `warn (msg = '', ...args)`
+#### `warn (String msg = '', ...args)`
 
 Log warnings, if the log level is `'warn'` or higher. The message is prefixed 
 with `warning: ` and passed via `console.error`.
@@ -200,7 +201,7 @@ Example:
 log.warn('Beware...')
 ```
 
-#### `info (msg = '', ...args)`
+#### `info (String msg = '', ...args)`
 
 Log informative messages, if the log level is `'info'` or higher. 
 The message  passed via `console.log`.
@@ -211,7 +212,7 @@ Example:
 log.info(title)
 ```
 
-#### `verbose (msg = '', ...args)`
+#### `verbose (String msg = '', ...args)`
 
 Log more informative messages, if the log level is `'verbose'` or higher. 
 The message  passed via `console.log`.
@@ -222,7 +223,7 @@ Example:
 log.verbose('Configurations:')
 ```
 
-#### `debug (msg = '', ...args)`
+#### `debug (String msg = '', ...args)`
 
 Log debug messages, if the log level is `'debug'` or higher. 
 The message  passed via `console.log`.
@@ -233,7 +234,7 @@ Example:
 log.debug(`spawn: ${cmd}`)
 ```
 
-#### `trace (msg = '', ...args)`
+#### `trace (String msg = '', ...args)`
 
 Log debug messages, if the log level is `'trace'` or higher. 
 The message  passed via `console.log`.
@@ -246,9 +247,10 @@ log.trace(`${this.constructor.name}.doRun()`)
 
 ### Checking log levels
 
-If the code is more complex than a single line, for example it needs a long 
-loop, it is recommended to explicitly check the log level and
-skip the code entirely if the log level is not high enough.
+If the logging code is more complex than a single line, 
+for example it needs a long loop, 
+it is recommended to explicitly check the log level and
+if not high enough, skip the code entirely.
 
 Example:
 
@@ -260,35 +262,35 @@ Example:
   }
 ```
 
-#### `isSilent ()`
+#### `Boolean isSilent ()`
 
 Return `true` if the log level is `'silent'` or higher.
 
-#### `isError ()`
+#### `Boolean isError ()`
 
 Return `true` if the log level is `'error'` or higher.
 
-#### `isWarn ()`
+#### `Boolean isWarn ()`
 
 Return `true` if the log level is `'warn'` or higher.
 
-#### `isInfo ()`
+#### `Boolean isInfo ()`
 
 Return `true` if the log level is `'info'` or higher.
 
-#### `isVerbose ()`
+#### `Boolean isVerbose ()`
 
 Return `true` if the log level is `'verbose'` or higher.
 
-#### `isDebug ()`
+#### `Boolean isDebug ()`
 
 Return `true` if the log level is `'debug'` or higher.
 
-#### `isTrace ()`
+#### `Boolean isTrace ()`
 
 Return `true` if the log level is `'trace'` or higher.
 
-#### `isAll ()`
+#### `Boolean isAll ()`
 
 Return `true` if the log level is `'all'`.
 
@@ -298,7 +300,7 @@ Return `true` if the log level is `'all'`.
 This section is intended for those who want to contribute to the
 development of this module.
 
-### Git repo
+### Git repository
 
 For a macOS development machine, use:
 
