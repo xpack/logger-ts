@@ -52,7 +52,10 @@ assert(Logger)
 
 test('logger level all empty', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'all')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'all'
+  })
   t.equal(logger.level, 'all', 'level')
 
   mock.clear()

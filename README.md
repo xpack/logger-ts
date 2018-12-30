@@ -75,29 +75,33 @@ level is set, when the buffer is walked and the lines are processed.
 
 ### Constructor
 
-#### `Logger(Object console, String level)`
+#### `Logger(Object args)`
 
-The common use case is to create the logger instance with a console and a 
-string level name.
+The common use case is to create the logger instance with a `console` and a 
+string `level` name.
 
-The console must be an object with at least two methods, 
+The `console` must be an object with at least two methods, 
 `log()` and `error()`, as defined in the Node.js documentation.
 
 Example:
 
 ```javascript
-const logger = new Logger(console, 'info')
+const logger = new Logger({
+  console, 
+  level:'info'
+})
 ```
 
-#### `Logger(Object console)`
-
-Create the logger in a preliminary state, when all log lines are stored 
+The `level` property is optional. Without it, the constructor will
+create the logger in a preliminary state, when all log lines are stored 
 in an internal buffer until the log level is set.
 
 Example:
 
 ```javascript
-const logger = new Logger(console)
+const logger = new Logger({
+  console
+})
 ```
 
 ### Managing the log levels

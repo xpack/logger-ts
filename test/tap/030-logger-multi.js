@@ -52,7 +52,10 @@ assert(Logger)
 
 test('logger level all', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'all')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'all'
+  })
   t.equal(logger.level, 'all', 'level')
 
   t.equal(mock.stdout.length, 1, 'stdout has 1 entry')
@@ -105,7 +108,10 @@ test('logger level all', (t) => {
 
 test('logger level trace', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'trace')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'trace'
+  })
   t.equal(logger.level, 'trace', 'level')
 
   t.equal(mock.stdout.length, 1, 'stdout has 1 entry')
@@ -158,7 +164,10 @@ test('logger level trace', (t) => {
 
 test('logger level debug', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'debug')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'debug'
+  })
   t.equal(logger.level, 'debug', 'level')
 
   logger.trace('trace')
@@ -205,7 +214,10 @@ test('logger level debug', (t) => {
 
 test('logger level verbose', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'verbose')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'verbose'
+  })
   t.equal(logger.level, 'verbose', 'level')
 
   logger.trace('trace')
@@ -251,7 +263,10 @@ test('logger level verbose', (t) => {
 
 test('logger level info', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'info')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'info'
+  })
   t.equal(logger.level, 'info', 'level')
 
   logger.trace('trace')
@@ -296,7 +311,10 @@ test('logger level info', (t) => {
 
 test('logger level warn', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'warn')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'warn'
+  })
   t.equal(logger.level, 'warn', 'level')
 
   logger.trace('trace')
@@ -340,7 +358,10 @@ test('logger level warn', (t) => {
 
 test('logger level error', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'error')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'error'
+  })
   t.equal(logger.level, 'error', 'level')
 
   logger.trace('trace')
@@ -383,7 +404,10 @@ test('logger level error', (t) => {
 
 test('logger level silent', (t) => {
   const mock = new Mock()
-  const logger = new Logger(mock.console, 'silent')
+  const logger = new Logger({
+    console: mock.console,
+    level: 'silent'
+  })
   t.equal(logger.level, 'silent', 'level')
 
   logger.trace('trace')
