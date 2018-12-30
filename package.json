@@ -1,6 +1,6 @@
 {
   "name": "@xpack/logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generic console logger class",
   "main": "./index.js",
   "directories": {
@@ -27,7 +27,7 @@
     "log",
     "console",
     "level",
-    "silent", 
+    "silent",
     "error",
     "warn",
     "info",
