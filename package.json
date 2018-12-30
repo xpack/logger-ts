@@ -1,5 +1,5 @@
 {
-  "name": "@xpack/cli-start-options",
+  "name": "@xpack/logger",
   "version": "1.0.0",
   "description": "A generic console logger class",
   "main": "./index.js",
