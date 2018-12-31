@@ -22,7 +22,7 @@ The module is available as
 from the public repository; use `npm` to install it inside the module where 
 it is needed:
 
-```bash
+```console
 $ npm install @xpack/logger --save
 ```
 
@@ -94,7 +94,7 @@ to determine the log level.
 
 For these cases, if the logger is created without a log level,
 it is set to a **preliminary state**, and **all log lines are
-stored in an internal buffer**, until the moment the log
+stored in an internal buffer**, until the log
 level is set, when the buffer is walked and the lines are processed.
 
 ### Constructor
@@ -164,7 +164,7 @@ function.
 #### `always (String msg = '', ...args)`
 
 Log always, regardless of the log level, even `'silent'`, when no other 
-messages are logged. The message is passed via `console.log`
+messages are logged. The message is passed via `console.log()`
 
 Example:
 
@@ -175,7 +175,7 @@ logger.always(version)
 #### `error (String msg = '', ...args)`
 
 Log errors, if the log level is `'error'` or higher. The message is prefixed 
-with `error: ` and passed via `console.error`.
+with `error: ` and passed via `console.error()`.
 
 Example:
 
@@ -186,7 +186,7 @@ logger.error('Not good...')
 #### `error (Error err)`
 
 This is a special case when the input is an `Error` object. It is expanded,
-including a full stack trace, and passed via `console.error`.
+including a full stack trace, and passed via `console.error()`.
 
 Example:
 
@@ -204,7 +204,7 @@ Log errors, if the log level is `'error'` or higher. The message is passed
 via `console.log`.
 
 It differs from `error()` by not prefixing the string with `error: ` and using 
-`console.log` instead of `console.error`.
+`console.log()` instead of `console.error()`.
 
 Examples:
 
@@ -224,7 +224,7 @@ try {
 #### `warn (String msg = '', ...args)`
 
 Log warnings, if the log level is `'warn'` or higher. The message is prefixed 
-with `warning: ` and passed via `console.error`.
+with `warning: ` and passed via `console.error()`.
 
 Example:
 
@@ -235,7 +235,7 @@ log.warn('Beware...')
 #### `info (String msg = '', ...args)`
 
 Log informative messages, if the log level is `'info'` or higher. 
-The message  passed via `console.log`.
+The message is passed via `console.log()`.
 
 Example:
 
@@ -246,7 +246,7 @@ log.info(title)
 #### `verbose (String msg = '', ...args)`
 
 Log more informative messages, if the log level is `'verbose'` or higher. 
-The message  passed via `console.log`.
+The message is passed via `console.log()`.
 
 Example:
 
@@ -257,7 +257,7 @@ log.verbose('Configurations:')
 #### `debug (String msg = '', ...args)`
 
 Log debug messages, if the log level is `'debug'` or higher. 
-The message  passed via `console.log`.
+The message is passed via `console.log()`.
 
 Example:
 
@@ -268,7 +268,7 @@ log.debug(`spawn: ${cmd}`)
 #### `trace (String msg = '', ...args)`
 
 Log debug messages, if the log level is `'trace'` or higher. 
-The message  passed via `console.log`.
+The message is passed via `console.log()`.
 
 Example:
 
@@ -502,7 +502,7 @@ Note: be sure C style comments are used, C++ styles are not parsed by
 * `npm version patch`
 * push all changes to GitHub; this should trigger CI
 * wait for CI tests to complete
-* `npm publish` (use `--access public` when published for the first time)
+* `npm publish` (use `--access public` when publishing for the first time)
 
 ## License
 
