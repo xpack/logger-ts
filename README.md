@@ -105,7 +105,8 @@ The common use case is to create the logger instance with a `console` and a
 string `level` name.
 
 The `console` must be an object with at least two methods, 
-`log()` and `error()`, as defined in the Node.js documentation.
+`log()` and `error()`, as defined in the Node.js documentation for 
+[console](https://nodejs.org/dist/latest-v10.x/docs/api/console.html).
 
 Example:
 
@@ -156,7 +157,9 @@ console.log(logger.level)
 ### Logging lines
 
 All functions accept an optional string message and possibly some arguments,
-as processed by the standard Node.js `util.format(msg, ...args)` function.
+as processed by the standard Node.js 
+[`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args) 
+function.
 
 #### `always (String msg = '', ...args)`
 
