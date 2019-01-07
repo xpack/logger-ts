@@ -4,6 +4,10 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/cli-start-options-js/issues).
 
+### v2.1.0 (2019-01-07)
+
+- [#3] Add `hasLevel()`
+
 ### v2.0.0 (2018-12-30)
 
 Incompatible changes:
