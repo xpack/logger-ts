@@ -53,8 +53,10 @@ test('logger level', (t) => {
   const logger = new Logger({
     console: mock.console
   })
+  t.true(!logger.hasLevel(), 'is uninitialised')
   t.equal(logger.level, 'undefined', 'default level')
   logger.level = 'trace'
+  t.true(logger.hasLevel(), 'is initialised')
   t.equal(logger.level, 'trace', 'set level')
   try {
     logger.level = 'xyz'

@@ -154,6 +154,22 @@ Example:
 console.log(logger.level)
 ```
 
+#### `Boolean hasLevel ()`
+
+[Added in v2.1.0]
+
+Return `true` if the level was set.
+
+Example:
+
+```console
+if (!logger.hasLevel()) {
+  logger.level = defaultLevel
+}
+```
+
+
+
 ### Logging lines
 
 All functions accept an optional string message and possibly some arguments,
