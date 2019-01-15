@@ -4,6 +4,10 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/cli-start-options-js/issues).
 
+### v2.2.0 (2019-01-15)
+
+- [#4] Add `Logger.defaultLevel`
+  
 ### v2.1.0 (2019-01-07)
 
 - [#3] Add `hasLevel()`
