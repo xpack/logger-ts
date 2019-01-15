@@ -341,6 +341,9 @@ Return `true` if the log level is `'trace'` or higher.
 
 Return `true` if the log level is `'all'`.
 
+#### `Logger.defaultLevel`
+
+A static definition with the default logger level (`info`).
 
 ## Developer info
 
@@ -512,10 +515,12 @@ Note: be sure C style comments are used, C++ styles are not parsed by
 
 ### How to publish
 
+* `npm run fix`
 * commit all changes
-* `npm run test` (`fix` included)
+* `npm run test-coverage`
 * update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v0.1.2_
-* `npm version patch`
+* `npm version patch` (bug fixes), `npm version minor` (compatible API 
+  additions), `npm version major` (incompatible API changes)
 * push all changes to GitHub; this should trigger CI
 * wait for CI tests to complete
 * `npm publish` (use `--access public` when publishing for the first time)

@@ -58,6 +58,7 @@ test('logger level', (t) => {
   logger.level = 'trace'
   t.true(logger.hasLevel(), 'is initialised')
   t.equal(logger.level, 'trace', 'set level')
+  t.equal(Logger.defaultLevel, 'info', 'has default')
   try {
     logger.level = 'xyz'
   } catch (err) {
