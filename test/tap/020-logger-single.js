@@ -523,10 +523,10 @@ test('logger error exception', (t) => {
     level: 'info'
   })
   logger.error(new Error('msg'))
-  // console.log(mc.stderr)
+  // console.log(mock.stderr)
   const errLines = mock.stderr[0].split(/\r?\n/)
   t.equal(errLines[0], 'Error: msg', 'stderr[0] is msg')
-  t.match(errLines[1], 'at Test.test', 'stderr[1] is at Test')
+  t.match(errLines[1], 'at Test.', 'stderr[1] is at Test')
 
   t.end()
 })
