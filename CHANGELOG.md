@@ -2,7 +2,13 @@
 
 Changes in reverse chronological order.
 
-Refer to GitHub [issues](https://github.com/xpack/cli-start-options-js/issues).
+Refer to GitHub [issues](https://github.com/xpack/logger-js/issues).
+
+### v2.2.1 (2019-11-12)
+
+- split README-MAINTAINER from README
+- bump deps
+- CI updates to test on 8, 10, 12
 
 ### v2.2.0 (2019-01-15)
 
