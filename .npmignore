@@ -32,9 +32,13 @@
 
 # tap
 coverage/
+test/
 
 # nyc test coverage
 .nyc_output/
 
 # VS Code
 .vscode/
+
+.travis.yml
+.appveyor.yml
