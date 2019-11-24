@@ -10,12 +10,6 @@
 
 A Node.js module with a generic console logger.
 
-## Maintainer info
-
-This page documents how to use this module in an user application.
-For maintainer information, see the separate
-[README-MAINTAINER](https://github.com/xpack/logger-js/blob/master/README-MAINTAINER.md) page.
-
 ## Prerequisites
 
 A recent [Node.js](https://nodejs.org) (>=8.x), since the ECMAScript 6 class
@@ -361,6 +355,13 @@ Return `true` if the log level is `'all'`.
 #### `Logger.defaultLevel`
 
 A static definition with the default logger level (`info`).
+
+## Maintainer info
+
+This page documents how to use this module in an user application.
+For maintainer information, see the separate
+[README-MAINTAINER](https://github.com/xpack/logger-js/blob/master/README-MAINTAINER.md)
+page.
 
 ## License
 
