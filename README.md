@@ -38,6 +38,11 @@ project.
 According to [semver](https://semver.org) requirements,
 incompatible API changes require higher major numbers.
 
+### v3.x
+
+All `isXyx` functions (returning a boolean related to
+the log level) were changed to getters.
+
 ### v2.x
 
 The logger constructor was changed to use the generic arguments object.
@@ -313,42 +318,44 @@ if not high enough, skip the code entirely.
 Example:
 
 ```javascript
-  if (log.isVerbose()) {
+  if (log.isVerbose) {
     for (const [folderName, folder] of Object.entries(folders)) {
       log.trace(`'${folderName}' ${folder.toolchainOptions}`)
     }
   }
 ```
 
-#### `Boolean isSilent ()`
+[Changed to getters in v3.0.0]
+
+#### `Boolean isSilent` (getter)
 
 Return `true` if the log level is `'silent'` or higher.
 
-#### `Boolean isError ()`
+#### `Boolean isError` (getter)
 
 Return `true` if the log level is `'error'` or higher.
 
-#### `Boolean isWarn ()`
+#### `Boolean isWarn` (getter)
 
 Return `true` if the log level is `'warn'` or higher.
 
-#### `Boolean isInfo ()`
+#### `Boolean isInfo` (getter)
 
 Return `true` if the log level is `'info'` or higher.
 
-#### `Boolean isVerbose ()`
+#### `Boolean isVerbose` (getter)
 
 Return `true` if the log level is `'verbose'` or higher.
 
-#### `Boolean isDebug ()`
+#### `Boolean isDebug` (getter)
 
 Return `true` if the log level is `'debug'` or higher.
 
-#### `Boolean isTrace ()`
+#### `Boolean isTrace` (getter)
 
 Return `true` if the log level is `'trace'` or higher.
 
-#### `Boolean isAll ()`
+#### `Boolean isAll` (getter)
 
 Return `true` if the log level is `'all'`.
 
