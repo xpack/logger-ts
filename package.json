@@ -12,6 +12,7 @@
   "scripts": {
     "prepublishOnly": "standard && npm run test-tap -s",
     "test": "standard && npm run test-tap -s",
+    "test100": "standard && npm run test-tap --100 -s",
     "test-coverage": "tap --coverage --reporter=classic --timeout 600 --no-color \"test/tap/*.js\"",
     "test-tap": "tap --reporter=classic --timeout 300 --no-color \"test/tap/*.js\"",
     "tap": "tap --reporter=spec --timeout 300 --no-color",
