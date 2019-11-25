@@ -52,7 +52,7 @@ test('logger default', (t) => {
   const logger = new Logger()
   t.equal(logger.level, 'undefined', 'level undefined')
   // eslint-disable-next-line eqeqeq
-  t.true(logger.private_.console == console, 'system console')
+  t.true(logger.console == console, 'system console')
 
   t.end()
 })
