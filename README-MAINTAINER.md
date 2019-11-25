@@ -132,23 +132,20 @@ All files          |      100 |      100 |      100 |      100 |                
 ### Continuous Integration (CI)
 
 The continuous integration tests are performed via
-[Travis CI](https://travis-ci.org/xpack/logger-js) and
-[AppVeyor](https://ci.appveyor.com/project/ilg-ul/logger-js).
-
-To speed up things, the `node_modules` folder is cached between builds.
-
-The tests are currently performed with node 8, 10, 12.
+[GitHub Actions](https://github.com/features/actions) on Ubuntu,
+Windows and macOS, using node 8, 10, 12.
 
 ### Standard compliance
 
 The module uses ECMAScript 6 class definitions.
 
 As style, it uses the [JavaScript Standard Style](https://standardjs.com/),
-automatically checked at each commit via Travis CI.
+automatically checked at each commit via CI.
 
-Known and accepted exceptions:
+Known and accepted exceptions (https://eslint.org):
 
-- none
+- `// eslint-disable-next-line eqeqeq` in 070-logger-default.js to accept
+an object compare
 
 To manually fix compliance with the style guide (where possible):
 
@@ -156,7 +153,7 @@ To manually fix compliance with the style guide (where possible):
 $ npm run fix
 
 > @xpack/logger@1.0.0 fix /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
-> standard --fix
+> standard --fix --verbose
 
 ```
 
