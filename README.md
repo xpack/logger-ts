@@ -124,9 +124,11 @@ level is set, when the buffer is walked and the lines are processed.
 The common use case is to create the logger instance with a `console` and a
 string `level` name.
 
-The `console` must be an object with at least two methods,
+If present, the `console` must be an object with at least two methods,
 `log()` and `error()`, as defined in the Node.js documentation for
 [console](https://nodejs.org/dist/latest-v10.x/docs/api/console.html).
+
+By default, the system console is used.
 
 Example:
 
