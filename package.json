@@ -15,7 +15,7 @@
     "test-coverage": "tap --coverage --reporter=classic --timeout 600 --no-color \"test/tap/*.js\"",
     "test-tap": "tap --reporter=classic --timeout 300 --no-color \"test/tap/*.js\"",
     "tap": "tap --reporter=spec --timeout 300 --no-color",
-    "fix": "standard --fix"
+    "fix": "standard --fix --verbose"
   },
   "repository": {
     "type": "git",
