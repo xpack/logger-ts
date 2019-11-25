@@ -4,6 +4,13 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-js/issues).
 
+### v3.0.0 (2019-11-25)
+
+- [#5] Make the console in the constructor optional
+- [#6] Add support for directly accessing the console
+- [#7] Change the functions to check the log level to getters
+- switch to GitHub Action; remove Travis & AppVeyor
+
 ### v2.2.1 (2019-11-12)
 
 - split README-MAINTAINER from README
