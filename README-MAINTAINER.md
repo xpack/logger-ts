@@ -53,7 +53,7 @@ A typical test result looks like:
 ```console
 $ npm run test
 
-> @xpack/logger@3.0.0 test
+> @xpack/logger@3.0.1 test
 > standard && npm run test-tap -s
 
 test/tap/010-mock-console.js .......................... 7/7
@@ -85,7 +85,7 @@ To run a specific test with more verbose output, use `npm run tap`:
 ```console
 $ npm run tap test/tap/010-mock-console.js
 
-> @xpack/logger@3.0.0 tap
+> @xpack/logger@3.0.1 tap
 > tap --reporter=spec --timeout 300 "test/tap/010-mock-console.js"
 
 
@@ -139,7 +139,7 @@ To manually fix compliance with the style guide (where possible):
 ```console
 $ npm run fix
 
-> @xpack/logger@3.0.0 fix
+> @xpack/logger@3.0.1 fix
 > standard --fix --verbose
 ```
 
@@ -167,7 +167,7 @@ Note: be sure C style comments are used, C++ styles are not parsed by
 - commit all changes
 - `npm run test-coverage`
 - check the latest commits `npm run git-log`
-- update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v3.0.0_
+- update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v3.0.1_
 - `npm pack` and check the content
 - `npm version patch` (bug fixes), `npm version minor` (compatible API
   additions), `npm version major` (incompatible API changes)
@@ -189,7 +189,7 @@ npm install -global @xpack/logger@next
 When stable:
 
 - `npm dist-tag ls @xpack/logger`
-- `npm dist-tag add @xpack/logger@3.0.0 latest`
+- `npm dist-tag add @xpack/logger@3.0.1 latest`
 - `npm dist-tag ls @xpack/logger`
 
 ### Update repo

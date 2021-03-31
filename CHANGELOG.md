@@ -4,6 +4,13 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-js/issues/).
 
+## 2021-03-31
+
+- v3.0.1 released
+- update tests to use .ok(), .notOk()
+- bump devDeps
+- [#13] Make _write(msg) ignore undefined
+
 ## 2019-11-25
 
 - v3.0.0 released
