@@ -2,7 +2,7 @@
 [![license](https://img.shields.io/github/license/xpack/logger-js.svg)](https://github.com/xpack/logger-js/blob/xpack/LICENSE)
 [![Standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
 [![Actions Status](https://github.com/xpack/logger-js/workflows/Node.js%20CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
-[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues)
+[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues/)
 [![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
 
 ## logger-js - maintainer info
@@ -53,20 +53,31 @@ A typical test result looks like:
 ```console
 $ npm run test
 
-> @xpack/logger@1.0.0 test /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> @xpack/logger@3.0.0 test
 > standard && npm run test-tap -s
 
 test/tap/010-mock-console.js .......................... 7/7
-test/tap/020-logger-single.js ..................... 183/183
+test/tap/020-logger-single.js ..................... 186/186
 test/tap/030-logger-multi.js ...................... 184/184
 test/tap/040-is-level.js ............................ 72/72
 test/tap/050-buffer.js ............................ 108/108
 test/tap/060-logger-empty.js ........................ 25/25
-total ............................................. 579/579
+test/tap/070-logger-default.js ........................ 2/2
+test/tap/080-undefined.js ........................... 38/38
+total ............................................. 622/622
 
-  579 passing (2s)
+  622 passing (819.993ms)
 
   ok
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |      100 |     100 |     100 |                   
+ logger-js.git     |     100 |      100 |     100 |     100 |                   
+  index.js         |     100 |      100 |     100 |     100 |                   
+ logger-js.git/lib |     100 |      100 |     100 |     100 |                   
+  logger.js        |     100 |      100 |     100 |     100 |                   
+-------------------|---------|----------|---------|---------|-------------------
 ```
 
 To run a specific test with more verbose output, use `npm run tap`:
@@ -74,8 +85,8 @@ To run a specific test with more verbose output, use `npm run tap`:
 ```console
 $ npm run tap test/tap/010-mock-console.js
 
-> @xpack/logger@1.0.0 tap /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
-> tap --reporter=spec --timeout 300 --no-color "test/tap/010-mock-console.js"
+> @xpack/logger@3.0.0 tap
+> tap --reporter=spec --timeout 300 "test/tap/010-mock-console.js"
 
 
 test/tap/010-mock-console.js
@@ -89,7 +100,12 @@ test/tap/010-mock-console.js
     ✓ stderr is error
 
 
-  7 passing (367.947ms)
+  7 passing (260.048ms)
+----------|---------|----------|---------|---------|-------------------
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+----------|---------|----------|---------|---------|-------------------
+All files |       0 |        0 |       0 |       0 |                   
+----------|---------|----------|---------|---------|-------------------
 ```
 
 ### Coverage tests
@@ -98,41 +114,13 @@ Coverage tests are a good indication on how much of the source files is
 exercised by the tests. Ideally all source files should be covered 100%,
 for all 4 criteria (statements, branches, functions, lines).
 
-To run the coverage tests, use `npm run test-coverage`:
-
-```console
-$ npm run test-coverage
-
-> @xpack/logger@1.0.0 test-coverage /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
-> tap --coverage --reporter=classic --timeout 600 --no-color "test/tap/*.js"
-
-test/tap/010-mock-console.js .......................... 7/7
-test/tap/020-logger-single.js ..................... 183/183
-test/tap/030-logger-multi.js ...................... 184/184
-test/tap/040-is-level.js ............................ 72/72
-test/tap/050-buffer.js ............................ 108/108
-test/tap/060-logger-empty.js ........................ 25/25
-total ............................................. 579/579
-
-  579 passing (4s)
-
-  ok
--------------------|----------|----------|----------|----------|-------------------|
-File               |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
--------------------|----------|----------|----------|----------|-------------------|
-All files          |      100 |      100 |      100 |      100 |                   |
- logger-js.git     |      100 |      100 |      100 |      100 |                   |
-  index.js         |      100 |      100 |      100 |      100 |                   |
- logger-js.git/lib |      100 |      100 |      100 |      100 |                   |
-  logger.js        |      100 |      100 |      100 |      100 |                   |
--------------------|----------|----------|----------|----------|-------------------|
-```
+Thus, passing coverage tests was enforced for all tests, as seen before.
 
 ### Continuous Integration (CI)
 
 The continuous integration tests are performed via
 [GitHub Actions](https://github.com/features/actions) on Ubuntu,
-Windows and macOS, using node 8, 10, 12.
+Windows and macOS, using node 10, 12, 14.
 
 ### Standard compliance
 
@@ -151,9 +139,8 @@ To manually fix compliance with the style guide (where possible):
 ```console
 $ npm run fix
 
-> @xpack/logger@1.0.0 fix /Users/ilg/My Files/MacBookPro Projects/xPack/npm-modules/logger-js.git
+> @xpack/logger@3.0.0 fix
 > standard --fix --verbose
-
 ```
 
 ### Documentation metadata
@@ -174,12 +161,41 @@ Note: be sure C style comments are used, C++ styles are not parsed by
 
 ### How to publish
 
+### How to publish
+
 - `npm run fix`
 - commit all changes
 - `npm run test-coverage`
-- update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v0.1.2_
+- check the latest commits `npm run git-log`
+- update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v3.0.0_
+- `npm pack` and check the content
 - `npm version patch` (bug fixes), `npm version minor` (compatible API
   additions), `npm version major` (incompatible API changes)
 - push all changes to GitHub; this should trigger CI
-- wait for CI tests to complete
-- `npm publish` (use `--access public` when publishing for the first time)
+- **wait for CI tests to complete**
+- `npm publish --tag next` (use `--access public` when publishing for the first time)
+
+Check if the version is present at
+[@xpack/logger Versions](https://www.npmjs.com/package/@xpack/logger?activeTab=versions).
+
+Test it with:
+
+```bash
+npm install -global @xpack/logger@next
+```
+
+### Change tag to latest
+
+When stable:
+
+- `npm dist-tag ls @xpack/logger`
+- `npm dist-tag add @xpack/logger@3.0.0 latest`
+- `npm dist-tag ls @xpack/logger`
+
+### Update repo
+
+- in the `develop` branch
+- commit all changes
+- select the `master` branch
+- merge `develop`
+- push all branches
