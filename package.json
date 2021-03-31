@@ -40,14 +40,13 @@
   "author": {
     "name": "Liviu Ionescu",
     "email": "ilg@livius.net",
-    "url": "http://liviusdotnet.wordpress.com"
+    "url": "https://github.com/ilg-ul/"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xpack/logger-js/issues"
+    "url": "https://github.com/xpack/logger-js/issues/"
   },
-  "homepage": "https://github.com/xpack/logger-js",
-  "dependencies": {},
+  "homepage": "https://github.com/xpack/logger-js/",
   "devDependencies": {
     "standard": "^16.0.3",
     "tap": "^15.0.0"
