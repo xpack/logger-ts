@@ -1,52 +1,57 @@
-## Change log
+# Change log
 
 Changes in reverse chronological order.
 
-Refer to GitHub [issues](https://github.com/xpack/logger-js/issues).
+Refer to GitHub [issues](https://github.com/xpack/logger-js/issues/).
 
-### v3.0.0 (2019-11-25)
+## 2019-11-25
 
+- v3.0.0 released
 - [#5] Make the console in the constructor optional
 - [#6] Add support for directly accessing the console
 - [#7] Change the functions to check the log level to getters
 - switch to GitHub Action; remove Travis & AppVeyor
 
-### v2.2.1 (2019-11-12)
+## 2019-11-12
 
+- v2.2.1 released
 - split README-MAINTAINER from README
 - bump deps
 - CI updates to test on 8, 10, 12
 
-### v2.2.0 (2019-01-15)
+## 2019-01-15
 
+- v2.2.0 released
 - [#4] Add `Logger.defaultLevel`
   
-### v2.1.0 (2019-01-07)
+## 2019-01-07)
 
+- v2.1.0 released
 - [#3] Add `hasLevel()`
 
-### v2.0.0 (2018-12-30)
+## 2018-12-30)
+
+- v2.0.0 released
 
 Incompatible changes:
 
 - [#1] Change the logger constructor to use the generic arguments object
-    
-### v1.0.1 (2018-12-30)
 
+## 2018-12-30
+
+- v1.0.1 released
 - package.json: add more keywords
 - README.md: add more types in prototypes; cosmetics
 
-### v1.0.0 (2018-12-30)
-
+- v1.0.0 released
 - update for standalone usage
 - tests added; coverage 100%
 - documentation added in README.md
   
-### (2018-12-29)
+## 2018-12-29
 
+- v0.6.0 released
 - rename CliLogger -> Logger
-
-### v0.6.0 (2018-12-29)
 
 Copied from `cli-start-options-js.git`.
 
