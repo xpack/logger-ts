@@ -33,6 +33,7 @@
 # tap
 /coverage/
 /test/
+/tests/
 
 # nyc test coverage
 /.nyc_output/
@@ -45,6 +46,9 @@
 /.travis.yml
 /.appveyor.yml
 
-/README-MAINTAINER.md
+README-*.md
+
+/src/
+**/tsconfig.json
 
 #end

@@ -42,8 +42,8 @@ const assert = require('assert')
 // The `[node-tap](http://www.node-tap.org)` framework.
 const test = require('tap').test
 
-const Mock = require('../mock-console.js').Mock
-const Logger = require('../../index.js').Logger
+const { Mock } = require('../mock-console.js')
+const { Logger } = require('../../dist/src/index.js')
 assert(Logger)
 
 // ----------------------------------------------------------------------------

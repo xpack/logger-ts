@@ -38,7 +38,7 @@
 // ----------------------------------------------------------------------------
 
 // The `[node-tap](http://www.node-tap.org)` framework.
-const test = require('tap').test
+const { test } = require('tap')
 
 const Mock = require('../mock-console.js').Mock
 

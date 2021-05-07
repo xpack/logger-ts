@@ -1,6 +1,6 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
 [![license](https://img.shields.io/github/license/xpack/logger-js.svg)](https://github.com/xpack/logger-js/blob/xpack/LICENSE)
-[![Standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
+[![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
 [![Actions Status](https://github.com/xpack/logger-js/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues/)
 [![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
@@ -99,10 +99,11 @@ Known and accepted exceptions:
 To manually fix compliance with the style guide (where possible):
 
 ```console
-$ npm run fix
+% npm run fix
 
-> @xpack/logger@0.1.0 fix
-> ts-standard --fix src
+> @xpack/logger@3.0.1 fix
+> ts-standard --fix src && standard --fix test
+
 ```
 
 ## Tests
@@ -125,10 +126,22 @@ npm run test
 A typical test result looks like:
 
 ```console
-$ npm run test
+% npm run test
+
+> @xpack/logger@3.0.1 pretest
+> npm run compile && npm run lint
+
+
+> @xpack/logger@3.0.1 compile
+> tsc -p ./
+
+
+> @xpack/logger@3.0.1 lint
+> ts-standard src
+
 
 > @xpack/logger@3.0.1 test
-> standard && npm run test-tap -s
+> npm run test-tap100 -s
 
 test/tap/010-mock-console.js .......................... 7/7
 test/tap/020-logger-single.js ..................... 186/186
@@ -140,18 +153,19 @@ test/tap/070-logger-default.js ........................ 2/2
 test/tap/080-undefined.js ........................... 38/38
 total ............................................. 622/622
 
-  622 passing (819.993ms)
+  622 passing (676.623ms)
 
   ok
--------------------|---------|----------|---------|---------|-------------------
-File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
--------------------|---------|----------|---------|---------|-------------------
-All files          |     100 |      100 |     100 |     100 |                   
- logger-js.git     |     100 |      100 |     100 |     100 |                   
-  index.js         |     100 |      100 |     100 |     100 |                   
- logger-js.git/lib |     100 |      100 |     100 |     100 |                   
-  logger.js        |     100 |      100 |     100 |     100 |                   
--------------------|---------|----------|---------|---------|-------------------
+------------|---------|----------|---------|---------|-------------------
+File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+------------|---------|----------|---------|---------|-------------------
+All files   |     100 |      100 |     100 |     100 |                   
+ src        |     100 |      100 |     100 |     100 |                   
+  index.ts  |     100 |      100 |     100 |     100 |                   
+ src/lib    |     100 |      100 |     100 |     100 |                   
+  logger.ts |     100 |      100 |     100 |     100 |                   
+------------|---------|----------|---------|---------|-------------------
+%
 ```
 
 To run a specific test with more verbose output, use `npm run tap`:

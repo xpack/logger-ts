@@ -42,9 +42,8 @@ const assert = require('assert')
 // The `[node-tap](http://www.node-tap.org)` framework.
 const test = require('tap').test
 
-const Mock = require('../mock-console.js').Mock
-
-const Logger = require('../../index.js').Logger
+const { Mock } = require('../mock-console.js')
+const { Logger } = require('../../dist/src/index.js')
 
 assert(Logger)
 
@@ -63,7 +62,7 @@ test('logger undefined', (t) => {
   logger.level = 'info'
   t.equal(logger.level, 'info', 'level')
 
-  logger.write_(logger.level, logger.private_.console.log, undefined)
+  logger.write_(logger.numericLevel, logger._console.log, undefined)
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
