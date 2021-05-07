@@ -1,9 +1,9 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
-[![license](https://img.shields.io/github/license/xpack/logger-js.svg)](https://github.com/xpack/logger-js/blob/xpack/LICENSE)
+[![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 [![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
-[![Actions Status](https://github.com/xpack/logger-js/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
-[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues/)
-[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
+[![Actions Status](https://github.com/xpack/logger-ts/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-ts/actions)
+[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues/)
+[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls)
 
 # Maintainer info
 
@@ -38,7 +38,7 @@ Use the semantic versioning semantics.
 
 Check GitHub issues and pull requests:
 
-- <https://github.com/xpack/logger-js/issues/>
+- <https://github.com/xpack/logger-ts/issues/>
 
 ### Update Release Notes in `README.md`
 
@@ -67,7 +67,7 @@ Check GitHub issues and pull requests:
   additions), `npm version major` (incompatible API changes)
 - push all changes to GitHub; this should trigger CI
 - **wait for CI tests to complete**
-- check <https://github.com/xpack/logger-js/actions/>
+- check <https://github.com/xpack/logger-ts/actions/>
 - `npm publish --tag next` (use `--access public` when publishing for the first time)
 
 Check if the version is present at

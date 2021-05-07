@@ -2,7 +2,7 @@
 
 Changes in reverse chronological order.
 
-Refer to GitHub [issues](https://github.com/xpack/logger-js/issues/).
+Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues/).
 
 ## 2021-05-07
 
@@ -68,8 +68,8 @@ Incompatible changes:
 Copied from `cli-start-options-js.git`.
 
 ```console
-$ git clone https://github.com/xpack/cli-start-options-js.git logger-js.git
-$ cd logger-js.git
+$ git clone https://github.com/xpack/cli-start-options-js.git logger-ts.git
+$ cd logger-ts.git
 $ git remote remove origin
 $ git ls-files
 $ # remove the unwanted 'test' folder, recursively

@@ -1,9 +1,9 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
-[![license](https://img.shields.io/github/license/xpack/logger-js.svg)](https://github.com/xpack/logger-js/blob/xpack/LICENSE)
+[![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 [![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
-[![Actions Status](https://github.com/xpack/logger-js/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
-[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues/)
-[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
+[![Actions Status](https://github.com/xpack/logger-ts/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-ts/actions)
+[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues/)
+[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls)
 
 # Developer info
 
@@ -23,7 +23,7 @@ The prerequisites are:
 
 The project is hosted on GitHub:
 
-- <https://github.com/xpack/logger-js.git>
+- <https://github.com/xpack/logger-ts.git>
 
 To clone the `master` branch, use:
 
@@ -31,14 +31,14 @@ To clone the `master` branch, use:
 mkdir ${HOME}/Work/vscode-extensions
 cd ${HOME}/Work/vscode-extensions
 git clone \
-https://github.com/xpack/logger-js.git logger-js.git
+https://github.com/xpack/logger-ts.git logger-ts.git
 ```
 
 For development, to clone the `develop` branch, use:
 
 ```sh
 git clone --branch develop \
-https://github.com/xpack/logger-js.git logger-js.git
+https://github.com/xpack/logger-ts.git logger-ts.git
 ```
 
 ## Satisfy dependencies
@@ -50,7 +50,7 @@ npm install
 ## Add links dor development
 
 ```sh
-cd logger-js.git
+cd logger-ts.git
 npm link
 ```
 
@@ -118,7 +118,7 @@ As for any `npm` package, the standard way to run the project tests is via
 `npm run test`:
 
 ```sh
-cd logger-js.git
+cd logger-ts.git
 npm install
 npm run test
 ```
