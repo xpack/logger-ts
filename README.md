@@ -37,6 +37,15 @@ project.
 According to [semver](https://semver.org) requirements,
 incompatible API changes require higher major numbers.
 
+### v4.x
+
+The code was migrated to TypeScript.
+
+The migration itself should not introduce any incompatibilities,
+actually it should be fairly compatible with the latest v3.x,
+but, for just in case, the safer path was to consider it a major
+release.
+
 ### v3.x
 
 All `isXyx` functions (returning a boolean related to
@@ -367,12 +376,13 @@ A static definition with the default logger level (`info`).
 ## Maintainer info
 
 This page documents how to use this module in an user application.
-For maintainer information, see the separate
-[README-MAINTAINER](https://github.com/xpack/logger-js/blob/master/README-MAINTAINER.md)
-page.
+For developer and maintainer information, see the separate
+[README-DEVELOPER](https://github.com/xpack/logger-ts/blob/master/README-DEVELOPER.md) and
+[README-MAINTAINER](https://github.com/xpack/logger-ts/blob/master/README-MAINTAINER.md)
+pages.
 
 ## License
 
 The original content is released under the
 [MIT License](https://opensource.org/licenses/MIT), with all rights
-reserved to [Liviu Ionescu](https://github.com/ilg-ul).
+reserved to [Liviu Ionescu](https://github.com/ilg-ul/).

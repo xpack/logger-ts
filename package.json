@@ -10,7 +10,7 @@
   },
   "bin": {},
   "scripts": {
-    "fix": "ts-standard --fix src && standard --fix test",
+    "fix": "ts-standard --fix src && standard --fix tests",
     "compile": "tsc -p ./",
     "compile-watch": "tsc -watch -p ./",
     "outdated": "npm outdated",

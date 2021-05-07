@@ -6,6 +6,7 @@ Refer to GitHub [issues](https://github.com/xpack/logger-js/issues/).
 
 ## 2021-05-07
 
+- v4.0.0 released
 - prepare migration to TypeScript
 
 ## 2021-03-31

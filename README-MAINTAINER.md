@@ -51,9 +51,9 @@ Check GitHub issues and pull requests:
 - check the latest commits `npm run git-log`
 - open the `CHANGELOG.md` file
 - check if all previous fixed issues are in
-- commit with a message like _prepare v3.0.1_
+- commit with a message like _prepare v4.0.0_
 
-## Publish to Marketplace
+## Publish to npmjs.com
 
 - terminate all running tasks (**Terminal** → **Terminate Task...**)
 - select the `develop` branch
@@ -86,7 +86,7 @@ npm install -global @xpack/logger@next
 When stable:
 
 - `npm dist-tag ls @xpack/logger`
-- `npm dist-tag add @xpack/logger@3.0.1 latest`
+- `npm dist-tag add @xpack/logger@4.0.0 latest`
 - `npm dist-tag ls @xpack/logger`
 
 ### Merge into `master`
