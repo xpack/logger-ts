@@ -3,12 +3,6 @@
   "version": "3.0.1",
   "description": "A generic console logger class",
   "main": "./dist/index.js",
-  "directories": {
-    "bin": "./bin",
-    "lib": "./lib",
-    "test": "./test"
-  },
-  "bin": {},
   "scripts": {
     "fix": "ts-standard --fix src && standard --fix tests",
     "compile": "tsc -p ./",
