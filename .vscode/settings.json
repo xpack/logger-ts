@@ -1,5 +1,8 @@
 // Place your settings in this file to overwrite default and user settings.
 {
+  "markdownlint.config": {
+    "MD041": false
+  },
     // Insert spaces when pressing Tab. This setting is overriden based on the file contents when `editor.detectIndentation` is on.
     "editor.insertSpaces": true,
     // When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.
@@ -11,5 +14,8 @@
     //  - 'on' (viewport wrapping),
     //  - 'wordWrapColumn' (wrap at `editor.wordWrapColumn`) or
     //  - 'bounded' (wrap at minimum of viewport and `editor.wordWrapColumn`).
-    "editor.wordWrap": "off"
-}
+    "editor.wordWrap": "off",
+    "typescript.tsc.autoDetect": "off",
+    "standard.engine": "ts-standard",
+    "standard.autoFixOnSave": true
+  }
