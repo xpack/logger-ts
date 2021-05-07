@@ -1,182 +1,79 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
 [![license](https://img.shields.io/github/license/xpack/logger-js.svg)](https://github.com/xpack/logger-js/blob/xpack/LICENSE)
 [![Standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com/)
-[![Actions Status](https://github.com/xpack/logger-js/workflows/Node.js%20CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
+[![Actions Status](https://github.com/xpack/logger-js/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-js/actions)
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-js.svg)](https://github.com/xpack/logger-js/issues/)
 [![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-js.svg)](https://github.com/xpack/logger-js/pulls)
 
-## logger-js - maintainer info
+# Maintainer info
 
-This page documents some of the operations required during module
-development and maintenance.
+This page complements the developer page and documents the
+maintenance procedures related to making releases for the
+`@xpack/logger` module.
 
-For the user information, see the
-[README](https://github.com/xpack/logger-js/blob/master/README.md) file.
+## Prepare the release
 
-### Git repository
+Before making the release, perform some checks and tweaks.
 
-```console
-$ git clone https://github.com/xpack/logger-js.git logger-js.git
-$ cd logger-js.git
-$ npm install
-$ npm link
-$ ls -l ${HOME}/.nvm/versions/node/$(node --version)/lib/node_modules/@xpack
-```
+### Update npm packages
 
-A link to the development folder should appear in the
-`node_modules` folder.
+- `npm outdated`
+- `npm update` or edit and `npm install`
+- repeat and possibly manually edit `package.json` until everything is
+  up to date
 
-In projects that use this module under development, link back from the
-global location:
+### Check Git
 
-```console
-$ cd <project-folder>
-$ npm link @xpack/logger
-```
+In this Git repo:
 
-### Tests
+- in the `develop` branch
+- push everything
+- if needed, merge the `master` branch
 
-The tests use the [`node-tap`](http://www.node-tap.org) framework
-(_A Test-Anything-Protocol library for Node.js_, written by Isaac Schlueter).
+### Determine the next version
 
-As for any `npm` package, the standard way to run the project tests is via
-`npm run test`:
+Use the semantic versioning semantics.
 
-```console
-$ cd logger-js.git
-$ npm install
-$ npm run test
-```
+### Fix possible open issues
 
-A typical test result looks like:
+Check GitHub issues and pull requests:
 
-```console
-$ npm run test
+- <https://github.com/xpack/logger-js/issues/>
 
-> @xpack/logger@3.0.1 test
-> standard && npm run test-tap -s
+### Update Release Notes in `README.md`
 
-test/tap/010-mock-console.js .......................... 7/7
-test/tap/020-logger-single.js ..................... 186/186
-test/tap/030-logger-multi.js ...................... 184/184
-test/tap/040-is-level.js ............................ 72/72
-test/tap/050-buffer.js ............................ 108/108
-test/tap/060-logger-empty.js ........................ 25/25
-test/tap/070-logger-default.js ........................ 2/2
-test/tap/080-undefined.js ........................... 38/38
-total ............................................. 622/622
+- add a new entry in the Release Notes section
+- check the rest of the file and update if needed, to reflect the new features
+- update version in `README-MAINTAINER.md`
 
-  622 passing (819.993ms)
+## Update `CHANGELOG.md`
 
-  ok
--------------------|---------|----------|---------|---------|-------------------
-File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
--------------------|---------|----------|---------|---------|-------------------
-All files          |     100 |      100 |     100 |     100 |                   
- logger-js.git     |     100 |      100 |     100 |     100 |                   
-  index.js         |     100 |      100 |     100 |     100 |                   
- logger-js.git/lib |     100 |      100 |     100 |     100 |                   
-  logger.js        |     100 |      100 |     100 |     100 |                   
--------------------|---------|----------|---------|---------|-------------------
-```
-
-To run a specific test with more verbose output, use `npm run tap`:
-
-```console
-$ npm run tap test/tap/010-mock-console.js
-
-> @xpack/logger@3.0.1 tap
-> tap --reporter=spec --timeout 300 "test/tap/010-mock-console.js"
-
-
-test/tap/010-mock-console.js
-  mock console
-    ✓ stdout is empty
-    ✓ stderr is empty
-    ✓ stdout has one entry
-    ✓ stdout is output
-    ✓ stderr is empty
-    ✓ stderr has one entry
-    ✓ stderr is error
-
-
-  7 passing (260.048ms)
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-----------|---------|----------|---------|---------|-------------------
-All files |       0 |        0 |       0 |       0 |                   
-----------|---------|----------|---------|---------|-------------------
-```
-
-### Coverage tests
-
-Coverage tests are a good indication on how much of the source files is
-exercised by the tests. Ideally all source files should be covered 100%,
-for all 4 criteria (statements, branches, functions, lines).
-
-Thus, passing coverage tests was enforced for all tests, as seen before.
-
-### Continuous Integration (CI)
-
-The continuous integration tests are performed via
-[GitHub Actions](https://github.com/features/actions) on Ubuntu,
-Windows and macOS, using node 10, 12, 14.
-
-### Standard compliance
-
-The module uses ECMAScript 6 class definitions.
-
-As style, it uses the [JavaScript Standard Style](https://standardjs.com/),
-automatically checked at each commit via CI.
-
-Known and accepted exceptions (https://eslint.org):
-
-- `// eslint-disable-next-line eqeqeq` in 070-logger-default.js to accept
-an object compare
-
-To manually fix compliance with the style guide (where possible):
-
-```console
-$ npm run fix
-
-> @xpack/logger@3.0.1 fix
-> standard --fix --verbose
-```
-
-### Documentation metadata
-
-The documentation metadata follows the [JSdoc](http://usejsdoc.org) tags.
-
-To enforce checking at file level, add the following comments right after
-the `use strict`:
-
-```javascript
-'use strict'
-/* eslint valid-jsdoc: "error" */
-/* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
-```
-
-Note: be sure C style comments are used, C++ styles are not parsed by
-[ESLint](http://eslint.org).
-
-### How to publish
-
-### How to publish
-
-- `npm run fix`
-- commit all changes
-- `npm run test-coverage`
 - check the latest commits `npm run git-log`
-- update `CHANGELOG.md`; commit with a message like _CHANGELOG: prepare v3.0.1_
-- `npm pack` and check the content
+- open the `CHANGELOG.md` file
+- check if all previous fixed issues are in
+- commit with a message like _prepare v3.0.1_
+
+## Publish to Marketplace
+
+- terminate all running tasks (**Terminal** → **Terminate Task...**)
+- select the `develop` branch
+- commit everything
+- `npm run fix`
+- in the develop branch, commit all changes
+- `npm run test`
+- `npm run pack`; check the list of packaged files, possibly
+  update `.npmignore`
 - `npm version patch` (bug fixes), `npm version minor` (compatible API
   additions), `npm version major` (incompatible API changes)
 - push all changes to GitHub; this should trigger CI
 - **wait for CI tests to complete**
+- check <https://github.com/xpack/logger-js/actions/>
 - `npm publish --tag next` (use `--access public` when publishing for the first time)
 
 Check if the version is present at
 [@xpack/logger Versions](https://www.npmjs.com/package/@xpack/logger?activeTab=versions).
+
+### Test
 
 Test it with:
 
@@ -192,10 +89,11 @@ When stable:
 - `npm dist-tag add @xpack/logger@3.0.1 latest`
 - `npm dist-tag ls @xpack/logger`
 
-### Update repo
+### Merge into `master`
 
-- in the `develop` branch
-- commit all changes
+In this Git repo:
+
 - select the `master` branch
 - merge `develop`
 - push all branches
+

@@ -4,6 +4,10 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-js/issues/).
 
+## 2021-05-07
+
+- prepare migration to TypeScript
+
 ## 2021-03-31
 
 - v3.0.1 released
