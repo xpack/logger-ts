@@ -143,15 +143,15 @@ A typical test result looks like:
 > @xpack/logger@3.0.1 test
 > npm run test-tap100 -s
 
-test/tap/010-mock-console.js .......................... 7/7
-test/tap/020-logger-single.js ..................... 186/186
-test/tap/030-logger-multi.js ...................... 184/184
-test/tap/040-is-level.js ............................ 72/72
-test/tap/050-buffer.js ............................ 108/108
-test/tap/060-logger-empty.js ........................ 25/25
-test/tap/070-logger-default.js ........................ 2/2
-test/tap/080-undefined.js ........................... 38/38
-total ............................................. 622/622
+tests/tap/010-mock-console.js .......................... 7/7
+tests/tap/020-logger-single.js ..................... 186/186
+tests/tap/030-logger-multi.js ...................... 184/184
+tests/tap/040-is-level.js ............................ 72/72
+tests/tap/050-buffer.js ............................ 108/108
+tests/tap/060-logger-empty.js ........................ 25/25
+tests/tap/070-logger-default.js ........................ 2/2
+tests/tap/080-undefined.js ........................... 38/38
+total .............................................. 622/622
 
   622 passing (676.623ms)
 
@@ -171,13 +171,13 @@ All files   |     100 |      100 |     100 |     100 |
 To run a specific test with more verbose output, use `npm run tap`:
 
 ```console
-$ npm run tap test/tap/010-mock-console.js
+$ npm run tap tests/tap/010-mock-console.js
 
 > @xpack/logger@3.0.1 tap
-> tap --reporter=spec --timeout 300 "test/tap/010-mock-console.js"
+> tap --reporter=spec --timeout 300 "tests/tap/010-mock-console.js"
 
 
-test/tap/010-mock-console.js
+tests/tap/010-mock-console.js
   mock console
     ✓ stdout is empty
     ✓ stderr is empty

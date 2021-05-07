@@ -32,7 +32,7 @@
 
 # tap
 /coverage/
-/test/
+/tests/
 /tests/
 
 # nyc test coverage

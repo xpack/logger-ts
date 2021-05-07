@@ -22,9 +22,9 @@
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
     "lint": "ts-standard src",
     "tap": "tap --ts --reporter=spec --timeout 300 --no-coverage",
-    "test-tap": "tap --ts --reporter=classic --timeout 300 --no-coverage \"test/tap/*.js\"",
-    "test-tap100": "tap --ts --reporter=classic --timeout 300 --100 \"test/tap/*.js\"",
-    "test-coverage": "tap --ts --coverage --reporter=classic --timeout 600 --no-check-coverage \"test/tap/*.js\"",
+    "test-tap": "tap --ts --reporter=classic --timeout 300 --no-coverage \"tests/tap/*.js\"",
+    "test-tap100": "tap --ts --reporter=classic --timeout 300 --100 \"tests/tap/*.js\"",
+    "test-coverage": "tap --ts --coverage --reporter=classic --timeout 600 --no-check-coverage \"tests/tap/*.js\"",
     "test": "npm run test-tap100 -s",
     "pretest": "npm run compile && npm run lint",
     "prepublish": "npm run compile && npm run lint"

@@ -21,7 +21,7 @@
       "type": "node",
       "request": "launch",
       "name": "tap 010-mock-console.js",
-      "program": "${workspaceRoot}/test/tap/010-mock-console.js",
+      "program": "${workspaceRoot}/tests/tap/010-mock-console.js",
       "stopOnEntry": true,
       "args": [
       ],
@@ -41,7 +41,7 @@
       "type": "node",
       "request": "launch",
       "name": "tap 020-logger-single.js",
-      "program": "${workspaceRoot}/test/tap/020-logger-single.js",
+      "program": "${workspaceRoot}/tests/tap/020-logger-single.js",
       "stopOnEntry": true,
       "args": [
       ],
@@ -61,7 +61,7 @@
       "type": "node",
       "request": "launch",
       "name": "tap 030-logger-multi.js",
-      "program": "${workspaceRoot}/test/tap/030-logger-multi.js",
+      "program": "${workspaceRoot}/tests/tap/030-logger-multi.js",
       "stopOnEntry": true,
       "args": [
       ],
@@ -81,7 +81,7 @@
       "type": "node",
       "request": "launch",
       "name": "tap 040-is-level.js",
-      "program": "${workspaceRoot}/test/tap/040-is-level.js",
+      "program": "${workspaceRoot}/tests/tap/040-is-level.js",
       "stopOnEntry": true,
       "args": [
       ],
@@ -101,7 +101,7 @@
       "type": "node",
       "request": "launch",
       "name": "tap 050-buffer.js",
-      "program": "${workspaceRoot}/test/tap/050-buffer.js",
+      "program": "${workspaceRoot}/tests/tap/050-buffer.js",
       "stopOnEntry": true,
       "args": [
       ],
