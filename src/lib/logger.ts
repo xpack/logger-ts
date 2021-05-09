@@ -144,6 +144,10 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Getters & setters.
 
+  get hasLevel (): boolean {
+    return this._numericLevel !== Logger.numericLevelUndefined
+  }
+
   /**
    * @summary Setter for the log level.
    *
@@ -182,10 +186,6 @@ export class Logger {
    */
   get level (): LogLevel | undefined {
     return this._level
-  }
-
-  hasLevel (): boolean {
-    return this._numericLevel !== Logger.numericLevelUndefined
   }
 
   // --------------------------------------------------------------------------
