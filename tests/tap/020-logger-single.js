@@ -43,7 +43,7 @@ const assert = require('assert')
 const test = require('tap').test
 
 const { Mock } = require('../mock-console.js')
-const { Logger } = require('../../dist/src/index.js')
+const { Logger } = require('../../dist/index.js')
 assert(Logger)
 
 // ----------------------------------------------------------------------------

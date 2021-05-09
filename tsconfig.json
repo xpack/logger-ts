@@ -3,7 +3,7 @@
   /* Most option copied from vscode.git/extensions/shared.tsconfig.json */
   /* The maps are used for debugging only. */
   "compilerOptions": {
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,

@@ -42,7 +42,7 @@ const assert = require('assert')
 // The `[node-tap](http://www.node-tap.org)` framework.
 const test = require('tap').test
 
-const { Logger } = require('../../dist/src/index.js')
+const { Logger } = require('../../dist/index.js')
 
 assert(Logger)
 
