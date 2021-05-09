@@ -16,6 +16,7 @@
       "./typings"
     ],
     "module": "commonjs",
+    "moduleResolution": "node",
     "strict": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
@@ -24,12 +25,8 @@
     "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "**/src/**/*.ts"
-  ],
   "exclude": [
     "node_modules",
-    "dist",
-    "tests/tap/*.d.ts"
+    "dist"
   ]
 }
