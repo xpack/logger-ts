@@ -6,8 +6,10 @@ Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues/).
 
 ## 2021-05-09
 
+- v5.0.2 released
+- fix paths in `dist`
 - v5.0.1 released
-- add types in package.json
+- add `types` in package.json
 - v5.0.0 released
 - `hasLevel` was changed from method to getter
 - rework exports; use undefined for initial level
