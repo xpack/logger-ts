@@ -86,7 +86,7 @@ npm install -global @xpack/logger@next
 When stable:
 
 - `npm dist-tag ls @xpack/logger`
-- `npm dist-tag add @xpack/logger@5.0.0 latest`
+- `npm dist-tag add @xpack/logger@5.0.1 latest`
 - `npm dist-tag ls @xpack/logger`
 
 ### Merge into `master`

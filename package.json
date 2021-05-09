@@ -3,6 +3,7 @@
   "version": "5.0.0",
   "description": "A generic console logger class",
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "fix": "ts-standard --fix src && standard --fix tests",
     "compile": "tsc -p ./",
