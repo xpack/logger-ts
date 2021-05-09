@@ -87,7 +87,7 @@ life cycle of an application, even before it is practically possible
 to determine the log level.
 
 For these cases, if the logger is created without a log level,
-it is set to a **preliminary state**, and **all log lines are
+it is set to a **preliminary state**, and all log lines are
 stored in an internal buffer**, until the log
 level is set, when the buffer is walked and the lines are processed.
 
@@ -156,16 +156,17 @@ Example:
 console.log(log.level)
 ```
 
-#### `hasLevel (): boolean`
+#### `get hasLevel (): boolean` (getter)
 
 [Added in v2.1.0]
+[Changed to getters in v5.0.0]
 
 Return `true` if the level was set.
 
 Example:
 
 ```console
-if (!log.hasLevel()) {
+if (!log.hasLevel) {
   log.level = defaultLevel
 }
 ```
@@ -359,6 +360,16 @@ A static map with the internal values for the log levels.
 
 According to [semver](https://semver.org) requirements,
 incompatible API changes require higher major numbers.
+
+### v5.x
+
+For consistency reasons, `hasLevel` was changed from a method to a getter.
+
+Internally, the log level starts as `undefined` instead of the
+string `'undefined'`, as in previous versions.
+
+This should not be a problem, given that the method to check if
+the level was set is via `hasLevel()`.
 
 ### v4.x
 

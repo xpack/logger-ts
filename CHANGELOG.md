@@ -4,6 +4,12 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues/).
 
+## 2021-05-09
+
+- v5.0.0 released
+- `hasLevel` was changed from method to getter
+- rework exports; use undefined for initial level
+
 ## 2021-05-07
 
 - v4.0.0 released
