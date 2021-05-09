@@ -11,8 +11,8 @@ A Node.js module with a generic console logger.
 
 ## Prerequisites
 
-A recent [Node.js](https://nodejs.org) (>=8.x), since the ECMAScript 6 class
-syntax is used.
+A recent [Node.js](https://nodejs.org) (>=10.x), since the TypeScript code
+is compiled to ECMAScript 2018 code.
 
 ## Easy install
 
@@ -22,7 +22,7 @@ from the public repository; use `npm` to install it inside the module where
 it is needed:
 
 ```console
-npm install @xpack/logger
+npm install @xpack/logger@latest
 ```
 
 The module does not provide any executables, and generally there are no
@@ -32,58 +32,28 @@ The development repository is available from the GitHub
 [xpack/logger-ts](https://github.com/xpack/logger-ts)
 project.
 
-## Compatibility notices
-
-According to [semver](https://semver.org) requirements,
-incompatible API changes require higher major numbers.
-
-### v4.x
-
-The code was migrated to TypeScript.
-
-The migration itself should not introduce any incompatibilities,
-actually it should be fairly compatible with the latest v3.x,
-but, for just in case, the safer path was to consider it a major
-release.
-
-### v3.x
-
-All `isXyx` functions (returning a boolean related to
-the log level) were changed to getters.
-
-### v2.x
-
-The logger constructor was changed to use the generic arguments object.
-
-If upgrading from previous versions, change the syntax from:
-
-```javascript
-const logger = new Logger(console, 'info')
-```
-
-to:
-
-```javascript
-const logger = new Logger({
-  console,
-  level: 'info'
-})
-```
-
 ## User info
 
 This section is intended for those who want to use this module in their
 own projects.
 
-The `@xpack/logger` module can be included in Node.js applications as
-usual, with `require()`.
+The `@xpack/logger` module can be imported in both TypeScript
+and JavaScript Node.js code.
 
-```javascript
-const Logger = require('@xpack/logger').Logger
+In TypeScript, use `import`:
+
+```typescript
+import { Logger } from '@xpack/xpm-liquid'
 ```
 
-The typical use case is to create the logger, then log at different
-levels:
+In JavaScript, use `require()`:
+
+```javascript
+const { Logger } = require('@xpack/logger')
+```
+
+The typical use case is to create an instance of the Logger object,
+then log at different levels:
 
 ```javascript
 const log = new Logger({
@@ -101,17 +71,13 @@ long operations be performed only if necessary.
 
 The following strings are recognised as valid level names:
 
-- `'silent'` (0)
-- `'error'` (10)
-- `'warn'` (20)
-- `'info'` (30)
-- `'verbose'` (40)
-- `'debug'` (50)
-- `'trace'` (60)
-- `'all'` (70)
+```typescript
+export type LogLevel =
+  'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
+```
 
 Internally they are converted to integer values, and these integers
-(the values in parenthesis) are used in comparisons. Higher values
+are used in comparisons. Higher values
 mean more verbosity.
 
 ### Delaying setting the log level
@@ -127,10 +93,17 @@ level is set, when the buffer is walked and the lines are processed.
 
 ### Constructor
 
-#### `Logger(Object params)`
+#### `Logger(params: ConstructorParameters)`
 
 The common use case is to create the logger instance with a `console` and a
 string `level` name.
+
+```typescript
+export interface LoggerParameters {
+  level?: LogLevel
+  console?: Console
+}
+```
 
 If present, the `console` must be an object with at least two methods,
 `log()` and `error()`, as defined in the Node.js documentation for
@@ -141,27 +114,28 @@ By default, the system console is used.
 Example:
 
 ```javascript
-const logger = new Logger({
+const log = new Logger({
   console: myConsole,
   level: 'info'
 })
 ```
 
-The `level` property is optional. Without it, the constructor will
+The `level` property is optional since it can be set later.
+Without it, the constructor will
 create the logger in a preliminary state, and all log lines will be stored
 in an internal buffer until the log level is set.
 
 Example:
 
 ```javascript
-const logger = new Logger()
+const log = new Logger()
 ```
 
 ### Managing the log levels
 
 The log level is managed by a setter/getter pair.
 
-#### `set level (String level)` (setter)
+#### `set level (level: LogLevel)` (setter)
 
 Set the log level. If this is the first time the log level is set, flush the
 internal buffer.
@@ -169,20 +143,20 @@ internal buffer.
 Example:
 
 ```javascript
-logger.level = 'info'
+log.level = 'info'
 ```
 
-#### `String get level ()` (getter)
+#### `get level (): LogLevel` (getter)
 
 Get the current log level, as a string.
 
 Example:
 
 ```javascript
-console.log(logger.level)
+console.log(log.level)
 ```
 
-#### `Boolean hasLevel ()`
+#### `hasLevel (): boolean`
 
 [Added in v2.1.0]
 
@@ -191,8 +165,8 @@ Return `true` if the level was set.
 Example:
 
 ```console
-if (!logger.hasLevel()) {
-  logger.level = defaultLevel
+if (!log.hasLevel()) {
+  log.level = defaultLevel
 }
 ```
 
@@ -203,7 +177,7 @@ as processed by the standard Node.js
 [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
 function.
 
-#### `always (String msg = '', ...args)`
+#### `always (msg: any = '', ...args: any[]): void`
 
 Log always, regardless of the log level, even `'silent'`, when no other
 messages are logged. The message is passed via `console.log()`
@@ -211,10 +185,10 @@ messages are logged. The message is passed via `console.log()`
 Example:
 
 ```javascript
-logger.always(version)
+log.always(version)
 ```
 
-#### `error (String msg = '', ...args)`
+#### `error (msg: any = '', ...args: any[]): void`
 
 Log errors, if the log level is `'error'` or higher. The message is prefixed
 with `error: ` and passed via `console.error()`.
@@ -222,10 +196,10 @@ with `error: ` and passed via `console.error()`.
 Example:
 
 ```javascript
-logger.error('Not good...')
+log.error('Not good...')
 ```
 
-#### `error (Error err)`
+#### `error (msg: Error): void`
 
 This is a special case when the input is an `Error` object. It is expanded,
 including a full stack trace, and passed via `console.error()`.
@@ -240,7 +214,7 @@ try {
 }
 ```
 
-#### `output (String msg = '', ...args)`
+#### `output (msg: any = '', ...args: any[]): void`
 
 Log errors, if the log level is `'error'` or higher. The message is passed
 via `console.log`.
@@ -263,7 +237,7 @@ try {
 }
 ```
 
-#### `warn (String msg = '', ...args)`
+#### `warn (msg: any = '', ...args: any[]): void`
 
 Log warnings, if the log level is `'warn'` or higher. The message is prefixed
 with `warning: ` and passed via `console.error()`.
@@ -274,7 +248,7 @@ Example:
 log.warn('Beware...')
 ```
 
-#### `info (String msg = '', ...args)`
+#### `info (msg: any = '', ...args: any[]): void`
 
 Log informative messages, if the log level is `'info'` or higher.
 The message is passed via `console.log()`.
@@ -285,7 +259,7 @@ Example:
 log.info(title)
 ```
 
-#### `verbose (String msg = '', ...args)`
+#### `verbose (msg: any = '', ...args: any[]): void`
 
 Log more informative messages, if the log level is `'verbose'` or higher.
 The message is passed via `console.log()`.
@@ -296,7 +270,7 @@ Example:
 log.verbose('Configurations:')
 ```
 
-#### `debug (String msg = '', ...args)`
+#### `debug (msg: any = '', ...args: any[]): void`
 
 Log debug messages, if the log level is `'debug'` or higher.
 The message is passed via `console.log()`.
@@ -307,7 +281,7 @@ Example:
 log.debug(`spawn: ${cmd}`)
 ```
 
-#### `trace (String msg = '', ...args)`
+#### `trace (msg: any = '', ...args: any[]): void`
 
 Log debug messages, if the log level is `'trace'` or higher.
 The message is passed via `console.log()`.
@@ -337,43 +311,89 @@ Example:
 
 [Changed to getters in v3.0.0]
 
-#### `Boolean isSilent` (getter)
+#### `get isSilent (): boolean` (getter)
 
 Return `true` if the log level is `'silent'` or higher.
 
-#### `Boolean isError` (getter)
+#### `get isError (): boolean` (getter)
 
 Return `true` if the log level is `'error'` or higher.
 
-#### `Boolean isWarn` (getter)
+#### `get isWarn (): boolean` (getter)
 
 Return `true` if the log level is `'warn'` or higher.
 
-#### `Boolean isInfo` (getter)
+#### `get isInfo (): boolean` (getter)
 
 Return `true` if the log level is `'info'` or higher.
 
-#### `Boolean isVerbose` (getter)
+#### `get isVerbose (): boolean` (getter)
 
 Return `true` if the log level is `'verbose'` or higher.
 
-#### `Boolean isDebug` (getter)
+#### `get isDebug (): boolean` (getter)
 
 Return `true` if the log level is `'debug'` or higher.
 
-#### `Boolean isTrace` (getter)
+#### `get isTrace (): boolean` (getter)
 
 Return `true` if the log level is `'trace'` or higher.
 
-#### `Boolean isAll` (getter)
+#### `get isAll (): boolean` (getter)
 
 Return `true` if the log level is `'all'`.
+
+#### `get console (): Console` (getter)
+
+Return the console object associated with the logger.
 
 #### `Logger.defaultLevel`
 
 A static definition with the default logger level (`info`).
 
-## Maintainer info
+#### `Logger.numericLevels`
+
+A static map with the internal values for the log levels.
+
+## Compatibility notices
+
+According to [semver](https://semver.org) requirements,
+incompatible API changes require higher major numbers.
+
+### v4.x
+
+The code was migrated to TypeScript.
+
+The migration itself should not introduce any incompatibilities,
+actually it should be fairly compatible with the latest v3.x,
+but, for just in case, the safer path was to consider it a major
+release.
+
+### v3.x
+
+All `isXyx` functions (returning a boolean related to
+the log level) were changed to getters.
+
+### v2.x
+
+The logger constructor was changed to use the generic arguments object.
+
+If upgrading from previous versions, change the syntax from:
+
+```javascript
+const log = new Logger(console, 'info')
+```
+
+to:
+
+```javascript
+const log = new Logger({
+  console,
+  level: 'info'
+})
+```
+
+## Maintainer & developer info
 
 This page documents how to use this module in an user application.
 For developer and maintainer information, see the separate

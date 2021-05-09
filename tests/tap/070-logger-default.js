@@ -50,7 +50,7 @@ assert(Logger)
 
 test('logger default', (t) => {
   const logger = new Logger()
-  t.equal(logger.level, 'undefined', 'level undefined')
+  t.equal(logger.level, undefined, 'initial level')
   // eslint-disable-next-line eqeqeq
   t.ok(logger.console == console, 'system console')
 

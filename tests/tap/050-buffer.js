@@ -54,7 +54,7 @@ test('logger level all', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -99,7 +99,7 @@ test('logger level trace', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -144,7 +144,7 @@ test('logger level debug', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -185,7 +185,7 @@ test('logger level verbose', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -225,7 +225,7 @@ test('logger level info', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -264,7 +264,7 @@ test('logger level warn', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -302,7 +302,7 @@ test('logger level error', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
@@ -339,7 +339,7 @@ test('logger level silent', (t) => {
   const logger = new Logger({
     console: mock.console
   })
-  t.equal(logger.level, 'undefined', 'level')
+  t.equal(logger.level, undefined, 'initial level')
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')

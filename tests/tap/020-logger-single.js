@@ -54,7 +54,7 @@ test('logger level', (t) => {
     console: mock.console
   })
   t.ok(!logger.hasLevel(), 'is uninitialised')
-  t.equal(logger.level, 'undefined', 'default level')
+  t.equal(logger.level, undefined, 'initial level')
   logger.level = 'trace'
   t.ok(logger.hasLevel(), 'is initialised')
   t.equal(logger.level, 'trace', 'set level')
