@@ -19,9 +19,14 @@ Before making the release, perform some checks and tweaks.
 
 - `npm outdated`
 - `npm update` or edit and `npm install`
-- keep `@types/node` to the base version supported (14.13)
 - repeat and possibly manually edit `package.json` until everything is
   up to date
+
+Keep:
+
+- `@types/node` locked to the
+  [latest node.js LTS](https://nodejs.org/en/) available for
+  [TypeScript](https://www.npmjs.com/package/@types/node)
 
 ### Check Git
 
