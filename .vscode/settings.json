@@ -18,5 +18,17 @@
   "editor.wordWrap": "off",
   "typescript.tsc.autoDetect": "off",
   "standard.engine": "ts-standard",
-  "standard.autoFixOnSave": true
+  "standard.autoFixOnSave": true,
+  "cSpell.ignoreWords": [
+    "Funcs",
+    "Ionescu",
+    "Liviu",
+    "Schlueter",
+    "Stmts",
+    "errstream",
+    "npmignore",
+    "npmjs",
+    "ostream",
+    "xpack"
+  ]
 }
