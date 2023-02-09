@@ -29,6 +29,7 @@
     "npmignore",
     "npmjs",
     "ostream",
+    "postversion",
     "xpack"
   ]
 }
