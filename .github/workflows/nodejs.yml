@@ -6,10 +6,19 @@
 
 name: CI on Push
 
-on: 
+on:
   push:
     branches:
-    - '**'
+      - '**'
+    tags-ignore:
+      - '**'
+    paths-ignore:
+      - 'docs/**'
+      - 'LICENSE'
+      - '**.md'
+      - '.gitignore'
+      - '.npmignore'
+      - '.vscode/**'
 
 jobs:
   npm-test:
