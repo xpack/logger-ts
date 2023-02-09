@@ -6,7 +6,19 @@ Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues/).
 
 ## 2023-02-09
 
-* v5.0.3 released
+* v5.0.4 released
+* be7b4ff nodejs.yml: try again npm ci
+* f639868 README update
+* 65aad10 package-lock.json: generated with v14
+* 9a45e17 package.json: rename script prepare
+* dcb0923 nodejs.yml: stick to npm install, ci fails
+* 6584ec7 nodejs.yml: try npm install -dd
+* a3ae0eb nodejs.yml: try npm ci -dd
+* fffd3d0 README update
+* d057e26 .vscode/settings.json: ignoreWords
+* 524c49f package.json: "@types/node": "^18.13.0"
+* 8c33467 5.0.3
+* ae45aab prepare v5.0.3
 * 6fbcc7e nodejs.yml: tags|paths-ignore
 * 27df2fb nodejs.yml: bump matrix
 * 083c10e .vscode/settings.json: ignoreWords

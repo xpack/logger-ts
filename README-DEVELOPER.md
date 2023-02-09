@@ -101,7 +101,7 @@ To manually fix compliance with the style guide (where possible):
 ```console
 % npm run fix
 
-> @xpack/logger@5.0.3 fix
+> @xpack/logger@5.0.4 fix
 > ts-standard --fix src && standard --fix test
 
 ```
@@ -128,19 +128,19 @@ A typical test result looks like:
 ```console
 % npm run test
 
-> @xpack/logger@5.0.3 pretest
+> @xpack/logger@5.0.4 pretest
 > npm run compile && npm run lint
 
 
-> @xpack/logger@5.0.3 compile
+> @xpack/logger@5.0.4 compile
 > tsc -p ./
 
 
-> @xpack/logger@5.0.3 lint
+> @xpack/logger@5.0.4 lint
 > ts-standard src
 
 
-> @xpack/logger@5.0.3 test
+> @xpack/logger@5.0.4 test
 > npm run test-tap100 -s
 
 tests/tap/010-mock-console.js .......................... 7/7
@@ -173,7 +173,7 @@ To run a specific test with more verbose output, use `npm run tap`:
 ```console
 $ npm run tap tests/tap/010-mock-console.js
 
-> @xpack/logger@5.0.3 tap
+> @xpack/logger@5.0.4 tap
 > tap --reporter=spec --timeout 300 "tests/tap/010-mock-console.js"
 
 
