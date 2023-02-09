@@ -263,7 +263,7 @@ export class Logger {
     } else {
       // Store the log entry details in the buffer.
       this._buffer.push({
-        numericLevel: numericLevel,
+        numericLevel,
         func: loggerFunction,
         message
       })
