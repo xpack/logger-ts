@@ -47,7 +47,7 @@ jobs:
         npm --version
         env | sort
     - name: Install dependencies
-      run: npm ci -dd
+      run: npm install -dd
     - name: Run test
       run: npm run test
       env:
