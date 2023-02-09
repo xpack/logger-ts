@@ -11,8 +11,8 @@ A Node.js module with a generic console logger.
 
 ## Prerequisites
 
-A recent [Node.js](https://nodejs.org) (>=10.x), since the TypeScript code
-is compiled to ECMAScript 2018 code.
+A recent [Node.js](https://nodejs.org) (>=14.13), since the TypeScript code
+is compiled to ECMAScript 2020 code.
 
 ## Easy install
 
@@ -40,13 +40,13 @@ own projects.
 The `@xpack/logger` module can be imported in both TypeScript
 and JavaScript Node.js code.
 
-In TypeScript, use `import`:
+In TypeScript and ECMAScript modules, use `import`:
 
 ```typescript
 import { Logger } from '@xpack/xpm-liquid'
 ```
 
-In JavaScript, use `require()`:
+In JavaScript with CommonJS, use `require()`:
 
 ```javascript
 const { Logger } = require('@xpack/logger')

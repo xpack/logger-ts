@@ -16,8 +16,9 @@ This project is written in TypeScript.
 
 The prerequisites are:
 
-- node >= 10.x & npm
-- <https://www.npmjs.com/package/@tsconfig/node10>
+- node >= 14.13
+- npm
+- <https://www.npmjs.com/package/@tsconfig/node14>
 
 ## Clone the project repository
 
@@ -28,8 +29,7 @@ The project is hosted on GitHub:
 To clone the `master` branch, use:
 
 ```sh
-mkdir ${HOME}/Work/vscode-extensions
-cd ${HOME}/Work/vscode-extensions
+mkdir ${HOME}/Work/vscode-extensions && cd ${HOME}/Work/vscode-extensions
 git clone \
 https://github.com/xpack/logger-ts.git logger-ts.git
 ```
@@ -54,7 +54,7 @@ cd logger-ts.git
 npm link
 ```
 
-And in projects refering this:
+And in projects referring this:
 
 ```sh
 npm link @xpack/logger
@@ -101,7 +101,7 @@ To manually fix compliance with the style guide (where possible):
 ```console
 % npm run fix
 
-> @xpack/logger@5.0.2 fix
+> @xpack/logger@5.0.3 fix
 > ts-standard --fix src && standard --fix test
 
 ```
@@ -128,19 +128,19 @@ A typical test result looks like:
 ```console
 % npm run test
 
-> @xpack/logger@5.0.2 pretest
+> @xpack/logger@5.0.3 pretest
 > npm run compile && npm run lint
 
 
-> @xpack/logger@5.0.2 compile
+> @xpack/logger@5.0.3 compile
 > tsc -p ./
 
 
-> @xpack/logger@5.0.2 lint
+> @xpack/logger@5.0.3 lint
 > ts-standard src
 
 
-> @xpack/logger@5.0.2 test
+> @xpack/logger@5.0.3 test
 > npm run test-tap100 -s
 
 tests/tap/010-mock-console.js .......................... 7/7
@@ -157,13 +157,13 @@ total .............................................. 622/622
 
   ok
 ------------|---------|----------|---------|---------|-------------------
-File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 ------------|---------|----------|---------|---------|-------------------
-All files   |     100 |      100 |     100 |     100 |                   
- src        |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- src/lib    |     100 |      100 |     100 |     100 |                   
-  logger.ts |     100 |      100 |     100 |     100 |                   
+All files   |     100 |      100 |     100 |     100 |
+ src        |     100 |      100 |     100 |     100 |
+  index.ts  |     100 |      100 |     100 |     100 |
+ src/lib    |     100 |      100 |     100 |     100 |
+  logger.ts |     100 |      100 |     100 |     100 |
 ------------|---------|----------|---------|---------|-------------------
 %
 ```
@@ -173,7 +173,7 @@ To run a specific test with more verbose output, use `npm run tap`:
 ```console
 $ npm run tap tests/tap/010-mock-console.js
 
-> @xpack/logger@5.0.2 tap
+> @xpack/logger@5.0.3 tap
 > tap --reporter=spec --timeout 300 "tests/tap/010-mock-console.js"
 
 
@@ -190,9 +190,9 @@ tests/tap/010-mock-console.js
 
   7 passing (260.048ms)
 ----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 ----------|---------|----------|---------|---------|-------------------
-All files |       0 |        0 |       0 |       0 |                   
+All files |       0 |        0 |       0 |       0 |
 ----------|---------|----------|---------|---------|-------------------
 ```
 
@@ -208,7 +208,7 @@ Thus, passing coverage tests was enforced for all tests, as seen before.
 
 The continuous integration tests are performed via
 [GitHub Actions](https://github.com/features/actions) on Ubuntu,
-Windows and macOS, using node 10, 12, 14.
+Windows and macOS, using node 14, 16, 18.
 
 ## TSDoc (TypeScript documentation)
 
