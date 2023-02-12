@@ -2,6 +2,9 @@
   "name": "@xpack/logger",
   "version": "5.0.4",
   "description": "A generic console logger class",
+  "exports": {
+    "import": "./dist/index.js"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
