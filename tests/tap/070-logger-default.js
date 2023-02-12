@@ -6,7 +6,6 @@
  * See LICENSE in the project root for license information.
  */
 
-'use strict'
 /* eslint valid-jsdoc: "error" */
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
 
@@ -18,12 +17,12 @@
 
 // ----------------------------------------------------------------------------
 
-const assert = require('assert')
+import { strict as assert } from 'node:assert'
 
 // The `[node-tap](http://www.node-tap.org)` framework.
-const test = require('tap').test
+import { test } from 'tap'
 
-const { Logger } = require('../../dist/index.js')
+import { Logger } from '../../dist/index.js'
 
 assert(Logger)
 

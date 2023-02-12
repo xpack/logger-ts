@@ -6,7 +6,6 @@
  * See LICENSE in the project root for license information.
  */
 
-'use strict'
 /* eslint valid-jsdoc: "error" */
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
 
@@ -18,13 +17,12 @@
 
 // ----------------------------------------------------------------------------
 
-// const assert = require('assert')
-const Writable = require('stream').Writable
-const Console = require('console').Console
+import { Console } from 'node:console'
+import { Writable } from 'node:stream'
 
 // ============================================================================
 
-class Mock {
+export class Mock {
   constructor () {
     this.stdout = []
     this.ostream = new Writable({
@@ -49,17 +47,5 @@ class Mock {
     this.stderr = []
   }
 }
-
-// ----------------------------------------------------------------------------
-// Node.js specific export definitions.
-
-// By default, `module.exports = {}`.
-// The class is added as a property of this object.
-module.exports.Mock = Mock
-
-// In ES6, it would be:
-// export class Mock { ... }
-// ...
-// import { Mock } from 'mock-console.js'
 
 // ----------------------------------------------------------------------------
