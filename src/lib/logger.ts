@@ -39,8 +39,8 @@
 
 // ----------------------------------------------------------------------------
 
-import * as assert from 'assert'
-import * as util from 'util'
+import { strict as assert } from 'node:assert'
+import * as util from 'node:util'
 
 // ----------------------------------------------------------------------------
 // Public Types.
