@@ -1,6 +1,6 @@
 {
   "name": "@xpack/logger",
-  "version": "5.0.4",
+  "version": "5.0.5-pre",
   "description": "A generic console logger class",
   "exports": {
     "import": "./dist/index.js"
