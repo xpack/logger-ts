@@ -19,7 +19,7 @@
       "./typings"
     ],
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "strict": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
