@@ -111,7 +111,7 @@ incompatible API changes require higher major numbers.
 ### v6.x
 
 The package was fully migrated to ES6 modules, and can no longer be
-consumed by legacy CommonJS package.
+consumed by legacy CommonJS packages.
 
 There were also some minor internal renames, but this should not be
 a problem.
