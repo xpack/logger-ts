@@ -30,6 +30,7 @@
     "npmjs",
     "ostream",
     "postversion",
+    "typedoc",
     "xpack"
   ]
 }
