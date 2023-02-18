@@ -39,7 +39,7 @@
     "test": "npm run test-tap -s",
     "test100": "npm run test-tap100 -s",
     "test100c8": "npm run test-tap100c8 -s",
-    "typedoc": "typedoc",
+    "typedoc": "typedoc && bash scripts/fix-absolute-symlinks-in-docs.sh",
     "deep-clean": "rm -rf dist .nyc_output node_modules package-lock.json",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
