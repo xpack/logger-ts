@@ -7,18 +7,19 @@
 
 ## A generic console logger class
 
-A Node.js module with a generic console logger.
+A Node.js ES6 module with a generic console logger.
 
 ## Prerequisites
 
 A recent [Node.js](https://nodejs.org) (>=14.13), since the TypeScript code
-is compiled to ECMAScript 2020 code.
+is compiled into ECMAScript 2020 code.
 
 ## Easy install
 
 The module is available as
 [`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger)
-from the public repository; use `npm` to install it inside the module where
+from the public [`npmjs`](https://www.npmjs.com) repository;
+use `npm` to install it inside the project where
 it is needed:
 
 ```console
@@ -29,7 +30,7 @@ The module does not provide any executables, and generally there are no
 reasons to install it globally.
 
 The development repository is available from the GitHub
-[xpack/logger-ts](https://github.com/xpack/logger-ts)
+[xpack/logger-ts](https://github.com/xpack/logger-ts/)
 project.
 
 ## User info
@@ -38,22 +39,14 @@ This section is intended for those who want to use this module in their
 own projects.
 
 The `@xpack/logger` module can be imported in both TypeScript
-and JavaScript Node.js code.
-
-In TypeScript and ECMAScript modules, use `import`:
+and JavaScript Node.js code:
 
 ```typescript
 import { Logger } from '@xpack/xpm-liquid'
 ```
 
-In JavaScript with CommonJS, use `require()`:
-
-```javascript
-const { Logger } = require('@xpack/logger')
-```
-
 The typical use case is to create an instance of the Logger object,
-then log at different levels:
+then log messages at different levels:
 
 ```javascript
 const log = new Logger({
@@ -64,7 +57,7 @@ log.info('hello') // Displayed on stdout.
 log.debug('world') // Ignored.
 ```
 
-In more complex use cases, the log level can be tested and the possibly
+In more complex use cases, the log level can be tested and the (possibly)
 long operations be performed only if necessary.
 
 ### Log levels
@@ -76,8 +69,8 @@ export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 ```
 
-Internally they are converted to integer values, and these integers
-are used in comparisons. Higher values
+Internally the string levels are converted to integer values,
+and these integers are used in comparisons. Higher values
 mean more verbosity.
 
 ### Delaying setting the log level

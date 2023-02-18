@@ -4,9 +4,30 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues/).
 
+## 2023-02-18
+
+* 9a485ac package.json: add typedoc dep
+* 26c8e2e rename private members, functions and args
+* bc0ff4d tsconfig.json: more restrictive rules
+* ed15f73 package.json: update scripts
+* 8b889f9 package.json: add c8 devDep
+* 8ff5fab switch to es modules
+
+## 2023-02-12
+
+* v6.0.0 released
+* c634e88 package.json: 5.0.5-pre
+* 05ee60c migrate tests to es modules
+* d563e42 package.json: update scripts
+* a64e54f package.json: downgrade @types/node":"^14.18.36
+* 91f0c90 package.json: add exports for es modules
+* 0901c1d node16 mode resolution
+* 384e860 logger.ts: use explicit 'node:*' in imports
+
 ## 2023-02-09
 
-* v5.0.4 released
+* 0494f2d 5.0.4
+* f97bd53 prepare v5.0.4
 * be7b4ff nodejs.yml: try again npm ci
 * f639868 README update
 * 65aad10 package-lock.json: generated with v14
