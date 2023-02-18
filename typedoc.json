@@ -1,0 +1,11 @@
+{
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "githubPages": false,
+  "gaID": "341760653",
+  "includeVersion": true,
+  "out": "docs",
+  "plugin": ["typedoc-theme-yaf"],
+  "theme": "yaf",
+  "tsconfig": "./tsconfig.json"
+}
