@@ -4,7 +4,14 @@ name: Deploy static content to Pages
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["master"]
+    branches:
+      - 'master'
+    tags-ignore:
+      - '**'
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/typedoc.yml'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
