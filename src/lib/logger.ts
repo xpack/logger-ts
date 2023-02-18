@@ -101,11 +101,11 @@ export class Logger {
   // Members.
 
   private readonly _console: Console = console
-  private _numericLevel: NumericLogLevel = Logger.numericLevelUndefined
-  private _level: LogLevel | undefined = undefined
+  private levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
+  private levelName: LogLevel | undefined = undefined
 
   // Empty buffer where preliminary lines will be stored.
-  private _buffer: LoggerBufferRecord[] = []
+  private buffer: LoggerBufferRecord[] = []
 
   // --------------------------------------------------------------------------
   // Constructor.
@@ -145,7 +145,7 @@ export class Logger {
   // Getters & setters.
 
   get hasLevel (): boolean {
-    return this._numericLevel !== Logger.numericLevelUndefined
+    return this.levelNumericValue !== Logger.numericLevelUndefined
   }
 
   /**
@@ -162,20 +162,20 @@ export class Logger {
     assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
       `Log level '${level}' not supported.`)
 
-    this._numericLevel = Logger.numericLevels[level]
-    this._level = level
+    this.levelNumericValue = Logger.numericLevels[level]
+    this.levelName = level
 
     // FLush the internal buffer.
-    if (this._buffer.length > 0) {
-      this._buffer.forEach(
+    if (this.buffer.length > 0) {
+      this.buffer.forEach(
         (record) => {
-          if (this._numericLevel >= record.numericLevel) {
+          if (this.levelNumericValue >= record.numericLevel) {
             record.func(record.message)
           }
         })
 
       // Clear the buffer.
-      this._buffer = []
+      this.buffer = []
     }
   }
 
@@ -185,42 +185,42 @@ export class Logger {
    * @returns {LogLevel} The log level.
    */
   get level (): LogLevel | undefined {
-    return this._level
+    return this.levelName
   }
 
   // --------------------------------------------------------------------------
   // Changed to getters starting with v3.x.
 
   get isSilent (): boolean {
-    return this._numericLevel >= Logger.numericLevels.silent
+    return this.levelNumericValue >= Logger.numericLevels.silent
   }
 
   get isError (): boolean {
-    return this._numericLevel >= Logger.numericLevels.error
+    return this.levelNumericValue >= Logger.numericLevels.error
   }
 
   get isWarn (): boolean {
-    return this._numericLevel >= Logger.numericLevels.warn
+    return this.levelNumericValue >= Logger.numericLevels.warn
   }
 
   get isInfo (): boolean {
-    return this._numericLevel >= Logger.numericLevels.info
+    return this.levelNumericValue >= Logger.numericLevels.info
   }
 
   get isVerbose (): boolean {
-    return this._numericLevel >= Logger.numericLevels.verbose
+    return this.levelNumericValue >= Logger.numericLevels.verbose
   }
 
   get isDebug (): boolean {
-    return this._numericLevel >= Logger.numericLevels.debug
+    return this.levelNumericValue >= Logger.numericLevels.debug
   }
 
   get isTrace (): boolean {
-    return this._numericLevel >= Logger.numericLevels.trace
+    return this.levelNumericValue >= Logger.numericLevels.trace
   }
 
   get isAll (): boolean {
-    return this._numericLevel >= Logger.numericLevels.all
+    return this.levelNumericValue >= Logger.numericLevels.all
   }
 
   // --------------------------------------------------------------------------
@@ -248,7 +248,7 @@ export class Logger {
    *
    * @private
    */
-  private write_ (
+  private write (
     numericLevel: NumericLogLevel,
     loggerFunction: LoggerFunction,
     message: string
@@ -257,12 +257,13 @@ export class Logger {
       // Ignore if nothing to write.
       return
     }
-    if (this._numericLevel !== Logger.numericLevelUndefined) {
+
+    if (this.levelNumericValue !== Logger.numericLevelUndefined) {
       // If the level was set, output the message.
       loggerFunction(message)
     } else {
       // Store the log entry details in the buffer.
-      this._buffer.push({
+      this.buffer.push({
         numericLevel,
         func: loggerFunction,
         message
@@ -286,66 +287,66 @@ export class Logger {
    * Use this instead of console.log(), which in Node.js always
    * refers to the process console, not the possible REPL streams.
    */
-  always (msg: any = '', ...args: any[]): void {
-    const str = util.format(msg, ...args)
-    this.write_(Logger.numericLevelAlways, this._console.log, str)
+  always (message: any = '', ...args: any[]): void {
+    const str = util.format(message, ...args)
+    this.write(Logger.numericLevelAlways, this._console.log, str)
   }
 
-  error (msg: Error): void
-  error (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.error) {
-      if (msg instanceof Error) {
-        const str = util.format(msg, ...args)
-        this.write_(Logger.numericLevels.error, this._console.error, str)
+  error (message: Error): void
+  error (message: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.error) {
+      if (message instanceof Error) {
+        const str = util.format(message, ...args)
+        this.write(Logger.numericLevels.error, this._console.error, str)
       } else {
-        const str = util.format(msg, ...args)
-        this.write_(Logger.numericLevels.error, this._console.error,
+        const str = util.format(message, ...args)
+        this.write(Logger.numericLevels.error, this._console.error,
           'error: ' + str)
       }
     }
   }
 
-  output (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.error) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.error, this._console.log, str)
+  output (message: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.error) {
+      const str = util.format(message, ...args)
+      this.write(Logger.numericLevels.error, this._console.log, str)
     }
   }
 
-  warn (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.warn) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.warn, this._console.error,
+  warn (rename: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.warn) {
+      const str = util.format(rename, ...args)
+      this.write(Logger.numericLevels.warn, this._console.error,
         'warning: ' + str)
     }
   }
 
-  info (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.info) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.info, this._console.log, str)
+  info (message: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.info) {
+      const str = util.format(message, ...args)
+      this.write(Logger.numericLevels.info, this._console.log, str)
     }
   }
 
-  verbose (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.verbose) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.verbose, this._console.log, str)
+  verbose (rename: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.verbose) {
+      const str = util.format(rename, ...args)
+      this.write(Logger.numericLevels.verbose, this._console.log, str)
     }
   }
 
-  debug (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.debug) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.debug, this._console.log,
+  debug (message: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.debug) {
+      const str = util.format(message, ...args)
+      this.write(Logger.numericLevels.debug, this._console.log,
         'debug: ' + str)
     }
   }
 
-  trace (msg: any = '', ...args: any[]): void {
-    if (this._numericLevel >= Logger.numericLevels.trace) {
-      const str = util.format(msg, ...args)
-      this.write_(Logger.numericLevels.trace, this._console.log,
+  trace (message: any = '', ...args: any[]): void {
+    if (this.levelNumericValue >= Logger.numericLevels.trace) {
+      const str = util.format(message, ...args)
+      this.write(Logger.numericLevels.trace, this._console.log,
         'trace: ' + str)
     }
   }
