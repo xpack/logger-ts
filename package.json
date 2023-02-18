@@ -28,7 +28,7 @@
     "package": "npm pack",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
     "lint": "echo ts-standard src",
-    "prepare": "npm run compile && npm run lint",
+    "prepare": "npm run compile && npm run lint && npm run typedoc",
     "pretest": "npm run compile && npm run lint",
     "tap": "tap --ts --reporter=spec --timeout 300 --no-coverage",
     "test-tap": "tap --ts --reporter=classic --timeout 300 --no-coverage \"tests/tap/*.js\"",
@@ -39,6 +39,7 @@
     "test": "npm run test-tap -s",
     "test100": "npm run test-tap100 -s",
     "test100c8": "npm run test-tap100c8 -s",
+    "typedoc": "typedoc --includeVersion --githubPages false --gaID 341760653 ./src/*.ts",
     "deep-clean": "rm -rf dist .nyc_output node_modules package-lock.json",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
@@ -78,6 +79,7 @@
     "tap": "^16.3.4",
     "ts-node": "^10.9.1",
     "ts-standard": "^12.0.2",
+    "typedoc": "^0.23.25",
     "typescript": "^4.9.5"
   },
   "bundledDependencies": [],
