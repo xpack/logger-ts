@@ -18,7 +18,7 @@
       "./node_modules/@types",
       "./typings"
     ],
-    "module": "commonjs",
+    "module": "node16",
     "moduleResolution": "node16",
     "strict": true,
     "alwaysStrict": true,
