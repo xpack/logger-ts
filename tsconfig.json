@@ -1,6 +1,5 @@
 {
   /* https://www.typescriptlang.org/tsconfig */
-  /* Most option copied from vscode.git/extensions/shared.tsconfig.json */
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Node 14",
 
@@ -18,15 +17,28 @@
       "./node_modules/@types",
       "./typings"
     ],
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "node16",
     "moduleResolution": "node16",
-    "strict": true,
-    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "forceConsistentCasingInFileNames": true
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "useUnknownInCatchVariables": true
   },
   "exclude": [
     "node_modules",
