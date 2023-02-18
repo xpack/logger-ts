@@ -19,6 +19,7 @@ on:
       - '.gitignore'
       - '.npmignore'
       - '.vscode/**'
+      - '.github/FUNDING.yml'
 
 jobs:
   npm-test:
