@@ -45,28 +45,104 @@ import * as util from 'node:util'
 // ----------------------------------------------------------------------------
 // Public Types.
 
+/**
+ * @summary Type of the strings recognised as valid level names.
+ *
+ * @description
+ * Internally these strings are converted to integer values,
+ * and these integers are used in comparisons. Higher values
+ * mean more verbosity.
+ */
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
+/**
+ * @summary Type of the numeric log level.
+ */
 export type NumericLogLevel = number
 
+/**
+ * @summary Type of the object passed to construct a logger.
+ */
 export interface LoggerParameters {
+  /** The name of the log level; the default is `undefined`,
+   * which means it will be set later. */
   level?: LogLevel
+  /** The console object used to log the message;
+   * by default, use the JavaScript standard `console` object. */
   console?: Console
 }
 
+// ----------------------------------------------------------------------------
 // Private Types.
 
+/**
+ * @summary Type of generic logger functions processing string messages.
+ */
 type LoggerFunction = (message: string) => void
 
+/**
+ * @summary Record stored in the buffer when the logger is not yet enabled.
+ */
 interface LoggerBufferRecord {
+  /** Function to be called to log the message. */
   func: LoggerFunction
+  /** Log level at the time of the call. */
   numericLevel: NumericLogLevel
+  /** The string message to be logged. */
   message: string
 }
 
 // ============================================================================
 
+/**
+ * @summary The Logger class implements the logger functionality.
+ *
+ * @description
+ * The logger is constructed on top of a console object, where the
+ * messages are logged.
+ *
+ * Use `log.always()` instead of the `console.log()`, since it accounts for
+ * different contexts, created for instance when using REPL.
+ *
+ * There is no `critical` level, corresponding to errors that prevent
+ * the program to run, since these are actually related to bugs;
+ * use `assert()` instead.
+ *
+ * The messages may include formatting directives, with additional
+ * arguments, as defined by the Node.js console (not really necessary
+ * with ES6).
+ *
+ * All output functions accept an optional string message and possibly
+ * some arguments,
+ * as processed by the standard Node.js
+ * [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
+function.
+ *
+ * If the logging code is more complex than a single line,
+ * for example if it needs a long loop,
+ * it is recommended to explicitly check the log level and,
+ * if not high enough, skip the code entirely.
+ *
+ * @example
+ *
+ * ```javascript
+ *   if (log.isVerbose) {
+ *     for (const [folderName, folder] of Object.entries(folders)) {
+ *       log.trace(`'${folderName}' ${folder.toolchainOptions}`)
+ *     }
+ *   }
+ * ```
+ *
+ * There are cases when the logger must be created very early in the
+ * life cycle of an application, even before it is practically possible
+ * to determine the log level.
+ *
+ * For these cases, if the logger is created without a log level,
+ * it is set to a **preliminary state**, and all log lines are
+ * stored in an **internal buffer**, until the log
+ * level is set, when the buffer is walked and the lines are processed.
+ */
 export class Logger {
   // --------------------------------------------------------------------------
   // Static Members.
@@ -100,30 +176,63 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Members.
 
+  /** The console object used to output the log messages. */
   private readonly _console: Console = console
+  /** The numerical value of the logger level. */
   private levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
+  /** The name of the logger level. */
   private levelName: LogLevel | undefined = undefined
 
-  // Empty buffer where preliminary lines will be stored.
+  /** Empty buffer where preliminary log lines are stored
+   * until the log level is set. */
   private buffer: LoggerBufferRecord[] = []
 
   // --------------------------------------------------------------------------
   // Constructor.
 
   /**
-   * @summary Create a logger instance for a given console.
+   * @summary Create a logger instance.
    *
-   * @param {LoggerParameters} params The generic params object.
-   * @param {Console} params.console Reference to a console (an object with at
-   *  least two functions, `log()` and `error()`)
-   * @param {LogLevel} params.level A log level; may be undefined and set later.
+   * @param params The generic logger parameters object.
    *
    * @description
-   * If the log level is undefined, the logger is created in a preliminary
-   * state, when all log lines will be stored in an internal buffer,
-   * until the log level is known.
    *
-   * If no `console` is given, the system `console` is used.
+   * The typical use case is to create a logger with a given log level,
+   * usually `info`.
+   *
+   * @example
+   * ```javascript
+   * const log = new Logger({
+   *   level: 'info'
+   * })
+   * ```
+   *
+   * By default, the system console is used.
+   *
+   * The complete use case is to create the logger instance with both a
+   * `console` and a `level`. This might be particularly useful in tests.
+   *
+   * @example
+   * ```javascript
+   * const log = new Logger({
+   *   console: myConsole,
+   *   level: 'info'
+   * })
+   * ```
+   *
+   * If present, the `console` must be an object with at least two methods,
+   * `log()` and `error()`, as defined in the Node.js documentation for
+   * [console](https://nodejs.org/docs/latest-v14.x/api/console.html).
+   *
+   * The `level` property is optional since it can be set later.
+   * Without it, the constructor will
+   * create the logger in a preliminary state, and all log lines will be stored
+   * in an internal buffer until the log level is set.
+   *
+   * @example
+   * ```javascript
+   * const log = new Logger()
+   * ```
    */
   constructor (params: LoggerParameters = {}) {
     if (params.console != null) {
@@ -144,18 +253,47 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Getters & setters.
 
+  /**
+   * @category Log Level Management
+   * @summary Getter to check if the logger level was initialised.
+   *
+   * @returns True if the level was set.
+   *
+   * @description
+   *
+   * Return `true` if the level was set.
+   *
+   * @example
+   * ```console
+   * if (!log.hasLevel) {
+   *   log.level = defaultLevel
+   * }
+   * ```
+   *
+   * @remarks
+   * - added in v2.1.0
+   * - changed to getters in v5.0.0
+   */
   get hasLevel (): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
   }
 
   /**
+   * @category Log Level Management
    * @summary Setter for the log level.
    *
-   * @param {LogLevel} level The new log level.
+   * @param level The new log level.
    *
    * @description
+   *
+   * Set the log level. If this is the first time when the log level is set,
+   * flush the internal buffer.
+   *
+   * @example
+   * ```javascript
+   * log.level = 'info'
+   * ```
    * If the log level is not one of the known strings, an assert will fire.
-   * The first time the level is set, the internal buffer is flushed.
    */
   set level (level: LogLevel | undefined) {
     assert(level)
@@ -180,9 +318,19 @@ export class Logger {
   }
 
   /**
+   * @category Log Level Management
    * @summary Getter for the log level.
    *
-   * @returns {LogLevel} The log level.
+   * @returns The log level name.
+   *
+   * @description
+   *
+   * Get the current log level, as a string.
+   *
+   * @example
+   * ```javascript
+   * console.log(log.level)
+   * ```
    */
   get level (): LogLevel | undefined {
     return this.levelName
@@ -191,40 +339,117 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Changed to getters starting with v3.x.
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `silent` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isSilent (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `error` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isError (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `warn` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isWarn (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `info` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isInfo (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `verbose` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isVerbose (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `debug` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isDebug (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `trace` or higher.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isTrace (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
   }
 
+  /**
+   * @category Log Level Checks
+   * @summary Getter to check the log level.
+   *
+   * @returns True if the log level is `all`.
+   *
+   * @remarks
+   * - changed to getter starting with v3.x.
+   */
   get isAll (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
   }
 
   // --------------------------------------------------------------------------
 
+  /**
+   * @summary Getter to obtain the underlying `console` object.
+   *
+   * @returns The console object.
+   */
   get console (): Console {
     return this._console
   }
@@ -233,20 +458,18 @@ export class Logger {
   // Methods.
 
   /**
-   * @summary Internal log writer.
+   * @summary The internal log writer.
    *
-   * @param {NumericLogLevel} numericLevel The log numeric level.
-   * @param {Function} loggerFunction The function to be used to write
+   * @param numericLevel The log numeric level.
+   * @param loggerFunction The function to be used to write
    * the message.
-   * @param {string} message The log message.
-   * @returns {void} Nothing.
+   * @param message The log message.
+   * @returns Nothing.
    *
    * @description
    * If the log level was defined, call the function, otherwise
    * store the log line details in the array buffer, for later
    * processing, when the log level is defined.
-   *
-   * @private
    */
   private write (
     numericLevel: NumericLogLevel,
@@ -274,24 +497,57 @@ export class Logger {
   // --------------------------------------------------------------------------
 
   /**
+   * @category Output
    * @summary Output always.
    *
-   * @param {string} msg Message.
-   * @param {*} args Possible arguments.
-   * @returns {void} Nothing.
+   * @param message Message.
+   * @param args Possible arguments.
+   * @returns Nothing.
    *
    * @description
-   * The message is always passed to the console, regardless the
-   * log level.
+   * Log always, regardless of the log level, (even `'silent'`, when no other
+   * messages are logged). The message is passed via `console.log()`.
    *
-   * Use this instead of console.log(), which in Node.js always
-   * refers to the process console, not the possible REPL streams.
+   * @example
+   * ```javascript
+   * log.always(version)
+   * ```
    */
   always (message: any = '', ...args: any[]): void {
     const str = util.format(message, ...args)
     this.write(Logger.numericLevelAlways, this._console.log, str)
   }
 
+  /**
+   * @category Output
+   * @summary Log error messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log error messages, if the log level is `error` or higher.
+   * The message is prefixed with `error: ` and
+   * passed via `console.error()`.
+   *
+   * @example
+   * ```javascript
+   * log.error('Not good...')
+   * ```
+   *
+   * There is a special case when the input is an `Error` object. It
+   * is expanded, including a full stack trace, and passed via
+   * `console.error()`.
+   *
+   * @example
+   * ```javascript
+   * try {
+   *   // ...
+   * } catch (err) {
+   *   log.error(err)
+   * }
+   * ```
+   */
   error (message: Error): void
   error (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
@@ -306,6 +562,33 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log error messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log error messages, if the log level is `error` or higher.
+   * It differs from `error()` by **not** prefixing the string with `error: `
+   * and using `console.log()` instead of `console.error()`.
+   *
+   * @example
+   * ```javascript
+   * log.output('Not good either...')
+   * ```
+   *
+   * @example
+   * ```javascript
+   * try {
+   *   // ...
+   * } catch (err) {
+   *   // Do not show the stack trace.
+   *   log.output(err)
+   * }
+   * ```
+   */
   output (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
       const str = util.format(message, ...args)
@@ -313,6 +596,23 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log warning messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log warning messages, if the log level is `warn` or higher.
+   * The message is prefixed with `warning: ` and
+   * passed via `console.error()`.
+   *
+   * @example
+   * ```javascript
+   * log.info(title)
+   * ```
+   */
   warn (rename: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.warn) {
       const str = util.format(rename, ...args)
@@ -321,6 +621,22 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log informative messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log informative messages, if the log level is `info` or higher.
+   * The message is passed via `console.log()`.
+   *
+   * @example
+   * ```javascript
+   * log.info(title)
+   * ```
+   */
   info (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.info) {
       const str = util.format(message, ...args)
@@ -328,6 +644,22 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log informative messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log more informative messages, if the log level is `verbose` or higher.
+   * The message is passed via `console.log()`.
+   *
+   * @example
+   * ```javascript
+   * log.verbose('Configurations:')
+   * ```
+   */
   verbose (rename: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.verbose) {
       const str = util.format(rename, ...args)
@@ -335,6 +667,23 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log debug messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log debug messages, if the log level is `'debug'` or higher.
+   * The message is prefixed with `debug: ` and
+   * passed via `console.log()`.
+   *
+   * @example
+   * ```javascript
+   * log.debug(`spawn: ${cmd}`)
+   * ```
+   */
   debug (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.debug) {
       const str = util.format(message, ...args)
@@ -343,6 +692,23 @@ export class Logger {
     }
   }
 
+  /**
+   * @category Output
+   * @summary Log trace messages.
+   *
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
+   *
+   * @description
+   * Log trace messages, if the log level is `trace` or higher.
+   * The message is prefixed with `trace: ` and
+   * passed via `console.log()`.
+   *
+   * @example
+   * ```javascript
+   * log.trace(`${this.constructor.name}.doRun()`)
+   * ```
+   */
   trace (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.trace) {
       const str = util.format(message, ...args)
