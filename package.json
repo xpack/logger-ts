@@ -1,6 +1,6 @@
 {
   "name": "@xpack/logger",
-  "version": "5.0.5-pre",
+  "version": "6.0.0",
   "description": "A generic console logger class",
   "type": "module",
   "exports": {
