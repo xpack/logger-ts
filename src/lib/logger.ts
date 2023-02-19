@@ -64,7 +64,7 @@ export type NumericLogLevel = number
 /**
  * @summary Type of the object passed to construct a logger.
  */
-export interface LoggerParameters {
+export interface LoggerConstructorParameters {
   /** The name of the log level; the default is `undefined`,
    * which means it will be set later. */
   level?: LogLevel
@@ -234,7 +234,7 @@ export class Logger {
    * const log = new Logger()
    * ```
    */
-  constructor (params: LoggerParameters = {}) {
+  constructor (params: LoggerConstructorParameters = {}) {
     if (params.console != null) {
       this._console = params.console
     }
