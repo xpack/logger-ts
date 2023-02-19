@@ -9,12 +9,22 @@
 
 A Node.js ES6 module with a generic console logger.
 
+The open source project is hosted on GitHub as
+[xpack/logger-ts](https://github.com/xpack/logger-ts/).
+
+## Maintainer & developer info
+
+This page documents how to use this module in an user application.
+For maintainer information, see the separate
+[[README-MAINTAINER](https://github.com/xpack/logger-ts/blob/master/README-MAINTAINER.md)
+page.
+
 ## Prerequisites
 
 A recent [Node.js](https://nodejs.org) (>=14.13), since the TypeScript code
-is compiled into ECMAScript 2020 code.
+is compiled into ECMAScript 2020 code with ES6 modules.
 
-## Easy install
+## Install
 
 The module is available as
 [`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger)
@@ -35,7 +45,7 @@ project.
 
 ## User info
 
-This section is intended for those who want to use this module in their
+This section is intended for those who plan to use this module in their
 own projects.
 
 The `@xpack/logger` module can be imported in both TypeScript
@@ -86,6 +96,8 @@ level is set, when the buffer is walked and the lines are processed.
 
 ### Output methods
 
+The following methods are available to log messages:
+
 - `always (message: any = '', ...args: any[]): void`
 - `error (message: any = '', ...args: any[]): void`
 - `error (message: Error): void`
@@ -98,15 +110,33 @@ level is set, when the buffer is walked and the lines are processed.
 
 ### Reference
 
-For more details on the class definition, including all methods,
+For more details on the available class definitions, including all methods,
 accessors, members, etc,
 please see the typedoc
 [reference pages](https://xpack.github.io/logger-ts/stable/).
 
-## Compatibility notices
+## Known problems
 
-According to [semver](https://semver.org) requirements,
-incompatible API changes require higher major numbers.
+- none
+
+## Status
+
+The `@xpack/logger` module is fully functional.
+
+The main client for this module is the `xpm` CLI application.
+
+## Tests
+
+The module is tested
+with 100% coverage and CI tested on every push via GitHub
+[Actions](https://github.com/xpack/logger-ts/actions/).
+
+## Change log - incompatible changes
+
+According to [semver](https://semver.org) rules:
+
+> Major version X (X.y.z | X > 0) MUST be incremented if any
+backwards incompatible changes are introduced to the public API.
 
 ### v6.x
 
@@ -159,16 +189,9 @@ const log = new Logger({
 })
 ```
 
-## Maintainer & developer info
-
-This page documents how to use this module in an user application.
-For developer and maintainer information, see the separate
-[README-DEVELOPER](https://github.com/xpack/logger-ts/blob/master/README-DEVELOPER.md) and
-[README-MAINTAINER](https://github.com/xpack/logger-ts/blob/master/README-MAINTAINER.md)
-pages.
-
 ## License
 
 The original content is released under the
-[MIT License](https://opensource.org/licenses/MIT), with all rights
-reserved to [Liviu Ionescu](https://github.com/ilg-ul/).
+[MIT License](https://opensource.org/licenses/MIT/),
+with all rights reserved to
+[Liviu Ionescu](https://github.com/ilg-ul/).
