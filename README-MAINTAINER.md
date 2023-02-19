@@ -39,7 +39,6 @@ The prerequisites are:
 
 - node >= 14.13
 - npm
-- <https://www.npmjs.com/package/@tsconfig/node14>
 
 To ensure compatibility with older node, revert to an older one:
 
@@ -47,6 +46,10 @@ To ensure compatibility with older node, revert to an older one:
 nvm use --lts 14
 code
 ```
+
+For the TypeScript configuration, please see:
+
+- [@tsconfig/node14](https://www.npmjs.com/package/@tsconfig/node14)
 
 ## Satisfy dependencies
 
@@ -83,13 +86,17 @@ The current version is TypeScript 4:
 - <https://www.typescriptlang.org>
 - <https://www.typescriptlang.org/docs/handbook>
 
-The compiler is configured to produce `node16` files, which means
+Configured the compiler to produce `node16` files, which means
 ECMAScript6 with modules, that can be imported by any other project
-which uses ES6
+which uses ES6.
+
+For more details on how to configure `tsconfig.json`, please see:
+
+- <https://www.typescriptlang.org/tsconfig/>
 
 ## Standard style
 
-As style, the project uses the TypeScript variant of
+As style, the project uses `ts-standard`, the TypeScript variant of
 [Standard Style](https://standardjs.com/#typescript),
 automatically checked at each commit via CI.
 
@@ -121,7 +128,7 @@ To manually fix compliance with the style guide (where possible):
 
 > @xpack/logger@6.0.0 fix
 > ts-standard --fix src && standard --fix test
-
+...
 ```
 
 ## Tests
@@ -149,14 +156,11 @@ A typical test result looks like:
 > @xpack/logger@6.0.0 pretest
 > npm run compile && npm run lint
 
-
 > @xpack/logger@6.0.0 compile
 > tsc -p ./
 
-
 > @xpack/logger@6.0.0 lint
 > ts-standard src
-
 
 > @xpack/logger@6.0.0 test
 > npm run test-tap100 -s
@@ -183,7 +187,6 @@ All files   |     100 |      100 |     100 |     100 |
  src/lib    |     100 |      100 |     100 |     100 |
   logger.ts |     100 |      100 |     100 |     100 |
 ------------|---------|----------|---------|---------|-------------------
-%
 ```
 
 To run a specific test with more verbose output, use `npm run tap`:
@@ -204,7 +207,6 @@ tests/tap/010-mock-console.js
     ✓ stderr is empty
     ✓ stderr has one entry
     ✓ stderr is error
-
 
   7 passing (260.048ms)
 ----------|---------|----------|---------|---------|-------------------
@@ -284,7 +286,7 @@ related to the new version.
 - add a line _* v6.0.0 released_
 - commit with a message like _prepare v6.0.0_
 
-## Prepare to publish to npmjs.com
+## Prepare to publish
 
 - terminate all running tasks (**Terminal** → **Terminate Task...**)
 - select the `develop` branch
@@ -292,7 +294,7 @@ related to the new version.
 - `npm run fix`
 - in the develop branch, commit all changes
 - `npm run test`
-- `npm run typedoc`
+- `npm run typedoc` and open the `dist/index.html` in a browser
 - `npm run pack`; check the list of packaged files, possibly
   update `.npmignore`
 - `npm version patch` (bug fixes), `npm version minor` (compatible API
@@ -303,13 +305,7 @@ related to the new version.
 - **wait for CI tests to complete**
 - check <https://github.com/xpack/logger-ts/actions/>
 
-## Documentation
-
-The documentation site is built with [TypeDoc](https://typedoc.org) and
-published in the project GitHub
-[Pages](https://xpack.github.io/logger-ts/).
-
-## Publish
+## Publish to npmjs.com
 
 - `npm publish --tag next` (use `--access public` when publishing for the first time)
 
@@ -332,7 +328,14 @@ In this Git repo:
 - merge `develop`
 - push all branches
 
-Web site deployment is performed by a dedicated workflow in GitHub
+## Web site deployment
+
+The documentation site is built with [TypeDoc](https://typedoc.org/) and
+published in the project GitHub
+[Pages](https://xpack.github.io/logger-ts/).
+
+The Web site deployment is performed automatically when pushing to the
+master branch, by a dedicated workflow in GitHub
 [Actions](https://github.com/xpack/logger-ts/actions/workflows/typedoc.yml).
 
 ### Tag the npm package as `latest`
@@ -346,8 +349,9 @@ When the release is considered stable, promote it as `latest`:
 ## Useful links
 
 - <https://www.typescriptlang.org/docs/>
+- <https://www.typescriptlang.org/tsconfig/>
 - <https://typedoc.org>, <https://typedoc.org/guides/doccomments/>
 - <https://tsdoc.org>
 - <https://jsdoc.app/index.html>
-- <https://www.npmjs.com/package/typedoc-theme-yaf>
+- <https://github.com/citkane/typedoc-theme-yaf>
 - <https://github.com/citkane/typedoc-plugin-versions>

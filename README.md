@@ -51,7 +51,7 @@ and JavaScript Node.js code:
 import { Logger } from '@xpack/logger'
 ```
 
-The typical use case is to create an instance of the Logger object,
+The typical use case is to create an instance of the `Logger` object,
 then log messages at different levels:
 
 ```javascript
