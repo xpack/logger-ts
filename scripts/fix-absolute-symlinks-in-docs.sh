@@ -44,7 +44,7 @@ function make_link_relative()
 {
   src_path="$(echo "$1" | sed -e 's|[.][/]||')"
   dest_path="$(readlink $1 | sed -e "s|${docs_folder_path}||")"
-  rm -v "${src_path}"
+  rm -fv "${1}"
   ln -sv "${dest_path}" "${src_path}"
 }
 
