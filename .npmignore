@@ -51,4 +51,6 @@ README-*.md
 /src/
 **/tsconfig.json
 
+/scripts/
+
 #end
