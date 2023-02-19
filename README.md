@@ -39,10 +39,6 @@ npm install @xpack/logger@latest
 The module does not provide any executables, and generally there are no
 reasons to install it globally.
 
-The development repository is available from the GitHub
-[xpack/logger-ts](https://github.com/xpack/logger-ts/)
-project.
-
 ## User info
 
 This section is intended for those who plan to use this module in their

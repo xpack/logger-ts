@@ -13,6 +13,11 @@ The project is hosted on GitHub:
 
 - <https://github.com/xpack/logger-ts.git>
 
+The project uses two branches:
+
+- ``master`, with the latest stable version (default)
+- `develop`, with the current development version
+
 To clone the `master` branch, use:
 
 ```sh
