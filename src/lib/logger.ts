@@ -117,7 +117,6 @@ function.
  * if not high enough, skip the code entirely.
  *
  * @example
- *
  * ```javascript
  *   if (log.isVerbose) {
  *     for (const [folderName, folder] of Object.entries(folders)) {
