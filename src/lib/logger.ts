@@ -56,14 +56,10 @@ import * as util from 'node:util'
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
-/**
- * @summary Type of the numeric log level.
- */
+/** Type of the numeric log level. */
 export type NumericLogLevel = number
 
-/**
- * @summary Type of the object passed to instantiate a new logger.
- */
+/** Type of the object passed to instantiate a new logger. */
 export interface LoggerConstructorParameters {
   /** The name of the log level; the default is `undefined`,
    * which means it will be set later. */
@@ -76,14 +72,10 @@ export interface LoggerConstructorParameters {
 // ----------------------------------------------------------------------------
 // Private Types.
 
-/**
- * @summary Type of generic logger functions processing string messages.
- */
+/** Type of generic logger functions processing string messages. */
 type LoggerFunction = (message: string) => void
 
-/**
- * @summary Record stored in the buffer when the logger is not yet enabled.
- */
+/** Record stored in the buffer when the logger is not yet enabled. */
 interface LoggerBufferRecord {
   /** Function to be called to log the message. */
   func: LoggerFunction
@@ -147,11 +139,10 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Static Members.
 
+  /** The recommended default level. */
   static defaultLevel: LogLevel = 'info'
 
-  /**
-   * @summary Internal numerical values for the log level.
-   */
+  /** Internal numerical values for the log level. */
   static numericLevels = {
     silent: 0,
     error: 10,
@@ -163,14 +154,10 @@ export class Logger {
     all: 70
   }
 
-  /**
-   * @summary The value used for the undefined log level (maximum value).
-   */
+  /** The value used for the undefined log level (maximum value). */
   static numericLevelUndefined: NumericLogLevel = Infinity
 
-  /**
-   * @summary The value used for the always case (minimum value).
-   */
+  /** The value used for the always case (minimum value). */
   static numericLevelAlways: NumericLogLevel = -1
 
   // --------------------------------------------------------------------------
@@ -193,10 +180,10 @@ export class Logger {
   /**
    * @summary Create a logger instance.
    *
-   * @param params The generic logger parameters object.
+   * @param params The generic object used to pass parameters to the
+   * constructor.
    *
    * @description
-   *
    * The typical use case is to create a logger with a given log level,
    * usually `info`.
    *
@@ -251,7 +238,7 @@ export class Logger {
   }
 
   // --------------------------------------------------------------------------
-  // Getters & setters.
+  // Accessors (getters & setters).
 
   /**
    * @category Log Level Management
@@ -260,7 +247,6 @@ export class Logger {
    * @returns True if the level was set.
    *
    * @description
-   *
    * Return `true` if the level was set.
    *
    * @example
@@ -271,8 +257,8 @@ export class Logger {
    * ```
    *
    * @remarks
-   * - added in v2.1.0
    * - changed to getters in v5.0.0
+   * - added in v2.1.0
    */
   get hasLevel (): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
@@ -285,7 +271,6 @@ export class Logger {
    * @param level The new log level.
    *
    * @description
-   *
    * Set the log level. If this is the first time when the log level is set,
    * flush the internal buffer.
    *
@@ -324,7 +309,6 @@ export class Logger {
    * @returns The log level name.
    *
    * @description
-   *
    * Get the current log level, as a string.
    *
    * @example
@@ -335,9 +319,6 @@ export class Logger {
   get level (): LogLevel | undefined {
     return this.levelName
   }
-
-  // --------------------------------------------------------------------------
-  // Changed to getters starting with v3.x.
 
   /**
    * @category Log Level Checks
@@ -499,8 +480,8 @@ export class Logger {
    * @category Output
    * @summary Output always.
    *
-   * @param message Message.
-   * @param args Possible arguments.
+   * @param message Message to log, as accepted by `util.format()`.
+   * @param args Optional variable arguments.
    *
    * @description
    * Log always, regardless of the log level, (even `'silent'`, when no other
