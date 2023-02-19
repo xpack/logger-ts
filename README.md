@@ -108,8 +108,8 @@ The following methods are available to log messages:
 
 For more details on the available class definitions, including all methods,
 accessors, members, etc,
-please see the typedoc
-[reference pages](https://xpack.github.io/logger-ts/stable/).
+please see the TypeDoc
+[reference pages](https://xpack.github.io/logger-ts/).
 
 ## Known problems
 
