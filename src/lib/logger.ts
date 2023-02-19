@@ -613,9 +613,9 @@ export class Logger {
    * log.info(title)
    * ```
    */
-  warn (rename: any = '', ...args: any[]): void {
+  warn (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.warn) {
-      const str = util.format(rename, ...args)
+      const str = util.format(message, ...args)
       this.write(Logger.numericLevels.warn, this._console.error,
         'warning: ' + str)
     }
@@ -660,9 +660,9 @@ export class Logger {
    * log.verbose('Configurations:')
    * ```
    */
-  verbose (rename: any = '', ...args: any[]): void {
+  verbose (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.verbose) {
-      const str = util.format(rename, ...args)
+      const str = util.format(message, ...args)
       this.write(Logger.numericLevels.verbose, this._console.log, str)
     }
   }
