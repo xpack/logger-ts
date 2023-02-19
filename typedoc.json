@@ -5,7 +5,9 @@
   "gaID": "341760653",
   "includeVersion": true,
   "out": "docs",
-  "plugin": ["typedoc-theme-yaf"],
+  "plugin": [
+    "typedoc-theme-yaf"
+  ],
   "theme": "yaf",
   "tsconfig": "./tsconfig.json"
 }
