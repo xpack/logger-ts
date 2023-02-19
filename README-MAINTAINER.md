@@ -79,9 +79,8 @@ The current version is TypeScript 4:
 - <https://www.typescriptlang.org/docs/handbook>
 
 The compiler is configured to produce `node16` files, which means
-ECMAScript6 with modules, which can be imported by any other project
+ECMAScript6 with modules, that can be imported by any other project
 which uses ES6
-
 
 ## Standard style
 
@@ -99,8 +98,12 @@ all files should limit the line length to 80.
 The syntax for other exceptions is:
 
 ```js
-// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+// eslint-disable-next-line @typescript-eslint/no-xxx-yyy
 ```
+
+The known rules are documented in the
+[typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/eslint-plugin/docs/rules)
+project.
 
 Known and accepted exceptions:
 
@@ -251,7 +254,9 @@ Keep:
 
 ### Determine the next version
 
-Use the semver semantics. Determine the next version (like `6.0.0`),
+As required by npm modules, this one also uses [semver](https://semver.org).
+
+Determine the next version (like `6.0.0`),
 and eventually update the
 `package.json` file; the format is `6.0.0-pre`.
 
@@ -299,9 +304,6 @@ The documentation site is built with [TypeDoc](https://typedoc.org) and
 published in the project GitHub
 [Pages](https://xpack.github.io/logger-ts/).
 
-Deployment is performed by a dedicated workflow in GitHub
-[Actions](https://github.com/xpack/logger-ts/actions/workflows/typedoc.yml)
-
 ## Publish
 
 - `npm publish --tag next` (use `--access public` when publishing for the first time)
@@ -324,6 +326,9 @@ In this Git repo:
 - select the `master` branch
 - merge `develop`
 - push all branches
+
+Web site deployment is performed by a dedicated workflow in GitHub
+[Actions](https://github.com/xpack/logger-ts/actions/workflows/typedoc.yml).
 
 ### Tag the npm package as `latest`
 

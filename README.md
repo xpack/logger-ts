@@ -16,7 +16,7 @@ The open source project is hosted on GitHub as
 
 This page documents how to use this module in an user application.
 For maintainer information, see the separate
-[[README-MAINTAINER](https://github.com/xpack/logger-ts/blob/master/README-MAINTAINER.md)
+[README-MAINTAINER](https://github.com/xpack/logger-ts/blob/master/README-MAINTAINER.md)
 page.
 
 ## Prerequisites
