@@ -62,7 +62,7 @@ export type LogLevel =
 export type NumericLogLevel = number
 
 /**
- * @summary Type of the object passed to construct a logger.
+ * @summary Type of the object passed to instantiate a new logger.
  */
 export interface LoggerConstructorParameters {
   /** The name of the log level; the default is `undefined`,
@@ -448,7 +448,7 @@ export class Logger {
   /**
    * @summary Getter to obtain the underlying `console` object.
    *
-   * @returns The console object.
+   * @returns The console object used by the logger.
    */
   get console (): Console {
     return this._console
@@ -464,7 +464,6 @@ export class Logger {
    * @param loggerFunction The function to be used to write
    * the message.
    * @param message The log message.
-   * @returns Nothing.
    *
    * @description
    * If the log level was defined, call the function, otherwise
@@ -502,7 +501,6 @@ export class Logger {
    *
    * @param message Message.
    * @param args Possible arguments.
-   * @returns Nothing.
    *
    * @description
    * Log always, regardless of the log level, (even `'silent'`, when no other
