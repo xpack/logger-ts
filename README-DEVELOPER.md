@@ -210,8 +210,9 @@ The continuous integration tests are performed via
 [GitHub Actions](https://github.com/features/actions) on Ubuntu,
 Windows and macOS, using node 14, 16, 18.
 
-## TSDoc (TypeScript documentation)
+## TypeScript documentation
 
+- <https://typedoc.org>, <https://typedoc.org/guides/doccomments/>
 - <https://tsdoc.org>
-- <https://typedoc.org/guides/doccomments/>
 - <https://jsdoc.app/index.html>
+- <https://www.npmjs.com/package/typedoc-theme-yaf>
