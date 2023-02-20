@@ -69,14 +69,11 @@ export interface LoggerConstructorParameters {
   console?: Console
 }
 
-// ----------------------------------------------------------------------------
-// Local Types.
-
 /** Type of generic logger functions processing string messages. */
-type LoggerFunction = (message: string) => void
+export type LoggerFunction = (message: string) => void
 
 /** Record stored in the buffer when the logger is not yet enabled. */
-interface LoggerBufferRecord {
+export interface LoggerBufferRecord {
   /** Function to be called to log the message. */
   func: LoggerFunction
   /** Log level at the time of the call. */
