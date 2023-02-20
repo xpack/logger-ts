@@ -450,7 +450,7 @@ export class Logger {
    * store the log line details in the array buffer, for later
    * processing, when the log level is defined.
    */
-  /* protected */ public write (
+  protected write (
     numericLevel: NumericLogLevel,
     loggerFunction: LoggerFunction,
     message: string | undefined
