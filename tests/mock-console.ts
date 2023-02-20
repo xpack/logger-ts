@@ -28,7 +28,7 @@ export class Mock {
   stderr: any
   errstream: any
   console: Console
-  
+
   constructor () {
     this.stdout = []
     this.ostream = new Writable({
@@ -48,7 +48,7 @@ export class Mock {
     this.console = new Console(this.ostream, this.errstream)
   }
 
-  clear () {
+  clear (): void {
     this.stdout = []
     this.stderr = []
   }
