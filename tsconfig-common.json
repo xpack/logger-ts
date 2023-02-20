@@ -5,26 +5,22 @@
 
   /* The maps are used for debugging only. */
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "target": "es2020",
     "lib": [
       "es2020"
     ],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./typings"
-    ],
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "alwaysStrict": true,
     "esModuleInterop": true,
+    "declarationMap": true,
     "forceConsistentCasingInFileNames": true,
     "module": "node16",
     "moduleResolution": "node16",
+    "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
@@ -39,9 +35,5 @@
     "skipLibCheck": true,
     "strict": true,
     "useUnknownInCatchVariables": true
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  }
 }

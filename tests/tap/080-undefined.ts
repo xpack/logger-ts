@@ -42,7 +42,7 @@ test('logger undefined', (t) => {
   logger.level = 'info'
   t.equal(logger.level, 'info', 'level')
 
-  logger.write(logger.numericLevel, logger._console.log, undefined)
+  logger.write(Logger.numericLevels.info, logger.console.log, undefined)
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')

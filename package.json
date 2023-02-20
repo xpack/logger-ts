@@ -16,9 +16,9 @@
     "dist"
   ],
   "scripts": {
-    "compile-watch": "tsc -watch -p ./",
-    "fix": "ts-standard --fix src && standard --fix tests",
-    "compile": "tsc -p ./",
+    "compile-watch": "tsc --build --verbose --watch src tests",
+    "fix": "ts-standard --fix --project tsconfig.json src && standard --fix tests",
+    "compile": "tsc --build --verbose src tests",
     "npm-install": "npm install",
     "npm-link": "npm link",
     "npm-outdated": "npm outdated",
@@ -31,17 +31,17 @@
     "lint": "echo ts-standard src",
     "prepare": "npm run compile && npm run lint && npm run typedoc",
     "pretest": "npm run compile && npm run lint",
-    "tap": "tap --ts --reporter=spec --timeout 300 --no-coverage",
-    "test-tap": "tap --ts --reporter=classic --timeout 300 --no-coverage \"tests/tap/*.js\"",
-    "test-tap100": "tap --ts --reporter=classic --timeout 300 --100 \"tests/tap/*.js\"",
-    "test-tap100c8": "c8 --100 -- tap --ts --reporter=classic --timeout 600 --no-coverage \"tests/tap/*.js\"",
-    "test-coverage": "tap --ts --coverage --reporter=classic --timeout 600 --no-check-coverage \"tests/tap/*.js\"",
-    "test-coverage-c8": "c8 -- tap --ts --reporter=classic --timeout 600 --no-coverage \"tests/tap/*.js\"",
+    "tap": "tap --reporter=spec",
+    "test-tap": "tap",
+    "test-tap-coverage": "tap --coverage",
+    "test-tap-coverage-c8": "c8 -- tap",
+    "test-tap-coverage-100": "tap --coverage --100",
+    "test-tap-coverage-100-c8": "c8 --100 -- tap",
     "test": "npm run test-tap -s",
-    "test100": "npm run test-tap100 -s",
-    "test100c8": "npm run test-tap100c8 -s",
+    "test100": "npm run test-tap-coverage-100 -s",
+    "test100c8": "npm run test-tap-coverage-100-c8 -s",
     "typedoc": "typedoc && bash scripts/fix-absolute-symlinks-in-docs.sh",
-    "deep-clean": "rm -rf dist .nyc_output node_modules package-lock.json",
+    "deep-clean": "rm -rf dist tests/out .nyc_output node_modules package-lock.json",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
   "repository": {
@@ -85,6 +85,16 @@
     "typescript": "^4.9.5"
   },
   "bundledDependencies": [],
+  "tap": {
+    "check-coverage": false,
+    "coverage": false,
+    "files": [
+      "tests-out/tap/*.js"
+    ],
+    "reporter": "classic",
+    "timeout": 30,
+    "ts": true
+  },
   "engines": {
     "node": " >=14.13.1 || >=15.3.0 || >=16.0.0"
   }

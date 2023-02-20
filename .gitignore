@@ -43,3 +43,4 @@ jspm_packages
 /*.tgz
 
 /dist/
+/tests-out/

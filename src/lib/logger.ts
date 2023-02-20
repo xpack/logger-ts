@@ -70,7 +70,7 @@ export interface LoggerConstructorParameters {
 }
 
 // ----------------------------------------------------------------------------
-// Private Types.
+// Local Types.
 
 /** Type of generic logger functions processing string messages. */
 type LoggerFunction = (message: string) => void
@@ -163,15 +163,15 @@ export class Logger {
   // Members.
 
   /** The console object used to output the log messages. */
-  private readonly _console: Console = console
+  protected readonly _console: Console = console
   /** The numerical value of the logger level. */
-  private levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
+  protected levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
   /** The name of the logger level. */
-  private levelName: LogLevel | undefined = undefined
+  protected levelName: LogLevel | undefined = undefined
 
   /** Empty buffer where preliminary log lines are stored
    * until the log level is set. */
-  private buffer: LoggerBufferRecord[] = []
+  protected buffer: LoggerBufferRecord[] = []
 
   // --------------------------------------------------------------------------
   // Constructor.
@@ -450,10 +450,10 @@ export class Logger {
    * store the log line details in the array buffer, for later
    * processing, when the log level is defined.
    */
-  private write (
+  /* protected */ public write (
     numericLevel: NumericLogLevel,
     loggerFunction: LoggerFunction,
-    message: string
+    message: string | undefined
   ): void {
     if (message === undefined || message === null) {
       // Ignore if nothing to write.
@@ -526,7 +526,7 @@ export class Logger {
    * }
    * ```
    */
-  error (message: Error): void
+  // error (message: Error): void
   error (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
       if (message instanceof Error) {

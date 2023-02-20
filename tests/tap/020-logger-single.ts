@@ -41,8 +41,10 @@ test('logger level', (t) => {
   t.equal(logger.level, 'trace', 'set level')
   t.equal(Logger.defaultLevel, 'info', 'has default')
   try {
-    logger.level = 'xyz'
-  } catch (err) {
+    (logger.level as any) = 'xyz'
+    // logger.level = 'xyz'
+  } catch (err: any) {
+  // } catch (err) {
     t.match(err.name, 'AssertionError', 'assert')
   }
   t.end()

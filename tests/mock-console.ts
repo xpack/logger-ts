@@ -23,10 +23,16 @@ import { Writable } from 'node:stream'
 // ============================================================================
 
 export class Mock {
+  stdout: any
+  ostream: any
+  stderr: any
+  errstream: any
+  console: Console
+  
   constructor () {
     this.stdout = []
     this.ostream = new Writable({
-      write: (chunk, encoding, callback) => {
+      write: (chunk, _encoding, callback) => {
         this.stdout.push(chunk.toString())
         callback()
       }
@@ -34,7 +40,7 @@ export class Mock {
 
     this.stderr = []
     this.errstream = new Writable({
-      write: (chunk, encoding, callback) => {
+      write: (chunk, _encoding, callback) => {
         this.stderr.push(chunk.toString())
         callback()
       }
