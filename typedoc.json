@@ -9,5 +9,5 @@
     "typedoc-theme-yaf"
   ],
   "theme": "yaf",
-  "tsconfig": "./tsconfig.json"
+  "tsconfig": "./src/tsconfig.json"
 }
