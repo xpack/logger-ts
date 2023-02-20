@@ -23,16 +23,27 @@ import { strict as assert } from 'node:assert'
 import { test } from 'tap'
 
 import { Mock } from '../mock-console.js'
-import { Logger } from '../../dist/index.js'
+import { Logger, NumericLogLevel, LoggerFunction } from '../../dist/index.js'
 
 assert(Logger)
 
 // ----------------------------------------------------------------------------
 
+class MyLogger extends Logger {
+  // Allow access to protected function.
+  public override write (
+    numericLevel: NumericLogLevel,
+    loggerFunction: LoggerFunction,
+    message: string | undefined
+  ): void {
+    super.write(numericLevel, loggerFunction, message)
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('logger undefined', (t) => {
   const mock = new Mock()
-  const logger = new Logger({
+  const logger = new MyLogger({
     console: mock.console
   })
   t.equal(logger.level, undefined, 'initial level')
@@ -43,7 +54,7 @@ test('logger undefined', (t) => {
   logger.level = 'info'
   t.equal(logger.level, 'info', 'level')
 
-  logger.write(Logger.numericLevels.info, logger.console.log, undefined)
+  logger.write(MyLogger.numericLevels.info, logger.console.log, undefined)
 
   t.equal(mock.stdout.length, 0, 'stdout is empty')
   t.equal(mock.stderr.length, 0, 'stderr is empty')
