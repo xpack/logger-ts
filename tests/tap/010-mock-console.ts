@@ -25,6 +25,7 @@ import { Mock } from '../mock-console.js'
 // ----------------------------------------------------------------------------
 
 // Test the mock console.
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('mock console', (t) => {
   const mock = new Mock()
   t.equal(mock.stdout.length, 0, 'stdout is empty')

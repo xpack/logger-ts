@@ -29,6 +29,7 @@ assert(Logger)
 
 // ----------------------------------------------------------------------------
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('logger undefined', (t) => {
   const mock = new Mock()
   const logger = new Logger({
@@ -50,6 +51,7 @@ test('logger undefined', (t) => {
   t.end()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('logger level warn', (t) => {
   const mock = new Mock()
   const logger = new Logger({
@@ -88,6 +90,7 @@ test('logger level warn', (t) => {
   t.end()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('logger level error', (t) => {
   const mock = new Mock()
   const logger = new Logger({
@@ -125,6 +128,7 @@ test('logger level error', (t) => {
   t.end()
 })
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 test('logger level silent', (t) => {
   const mock = new Mock()
   const logger = new Logger({
