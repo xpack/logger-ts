@@ -5,20 +5,17 @@
   "type": "module",
   "exports": {
     "import": {
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./index.js",
+      "types": "./index.d.ts"
     }
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
-    "compile-watch": "tsc --build --verbose --watch src tests",
-    "fix": "ts-standard --fix --project src/tsconfig.json src && ts-standard --fix --project tests/tsconfig.json tests",
-    "compile": "tsc --build --verbose src tests",
+    "compile-watch": "tsc --build --verbose --watch",
+    "fix": "ts-standard --fix --project tsconfig.json",
+    "compile": "tsc --build --verbose",
     "npm-install": "npm install",
     "npm-link": "npm link",
     "npm-outdated": "npm outdated",
@@ -28,8 +25,8 @@
     "postversion": "git push origin --all && git push origin --tags",
     "package": "npm pack",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
-    "lint": "echo ts-standard src",
-    "prepare": "npm run compile && npm run lint && npm run typedoc",
+    "lint": "ts-standard --project tsconfig.json",
+    "prepare": "npm run compile && npm run lint",
     "pretest": "npm run compile && npm run lint",
     "pretest-100": "npm run compile",
     "pretest-100-c8": "npm run compile",
@@ -42,8 +39,8 @@
     "test": "npm run test-tap -s",
     "test-100": "npm run test-tap-coverage-100 -s",
     "test-100-c8": "npm run test-tap-coverage-100-c8 -s",
-    "typedoc": "typedoc && bash scripts/fix-absolute-symlinks-in-docs.sh",
-    "deep-clean": "rm -rf dist tests/out .nyc_output node_modules package-lock.json",
+    "typedoc": "typedoc",
+    "deep-clean": "rm -rf .nyc_output node_modules package-lock.json *.d.ts* *.js *.js.map */*.d.ts* */*.js */*.js.map */*/*.d.ts* */*/*.js */*/*.js.map",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
   "repository": {
@@ -74,6 +71,7 @@
     "url": "https://github.com/xpack/logger-ts/issues/"
   },
   "homepage": "https://github.com/xpack/logger-ts/",
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^14.18.36",
     "@types/tap": "^15.0.8",
@@ -83,7 +81,6 @@
     "ts-node": "^10.9.1",
     "ts-standard": "^12.0.2",
     "typedoc": "^0.23.25",
-    "typedoc-theme-yaf": "0.0.3",
     "typescript": "^4.9.5"
   },
   "bundledDependencies": [],
@@ -91,11 +88,17 @@
     "check-coverage": false,
     "coverage": false,
     "files": [
-      "tests-out/tap/*.js"
+      "tests/tap/*.js"
     ],
     "reporter": "classic",
     "timeout": 30,
     "ts": true
+  },
+  "ts-standard": {
+    "ignore": [
+      "**/*.d.ts",
+      "**/*.js"
+    ]
   },
   "engines": {
     "node": " >=14.13.1 || >=15.3.0 || >=16.0.0"
