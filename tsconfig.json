@@ -3,21 +3,22 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Node 14",
 
-  "extends": "../tsconfig-common.json",
+  "extends": "./tsconfig-common.json",
 
   /* The maps are used for debugging only. */
   "compilerOptions": {
-    "outDir": "../dist",
+    "composite": true,
     "typeRoots": [
-      "../node_modules/@types",
-      "../typings"
+      "./node_modules/@types",
+      "./typings"
     ]
   },
-  "composite": true,
   "exclude": [
   ],
   "include": [
     "*.ts",
-    "lib/*.ts"
+    "lib/*.ts",
+    "tests/*.ts",
+    "tests/tap/*.ts"
   ]
 }
