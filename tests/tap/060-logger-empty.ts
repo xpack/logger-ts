@@ -29,8 +29,7 @@ assert(Logger)
 
 // ----------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level all empty', (t) => {
+await test('logger level all empty', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,

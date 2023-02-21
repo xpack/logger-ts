@@ -29,8 +29,7 @@ assert(Logger)
 
 // ----------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level all', (t) => {
+await test('logger level all', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -52,8 +51,7 @@ test('logger level all', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level trace', (t) => {
+await test('logger level trace', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -75,8 +73,7 @@ test('logger level trace', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level debug', (t) => {
+await test('logger level debug', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -98,8 +95,7 @@ test('logger level debug', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level verbose', (t) => {
+await test('logger level verbose', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -121,8 +117,7 @@ test('logger level verbose', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level info', (t) => {
+await test('logger level info', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -144,8 +139,7 @@ test('logger level info', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level warn', (t) => {
+await test('logger level warn', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -167,8 +161,7 @@ test('logger level warn', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level error', (t) => {
+await test('logger level error', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,
@@ -190,8 +183,7 @@ test('logger level error', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level silent', (t) => {
+await test('logger level silent', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console,

@@ -40,8 +40,7 @@ class MyLogger extends Logger {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger undefined', (t) => {
+await test('logger undefined', (t) => {
   const mock = new Mock()
   const logger = new MyLogger({
     console: mock.console
@@ -62,8 +61,7 @@ test('logger undefined', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level warn', (t) => {
+await test('logger level warn', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console
@@ -101,8 +99,7 @@ test('logger level warn', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level error', (t) => {
+await test('logger level error', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console
@@ -139,8 +136,7 @@ test('logger level error', (t) => {
   t.end()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger level silent', (t) => {
+await test('logger level silent', (t) => {
   const mock = new Mock()
   const logger = new Logger({
     console: mock.console

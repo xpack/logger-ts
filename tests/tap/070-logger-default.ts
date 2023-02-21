@@ -28,8 +28,7 @@ assert(Logger)
 
 // ----------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-test('logger default', (t) => {
+await test('logger default', (t) => {
   const logger = new Logger()
   t.equal(logger.level, undefined, 'initial level')
   // eslint-disable-next-line eqeqeq
