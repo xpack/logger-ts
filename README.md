@@ -1,13 +1,11 @@
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/mater/package.json)
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
-[![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard)
-[![Actions Status](https://github.com/xpack/logger-ts/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-ts/actions)
-[![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues/)
-[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls)
 
 ## A generic console logger class
 
-A Node.js ES6 module with a generic console logger.
+This project provides a Node.js ES6 module with a multi-instance
+console logger.
 
 The open source project is hosted on GitHub as
 [xpack/logger-ts](https://github.com/xpack/logger-ts/).
@@ -29,8 +27,8 @@ is compiled into ECMAScript 2020 code with ES6 modules.
 The module is available as
 [`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger)
 from the public [`npmjs`](https://www.npmjs.com) repository;
-use `npm` to install it inside the project where
-it is needed:
+it can be added as a dependency to any JavaScript or TypeScript
+project with `npm install`:
 
 ```console
 npm install @xpack/logger@latest
@@ -117,7 +115,7 @@ please see the TypeDoc
 
 ## Status
 
-The `@xpack/logger` module is fully functional.
+The `@xpack/logger` module is fully functional and stable.
 
 The main client for this module is the `xpm` CLI application.
 
@@ -136,8 +134,12 @@ backwards incompatible changes are introduced to the public API.
 
 ### v6.x
 
-The package was fully migrated to ES6 modules, and can no longer be
-consumed by legacy CommonJS packages.
+The project was migrated to TypeScript and the code compiled into
+**ES6 modules**, and can be consumed by modern TypeScript and
+JavaScript packages.
+
+The drawback is that it can no longer be consumed by legacy CommonJS
+packages.
 
 There were also some minor internal renames, but this should not be
 a problem.
