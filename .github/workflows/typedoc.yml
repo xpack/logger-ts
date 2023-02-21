@@ -1,15 +1,21 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes, if all conditions are met:
   push:
+    # ... on the master branch ...
     branches:
       - 'master'
+    # ... skip tags only ...
     tags-ignore:
       - '**'
+    # ... any of these files changes ...
     paths:
-      - 'docs/**'
+      - 'typedoc.json'
+      - 'tsconfig*.json'
+      - 'index.ts'
+      - 'lib/*.ts'
       - 'README.md'
       - '.github/workflows/typedoc.yml'
 
@@ -37,13 +43,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Use Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate TypeDocs
+        run: npm run typedoc
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: './docs'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
