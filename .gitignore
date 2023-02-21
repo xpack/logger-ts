@@ -42,5 +42,9 @@ jspm_packages
 # Archives
 /*.tgz
 
-/dist/
-/tests-out/
+**/*.js
+**/*.js.map
+**/*.d.ts
+**/*.d.ts.map
+
+tsconfig.tsbuildinfo
