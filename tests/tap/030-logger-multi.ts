@@ -23,7 +23,7 @@ import { strict as assert } from 'node:assert'
 import { test } from 'tap'
 
 import { Mock } from '../mock-console.js'
-import { Logger } from '../../dist/index.js'
+import { Logger } from '../../index.js'
 
 assert(Logger)
 
