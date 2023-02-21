@@ -40,7 +40,7 @@
     "test-100": "npm run test-tap-coverage-100 -s",
     "test-100-c8": "npm run test-tap-coverage-100-c8 -s",
     "typedoc": "typedoc",
-    "deep-clean": "rm -rf .nyc_output node_modules package-lock.json *.d.ts* *.js *.js.map */*.d.ts* */*.js */*.js.map */*/*.d.ts* */*/*.js */*/*.js.map",
+    "deep-clean": "rm -rf .nyc_output node_modules package-lock.json *.d.ts* *.js *.js.map */*.d.ts* */*.js */*.js.map */*/*.d.ts* */*/*.js */*/*.js.map tsconfig.tsbuildinfo",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
   },
   "repository": {
