@@ -10,7 +10,7 @@
 
 // ----------------------------------------------------------------------------
 
-import { Logger } from '../index.js'
+import { Logger } from '../../src/index.js'
 
 const mm = (): void => {
   const logger = new Logger({
