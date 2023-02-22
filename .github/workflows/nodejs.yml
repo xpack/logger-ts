@@ -20,6 +20,7 @@ on:
       - '.npmignore'
       - '.vscode/**'
       - '.github/FUNDING.yml'
+      - 'typedoc.json'
 
 jobs:
   npm-test:
