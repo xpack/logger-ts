@@ -20,7 +20,7 @@
 // The `[node-tap](http://www.node-tap.org)` framework.
 import { test } from 'tap'
 
-import { Mock } from '../mock-console.js'
+import { Mock } from '../mocks/mock-console.js'
 
 // ----------------------------------------------------------------------------
 

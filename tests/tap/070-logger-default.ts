@@ -22,7 +22,7 @@ import { strict as assert } from 'node:assert'
 // The `[node-tap](http://www.node-tap.org)` framework.
 import { test } from 'tap'
 
-import { Logger } from '../../index.js'
+import { Logger } from '../../src/index.js'
 
 assert(Logger)
 

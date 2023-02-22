@@ -22,8 +22,8 @@ import { strict as assert } from 'node:assert'
 // The `[node-tap](http://www.node-tap.org)` framework.
 import { test } from 'tap'
 
-import { Mock } from '../mock-console.js'
-import { Logger } from '../../index.js'
+import { Mock } from '../mocks/mock-console.js'
+import { Logger } from '../../src/index.js'
 
 assert(Logger)
 
