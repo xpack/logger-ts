@@ -1,7 +1,7 @@
 {
   "cleanOutputDir": true,
   "entryPoints": [
-    "./index.ts"
+    "./src/index.ts"
   ],
   "entryPointStrategy": "resolve",
   "exclude": [
@@ -19,5 +19,5 @@
   "out": "docs",
   "sidebarLinks": {
   },
-  "tsconfig": "./tsconfig.json"
+  "tsconfig": "./src/tsconfig.json"
 }
