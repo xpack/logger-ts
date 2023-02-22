@@ -14,7 +14,8 @@
   "includeVersion": true,
   "navigationLinks": {
     "xPack": "https://xpack.github.io/",
-    "GitHub": "https://github.com/xpack/"
+    "GitHub": "https://github.com/xpack/logger-ts/",
+    "Org": "https://github.com/xpack/"
   },
   "out": "docs",
   "sidebarLinks": {
