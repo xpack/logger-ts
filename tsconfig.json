@@ -5,10 +5,6 @@
   "extends": "./tsconfig-common.json",
   /* The maps are used for debugging only. */
   "compilerOptions": {
-    "typeRoots": [
-      "./node_modules/@types",
-      "./typings"
-    ]
   },
   "exclude": [],
   "include": [

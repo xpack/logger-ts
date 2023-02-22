@@ -34,6 +34,10 @@
     "removeComments": true,
     "skipLibCheck": true,
     "strict": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ],
     "useUnknownInCatchVariables": true
   }
 }
