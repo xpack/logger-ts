@@ -18,7 +18,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "compile-watch": "tsc --build --verbose --watch src",
-    "fix": "ts-standard --fix src tests",
+    "fix": "ts-standard --fix src tests && standard src",
     "compile": "tsc --build --verbose src tests",
     "npm-install": "npm install",
     "npm-link": "npm link",
@@ -30,7 +30,7 @@
     "postversion": "git push origin --all && git push origin --tags",
     "package": "npm pack",
     "git-log": "git log --pretty='%cd * %h %s' --date=short",
-    "lint": "ts-standard --project src/tsconfig.json src",
+    "lint": "ts-standard src && standard src",
     "prepare": "npm run compile && npm run lint",
     "pretest": "npm run lint",
     "pretest-100": "npm run lint",
