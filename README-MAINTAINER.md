@@ -354,5 +354,3 @@ When the release is considered stable, promote it as `latest`:
 - <https://typedoc.org>, <https://typedoc.org/guides/doccomments/>
 - <https://tsdoc.org>
 - <https://jsdoc.app/index.html>
-- <https://github.com/citkane/typedoc-theme-yaf>
-- <https://github.com/citkane/typedoc-plugin-versions>
