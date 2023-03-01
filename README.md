@@ -4,8 +4,8 @@
 
 ## A generic console logger class
 
-This project provides a Node.js ES6 module with a multi-instance
-console logger.
+This project provides a TypeScript Node.js ES6 module with a re-entrant
+console logger suitable for REPL use cases.
 
 The open source project is hosted on GitHub as
 [xpack/logger-ts](https://github.com/xpack/logger-ts/).
@@ -25,7 +25,7 @@ is compiled into ECMAScript 2020 code with ES6 modules.
 ## Install
 
 The module is available as
-[`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger)
+[`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger/)
 from the public [`npmjs`](https://www.npmjs.com) repository;
 it can be added as a dependency to any JavaScript or TypeScript
 project with `npm install`:
