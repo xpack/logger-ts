@@ -72,7 +72,7 @@
   "bugs": {
     "url": "https://github.com/xpack/logger-ts/issues/"
   },
-  "homepage": "https://github.com/xpack/logger-ts/",
+  "homepage": "https://xpack.github.io/logger-ts/",
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^14.18.36",
