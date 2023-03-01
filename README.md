@@ -4,8 +4,8 @@
 
 ## A generic console logger class
 
-This project provides a TypeScript Node.js ES6 module with a re-entrant
-console logger suitable for REPL use cases.
+This project provides a TypeScript Node.js CommonJS/ES6 module with a
+re-entrant console logger suitable for REPL/server/multi-instance use cases.
 
 The open source project is hosted on GitHub as
 [xpack/logger-ts](https://github.com/xpack/logger-ts/).
@@ -20,7 +20,7 @@ page.
 ## Prerequisites
 
 A recent [Node.js](https://nodejs.org) (>=14.13), since the TypeScript code
-is compiled into ECMAScript 2020 code with ES6 modules.
+is compiled into ECMAScript 2020 code, and the tests use ES6 modules.
 
 ## Install
 
@@ -43,10 +43,16 @@ This section is intended for those who plan to use this module in their
 own projects.
 
 The `@xpack/logger` module can be imported in both TypeScript
-and JavaScript Node.js code:
+and JavaScript ES6 Node.js code:
 
 ```typescript
 import { Logger } from '@xpack/logger'
+```
+
+To include it in JavaScript CommonJS Node,js code with:
+
+```javascript
+const { Logger } = request('@xpack/logger')
 ```
 
 The typical use case is to create an instance of the `Logger` object,
@@ -87,6 +93,15 @@ For these cases, if the logger is created without a log level,
 it is set to a **preliminary state**, and all log lines are
 stored in an internal buffer**, until the log
 level is set, when the buffer is walked and the lines are processed.
+
+```javascript
+const log = new Logger()
+log.trace('...') // Not shown immediately
+log.level = 'trace' // Set level and show the buffered messages.
+
+log.info('hello') // Displayed on stdout.
+log.debug('world') // Ignored.
+```
 
 ### Output methods
 
@@ -134,12 +149,9 @@ backwards incompatible changes are introduced to the public API.
 
 ### v6.x
 
-The project was migrated to TypeScript and the code compiled into
-**ES6 modules**, and can be consumed by modern TypeScript and
-JavaScript packages.
-
-The drawback is that it can no longer be consumed by legacy CommonJS
-packages.
+The project was migrated to TypeScript and the code is compiled into
+**CommonJS** modules, with an **ES6** wrapper, and can be consumed by both
+TypeScript and JavaScript packages.
 
 There were also some minor internal renames, but this should not be
 a problem.

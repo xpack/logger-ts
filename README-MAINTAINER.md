@@ -354,3 +354,4 @@ When the release is considered stable, promote it as `latest`:
 - <https://typedoc.org>, <https://typedoc.org/guides/doccomments/>
 - <https://tsdoc.org>
 - <https://jsdoc.app/index.html>
+- <https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1>
