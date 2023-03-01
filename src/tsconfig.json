@@ -1,12 +1,9 @@
 {
   /* https://www.typescriptlang.org/tsconfig */
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 14",
   "extends": "../tsconfig-common.json",
-  /* The maps are used for debugging only. */
   "compilerOptions": {
-    "outDir": "../dist",
-    "composite": true
+    "outDir": "../dist"
   },
   "exclude": [],
   "include": [
