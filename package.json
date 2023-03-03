@@ -4,14 +4,12 @@
   "description": "A generic console logger class",
   "type": "commonjs",
   "exports": {
-    "request": {
-      "default": "./cjs/index.js",
-      "types": "./cjs/index.d.ts"
+    "node": {
+      "import": "./esm/index.js",
+      "require": "./cjs/index.js"
     },
-    "import": {
-      "default": "./esm/index.js",
-      "types": "./cjs/index.d.ts"
-    }
+    "types": "./cjs/index.d.ts",
+    "default": "./cjs/index.js"
   },
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
@@ -103,6 +101,17 @@
     "reporter": "classic",
     "timeout": 30,
     "ts": true
+  },
+  "eslintConfig": {
+    "rules": {
+      "max-len": [
+        "error",
+        80,
+        {
+          "ignoreUrls": true
+        }
+      ]
+    }
   },
   "ts-standard": {
     "ignore": [
