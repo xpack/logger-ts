@@ -25,33 +25,32 @@ import { Writable } from 'node:stream'
 
 // ============================================================================
 
-export class Mock {
-  stdout: any
-  ostream: any
-  stderr: any
-  errstream: any
-  console: Console
+export class MockConsole extends Console {
+  stdout: string[]
+  stderr: string[]
 
   constructor () {
-    this.stdout = []
-    this.ostream = new Writable({
+    const ostream = new Writable({
       write: (chunk, _encoding, callback) => {
         this.stdout.push(chunk.toString())
         callback()
       }
     })
-
-    this.stderr = []
-    this.errstream = new Writable({
+    const errstream = new Writable({
       write: (chunk, _encoding, callback) => {
         this.stderr.push(chunk.toString())
         callback()
       }
     })
-    this.console = new Console(this.ostream, this.errstream)
+    super(ostream, errstream)
+
+    this.stdout = []
+    this.stderr = []
   }
 
-  clear (): void {
+  override clear (): void {
+    super.clear()
+    
     this.stdout = []
     this.stderr = []
   }
