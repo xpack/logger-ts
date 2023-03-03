@@ -33,7 +33,6 @@
 # tap
 /coverage/
 /tests/
-/tests-out/
 
 # nyc test coverage
 /.nyc_output/
