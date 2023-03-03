@@ -9,9 +9,6 @@
  * be obtained from https://opensource.org/licenses/MIT/.
  */
 
-/* eslint valid-jsdoc: "error" */
-/* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
-
 // ----------------------------------------------------------------------------
 
 /**
@@ -34,7 +31,6 @@ assert(Logger)
 await test('logger default', (t) => {
   const logger = new Logger()
   t.equal(logger.level, undefined, 'initial level')
-  // eslint-disable-next-line eqeqeq
   t.ok(logger.console === console, 'system console')
 
   t.end()
