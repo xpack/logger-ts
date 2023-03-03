@@ -60,6 +60,7 @@ typings/
 # ---
 
 **/*.js
+!/esm/index.js
 **/*.js.map
 **/*.d.ts
 **/*.d.ts.map
