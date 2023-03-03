@@ -13,9 +13,8 @@ on:
     # ... any of these files changes ...
     paths:
       - 'typedoc.json'
-      - 'tsconfig*.json'
-      - 'index.ts'
-      - 'lib/*.ts'
+      - '**/tsconfig*.json'
+      - 'src/**/*.ts'
       - 'README.md'
       - '.github/workflows/typedoc.yml'
 
