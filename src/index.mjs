@@ -13,7 +13,7 @@
 
 // ----------------------------------------------------------------------------
 
-// Re-export the library definitions.
-export * from './dist/lib/logger.js'
+// Re-export the library definitions as from a module.
+export * from '../dist/index.js'
 
 // ----------------------------------------------------------------------------
