@@ -248,6 +248,9 @@ No need to add a tag here, it'll be added when the release is created.
 
 ### Update npm packages
 
+Notice: this package is also used by the VS Code extension and must be
+kept as a CommonJS dependency.
+
 - `npm outdated`
 - `npm update` or edit and `npm install`
 - repeat and possibly manually edit `package.json` until everything is

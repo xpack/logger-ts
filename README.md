@@ -7,6 +7,9 @@
 This project provides a TypeScript Node.js CommonJS/ES6 module with a
 re-entrant console logger suitable for REPL/server/multi-instance use cases.
 
+Note: Compatibility with CommonJS is required until VS Code extensions will be
+updated to import ES6 modules.
+
 The open source project is hosted on GitHub as
 [xpack/logger-ts](https://github.com/xpack/logger-ts/).
 
