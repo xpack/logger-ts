@@ -9,12 +9,12 @@
       "types": "./cjs/index.d.ts"
     },
     "import": {
-      "default": "./esm/index.mjs",
+      "default": "./esm/index.js",
       "types": "./cjs/index.d.ts"
     }
   },
   "main": "./cjs/index.js",
-  "module": "./src/index.mjs",
+  "module": "./esm/index.js",
   "types": "./cjs/index.d.ts",
   "scripts": {
     "compile-watch": "tsc --build --verbose --watch src tests",
