@@ -14,6 +14,6 @@
 // ----------------------------------------------------------------------------
 
 // Re-export the library definitions as from a module.
-export * from '../dist/index.js'
+export * from '../cjs/index.js'
 
 // ----------------------------------------------------------------------------
