@@ -17,7 +17,7 @@
   "module": "./src/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "compile-watch": "tsc --build --verbose --watch src",
+    "compile-watch": "tsc --build --verbose --watch src tests",
     "fix": "ts-standard --fix src tests && standard src",
     "compile": "tsc --build --verbose src tests",
     "npm-install": "npm install",
