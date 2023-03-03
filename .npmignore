@@ -41,7 +41,7 @@
 /.vscode/
 
 # CI
-/.github/workflows/
+/.github/
 /.travis.yml
 /.appveyor.yml
 
