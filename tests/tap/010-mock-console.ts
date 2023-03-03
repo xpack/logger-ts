@@ -23,24 +23,24 @@
 // The `[node-tap](http://www.node-tap.org)` framework.
 import { test } from 'tap'
 
-import { Mock } from '../mocks/mock-console.js'
+import { MockConsole } from '../mocks/mock-console.js'
 
 // ----------------------------------------------------------------------------
 
 // Test the mock console.
 await test('mock console', (t) => {
-  const mock = new Mock()
-  t.equal(mock.stdout.length, 0, 'stdout is empty')
-  t.equal(mock.stderr.length, 0, 'stderr is empty')
+  const mockConsole = new MockConsole()
+  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
+  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
 
-  mock.console.log('output')
-  t.equal(mock.stdout.length, 1, 'stdout has one entry')
-  t.equal(mock.stdout[0], 'output\n', 'stdout is output')
-  t.equal(mock.stderr.length, 0, 'stderr is empty')
+  mockConsole.log('output')
+  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.stdout[0], 'output\n', 'stdout is output')
+  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
 
-  mock.console.error('error')
-  t.equal(mock.stderr.length, 1, 'stderr has one entry')
-  t.equal(mock.stderr[0], 'error\n', 'stderr is error')
+  mockConsole.error('error')
+  t.equal(mockConsole.stderr.length, 1, 'stderr has one entry')
+  t.equal(mockConsole.stderr[0], 'error\n', 'stderr is error')
 
   t.end()
 })

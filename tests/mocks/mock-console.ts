@@ -50,7 +50,7 @@ export class MockConsole extends Console {
 
   override clear (): void {
     super.clear()
-    
+
     this.stdout = []
     this.stderr = []
   }

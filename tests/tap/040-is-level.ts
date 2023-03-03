@@ -25,7 +25,7 @@ import { strict as assert } from 'node:assert'
 // The `[node-tap](http://www.node-tap.org)` framework.
 import { test } from 'tap'
 
-import { Mock } from '../mocks/mock-console.js'
+import { MockConsole } from '../mocks/mock-console.js'
 import { Logger } from '../../src/index.js'
 
 assert(Logger)
@@ -33,14 +33,14 @@ assert(Logger)
 // ----------------------------------------------------------------------------
 
 await test('logger level all', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'all'
   })
   t.equal(logger.level, 'all', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.ok(logger.isAll, 'is All')
   t.ok(logger.isTrace, 'is Trace')
@@ -55,14 +55,14 @@ await test('logger level all', (t) => {
 })
 
 await test('logger level trace', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'trace'
   })
   t.equal(logger.level, 'trace', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.ok(logger.isTrace, 'is Trace')
@@ -77,14 +77,14 @@ await test('logger level trace', (t) => {
 })
 
 await test('logger level debug', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'debug'
   })
   t.equal(logger.level, 'debug', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')
@@ -99,14 +99,14 @@ await test('logger level debug', (t) => {
 })
 
 await test('logger level verbose', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'verbose'
   })
   t.equal(logger.level, 'verbose', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')
@@ -121,14 +121,14 @@ await test('logger level verbose', (t) => {
 })
 
 await test('logger level info', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'info'
   })
   t.equal(logger.level, 'info', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')
@@ -143,14 +143,14 @@ await test('logger level info', (t) => {
 })
 
 await test('logger level warn', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'warn'
   })
   t.equal(logger.level, 'warn', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')
@@ -165,14 +165,14 @@ await test('logger level warn', (t) => {
 })
 
 await test('logger level error', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'error'
   })
   t.equal(logger.level, 'error', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')
@@ -187,14 +187,14 @@ await test('logger level error', (t) => {
 })
 
 await test('logger level silent', (t) => {
-  const mock = new Mock()
+  const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mock.console,
+    console: mockConsole,
     level: 'silent'
   })
   t.equal(logger.level, 'silent', 'level')
 
-  mock.clear()
+  mockConsole.clear()
 
   t.notOk(logger.isAll, 'is not All')
   t.notOk(logger.isTrace, 'is not Trace')

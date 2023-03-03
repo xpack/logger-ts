@@ -23,34 +23,34 @@
 // The `[chai](https://www.chaijs.com)` framework.
 import { expect } from 'chai'
 
-import { Mock } from '../mocks/mock-console.js'
+import { MockConsole } from '../mocks/mock-console.js'
 
 // ----------------------------------------------------------------------------
 
 // Test the mock console.
 describe('mock console', async () => {
-  let mock: Mock
+  let mockConsole: MockConsole
 
   before(() => {
-    mock = new Mock()
+    mockConsole = new MockConsole()
 
-    expect(mock.stdout.length).to.equal(0)
-    expect(mock.stderr.length).to.equal(0)
+    expect(mockConsole.stdout.length).to.equal(0)
+    expect(mockConsole.stderr.length).to.equal(0)
   })
 
   it('check output', () => {
-    mock.console.log('output')
+    mockConsole.log('output')
 
-    expect(mock.stdout.length).to.equal(1)
-    expect(mock.stdout[0]).to.equal('output\n')
-    expect(mock.stderr.length).to.equal(0)
+    expect(mockConsole.stdout.length).to.equal(1)
+    expect(mockConsole.stdout[0]).to.equal('output\n')
+    expect(mockConsole.stderr.length).to.equal(0)
   })
 
   it('check error', () => {
-    mock.console.error('error')
+    mockConsole.error('error')
 
-    expect(mock.stderr.length).to.equal(1)
-    expect(mock.stderr[0]).to.equal('error\n')
+    expect(mockConsole.stderr.length).to.equal(1)
+    expect(mockConsole.stderr[0]).to.equal('error\n')
   })
 })
 
