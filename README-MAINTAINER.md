@@ -260,8 +260,8 @@ kept as a CommonJS dependency.
 Keep:
 
 - [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
-  locked to the oldest supported node
-  [version](https://nodejs.org/en/) available for Typescript.
+  locked to the oldest supported node (^14.18.36)
+  [release](https://nodejs.org/download/release/) available for Typescript.
 
 ### Determine the next version
 
@@ -298,7 +298,7 @@ related to the new version.
 - `npm run fix`
 - in the develop branch, commit all changes
 - `npm run test`
-- `npm run typedoc` and open the `dist/index.html` in a browser
+- `npm run typedoc` and open the `docs/index.html` in a browser
 - `npm run pack`; check the list of packaged files, possibly
   update `.npmignore`
 - `npm version patch` (bug fixes), `npm version minor` (compatible API
