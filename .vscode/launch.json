@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/index.js"
+      "program": "${workspaceRoot}/index.ts"
     },
     {
       "type": "node",
@@ -20,8 +20,8 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "tap 010-mock-console.js",
-      "program": "${workspaceRoot}/tests/tap/010-mock-console.js",
+      "name": "tap 010-mock-console.ts",
+      "program": "${workspaceRoot}/tests/tap/010-mock-console.ts",
       "stopOnEntry": true,
       "args": [
       ],
@@ -29,19 +29,20 @@
       "preLaunchTask": null,
       "runtimeExecutable": null,
       "runtimeArgs": [
+        "--loader=ts-node/esm",
         "--nolazy"
       ],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false
+      "sourceMaps": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "tap 020-logger-single.js",
-      "program": "${workspaceRoot}/tests/tap/020-logger-single.js",
+      "name": "tap 020-logger-single.ts",
+      "program": "${workspaceRoot}/tests/tap/020-logger-single.ts",
       "stopOnEntry": true,
       "args": [
       ],
@@ -49,19 +50,20 @@
       "preLaunchTask": null,
       "runtimeExecutable": null,
       "runtimeArgs": [
+        "--loader=ts-node/esm",
         "--nolazy"
       ],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false
+      "sourceMaps": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "tap 030-logger-multi.js",
-      "program": "${workspaceRoot}/tests/tap/030-logger-multi.js",
+      "name": "tap 030-logger-multi.ts",
+      "program": "${workspaceRoot}/tests/tap/030-logger-multi.ts",
       "stopOnEntry": true,
       "args": [
       ],
@@ -69,19 +71,20 @@
       "preLaunchTask": null,
       "runtimeExecutable": null,
       "runtimeArgs": [
+        "--loader=ts-node/esm",
         "--nolazy"
       ],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false
+      "sourceMaps": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "tap 040-is-level.js",
-      "program": "${workspaceRoot}/tests/tap/040-is-level.js",
+      "name": "tap 040-is-level.ts",
+      "program": "${workspaceRoot}/tests/tap/040-is-level.ts",
       "stopOnEntry": true,
       "args": [
       ],
@@ -89,19 +92,20 @@
       "preLaunchTask": null,
       "runtimeExecutable": null,
       "runtimeArgs": [
+        "--loader=ts-node/esm",
         "--nolazy"
       ],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false
+      "sourceMaps": true
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "tap 050-buffer.js",
-      "program": "${workspaceRoot}/tests/tap/050-buffer.js",
+      "name": "tap 050-buffer.ts",
+      "program": "${workspaceRoot}/tests/tap/050-buffer.ts",
       "stopOnEntry": true,
       "args": [
       ],
@@ -109,13 +113,14 @@
       "preLaunchTask": null,
       "runtimeExecutable": null,
       "runtimeArgs": [
+        "--loader=ts-node/esm",
         "--nolazy"
       ],
       "env": {
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": false
+      "sourceMaps": true
     }
   ]
 }
