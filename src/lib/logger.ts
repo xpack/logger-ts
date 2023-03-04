@@ -50,37 +50,76 @@ import * as util from 'node:util'
  * @summary Type of the strings recognised as valid level names.
  *
  * @description
- * Internally these strings are converted to integer values,
- * and these integers are used in comparisons. Higher values
- * mean more verbosity.
+ * Internally these strings are converted into integer values,
+ * and these numbers are used in comparisons.
+ *
+ * Higher values mean more verbosity.
  */
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
-/** Type of the numeric log level. */
-export type NumericLogLevel = number
-
 /** Type of the object passed to instantiate a new logger. */
 export interface LoggerConstructorParameters {
-  /** The name of the log level; the default is `undefined`,
-   * which means it will be set later. */
+  /**
+   * @summary Log level.
+   *
+   * @description
+   * The name of the log level; if not passed, the logger is created in
+   * a preliminary state, and all log lines will be stored in an internal
+   * buffer, until the log level is set.
+   */
   level?: LogLevel
-  /** The console object used to log the message;
-   * by default, use the JavaScript standard `console` object. */
+  /**
+   * @summary Underlying console.
+   *
+   * @description
+   * The console object used to log the message;
+   * by default, the JavaScript standard `console` object is used.
+   */
   console?: Console
 }
 
-/** Type of generic logger functions processing string messages. */
+// ----------------------------------------------------------------------------
+// Internal definitions.
+
+/**
+ * @internal
+ *
+ * @summary Type of the numeric log level.
+ *
+ * @description
+ * The numeric log level is stored internally and is used in log level
+ * comparisons.
+ */
+export type NumericLogLevel = number
+
+/**
+ * @internal
+ *
+ * @summary Type of a generic logger function processing a string message.
+ */
 export type LoggerFunction = (message: string) => void
 
-/** Record stored in the buffer when the logger is not yet enabled. */
+/**
+ * @internal
+ *
+ * @summary Type of a record stored in the internal buffer.
+ *
+ * @description
+ * If the logger was constructed without a log level, all initial
+ * messages are stored in a buffer, and processed at a later time,
+ * when the log level is set.
+ *
+ * Each record in the buffer stores the message, the log level and
+ * a function to process the message.
+ */
 export interface LoggerBufferRecord {
-  /** Function to be called to log the message. */
-  func: LoggerFunction
-  /** Log level at the time of the call. */
-  numericLevel: NumericLogLevel
   /** The string message to be logged. */
   message: string
+  /** The numeric log level at the time of the call. */
+  numericLevel: NumericLogLevel
+  /** The function to be called to log the message. */
+  func: LoggerFunction
 }
 
 // ============================================================================
@@ -268,7 +307,7 @@ export class Logger {
 
   /**
    * @category Log Level Management
-   * @summary Setter for the log level.
+   * @summary Accessor to set the log level.
    *
    * @param level The new log level.
    *
@@ -329,7 +368,7 @@ export class Logger {
    * @returns True if the log level is `silent` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isSilent (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
@@ -342,7 +381,7 @@ export class Logger {
    * @returns True if the log level is `error` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isError (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
@@ -355,7 +394,7 @@ export class Logger {
    * @returns True if the log level is `warn` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isWarn (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
@@ -368,7 +407,7 @@ export class Logger {
    * @returns True if the log level is `info` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isInfo (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
@@ -381,7 +420,7 @@ export class Logger {
    * @returns True if the log level is `verbose` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isVerbose (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
@@ -394,7 +433,7 @@ export class Logger {
    * @returns True if the log level is `debug` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isDebug (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
@@ -407,7 +446,7 @@ export class Logger {
    * @returns True if the log level is `trace` or higher.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isTrace (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
@@ -420,7 +459,7 @@ export class Logger {
    * @returns True if the log level is `all`.
    *
    * @remarks
-   * - changed to an accessor starting with v3.x.
+   * - changed to an accessor in v3.0.0.
    */
   get isAll (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
@@ -432,6 +471,11 @@ export class Logger {
    * @summary Accessor to get the underlying `console` object.
    *
    * @returns The console object used by the logger.
+   *
+   * @description
+   * Direct access to the console object is useful in tests, when
+   * the console is a mock object, which allows to check the logged
+   * messages.
    */
   get console (): Console {
     return this._console
@@ -447,10 +491,24 @@ export class Logger {
    * @returns True if the current log level is equal to the given
    *   level or higher.
    *
+   * @description
+   * This is a more generic version of the accessors (like `isDebug`, etc),
+   * to be used when the log level is not know at compile time.
+   *
+   * It can also be used to ensure that the log level is not decreased,
+   * for example:
+   *
+   * @example
+   * ```javascript
+   * if (!log.islevel(newLevel)) {
+   *   log.level = newLevel
+   * }
+   * ```
+   *
    * @remarks
    * - added in v6.0.0
    */
-  isLevel(level: LogLevel): boolean {
+  isLevel (level: LogLevel): boolean {
     assert(level)
     assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
       `Log level '${level}' not supported.`)
@@ -500,14 +558,16 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Output always.
+   * @summary Log a message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log always, regardless of the log level, (even `'silent'`, when no other
-   * messages are logged). The message is passed via `console.log()`.
+   * Log the message always, regardless of the log level, (even `'silent'`,
+   * when no other messages are logged).
+   *
+   * The message is passed via `console.log()`.
    *
    * @example
    * ```javascript
@@ -521,13 +581,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log error messages.
+   * @summary Log an error message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log error messages, if the log level is `error` or higher.
+   * Log a message if the log level is `error` or higher.
+   *
    * The message is prefixed with `error: ` and
    * passed via `console.error()`.
    *
@@ -565,13 +626,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log error messages.
+   * @summary Log an error message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log error messages, if the log level is `error` or higher.
+   * Log a message if the log level is `error` or higher.
+   *
    * It differs from `error()` by **not** prefixing the string with `error: `
    * and using `console.log()` instead of `console.error()`.
    *
@@ -599,13 +661,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log warning messages.
+   * @summary Log a warning message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log warning messages, if the log level is `warn` or higher.
+   * Log a message if the log level is `warn` or higher.
+   *
    * The message is prefixed with `warning: ` and
    * passed via `console.error()`.
    *
@@ -624,13 +687,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log informative messages.
+   * @summary Log an informative message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log informative messages, if the log level is `info` or higher.
+   * Log a message if the log level is `info` or higher.
+   *
    * The message is passed via `console.log()`.
    *
    * @example
@@ -647,13 +711,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log informative messages.
+   * @summary Log a verbose message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log more informative messages, if the log level is `verbose` or higher.
+   * Log a message if the log level is `verbose` or higher.
+   *
    * The message is passed via `console.log()`.
    *
    * @example
@@ -670,13 +735,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log debug messages.
+   * @summary Log a debug message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log debug messages, if the log level is `'debug'` or higher.
+   * Log a message if the log level is `'debug'` or higher.
+   *
    * The message is prefixed with `debug: ` and
    * passed via `console.log()`.
    *
@@ -695,13 +761,14 @@ export class Logger {
 
   /**
    * @category Output
-   * @summary Log trace messages.
+   * @summary Log a trace message.
    *
    * @param message Message to log, as accepted by `util.format()`.
    * @param args Optional variable arguments.
    *
    * @description
-   * Log trace messages, if the log level is `trace` or higher.
+   * Log a message if the log level is `trace` or higher.
+   *
    * The message is prefixed with `trace: ` and
    * passed via `console.log()`.
    *
