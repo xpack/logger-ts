@@ -173,7 +173,7 @@ function.
  */
 export class Logger {
   // --------------------------------------------------------------------------
-  // Static Members.
+  // Static Properties.
 
   /** The recommended default level. */
   static defaultLevel: LogLevel = 'info'
@@ -197,7 +197,7 @@ export class Logger {
   static numericLevelAlways: NumericLogLevel = -1
 
   // --------------------------------------------------------------------------
-  // Members.
+  // Properties.
 
   /** The console object used to output the log messages. */
   protected readonly _console: Console = console
