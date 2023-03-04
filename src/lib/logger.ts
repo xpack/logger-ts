@@ -513,9 +513,7 @@ export class Logger {
     assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
       `Log level '${level}' not supported.`)
 
-    const levelNumericValue = Logger.numericLevels[level]
-
-    return this.levelNumericValue >= levelNumericValue
+    return this.levelNumericValue >= Logger.numericLevels[level]
   }
 
   /**
