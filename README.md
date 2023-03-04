@@ -52,7 +52,7 @@ and JavaScript ES6 Node.js code:
 import { Logger } from '@xpack/logger'
 ```
 
-To include it in JavaScript CommonJS Node,js code with:
+To include it in JavaScript CommonJS Node.js code with:
 
 ```javascript
 const { Logger } = request('@xpack/logger')
@@ -159,9 +159,12 @@ TypeScript and JavaScript packages.
 There were also some minor internal renames, but this should not be
 a problem.
 
+The function `isLevel(level)` was added.
+
 ### v5.x
 
-For consistency reasons, `hasLevel` was changed from a method to a getter.
+For consistency reasons, `hasLevel` was changed from a method to an
+accessor.
 
 Internally, the log level starts as `undefined` instead of the
 string `'undefined'`, as in previous versions.
@@ -181,11 +184,12 @@ release.
 ### v3.x
 
 All `isXyx` functions (returning a boolean related to
-the log level) were changed to getters.
+the log level) were changed to accessors.
 
 ### v2.x
 
-The logger constructor was changed to use the generic arguments object.
+The logger constructor was changed to use a generic
+parameters object.
 
 If upgrading from previous versions, change the syntax from:
 
