@@ -441,6 +441,26 @@ export class Logger {
   // Methods.
 
   /**
+   * @summary Check if the log level is set to a given level name.
+   *
+   * @param level The name of the log level.
+   * @returns True if the current log level is equal to the given
+   *   level or higher.
+   *
+   * @remarks
+   * - added in v6.0.0
+   */
+  isLevel(level: LogLevel): boolean {
+    assert(level)
+    assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
+      `Log level '${level}' not supported.`)
+
+    const levelNumericValue = Logger.numericLevels[level]
+
+    return this.levelNumericValue >= levelNumericValue
+  }
+
+  /**
    * @summary The internal log writer.
    *
    * @param numericLevel The log numeric level.
