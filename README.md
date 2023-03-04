@@ -34,7 +34,7 @@ it can be added as a dependency to any JavaScript or TypeScript
 project with `npm install`:
 
 ```console
-npm install @xpack/logger@latest
+npm install --save @xpack/logger@latest
 ```
 
 The module does not provide any executables, and generally there are no
@@ -46,13 +46,13 @@ This section is intended for those who plan to use this module in their
 own projects.
 
 The `@xpack/logger` module can be imported in both TypeScript
-and JavaScript ES6 Node.js code:
+and JavaScript ES6 Node.js code with:
 
 ```typescript
 import { Logger } from '@xpack/logger'
 ```
 
-To include it in JavaScript CommonJS Node.js code with:
+To include it in JavaScript CommonJS Node.js code, use:
 
 ```javascript
 const { Logger } = request('@xpack/logger')
