@@ -205,4 +205,26 @@ await test('logger level silent', (t) => {
   t.end()
 })
 
+await test('logger isLevel', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+    level: 'info'
+  })
+  t.equal(logger.level, 'info', 'level')
+
+  mockConsole.clear()
+
+  t.notOk(logger.isLevel('all'), 'is not All')
+  t.notOk(logger.isLevel('trace'), 'is not Trace')
+  t.notOk(logger.isLevel('debug'), 'is not Debug')
+  t.notOk(logger.isLevel('verbose'), 'is not Verbose')
+  t.ok(logger.isLevel('info'), 'is Info')
+  t.ok(logger.isLevel('warn'), 'is Warn')
+  t.ok(logger.isLevel('error'), 'is Error')
+  t.ok(logger.isLevel('silent'), 'is Silent')
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------
