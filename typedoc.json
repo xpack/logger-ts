@@ -20,6 +20,7 @@
     "Org": "https://github.com/xpack/"
   },
   "out": "docs",
+  "readme": "./README.md",
   "sidebarLinks": {
   },
   "tsconfig": "./src/tsconfig.json"
