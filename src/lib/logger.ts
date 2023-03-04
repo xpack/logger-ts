@@ -86,7 +86,7 @@ export interface LoggerBufferRecord {
 // ============================================================================
 
 /**
- * @summary The Logger class implements the logger functionality.
+ * @summary The **Logger** class implements the logger functionality.
  *
  * @description
  * The logger is constructed on top of a console object, where the
@@ -154,7 +154,7 @@ export class Logger {
   /** The value used for the undefined log level (maximum value). */
   static numericLevelUndefined: NumericLogLevel = Infinity
 
-  /** The value used for the always case (minimum value). */
+  /** The value used for the `always` case (minimum value). */
   static numericLevelAlways: NumericLogLevel = -1
 
   // --------------------------------------------------------------------------
@@ -162,9 +162,9 @@ export class Logger {
 
   /** The console object used to output the log messages. */
   protected readonly _console: Console = console
-  /** The numerical value of the logger level. */
+  /** The numerical value of the log level. */
   protected levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
-  /** The name of the logger level. */
+  /** The name of the log level. */
   protected levelName: LogLevel | undefined = undefined
 
   /** Empty buffer where preliminary log lines are stored
@@ -194,7 +194,8 @@ export class Logger {
    * By default, the system console is used.
    *
    * The complete use case is to create the logger instance with both a
-   * `console` and a `level`. This might be particularly useful in tests.
+   * `console` and a `level`. This might be particularly useful in tests,
+   * where a mock console can be used to capture log messages.
    *
    * @example
    * ```javascript
@@ -206,7 +207,9 @@ export class Logger {
    *
    * If present, the `console` must be an object with at least two methods,
    * `log()` and `error()`, as defined in the Node.js documentation for
-   * [console](https://nodejs.org/docs/latest-v14.x/api/console.html).
+   * [console](https://nodejs.org/docs/latest-v14.x/api/console.html);
+   * the recommended way is to derive the object from **Console** and
+   * override some methods.
    *
    * The `level` property is optional since it can be set later.
    * Without it, the constructor will
@@ -239,12 +242,14 @@ export class Logger {
 
   /**
    * @category Log Level Management
-   * @summary Getter to check if the logger level was initialised.
+   * @summary Accessor to check if the log level was initialised.
    *
    * @returns True if the level was set.
    *
    * @description
-   * Return `true` if the level was set.
+   * If the logger was created without an explicit log level, the
+   * logger is in a preliminary state and all log lines will be stored
+   * in an internal buffer until the log level is set.
    *
    * @example
    * ```console
@@ -254,8 +259,8 @@ export class Logger {
    * ```
    *
    * @remarks
-   * - changed to getters in v5.0.0
-   * - added in v2.1.0
+   * - changed to an accessor in v5.0.0
+   * - added as a method in v2.1.0
    */
   get hasLevel (): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
@@ -301,7 +306,7 @@ export class Logger {
 
   /**
    * @category Log Level Management
-   * @summary Getter for the log level.
+   * @summary Accessor to get the log level.
    *
    * @returns The log level name.
    *
@@ -319,12 +324,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `silent` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isSilent (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
@@ -332,12 +337,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `error` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isError (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
@@ -345,12 +350,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `warn` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isWarn (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
@@ -358,12 +363,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `info` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isInfo (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
@@ -371,12 +376,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `verbose` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isVerbose (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
@@ -384,12 +389,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `debug` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isDebug (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
@@ -397,12 +402,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `trace` or higher.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isTrace (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
@@ -410,12 +415,12 @@ export class Logger {
 
   /**
    * @category Log Level Checks
-   * @summary Getter to check the log level.
+   * @summary Accessor to check the log level.
    *
    * @returns True if the log level is `all`.
    *
    * @remarks
-   * - changed to getter starting with v3.x.
+   * - changed to an accessor starting with v3.x.
    */
   get isAll (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
@@ -424,7 +429,7 @@ export class Logger {
   // --------------------------------------------------------------------------
 
   /**
-   * @summary Getter to obtain the underlying `console` object.
+   * @summary Accessor to get the underlying `console` object.
    *
    * @returns The console object used by the logger.
    */
