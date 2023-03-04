@@ -15,7 +15,7 @@
  * This file implements a generic console logger.
  *
  * Use `log.always()` instead of the `console.log()`, since it accounts for
- * different contexts, created for instance when using REPL.
+ * different contexts, created, for example, when using REPL.
  *
  * The messages may include formatting directives, with additional
  * arguments, as defined by the Node.js console (not really necessary
@@ -93,7 +93,7 @@ export interface LoggerBufferRecord {
  * messages are logged.
  *
  * Use `log.always()` instead of the `console.log()`, since it accounts for
- * different contexts, created for instance when using REPL.
+ * different contexts, created for example when using REPL.
  *
  * There is no `critical` level, corresponding to errors that prevent
  * the program to run, since these are actually related to bugs;
