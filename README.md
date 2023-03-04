@@ -123,7 +123,7 @@ The following methods are available to log messages:
 ### Reference
 
 For more details on the available class definitions, including all methods,
-accessors, members, etc,
+accessors, properties, etc,
 please see the TypeDoc
 [reference pages](https://xpack.github.io/logger-ts/).
 
