@@ -30,6 +30,7 @@
     "npmjs",
     "ostream",
     "postversion",
+    "tsbuildinfo",
     "typedoc",
     "xpack"
   ]
