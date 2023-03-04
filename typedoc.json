@@ -1,5 +1,6 @@
 {
   "cleanOutputDir": true,
+  "customCss": "./assets/css/x.css",
   "entryPoints": [
     "./src/index.ts"
   ],
