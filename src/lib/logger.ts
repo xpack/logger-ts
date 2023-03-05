@@ -58,7 +58,10 @@ import * as util from 'node:util'
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
-/** Type of the object passed to instantiate a new logger. */
+/**
+ * Type of the object defining the parameters to be passed to the
+ * **Logger** constructor.
+ */
 export interface LoggerConstructorParameters {
   /**
    * @summary Log level.
@@ -214,7 +217,7 @@ export class Logger {
   // Constructor.
 
   /**
-   * @summary Create a logger instance.
+   * @summary Create a **Logger** instance.
    *
    * @param params The generic object used to pass parameters to the
    * constructor.
