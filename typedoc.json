@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  // https://typedoc.org/guides/options/
   "cleanOutputDir": true,
   "customCss": "./assets/css/custom.css",
   "entryPoints": [
@@ -14,6 +15,8 @@
   "githubPages": true,
   "gaID": "341760653",
   "includeVersion": false,
+  "intentionallyNotExported": [
+  ],
   "navigationLinks": {
     "xPack": "https://xpack.github.io/",
     "GitHub": "https://github.com/xpack/logger-ts/",
@@ -23,5 +26,9 @@
   "readme": "./README.md",
   "sidebarLinks": {
   },
+  "sort": [
+    "instance-first",
+    "visibility"
+  ],
   "tsconfig": "./src/tsconfig.json"
 }
