@@ -2,10 +2,11 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger)
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 
-## A generic console logger class
+# A Node.js CommonJS/ES6 module with a generic console logger class
 
-This project provides a TypeScript Node.js CommonJS/ES6 module with a
-re-entrant console logger suitable for REPL/server/multi-instance use cases.
+This project provides a **TypeScript** Node.js **CommonJS**/**ES6** module
+with a re-entrant console logger suitable for REPL/server/multi-instance
+use cases.
 
 Note: Compatibility with CommonJS is required until VS Code extensions will be
 updated to import ES6 modules.
@@ -30,7 +31,7 @@ is compiled into ECMAScript 2020 code, and the tests use ES6 modules.
 The module is available as
 [`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger/)
 from the public [`npmjs`](https://www.npmjs.com) repository;
-it can be added as a dependency to any JavaScript or TypeScript
+it can be added as a dependency to any TypeScript or JavaScript
 project with `npm install`:
 
 ```console
@@ -57,6 +58,9 @@ To include it in JavaScript CommonJS Node.js code, use:
 ```javascript
 const { Logger } = request('@xpack/logger')
 ```
+
+The module can be included in any application and the class can be used
+directly or a custom class can be derived from it for a custom behaviour.
 
 The typical use case is to create an instance of the `Logger` object,
 then log messages at different levels:
@@ -150,7 +154,7 @@ According to [semver](https://semver.org) rules:
 > Major version X (X.y.z | X > 0) MUST be incremented if any
 backwards incompatible changes are introduced to the public API.
 
-### v6.x
+### v6.0.0
 
 The project was migrated to TypeScript and the code is compiled into
 **CommonJS** modules, with an **ES6** wrapper, and can be consumed by both
@@ -161,7 +165,7 @@ a problem.
 
 The function `isLevel(level)` was added.
 
-### v5.x
+### v5.0.0
 
 For consistency reasons, `hasLevel` was changed from a method to an
 accessor.
@@ -172,7 +176,7 @@ string `'undefined'`, as in previous versions.
 This should not be a problem, given that the method to check if
 the level was set is via `hasLevel()`.
 
-### v4.x
+### v4.0.0
 
 The code was migrated to TypeScript.
 
@@ -181,12 +185,12 @@ actually it should be fairly compatible with the latest v3.x,
 but, for just in case, the safer path was to consider it a major
 release.
 
-### v3.x
+### v3.0.0
 
 All `isXyx` functions (returning a boolean related to
 the log level) were changed to accessors.
 
-### v2.x
+### v2.0.0
 
 The logger constructor was changed to use a generic
 parameters object.

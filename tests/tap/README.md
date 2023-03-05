@@ -28,7 +28,6 @@ To configure mocha to use the ES modules, add a property to `package.json`:
       "tests/tap/*.ts"
     ],
     "node-arg": [
-      "--require=ts-node/register",
       "--loader=ts-node/esm"
     ],
     "reporter": "classic",

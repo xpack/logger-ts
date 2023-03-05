@@ -16,7 +16,7 @@ The project is hosted on GitHub:
 
 The project uses two branches:
 
-- ``master`, with the latest stable version (default)
+- `master`, with the latest stable version (default)
 - `develop`, with the current development version
 
 To clone the `master` branch, use:
@@ -101,15 +101,6 @@ As style, the project uses `ts-standard`, the TypeScript variant of
 [Standard Style](https://standardjs.com/#typescript),
 automatically checked at each commit via CI.
 
-Generally, to fit two editor windows side by side in a screen,
-all files should limit the line length to 80.
-
-```js
-/* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
-```
-
-The syntax for other exceptions is:
-
 ```js
 // eslint-disable-next-line @typescript-eslint/no-xxx-yyy
 ```
@@ -117,6 +108,29 @@ The syntax for other exceptions is:
 The known rules are documented in the
 [typescript-eslint](https://github.com/typescript-eslint/typescript-eslint/tree/main/packages/eslint-plugin/docs/rules)
 project.
+
+Generally, to fit two editor windows side by side in a screen,
+all files should limit the line length to 80.
+
+```json
+  "eslintConfig": {
+    "rules": {
+      "max-len": [
+        "error",
+        80,
+        {
+          "ignoreUrls": true
+        }
+      ]
+    }
+  },
+```
+
+The same can be specified in each file:
+
+```js
+/* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+```
 
 Known and accepted exceptions:
 
@@ -131,6 +145,12 @@ To manually fix compliance with the style guide (where possible):
 > ts-standard --fix src && standard --fix test
 ...
 ```
+
+## Documentation metadata
+
+The documentation metadata uses the
+[TypeDoc](https://typedoc.org/guides/doccomments/) tags, without
+explicit types, since they are provided by TypeScript.
 
 ## Tests
 
@@ -152,31 +172,45 @@ npm run test
 A typical test result looks like:
 
 ```console
-% npm run test
+% npm run test-100-c8
 
-> @xpack/logger@6.0.0 pretest
-> npm run compile && npm run lint
+> @xpack/logger@6.0.0 pretest-100-c8 /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> npm run lint
 
-> @xpack/logger@6.0.0 compile
-> tsc -p ./
+> @xpack/logger@6.0.0 lint /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> ts-standard src && standard esm
 
-> @xpack/logger@6.0.0 lint
-> ts-standard src
+> @xpack/logger@6.0.0 test-100-c8 /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> npm run test-tap-coverage-100-c8 -s
 
-> @xpack/logger@6.0.0 test
-> npm run test-tap100 -s
+(node:11770) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11771) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11773) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11774) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11775) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11772) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11776) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11777) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+tests/tap/010-mock-console.ts ......................... 7/7
+tests/tap/020-logger-single.ts ......    [ 'trace: trace\n' ]
+tests/tap/020-logger-single.ts .................... 185/185
+tests/tap/030-logger-multi.ts ..................... 184/184
+tests/tap/040-is-level.ts ........................... 81/81
+tests/tap/050-buffer.ts ........................... 108/108
+tests/tap/060-logger-empty.ts ....................... 25/25
+tests/tap/070-logger-default.ts ....................... 2/2
+tests/tap/080-undefined.ts .......................... 38/38
+total ............................................. 630/630
 
-tests/tap/010-mock-console.js .......................... 7/7
-tests/tap/020-logger-single.js ..................... 186/186
-tests/tap/030-logger-multi.js ...................... 184/184
-tests/tap/040-is-level.js ............................ 72/72
-tests/tap/050-buffer.js ............................ 108/108
-tests/tap/060-logger-empty.js ........................ 25/25
-tests/tap/070-logger-default.js ........................ 2/2
-tests/tap/080-undefined.js ........................... 38/38
-total .............................................. 622/622
-
-  622 passing (676.623ms)
+  630 passing (5s)
 
   ok
 ------------|---------|----------|---------|---------|-------------------
@@ -193,7 +227,7 @@ All files   |     100 |      100 |     100 |     100 |
 To run a specific test with more verbose output, use `npm run tap`:
 
 ```console
-$ npm run tap tests/tap/010-mock-console.js
+% npm run tap tests/tap/010-mock-console.js
 
 > @xpack/logger@6.0.0 tap
 > tap --reporter=spec --timeout 300 "tests/tap/010-mock-console.js"
