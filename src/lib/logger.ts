@@ -218,16 +218,13 @@ export class Logger {
    * @example
    * ```javascript
    * const log = new Logger({
-   *   console: myConsole,
+   *   console: mockConsole,
    *   level: 'info'
    * })
    * ```
    *
-   * If present, the `console` must be an object with at least two methods,
-   * `log()` and `error()`, as defined in the Node.js documentation for
-   * [console](https://nodejs.org/docs/latest-v14.x/api/console.html);
-   * the recommended way is to derive the object from **Console** and
-   * override some methods.
+   * If present, the `console` must be an object derived from the
+   * node **Console**, possibly with some methods overridden.
    *
    * The `level` property is optional since it can be set later.
    * Without it, the constructor will
