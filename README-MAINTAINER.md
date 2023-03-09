@@ -303,7 +303,7 @@ kept as a CommonJS dependency.
 Keep:
 
 - [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
-  locked to the oldest supported node (^14.18.36)
+  locked to the oldest supported node (^16.18.14)
   [release](https://nodejs.org/download/release/) available for TypeScript.
 
 ### Determine the next version
