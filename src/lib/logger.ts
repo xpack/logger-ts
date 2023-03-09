@@ -58,30 +58,6 @@ import * as util from 'node:util'
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
-/**
- * Type of the object defining the parameters to be passed to the
- * **Logger** constructor.
- */
-export interface LoggerConstructorParameters {
-  /**
-   * @summary Log level.
-   *
-   * @description
-   * The name of the log level; if not passed, the logger is created in
-   * a preliminary state, and all log lines will be stored in an internal
-   * buffer, until the log level is set.
-   */
-  level?: LogLevel
-  /**
-   * @summary Underlying console.
-   *
-   * @description
-   * The console object used to log the message;
-   * by default, the JavaScript standard `console` object is used.
-   */
-  console?: Console
-}
-
 // ----------------------------------------------------------------------------
 // Internal definitions.
 
@@ -263,7 +239,25 @@ export class Logger {
    * const log = new Logger()
    * ```
    */
-  constructor (params: LoggerConstructorParameters = {}) {
+  constructor (params: {
+    /**
+     * @summary Log level.
+     *
+     * @description
+     * The name of the log level; if not passed, the logger is created in
+     * a preliminary state, and all log lines will be stored in an internal
+     * buffer, until the log level is set.
+     */
+    level?: LogLevel
+    /**
+     * @summary Underlying console.
+     *
+     * @description
+     * The console object used to log the message;
+     * by default, the JavaScript standard `console` object is used.
+     */
+    console?: Console
+  } = {}) {
     if (params.console != null) {
       this._console = params.console
     }
