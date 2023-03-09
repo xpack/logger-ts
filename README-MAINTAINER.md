@@ -1,7 +1,7 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/mater/package.json)
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger/)
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
-[![TS-Standard - Typescript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard/)
+[![TS-Standard - TypeScript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard/)
 [![Actions Status](https://github.com/xpack/logger-ts/workflows/CI%20on%20Push/badge.svg)](https://github.com/xpack/logger-ts/actions/)
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues/)
 [![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls/)
@@ -38,19 +38,15 @@ https://github.com/xpack/logger-ts.git logger-ts.git
 
 The prerequisites are:
 
-- node >= 14.13
+- node >= 16.0.0
 - npm
 
 To ensure compatibility with older node, revert to an older one:
 
 ```sh
-nvm use --lts 14
+nvm use --lts 16
 code
 ```
-
-For the TypeScript configuration, please see:
-
-- [@tsconfig/node14](https://www.npmjs.com/package/@tsconfig/node14)
 
 ## Satisfy dependencies
 
@@ -93,7 +89,7 @@ which uses ES6.
 
 For more details on how to configure `tsconfig.json`, please see:
 
-- <https://www.typescriptlang.org/tsconfig/>
+- [TSConfig](https://www.typescriptlang.org/tsconfig/)
 
 ## Standard style
 
@@ -227,13 +223,14 @@ All files   |     100 |      100 |     100 |     100 |
 To run a specific test with more verbose output, use `npm run tap`:
 
 ```console
-% npm run tap tests/tap/010-mock-console.js
+% npm run tap tests/tap/010-mock-console.ts
 
-> @xpack/logger@6.0.0 tap
-> tap --reporter=spec --timeout 300 "tests/tap/010-mock-console.js"
+> @xpack/logger@6.0.0 tap /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> tap --reporter=spec "tests/tap/010-mock-console.ts"
 
-
-tests/tap/010-mock-console.js
+(node:33235) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+tests/tap/010-mock-console.ts
   mock console
     ✓ stdout is empty
     ✓ stderr is empty
@@ -243,12 +240,7 @@ tests/tap/010-mock-console.js
     ✓ stderr has one entry
     ✓ stderr is error
 
-  7 passing (260.048ms)
-----------|---------|----------|---------|---------|-------------------
-File      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-----------|---------|----------|---------|---------|-------------------
-All files |       0 |        0 |       0 |       0 |
-----------|---------|----------|---------|---------|-------------------
+  7 passing (1s)
 ```
 
 ### Coverage tests
@@ -259,11 +251,28 @@ for all 4 criteria (statements, branches, functions, lines).
 
 Thus, passing coverage tests was enforced for all tests, as seen before.
 
+#### Coverage exceptions
+
+Exclusions are marked with `/* istanbul ignore next */` for
+[istanbul](https://github.com/gotwarlost/istanbul/blob/master/ignoring-code-for-coverage.md)
+and `/* c8 ignore start */` `/* c8 ignore stop */` for
+[c8](https://github.com/bcoe/c8).
+
+- none
+
 ### Continuous Integration (CI)
 
 The continuous integration tests are performed via GitHub
 [Actions](https://github.com/xpack/logger-ts/actions/) on Ubuntu,
 Windows and macOS, using node 14, 16, 18.
+
+## Tricks & tips
+
+To trace module resolution:
+
+```json
+    "compile": "tsc --traceResolution  -p ./",
+```
 
 ## How to make new releases
 
@@ -295,7 +304,7 @@ Keep:
 
 - [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
   locked to the oldest supported node (^14.18.36)
-  [release](https://nodejs.org/download/release/) available for Typescript.
+  [release](https://nodejs.org/download/release/) available for TypeScript.
 
 ### Determine the next version
 
@@ -365,6 +374,12 @@ In this Git repo:
 - select the `master` branch
 - merge `develop`
 - push all branches
+
+### Close milestone
+
+In <https://github.com/xpack/xpm-liquid-ts/milestones>:
+
+- close the current milestone.
 
 ## Web site deployment
 

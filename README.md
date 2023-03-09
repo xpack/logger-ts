@@ -47,13 +47,15 @@ This section is intended for those who plan to use this module in their
 own projects.
 
 The `@xpack/logger` module can be imported in both TypeScript
-and JavaScript ES6 Node.js code with:
+and JavaScript Node.js code
+
+In TypeScript and ECMAScript modules, use `import`:
 
 ```typescript
 import { Logger } from '@xpack/logger'
 ```
 
-To include it in JavaScript CommonJS Node.js code, use:
+In JavaScript with CommonJS, use `require()`:
 
 ```javascript
 const { Logger } = request('@xpack/logger')
@@ -147,7 +149,7 @@ The module is tested
 with 100% coverage and CI tested on every push via GitHub
 [Actions](https://github.com/xpack/logger-ts/actions/).
 
-## Change log - incompatible changes
+## Compatibility notices
 
 According to [semver](https://semver.org) rules:
 
