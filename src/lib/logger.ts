@@ -157,6 +157,8 @@ export class Logger {
   /** The recommended default level. */
   static defaultLevel: LogLevel = 'info'
 
+  // Not an enum, to be able to define it inside the class,
+  // not at global level.
   /** Internal numerical values for the log level. */
   static numericLevels = {
     silent: 0,
