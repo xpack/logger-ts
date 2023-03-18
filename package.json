@@ -68,11 +68,11 @@
   "author": {
     "name": "Liviu Ionescu",
     "email": "ilg@livius.net",
-    "url": "https://github.com/ilg-ul/"
+    "url": "https://github.com/ilg-ul"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/xpack/logger-ts/issues/"
+    "url": "https://github.com/xpack/logger-ts/issues"
   },
   "homepage": "https://xpack.github.io/logger-ts/",
   "dependencies": {},
