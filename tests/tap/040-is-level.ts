@@ -21,13 +21,17 @@
 
 import { strict as assert } from 'node:assert'
 
-// The `[node-tap](http://www.node-tap.org)` framework.
+// ----------------------------------------------------------------------------
+
+// https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
-import { MockConsole } from '../mocks/mock-console.js'
-import { Logger } from '../../src/index.js'
+// https://www.npmjs.com/package/@xpack/mock-console
+import { MockConsole } from '@xpack/mock-console'
 
-assert(Logger)
+// ----------------------------------------------------------------------------
+
+import { Logger } from '../../src/index.js'
 
 // ----------------------------------------------------------------------------
 

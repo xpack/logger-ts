@@ -21,13 +21,17 @@
 
 import { strict as assert } from 'node:assert'
 
-// The `[node-tap](http://www.node-tap.org)` framework.
+// ----------------------------------------------------------------------------
+
+// https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
-import { MockConsole } from '../mocks/mock-console.js'
-import { Logger, NumericLogLevel, LoggerFunction } from '../../src/index.js'
+// https://www.npmjs.com/package/@xpack/mock-console
+import { MockConsole } from '@xpack/mock-console'
 
-assert(Logger)
+// ----------------------------------------------------------------------------
+
+import { Logger, NumericLogLevel, LoggerFunction } from '../../src/index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -49,16 +53,16 @@ await test('logger undefined', (t) => {
   })
   t.equal(logger.level, undefined, 'initial level')
 
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.level = 'info'
   t.equal(logger.level, 'info', 'level')
 
   logger.write(MyLogger.numericLevels.info, logger.console.log, undefined)
 
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   t.end()
 })
@@ -70,8 +74,8 @@ await test('logger level warn', (t) => {
   })
   t.equal(logger.level, undefined, 'initial level')
 
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.trace('trace')
   logger.debug('debug')
@@ -83,20 +87,20 @@ await test('logger level warn', (t) => {
   logger.always('always')
 
   // Nothing changed.
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.level = 'warn'
   t.equal(logger.level, 'warn', 'level')
 
-  t.equal(mockConsole.stdout.length, 2, 'stdout has 2 entries')
-  t.equal(mockConsole.stderr.length, 2, 'stderr has 2 entries')
+  t.equal(mockConsole.outLines.length, 2, 'stdout has 2 entries')
+  t.equal(mockConsole.errLines.length, 2, 'stderr has 2 entries')
 
-  t.equal(mockConsole.stdout[0], 'output\n', 'stdout is output')
-  t.equal(mockConsole.stdout[1], 'always\n', 'stdout is always')
+  t.equal(mockConsole.outLines[0], 'output', 'stdout is output')
+  t.equal(mockConsole.outLines[1], 'always', 'stdout is always')
 
-  t.equal(mockConsole.stderr[0], 'warning: warn\n', 'stderr is warn')
-  t.equal(mockConsole.stderr[1], 'error: error\n', 'stderr is error')
+  t.equal(mockConsole.errLines[0], 'warning: warn', 'stderr is warn')
+  t.equal(mockConsole.errLines[1], 'error: error', 'stderr is error')
 
   t.end()
 })
@@ -108,8 +112,8 @@ await test('logger level error', (t) => {
   })
   t.equal(logger.level, undefined, 'initial level')
 
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.trace('trace')
   logger.debug('debug')
@@ -121,19 +125,19 @@ await test('logger level error', (t) => {
   logger.always('always')
 
   // Nothing changed.
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.level = 'error'
   t.equal(logger.level, 'error', 'level')
 
-  t.equal(mockConsole.stdout.length, 2, 'stdout has 2 entries')
-  t.equal(mockConsole.stderr.length, 1, 'stderr has 1 entry')
+  t.equal(mockConsole.outLines.length, 2, 'stdout has 2 entries')
+  t.equal(mockConsole.errLines.length, 1, 'stderr has 1 entry')
 
-  t.equal(mockConsole.stdout[0], 'output\n', 'stdout is output')
-  t.equal(mockConsole.stdout[1], 'always\n', 'stdout is always')
+  t.equal(mockConsole.outLines[0], 'output', 'stdout is output')
+  t.equal(mockConsole.outLines[1], 'always', 'stdout is always')
 
-  t.equal(mockConsole.stderr[0], 'error: error\n', 'stderr is error')
+  t.equal(mockConsole.errLines[0], 'error: error', 'stderr is error')
 
   t.end()
 })
@@ -145,8 +149,8 @@ await test('logger level silent', (t) => {
   })
   t.equal(logger.level, undefined, 'initial level')
 
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.trace('trace')
   logger.debug('debug')
@@ -158,16 +162,16 @@ await test('logger level silent', (t) => {
   logger.always('always')
 
   // Nothing changed.
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   logger.level = 'silent'
   t.equal(logger.level, 'silent', 'level')
 
-  t.equal(mockConsole.stdout.length, 1, 'stdout has 1 entry')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has 1 entry')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
-  t.equal(mockConsole.stdout[0], 'always\n', 'stdout is always')
+  t.equal(mockConsole.outLines[0], 'always', 'stdout is always')
 
   t.end()
 })

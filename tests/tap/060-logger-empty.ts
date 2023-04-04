@@ -21,13 +21,17 @@
 
 import { strict as assert } from 'node:assert'
 
-// The `[node-tap](http://www.node-tap.org)` framework.
+// ----------------------------------------------------------------------------
+
+// https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
-import { MockConsole } from '../mocks/mock-console.js'
-import { Logger } from '../../src/index.js'
+// https://www.npmjs.com/package/@xpack/mock-console
+import { MockConsole } from '@xpack/mock-console'
 
-assert(Logger)
+// ----------------------------------------------------------------------------
+
+import { Logger } from '../../src/index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -41,51 +45,51 @@ await test('logger level all empty', (t) => {
 
   mockConsole.clear()
   logger.trace()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], 'trace: \n', 'stdout is trace')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], 'trace: ', 'stdout is trace')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   mockConsole.clear()
   logger.debug()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], 'debug: \n', 'stdout is debug')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], 'debug: ', 'stdout is debug')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   mockConsole.clear()
   logger.verbose()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], '\n', 'stdout is verbose')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], '', 'stdout is verbose')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   mockConsole.clear()
   logger.info()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], '\n', 'stdout is info')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], '', 'stdout is info')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   mockConsole.clear()
   logger.warn()
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 1, 'stderr has one entry')
-  t.equal(mockConsole.stderr[0], 'warning: \n', 'stderr is warn')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 1, 'stderr has one entry')
+  t.equal(mockConsole.errLines[0], 'warning: ', 'stderr is warn')
 
   mockConsole.clear()
   logger.error()
-  t.equal(mockConsole.stdout.length, 0, 'stdout is empty')
-  t.equal(mockConsole.stderr.length, 1, 'stderr has one entry')
-  t.equal(mockConsole.stderr[0], 'error: \n', 'stderr is error')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 1, 'stderr has one entry')
+  t.equal(mockConsole.errLines[0], 'error: ', 'stderr is error')
 
   mockConsole.clear()
   logger.output()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], '\n', 'stdout is nl')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], '', 'stdout is nl')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   mockConsole.clear()
   logger.always()
-  t.equal(mockConsole.stdout.length, 1, 'stdout has one entry')
-  t.equal(mockConsole.stdout[0], '\n', 'stdout is nl')
-  t.equal(mockConsole.stderr.length, 0, 'stderr is empty')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
+  t.equal(mockConsole.outLines[0], '', 'stdout is nl')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
 
   t.end()
 })

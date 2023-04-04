@@ -5,8 +5,7 @@
   "compilerOptions": {
   },
   "exclude": [
-    "./mocha",
-    "./tap"
+    "./mocha"
   ],
   "include": [
     "./mocks/*.ts"
