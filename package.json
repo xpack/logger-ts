@@ -1,7 +1,7 @@
 {
   "name": "@xpack/logger",
   "version": "6.0.0",
-  "description": "A generic console logger class",
+  "description": "A Node.js CommonJS/ES6 module with a generic console logger class",
   "type": "commonjs",
   "exports": {
     "node": {
@@ -48,7 +48,9 @@
     "safari": "open -a Safari docs/index.html",
     "clean": "del-cli docs cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
     "deep-clean": "npm run clean && rm -rf node_modules package-lock.json",
-    "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)"
+    "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)",
+    "website-npm-link": "(cd website && npm link @xpack/docusaurus-template-liquid)",
+    "website-generate-commons-and-build": "bash website/node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-commons-and-build.sh"
   },
   "repository": {
     "type": "git",
@@ -84,6 +86,7 @@
     "@types/tap": "^15.0.8",
     "c8": "^7.13.0",
     "del-cli": "^5.0.0",
+    "liquidjs": "^10.18.0",
     "standard": "^17.0.0",
     "tap": "^16.3.4",
     "ts-node": "^10.9.1",
@@ -124,5 +127,10 @@
   },
   "engines": {
     "node": " >=16.0.0"
+  },
+  "websiteConfig": {
+    "title": "logger - The xPack Logger",
+    "metadataDescription": "",
+    "metadataKeywords": "xpm, xpack, build, test, dependencies, npm, reproducibility"
   }
 }

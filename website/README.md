@@ -5,15 +5,18 @@ a modern static website generator.
 
 The folder was created with:
 
-```bash
+```sh
 npx create-docusaurus website classic --typescript
 ```
 
-## TypeDoc
+## TypeDoc (docusaurus-plugin-typedoc)
 
-- https://www.npmjs.com/package/docusaurus-plugin-typedoc-api
+The plugin generates the markdown pages in `doc/api`.
 
-```
+- https://typedoc-plugin-markdown.org/plugins/docusaurus
+
+```sh
 cd website
-npm install --save-dev docusaurus-plugin-typedoc-api
+npm install typedoc typedoc-plugin-markdown docusaurus-plugin-typedoc --save-dev
 ```
+

@@ -1,0 +1,12 @@
+{
+  /* https://typedoc.org/guides/options/ */
+  "$schema": "https://typedoc.org/schema.json",
+  "cleanOutputDir": true,
+  "entryPoints": [
+    "../src/index.ts"
+  ],
+  "out": "./docs/api",
+  "tsconfig": "../src/tsconfig.json",
+  "plugin": ["typedoc-plugin-markdown"],
+  "skipErrorChecking": true
+}
