@@ -15,18 +15,6 @@ a function to process the message.
 
 ## Properties
 
-### func
-
-> **func**: [`LoggerFunction`](../type-aliases/LoggerFunction.md)
-
-The function to be called to log the message.
-
-#### Defined in
-
-[logger.ts:103](https://github.com/xpack/logger-ts/blob/28427b668c23e6cbfac6c95ed7d50aa62c2bebdf/src/lib/logger.ts#L103)
-
-***
-
 ### message
 
 > **message**: `string`
@@ -35,7 +23,7 @@ The string message to be logged.
 
 #### Defined in
 
-[logger.ts:99](https://github.com/xpack/logger-ts/blob/28427b668c23e6cbfac6c95ed7d50aa62c2bebdf/src/lib/logger.ts#L99)
+[logger.ts:99](https://github.com/xpack/logger-ts/blob/62f0bf298555a020ff5b41904da48c7de7b9f72e/src/lib/logger.ts#L99)
 
 ***
 
@@ -47,4 +35,16 @@ The numeric log level at the time of the call.
 
 #### Defined in
 
-[logger.ts:101](https://github.com/xpack/logger-ts/blob/28427b668c23e6cbfac6c95ed7d50aa62c2bebdf/src/lib/logger.ts#L101)
+[logger.ts:101](https://github.com/xpack/logger-ts/blob/62f0bf298555a020ff5b41904da48c7de7b9f72e/src/lib/logger.ts#L101)
+
+***
+
+### func
+
+> **func**: [`LoggerFunction`](../type-aliases/LoggerFunction.md)
+
+The function to be called to log the message.
+
+#### Defined in
+
+[logger.ts:103](https://github.com/xpack/logger-ts/blob/62f0bf298555a020ff5b41904da48c7de7b9f72e/src/lib/logger.ts#L103)

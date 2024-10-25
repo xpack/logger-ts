@@ -13,4 +13,4 @@ Higher values mean more verbosity.
 
 ## Defined in
 
-[logger.ts:60](https://github.com/xpack/logger-ts/blob/28427b668c23e6cbfac6c95ed7d50aa62c2bebdf/src/lib/logger.ts#L60)
+[logger.ts:60](https://github.com/xpack/logger-ts/blob/62f0bf298555a020ff5b41904da48c7de7b9f72e/src/lib/logger.ts#L60)

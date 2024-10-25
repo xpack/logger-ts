@@ -1,14 +1,15 @@
-# src
+# @xpack/logger
 
-This folder includes the main TypeScript source files, that provide
-the project functionality.
+## Classes
 
-They are compiled by `tsc` into the `cjs` folder as CommonJS code.
+- [Logger](classes/Logger.md)
 
-## CommonJS backward compatibility
+## Interfaces
 
-Please note that the `package.json` defines the folder to
-be an ES6 module, like the rest of the project, so all tests run
-as ES6 modules, but the `tsconfig.json` defines
-`"module": "commonjs"`, so the compiled files in the `cjs` folder
-will be in CommonJS format.
+- [LoggerBufferRecord](interfaces/LoggerBufferRecord.md)
+
+## Type Aliases
+
+- [LogLevel](type-aliases/LogLevel.md)
+- [NumericLogLevel](type-aliases/NumericLogLevel.md)
+- [LoggerFunction](type-aliases/LoggerFunction.md)

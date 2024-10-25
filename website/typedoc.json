@@ -2,11 +2,17 @@
   /* https://typedoc.org/guides/options/ */
   "$schema": "https://typedoc.org/schema.json",
   "cleanOutputDir": true,
+  "entryPointStrategy": "resolve",
   "entryPoints": [
     "../src/index.ts"
   ],
   "out": "./docs/api",
-  "tsconfig": "../src/tsconfig.json",
   "plugin": ["typedoc-plugin-markdown"],
-  "skipErrorChecking": true
+  "readme": "none",
+  "skipErrorChecking": true,
+  "sort": [
+    "instance-first",
+    "visibility"
+  ],
+  "tsconfig": "../src/tsconfig.json"
 }
