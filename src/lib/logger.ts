@@ -296,6 +296,8 @@ export class Logger {
    *
    * - changed to an accessor in v5.0.0
    * - added as a method in v2.1.0
+   *
+   * @category Log Level Management
    */
   get hasLevel (): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
@@ -315,6 +317,8 @@ export class Logger {
    * log.level = 'info'
    * ```
    * If the log level is not one of the known strings, an assert will fire.
+   *
+   * @category Log Level Management
    */
   set level (level: LogLevel | undefined) {
     assert(level)
@@ -350,6 +354,8 @@ export class Logger {
    * ```javascript
    * console.log(log.level)
    * ```
+   *
+   * @category Log Level Management
    */
   get level (): LogLevel | undefined {
     return this.levelName
@@ -362,6 +368,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isSilent (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
@@ -374,6 +382,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isError (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
@@ -386,6 +396,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isWarn (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
@@ -398,6 +410,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isInfo (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
@@ -410,6 +424,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isVerbose (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
@@ -422,6 +438,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isDebug (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
@@ -434,6 +452,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isTrace (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
@@ -446,6 +466,8 @@ export class Logger {
    *
    * @remarks
    * - changed to an accessor in v3.0.0.
+   *
+   * @category Log Level Checks
    */
   get isAll (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
@@ -555,6 +577,8 @@ export class Logger {
    * ```javascript
    * log.always(version)
    * ```
+   *
+   * @category Output
    */
   always (message: any = '', ...args: any[]): void {
     const str = util.format(message, ...args)
@@ -590,6 +614,8 @@ export class Logger {
    *   log.error(err)
    * }
    * ```
+   *
+   * @category Output
    */
   // error (message: Error): void
   error (message: any = '', ...args: any[]): void {
@@ -631,6 +657,8 @@ export class Logger {
    *   log.output(err)
    * }
    * ```
+   *
+   * @category Output
    */
   output (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
@@ -655,6 +683,8 @@ export class Logger {
    * ```javascript
    * log.info(title)
    * ```
+   *
+   * @category Output
    */
   warn (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.warn) {
@@ -679,6 +709,8 @@ export class Logger {
    * ```javascript
    * log.info(title)
    * ```
+   *
+   * @category Output
    */
   info (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.info) {
@@ -702,6 +734,8 @@ export class Logger {
    * ```javascript
    * log.verbose('Configurations:')
    * ```
+   *
+   * @category Output
    */
   verbose (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.verbose) {
@@ -726,6 +760,8 @@ export class Logger {
    * ```javascript
    * log.debug(`spawn: ${cmd}`)
    * ```
+   *
+   * @category Output
    */
   debug (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.debug) {
@@ -751,6 +787,8 @@ export class Logger {
    * ```javascript
    * log.trace(`${this.constructor.name}.doRun()`)
    * ```
+   *
+   * @category Output
    */
   trace (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.trace) {
