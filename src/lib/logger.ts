@@ -199,7 +199,7 @@ export class Logger {
   /**
    * Create a **Logger** instance.
    *
-   * @param params The generic object used to pass parameters to the
+   * @param params - The generic object used to pass parameters to the
    * constructor.
    *
    * @remarks
@@ -306,7 +306,7 @@ export class Logger {
   /**
    * Accessor to set the log level.
    *
-   * @param level The new log level.
+   * @param level - The new log level.
    *
    * @remarks
    * Set the log level. If this is the first time when the log level is set,
@@ -495,7 +495,8 @@ export class Logger {
   /**
    * Check if the log level is set to a given level name.
    *
-   * @param level The name of the log level.
+   * @param level - The name of the log level.
+   *
    * @returns True if the current log level is equal to the given
    *   level or higher.
    *
@@ -526,10 +527,10 @@ export class Logger {
   /**
    * The internal log writer.
    *
-   * @param numericLevel The log numeric level.
-   * @param loggerFunction The function to be used to write
+   * @param numericLevel - The log numeric level.
+   * @param loggerFunction - The function to be used to write
    * the message.
-   * @param message The log message.
+   * @param message - The log message.
    *
    * @remarks
    * If the log level was defined, call the function, otherwise
@@ -564,8 +565,8 @@ export class Logger {
   /**
    * Log a message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log the message always, regardless of the log level, (even `'silent'`,
@@ -588,8 +589,8 @@ export class Logger {
   /**
    * Log an error message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `error` or higher.
@@ -634,8 +635,8 @@ export class Logger {
   /**
    * Log an error message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `error` or higher.
@@ -670,8 +671,8 @@ export class Logger {
   /**
    * Log a warning message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `warn` or higher.
@@ -697,8 +698,8 @@ export class Logger {
   /**
    * Log an informative message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `info` or higher.
@@ -722,8 +723,8 @@ export class Logger {
   /**
    * Log a verbose message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `verbose` or higher.
@@ -747,8 +748,8 @@ export class Logger {
   /**
    * Log a debug message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `'debug'` or higher.
@@ -774,8 +775,8 @@ export class Logger {
   /**
    * Log a trace message.
    *
-   * @param message Message to log, as accepted by `util.format()`.
-   * @param args Optional variable arguments.
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @remarks
    * Log a message if the log level is `trace` or higher.
