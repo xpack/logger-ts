@@ -6,6 +6,111 @@ date: 2024-10-24 18:58:00 +0300
 
 ---
 
-# Getting Started
+[![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
+![GitHub Repo stars](https://img.shields.io/github/stars/xpack/logger-ts)
 
-TBD
+# Getting Started with the xPack Logger
+
+This project provides a **TypeScript** Node.js **CommonJS**/**ES6** module
+with a re-entrant console logger suitable for REPL/server/multi-instance
+use cases.
+
+Note: Compatibility with legacy CommonJS is required until VS Code extensions
+will be updated to import ES6 modules.
+
+The open source project is hosted on GitHub as
+[xpack/logger-ts](https://github.com/xpack/logger-ts).
+
+## Maintainer & developer info
+
+For maintainer information, see the separate
+[Maintainer Information](/docs/maintainer/)
+page.
+
+## Install
+
+See the separate
+[Install Guide](/docs/install/)
+page.
+
+## Status
+
+The `@xpack/logger` module is fully functional and stable.
+
+The main client for this module is the `xpm` CLI application.
+
+## Tests
+
+The module is tested
+with 100% coverage and CI tested on every push via
+[GitHub Actions](https://github.com/xpack/logger-ts/actions).
+
+## Compatibility notices
+
+According to [semver](https://semver.org) rules:
+
+> Major version X (X.y.z | X > 0) MUST be incremented if any
+backwards incompatible changes are introduced to the public API.
+
+### v6.0.0
+
+The TypeScript code is compiled into
+**CommonJS** modules, with an **ES6** wrapper, and can be consumed by both
+TypeScript and JavaScript packages.
+
+There were also some minor internal renames, but this should not be
+a problem.
+
+The function `isLevel(level)` was added.
+
+### v5.0.0
+
+For consistency reasons, `hasLevel` was changed from a method to an
+accessor.
+
+Internally, the log level starts as `undefined` instead of the
+string `'undefined'`, as in previous versions.
+
+This should not be a problem, given that the method to check if
+the level was set is via `hasLevel()`.
+
+### v4.0.0
+
+The code was migrated to TypeScript.
+
+The migration itself should not introduce any incompatibilities,
+actually it should be fairly compatible with the latest v3.x,
+but, for just in case, the safer path was to consider it a major
+release.
+
+### v3.0.0
+
+All `isXyx` functions (returning a boolean related to
+the log level) were changed to accessors.
+
+### v2.0.0
+
+The logger constructor was changed to use a generic
+parameters object.
+
+If upgrading from previous versions, change the syntax from:
+
+```javascript
+const log = new Logger(console, 'info')
+```
+
+to:
+
+```javascript
+const log = new Logger({
+  console,
+  level: 'info'
+})
+```
+
+## License
+
+The original content is released under the
+[MIT License](https://opensource.org/license/mit/),
+with all rights reserved to
+[Liviu Ionescu](https://github.com/ilg-ul).

@@ -242,7 +242,7 @@ const config: Config = {
             {
               label: 'About',
               to: '/docs/about'
-            } 
+            }
           ],
         },
         {

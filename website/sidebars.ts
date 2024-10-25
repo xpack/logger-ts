@@ -1,5 +1,5 @@
 // DO NOT EDIT!
-// Automatically generated from xbb-helper/templates/docusaurus/common.
+// Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 import typedocSidebar from "./docs/api/typedoc-sidebar.cjs";
@@ -54,12 +54,12 @@ const sidebars: SidebarsConfig = {
       type: 'doc',
       id: 'about/index',
       label: 'About'
-    }, /*
+    },
     {
       type: 'doc',
       id: 'developer/index',
       label: 'Developer Information'
-    }, */
+    },
     {
       type: 'doc',
       id: 'maintainer/index',

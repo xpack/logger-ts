@@ -13,4 +13,4 @@ comparisons.
 
 ## Defined in
 
-[logger.ts:75](https://github.com/xpack/logger-ts/blob/62f0bf298555a020ff5b41904da48c7de7b9f72e/src/lib/logger.ts#L75)
+[logger.ts:75](https://github.com/xpack/logger-ts/blob/3a91b7e1ef8c2616c50e125745638b32cf08a81e/src/lib/logger.ts#L75)
