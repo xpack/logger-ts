@@ -1,0 +1,58 @@
+
+{/* ------------------------------------------------------------------------ */}
+
+### v6.0.0
+
+The TypeScript code is compiled into
+**CommonJS** modules, with an **ES6** wrapper, and can be consumed by both
+TypeScript and JavaScript packages.
+
+There were also some minor internal renames, but this should not be
+a problem.
+
+The function `isLevel(level)` was added.
+
+### v5.0.0
+
+For consistency reasons, `hasLevel` was changed from a method to an
+accessor.
+
+Internally, the log level starts as `undefined` instead of the
+string `'undefined'`, as in previous versions.
+
+This should not be a problem, given that the method to check if
+the level was set is via `hasLevel()`.
+
+### v4.0.0
+
+The code was migrated to TypeScript.
+
+The migration itself should not introduce any incompatibilities,
+actually it should be fairly compatible with the latest v3.x,
+but, for just in case, the safer path was to consider it a major
+release.
+
+### v3.0.0
+
+All `isXyx` functions (returning a boolean related to
+the log level) were changed to accessors.
+
+### v2.0.0
+
+The logger constructor was changed to use a generic
+parameters object.
+
+If upgrading from previous versions, change the syntax from:
+
+```javascript
+const log = new Logger(console, 'info')
+```
+
+to:
+
+```javascript
+const log = new Logger({
+  console,
+  level: 'info'
+})
+```

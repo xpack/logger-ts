@@ -126,7 +126,7 @@ const log = new Logger()
 
 #### Defined in
 
-[logger.ts:243](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L243)
+[logger.ts:243](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L243)
 
 ## Log Level Checks
 
@@ -148,7 +148,7 @@ True if the log level is `silent` or higher.
 
 #### Defined in
 
-[logger.ts:374](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L374)
+[logger.ts:374](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L374)
 
 ***
 
@@ -170,7 +170,7 @@ True if the log level is `error` or higher.
 
 #### Defined in
 
-[logger.ts:388](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L388)
+[logger.ts:388](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L388)
 
 ***
 
@@ -192,7 +192,7 @@ True if the log level is `warn` or higher.
 
 #### Defined in
 
-[logger.ts:402](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L402)
+[logger.ts:402](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L402)
 
 ***
 
@@ -214,7 +214,7 @@ True if the log level is `info` or higher.
 
 #### Defined in
 
-[logger.ts:416](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L416)
+[logger.ts:416](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L416)
 
 ***
 
@@ -236,7 +236,7 @@ True if the log level is `verbose` or higher.
 
 #### Defined in
 
-[logger.ts:430](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L430)
+[logger.ts:430](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L430)
 
 ***
 
@@ -258,7 +258,7 @@ True if the log level is `debug` or higher.
 
 #### Defined in
 
-[logger.ts:444](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L444)
+[logger.ts:444](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L444)
 
 ***
 
@@ -280,7 +280,7 @@ True if the log level is `trace` or higher.
 
 #### Defined in
 
-[logger.ts:458](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L458)
+[logger.ts:458](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L458)
 
 ***
 
@@ -302,7 +302,7 @@ True if the log level is `all`.
 
 #### Defined in
 
-[logger.ts:472](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L472)
+[logger.ts:472](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L472)
 
 ## Log Level Management
 
@@ -337,7 +337,7 @@ True if the level was set.
 
 #### Defined in
 
-[logger.ts:302](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L302)
+[logger.ts:302](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L302)
 
 ***
 
@@ -387,7 +387,7 @@ The log level name.
 
 #### Defined in
 
-[logger.ts:360](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L360)
+[logger.ts:360](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L360)
 
 ## Other
 
@@ -411,7 +411,7 @@ The console object used by the logger.
 
 #### Defined in
 
-[logger.ts:488](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L488)
+[logger.ts:488](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L488)
 
 ***
 
@@ -454,7 +454,7 @@ if (!log.islevel(newLevel)) {
 
 #### Defined in
 
-[logger.ts:519](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L519)
+[logger.ts:519](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L519)
 
 ***
 
@@ -466,7 +466,7 @@ The console object used to output the log messages.
 
 #### Defined in
 
-[logger.ts:186](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L186)
+[logger.ts:186](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L186)
 
 ***
 
@@ -478,7 +478,7 @@ The numerical value of the log level.
 
 #### Defined in
 
-[logger.ts:188](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L188)
+[logger.ts:188](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L188)
 
 ***
 
@@ -490,7 +490,7 @@ The name of the log level.
 
 #### Defined in
 
-[logger.ts:190](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L190)
+[logger.ts:190](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L190)
 
 ***
 
@@ -503,7 +503,7 @@ until the log level is set.
 
 #### Defined in
 
-[logger.ts:194](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L194)
+[logger.ts:194](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L194)
 
 ***
 
@@ -540,7 +540,7 @@ processing, when the log level is defined.
 
 #### Defined in
 
-[logger.ts:540](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L540)
+[logger.ts:540](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L540)
 
 ***
 
@@ -552,7 +552,7 @@ The recommended default level.
 
 #### Defined in
 
-[logger.ts:160](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L160)
+[logger.ts:160](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L160)
 
 ***
 
@@ -596,7 +596,7 @@ Internal numerical values for the log level.
 
 #### Defined in
 
-[logger.ts:165](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L165)
+[logger.ts:165](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L165)
 
 ***
 
@@ -608,7 +608,7 @@ The value used for the undefined log level (maximum value).
 
 #### Defined in
 
-[logger.ts:177](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L177)
+[logger.ts:177](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L177)
 
 ***
 
@@ -620,7 +620,7 @@ The value used for the `always` case (minimum value).
 
 #### Defined in
 
-[logger.ts:180](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L180)
+[logger.ts:180](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L180)
 
 ## Output
 
@@ -659,7 +659,7 @@ log.always(version)
 
 #### Defined in
 
-[logger.ts:584](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L584)
+[logger.ts:584](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L584)
 
 ***
 
@@ -710,7 +710,7 @@ try {
 
 #### Defined in
 
-[logger.ts:622](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L622)
+[logger.ts:622](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L622)
 
 ***
 
@@ -758,7 +758,7 @@ try {
 
 #### Defined in
 
-[logger.ts:664](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L664)
+[logger.ts:664](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L664)
 
 ***
 
@@ -797,7 +797,7 @@ log.info(title)
 
 #### Defined in
 
-[logger.ts:690](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L690)
+[logger.ts:690](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L690)
 
 ***
 
@@ -835,7 +835,7 @@ log.info(title)
 
 #### Defined in
 
-[logger.ts:716](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L716)
+[logger.ts:716](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L716)
 
 ***
 
@@ -873,7 +873,7 @@ log.verbose('Configurations:')
 
 #### Defined in
 
-[logger.ts:741](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L741)
+[logger.ts:741](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L741)
 
 ***
 
@@ -912,7 +912,7 @@ log.debug(`spawn: ${cmd}`)
 
 #### Defined in
 
-[logger.ts:767](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L767)
+[logger.ts:767](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L767)
 
 ***
 
@@ -951,4 +951,4 @@ log.trace(`${this.constructor.name}.doRun()`)
 
 #### Defined in
 
-[logger.ts:794](https://github.com/xpack/logger-ts/blob/6c3e027fe02861237efb1a86e0388411dfbc5c0a/src/lib/logger.ts#L794)
+[logger.ts:794](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L794)

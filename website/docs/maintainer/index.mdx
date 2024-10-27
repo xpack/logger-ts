@@ -1,6 +1,10 @@
 ---
+
+# DO NOT EDIT!
+# Automatically generated from docusaurus-template-liquid/templates/docusaurus.
+
 title: Maintainer Information
-# description: Assistance for project maintainers, including the release schedule, versioning scheme, and instructions on how to build, test, and publish.
+description: Assistance for project maintainers, including the release schedule, versioning scheme, and instructions on how to build, test, and publish.
 keywords:
   - xpack
   - logger
@@ -18,6 +22,8 @@ import customField from '@site/src/libs/customField';
 import Prerequisites from '../developer/_prerequisites.mdx';
 import GetProjectSources from '../developer/_get-project-sources.mdx';
 
+import More from './_more.mdx';
+
 {/* ------------------------------------------------------------------------ */}
 
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/mater/package.json)
@@ -25,7 +31,7 @@ import GetProjectSources from '../developer/_get-project-sources.mdx';
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 [![CI on Push](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml/badge.svg)](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml)
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues)
-[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls/)
+[![GitHub pulls](https://img.shields.io/github/issues-pr/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/pulls)
 [![TS-Standard - TypeScript Standard Style Guide](https://badgen.net/badge/code%20style/ts-standard/blue?icon=typescript)](https://github.com/standard/ts-standard/)
 
 # How to make new xPack Logger releases
@@ -61,7 +67,6 @@ This is really important, otherwise the next steps will build again the previous
 
 The `master` branch should be unchanged since the previous release
 and will be updated when the new release is out.
-
 
 ### Update npm packages
 
@@ -284,12 +289,4 @@ When the release is considered stable, promote it as `latest`:
 
 Credit to [Shields IO](https://shields.io) for the badges.
 
-## Useful links
-
-- https://www.typescriptlang.org/docs/
-- https://www.typescriptlang.org/tsconfig/
-- https://typedoc.org, https://typedoc.org/guides/doccomments/
-- https://tsdoc.org
-- https://jsdoc.app/index.html
-- https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1
-
+<More />
