@@ -247,7 +247,7 @@ const config: Config = {
         },
         {
           to: '/docs/api',
-          label: 'API',
+          label: 'API Reference',
           position: 'left',
         },
         {

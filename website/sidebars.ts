@@ -69,7 +69,7 @@ const sidebars: SidebarsConfig = {
   typedocSidebar: [
     {
       type: "category",
-      label: "Typedoc API",
+      label: "API Reference (TypeDoc)",
       link: {
         type: "doc",
         id: "api/index",
