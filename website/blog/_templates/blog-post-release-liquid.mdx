@@ -1,0 +1,70 @@
+---
+title: xPack {{appName}} v{{releaseVersion}} released
+seo_tile: Version {{releaseVersion}} released
+description: Version v{{releaseVersion}} is a TODO new/maintenance release
+keywords:
+  - xpack
+  - {{appLcName}}
+  - release
+
+date: {{releaseDate}}
+
+authors: ilg-ul
+
+# To be listed in the Releases page.
+tags:
+  - releases
+
+# ----- Custom properties -----------------------------------------------------
+
+version: "{{releaseVersion}}"
+
+---
+
+import {PageMetadata} from '@docusaurus/theme-common';
+import Image from '@theme/IdealImage';
+import CodeBlock from '@theme/CodeBlock';
+
+import Prerequisites from './_common/_prerequisites-glib-2.27.mdx'
+import DownloadAnalytics from './_common/_download-analytics.mdx'
+
+TODO: select one summary
+
+Version **{{releaseVersion}}** is a maintenance release; it fixes ...
+
+Version **{{releaseVersion}}** is a new release; it follows the upstream Arm release.
+
+<!-- truncate -->
+
+<PageMetadata title={frontMatter.seo_title} />
+
+The [xPack Logger](https://xpack.github.io/logger-ts/)
+is a TypeScript and ECMAScript Node.js module.
+
+<Prerequisites/>
+
+## Install
+
+For installation instructions, please refer to the
+[Install Guide](/docs/install/)
+page.
+
+## Bug fixes
+
+- none
+
+## Enhancements
+
+- none
+
+## Known problems
+
+- none
+
+## CI tests
+
+Before publishing, a set of tests were performed .
+The results are available from:
+
+- [GitHub Actions](https://github.com/xpack/logger-ts/actions)
+
