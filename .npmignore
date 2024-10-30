@@ -65,5 +65,6 @@ typedoc.json
 /docs/
 /assets/
 /scripts/
+/website/
 
 #end
