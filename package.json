@@ -81,7 +81,9 @@
     "url": "https://github.com/xpack/logger-ts/issues"
   },
   "homepage": "https://xpack.github.io/logger-ts/",
-  "dependencies": {},
+  "dependencies": {
+    "@xpack/mock-console": "^1.0.0"
+  },
   "devDependencies": {
     "@types/node": "^18.11.9",
     "@types/tap": "^15.0.12",
@@ -135,5 +137,6 @@
     "title": "logger - The xPack Logger",
     "metadataDescription": "A Node.js CommonJS/ES6 module with a generic console logger class",
     "metadataKeywords": "xpm, xpack, build, test, dependencies, npm, reproducibility"
-  }
+  },
+  "bundleDependencies": []
 }
