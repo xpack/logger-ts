@@ -1,6 +1,8 @@
 
 import CodeBlock from '@theme/CodeBlock';
 
+import customField from '@site/src/libs/customField';
+
 {/* ------------------------------------------------------------------------ */}
 
 A typical test result looks like:
@@ -8,76 +10,23 @@ A typical test result looks like:
 <CodeBlock language="console"> {
 `% npm run test-100-c8
 
-> @xpack/logger@{customField('version')} pretest-100-c8 /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> @xpack/logger@{customField('version')} pretest-100-c8 ...
 > npm run lint
 
-> @xpack/logger@{customField('version')} lint /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> @xpack/logger@{customField('version')} lint ...
 > ts-standard src && standard esm
 
-> @xpack/logger@{customField('version')} test-100-c8 /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
+> @xpack/logger@{customField('version')} test-100-c8 ...
 > npm run test-tap-coverage-100-c8 -s
 
-(node:11770) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11771) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11773) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11774) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11775) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11772) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11776) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-(node:11777) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-tests/tap/010-mock-console.ts ......................... 7/7
-tests/tap/020-logger-single.ts ......    [ 'trace: trace\n' ]
-tests/tap/020-logger-single.ts .................... 185/185
-tests/tap/030-logger-multi.ts ..................... 184/184
-tests/tap/040-is-level.ts ........................... 81/81
-tests/tap/050-buffer.ts ........................... 108/108
-tests/tap/060-logger-empty.ts ....................... 25/25
-tests/tap/070-logger-default.ts ....................... 2/2
-tests/tap/080-undefined.ts .......................... 38/38
-total ............................................. 630/630
-
-  630 passing (5s)
-
-  ok
-------------|---------|----------|---------|---------|-------------------
-File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
-------------|---------|----------|---------|---------|-------------------
-All files   |     100 |      100 |     100 |     100 |
- src         |     100 |      100 |     100 |     100 |
-  index.ts    |     100 |      100 |     100 |     100 |
- src/lib     |     100 |      100 |     100 |     100 |
-  logger.ts   |     100 |      100 |     100 |     100 |
-------------|---------|----------|---------|---------|-------------------
+...
 `} </CodeBlock>
 
 To run a specific test with more verbose output, use `npm run tap`:
 
 <CodeBlock language="console"> {
-`% npm run tap tests/tap/010-mock-console.ts
+`% npm run tap tests/tap/010-xxx.ts
 
-> @xpack/logger@{customField('version')} tap /Users/ilg/My Files/WKS Projects/xpack.github/npm-modules/logger-ts.git
-> tap --reporter=spec "tests/tap/010-mock-console.ts"
-
-(node:33235) ExperimentalWarning: --experimental-loader is an experimental feature. This feature could change at any time
-(Use \`node --trace-warnings ...\` to show where the warning was created)
-tests/tap/010-mock-console.ts
-  mock console
-    ✓ stdout is empty
-    ✓ stderr is empty
-    ✓ stdout has one entry
-    ✓ stdout is output
-    ✓ stderr is empty
-    ✓ stderr has one entry
-    ✓ stderr is error
-
-  7 passing (1s)
+...
 `} </CodeBlock>
 
