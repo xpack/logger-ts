@@ -4,8 +4,66 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues).
 
+## 2024-10-30
+
+* v6.0.0 prepared
+* af09113 package.json update
+* 4286082 logger.ts: update typedoc metadata
+* 438b133 re-generate workflows
+* 2846243 website: blog updates
+* 75f2cbf website: docs updates
+
+## 2024-10-28
+
+* 37fbaf1 website: move some code to templates
+
+## 2024-10-27
+
+* 3c12ae6 website: add preliminary posts
+* b36b3c9 website: update docs
+* 8f514fe test-ci.yml: exclude website
+
+## 2024-10-25
+
+* 6c3e027 website update
+* 3a91b7e logger.ts: typedoc cosmetics
+* 756854a website: typedoc updated
+* 62f0bf2 logger.ts: add @category at the end
+* d5efddb website: update content, empty pages
+* a154c77 tests: comment out assert
+* a08c85e logger.ts: update TypeDoc for new specs
+
+## 2024-10-20
+
+* 28427b6 create-docusaurus
+* a8110b2 workflows/publish-github-pages.yml
+* b3045d5 package.json: add safari script
+
+## 2023-04-17
+
+* 7af688f package.json: typedoc 0.24.4
+* eae255f publish-*.yml: add package.json to includes
+
+## 2023-04-16
+
+* ae4a37d package.json: typedoc 0.24.2
+
+## 2023-04-09
+
+* f9e8bbf package.json: add tap-c8
+* 3ec4ab4 bump typedoc 2.24.1
+
+## 2023-04-05
+
+* 3b4e91f update for separate mockConsole
+
+## 2023-04-04
+
+* ac3bf44 test-ci.yml: bump node 16
+
 ## 2023-03-18
 
+* 99521e6 CHANGELOG update
 * a956173 READMEs updates
 * dece581 package.json cosmetics
 * 640837d update licenses
