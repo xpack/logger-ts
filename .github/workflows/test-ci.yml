@@ -27,7 +27,7 @@ on:
 jobs:
   npm-test:
 
-    runs-on: $
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -43,11 +43,11 @@ jobs:
       with:
         fetch-depth: 3
 
-    - name: Setup Node.js $ on $
+    - name: Setup Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
       # https://github.com/actions/setup-node
       uses: actions/setup-node@v4
       with:
-        node-version: $
+        node-version: ${{ matrix.node-version }}
 
     - name: Show node & npm versions, environment
       run: |
