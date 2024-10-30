@@ -1,6 +1,6 @@
 {
   "name": "@xpack/logger",
-  "version": "6.0.0",
+  "version": "6.0.0-pre",
   "description": "A Node.js CommonJS/ES6 module with a generic console logger class",
   "type": "commonjs",
   "exports": {
@@ -20,9 +20,10 @@
     "compile": "tsc --build --verbose src",
     "npm-install": "npm install",
     "npm-link": "npm link",
-    "npm-link-deps": "npm link @xpack/mock-console",
+    "npm-link-deps": "npm link @xpack/mock-console @xpack/node-modules-helper",
     "npm-outdated": "npm outdated",
     "npm-update": "npm update",
+    "npm-pack": "npm pack",
     "npm-version-patch": "npm version patch",
     "npm-version-minor": "npm version minor",
     "postversion": "git push origin --all && git push origin --tags",
@@ -46,15 +47,15 @@
     "dev-cycle": "npm run fix && npm run compile && npm run test-100-c8",
     "typedoc": "typedoc --logLevel Verbose",
     "safari": "open -a Safari docs/index.html",
-    "clean": "del-cli docs cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
+    "clean": "del-cli cjs 'tests/**/cjs' 'src/**/*.d.ts' 'src/**/*.d.ts.map' 'src/**/*.js' 'src/**/*.js.map' 'tests/**/*.d.ts' 'tests/**/*.d.ts.map' 'tests/**/*.js' 'tests/**/*.js.map' '**/tsconfig.tsbuildinfo' .nyc_output coverage",
     "deep-clean": "npm run clean && rm -rf node_modules package-lock.json",
     "npm-version": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)",
-    "website-npm-link": "(cd website && npm link @xpack/docusaurus-template-liquid)",
-    "website-generate-commons-and-build": "bash website/node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-commons-and-build.sh"
+    "generate-top-commons": "bash node_modules/@xpack/node-modules-helper/maintenance-scripts/generate-top-commons.sh",
+    "create-website": "mkdir -p website && cd website && npm link @xpack/docusaurus-template-liquid @xpack/node-modules-helper && bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-commons.sh"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xpack/logger-ts.git"
+    "url": "git+https://github.com/xpack/logger-ts.git"
   },
   "keywords": [
     "cli",
@@ -82,16 +83,17 @@
   "homepage": "https://xpack.github.io/logger-ts/",
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^16.18.14",
-    "@types/tap": "^15.0.8",
+    "@types/node": "^18.11.9",
+    "@types/tap": "^15.0.12",
     "c8": "^7.13.0",
-    "del-cli": "^5.0.0",
+    "del-cli": "^6.0.0",
+    "json": "^11.0.0",
     "liquidjs": "^10.18.0",
-    "standard": "^17.0.0",
-    "tap": "^16.3.4",
-    "ts-node": "^10.9.1",
+    "standard": "^17.1.2",
+    "tap": "^16.3.10",
+    "ts-node": "^10.9.2",
     "ts-standard": "^12.0.2",
-    "typedoc": "^0.24.4",
+    "typedoc": "^0.26.10",
     "typescript": "^4.9.5"
   },
   "bundledDependencies": [],
@@ -126,7 +128,7 @@
     ]
   },
   "engines": {
-    "node": " >=16.0.0"
+    "node": " >=18.0.0"
   },
   "websiteConfig": {
     "name": "Logger",
