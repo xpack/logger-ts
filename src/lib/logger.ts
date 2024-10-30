@@ -51,7 +51,6 @@ import * as util from 'node:util'
 /**
  * Type of the strings recognised as valid level names.
  *
- * @remarks
  * Internally these strings are converted into integer values,
  * and these numbers are used in comparisons.
  *
@@ -68,7 +67,6 @@ export type LogLevel =
  *
  * Type of the numeric log level.
  *
- * @remarks
  * The numeric log level is stored internally and is used in log level
  * comparisons.
  */
@@ -86,7 +84,6 @@ export type LoggerFunction = (message: string) => void
  *
  * Type of a record stored in the internal buffer.
  *
- * @remarks
  * If the logger was constructed without a log level, all initial
  * messages are stored in a buffer, and processed at a later time,
  * when the log level is set.
@@ -108,7 +105,6 @@ export interface LoggerBufferRecord {
 /**
  * The **Logger** class implements the logger functionality.
  *
- * @remarks
  * The logger is constructed on top of a console object, where the
  * messages are logged.
  *
@@ -134,7 +130,6 @@ function.
  * it is recommended to explicitly check the log level and,
  * if not high enough, skip the code entirely.
  *
- * @example
  * ```javascript
  *   if (log.isVerbose) {
  *     for (const [folderName, folder] of Object.entries(folders)) {
@@ -199,14 +194,9 @@ export class Logger {
   /**
    * Create a **Logger** instance.
    *
-   * @param params - The generic object used to pass parameters to the
-   * constructor.
-   *
-   * @remarks
    * The typical use case is to create a logger with a given log level,
    * usually `info`.
    *
-   * @example
    * ```javascript
    * const log = new Logger({
    *   level: 'info'
@@ -219,7 +209,6 @@ export class Logger {
    * `console` and a `level`. This might be particularly useful in tests,
    * where a mock console can be used to capture log messages.
    *
-   * @example
    * ```javascript
    * const log = new Logger({
    *   console: mockConsole,
@@ -235,27 +224,23 @@ export class Logger {
    * create the logger in a preliminary state, and all log lines will be stored
    * in an internal buffer until the log level is set.
    *
-   * @example
    * ```javascript
    * const log = new Logger()
    * ```
+   * @param params - The generic object used to pass parameters to the
+   * constructor.
    */
   constructor (params: {
     /**
-     * Log level.
-     *
-     * @remarks
      * The name of the log level; if not passed, the logger is created in
      * a preliminary state, and all log lines will be stored in an internal
-     * buffer, until the log level is set.
+     * buffer, until the log level is set. Optional.
      */
     level?: LogLevel
     /**
-     * Underlying console.
-     *
-     * @remarks
-     * The console object used to log the message;
-     * by default, the JavaScript standard `console` object is used.
+     * The underlying console object used to log the message.
+     * Optional. If not passed, the JavaScript standard `console` object
+     * is used.
      */
     console?: Console
   } = {}) {
@@ -280,9 +265,6 @@ export class Logger {
   /**
    * Accessor to check if the log level was initialised.
    *
-   * @returns True if the level was set.
-   *
-   * @remarks
    * If the logger was created without an explicit log level, the
    * logger is in a preliminary state and all log lines will be stored
    * in an internal buffer until the log level is set.
@@ -294,8 +276,11 @@ export class Logger {
    * }
    * ```
    *
+   * @remarks
    * - changed to an accessor in v5.0.0
    * - added as a method in v2.1.0
+   *
+   * @returns True if the level was set.
    *
    * @category Log Level Management
    */
@@ -306,17 +291,17 @@ export class Logger {
   /**
    * Accessor to set the log level.
    *
-   * @param level - The new log level.
+   * If the log level is not one of the known strings, an assert will fire.
    *
-   * @remarks
-   * Set the log level. If this is the first time when the log level is set,
+   * If this is the first time when the log level is set,
    * flush the internal buffer.
    *
    * @example
    * ```javascript
    * log.level = 'info'
    * ```
-   * If the log level is not one of the known strings, an assert will fire.
+   *
+   * @param level - A string with the new log level.
    *
    * @category Log Level Management
    */
@@ -345,15 +330,12 @@ export class Logger {
   /**
    * Accessor to get the log level.
    *
-   * @returns The log level name.
-   *
-   * @remarks
-   * Get the current log level, as a string.
-   *
    * @example
    * ```javascript
    * console.log(log.level)
    * ```
+   *
+   * @returns A string with the log level name.
    *
    * @category Log Level Management
    */
@@ -478,12 +460,11 @@ export class Logger {
   /**
    * Accessor to get the underlying `console` object.
    *
-   * @returns The console object used by the logger.
-   *
-   * @remarks
    * Direct access to the console object is useful in tests, when
    * the console is a mock object, which allows to check the logged
    * messages.
+   *
+   * @returns The console object used by the logger.
    */
   get console (): Console {
     return this._console
@@ -495,12 +476,6 @@ export class Logger {
   /**
    * Check if the log level is set to a given level name.
    *
-   * @param level - The name of the log level.
-   *
-   * @returns True if the current log level is equal to the given
-   *   level or higher.
-   *
-   * @remarks
    * This is a more generic version of the accessors (like `isDebug`, etc),
    * to be used when the log level is not know at compile time.
    *
@@ -513,8 +488,14 @@ export class Logger {
    *   log.level = newLevel
    * }
    * ```
-   *
+   * @remarks
    * - added in v6.0.0
+   *
+   * @param level - The name of the log level.
+   *
+   * @returns True if the current log level is equal to the given
+   *   level or higher.
+   *
    */
   isLevel (level: LogLevel): boolean {
     assert(level)
@@ -527,15 +508,14 @@ export class Logger {
   /**
    * The internal log writer.
    *
+   * If the log level was defined, call the actual logger function, otherwise
+   * store the log lines in the array buffer, for later
+   * processing, when the log level is finally defined.
+   *
    * @param numericLevel - The log numeric level.
    * @param loggerFunction - The function to be used to write
    * the message.
    * @param message - The log message.
-   *
-   * @remarks
-   * If the log level was defined, call the function, otherwise
-   * store the log line details in the array buffer, for later
-   * processing, when the log level is defined.
    */
   protected write (
     numericLevel: NumericLogLevel,
@@ -563,13 +543,7 @@ export class Logger {
   // --------------------------------------------------------------------------
 
   /**
-   * Log a message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log the message always, regardless of the log level, (even `'silent'`,
+   * Always log a message, regardless of the log level, (even `'silent'`,
    * when no other messages are logged).
    *
    * The message is passed via `console.log()`.
@@ -579,6 +553,9 @@ export class Logger {
    * log.always(version)
    * ```
    *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
+   *
    * @category Output
    */
   always (message: any = '', ...args: any[]): void {
@@ -587,13 +564,7 @@ export class Logger {
   }
 
   /**
-   * Log an error message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `error` or higher.
+   * Log an error message, if the log level is `error` or higher.
    *
    * The message is prefixed with `error: ` and
    * passed via `console.error()`.
@@ -616,6 +587,9 @@ export class Logger {
    * }
    * ```
    *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
+   *
    * @category Output
    */
   // error (message: Error): void
@@ -633,13 +607,7 @@ export class Logger {
   }
 
   /**
-   * Log an error message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `error` or higher.
+   * Log an error message, if the log level is `error` or higher.
    *
    * It differs from `error()` by **not** prefixing the string with `error: `
    * and using `console.log()` instead of `console.error()`.
@@ -659,6 +627,9 @@ export class Logger {
    * }
    * ```
    *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
+   *
    * @category Output
    */
   output (message: any = '', ...args: any[]): void {
@@ -669,13 +640,7 @@ export class Logger {
   }
 
   /**
-   * Log a warning message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `warn` or higher.
+   * Log a warning message, if the log level is `warn` or higher.
    *
    * The message is prefixed with `warning: ` and
    * passed via `console.error()`.
@@ -684,6 +649,9 @@ export class Logger {
    * ```javascript
    * log.info(title)
    * ```
+   *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @category Output
    */
@@ -696,13 +664,7 @@ export class Logger {
   }
 
   /**
-   * Log an informative message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `info` or higher.
+   * Log an informative message, if the log level is `info` or higher.
    *
    * The message is passed via `console.log()`.
    *
@@ -710,6 +672,9 @@ export class Logger {
    * ```javascript
    * log.info(title)
    * ```
+   *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @category Output
    */
@@ -721,13 +686,7 @@ export class Logger {
   }
 
   /**
-   * Log a verbose message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `verbose` or higher.
+   * Log a verbose message, if the log level is `verbose` or higher.
    *
    * The message is passed via `console.log()`.
    *
@@ -735,6 +694,9 @@ export class Logger {
    * ```javascript
    * log.verbose('Configurations:')
    * ```
+   *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @category Output
    */
@@ -746,13 +708,7 @@ export class Logger {
   }
 
   /**
-   * Log a debug message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `'debug'` or higher.
+   * Log a debug message, if the log level is `'debug'` or higher.
    *
    * The message is prefixed with `debug: ` and
    * passed via `console.log()`.
@@ -761,6 +717,9 @@ export class Logger {
    * ```javascript
    * log.debug(`spawn: ${cmd}`)
    * ```
+   *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @category Output
    */
@@ -773,13 +732,7 @@ export class Logger {
   }
 
   /**
-   * Log a trace message.
-   *
-   * @param message - Message to log, as accepted by `util.format()`.
-   * @param args - Optional variable arguments.
-   *
-   * @remarks
-   * Log a message if the log level is `trace` or higher.
+   * Log a trace message, if the log level is `trace` or higher.
    *
    * The message is prefixed with `trace: ` and
    * passed via `console.log()`.
@@ -788,6 +741,9 @@ export class Logger {
    * ```javascript
    * log.trace(`${this.constructor.name}.doRun()`)
    * ```
+   *
+   * @param message - Message to log, as accepted by `util.format()`.
+   * @param args - Optional variable arguments.
    *
    * @category Output
    */
