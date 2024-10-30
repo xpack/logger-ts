@@ -100,6 +100,13 @@ const config: Config = {
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
         },
+        sitemap: {
+          // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
+          changefreq: 'weekly',
+          priority: 0.5,
+          // ignorePatterns: ['/tags/**'],
+          filename: 'sitemap.xml',
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -156,17 +163,6 @@ const config: Config = {
       }
     ],
     [
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
-      // https://cronica-it.github.io/sitemap.xml
-      '@docusaurus/plugin-sitemap',
-      {
-        changefreq: 'weekly',
-        priority: 0.5,
-        // ignorePatterns: ['/tags/**'],
-        filename: 'sitemap.xml',
-      }
-    ],
-    [
       '@docusaurus/plugin-ideal-image',
       {
         quality: 70,
@@ -179,7 +175,25 @@ const config: Config = {
     [
       'docusaurus-plugin-typedoc',
       {
-         tsconfig: '../tsconfig.json',
+        // https://typedoc-plugin-markdown.org/docs/options#display-options
+        blockTagsPreserveOrder: [ "@example" ],
+        classPropertiesFormat: "list", // "table" not, it may have examples
+        entryPointStrategy: "resolve",
+        enumMembersFormat: "table",
+        excludeExternals: true,
+        excludeInternal: true,
+        expandObjects: true,
+        expandParameters: true,
+        indexFormat: "table",
+        interfacePropertiesFormat: "list", // "table" not, it may have examples
+        parametersFormat: "table",
+        propertyMembersFormat: "table",
+        tsconfig: '../tsconfig.json',
+        "tableColumnSettings": {
+          "leftAlignHeaders": true
+        },
+        typeDeclarationFormat: "table",
+        useCodeBlocks: false, // Nice, but it might be mistaken for examples.
       }
     ],
 
@@ -234,14 +248,14 @@ const config: Config = {
             {
               label: 'Help Centre',
               to: '/docs/support'
-            }, /*
+            },
             {
               label: 'Releases',
               to: '/docs/releases'
-            }, */
+            },
             {
               label: 'About',
-              to: '/docs/about'
+              to: '/docs/project/about'
             }
           ],
         },

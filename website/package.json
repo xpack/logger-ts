@@ -12,8 +12,13 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
+    "generate-typedoc": "docusaurus generate-typedoc",
     "typecheck": "tsc",
-    "typedoc": "typedoc --logLevel Verbose"
+    "npm-outdated": "npm outdated",
+    "npm-install": "npm install",
+    "npm-link": "npm link @xpack/docusaurus-template-liquid @xpack/node-modules-helper",
+    "generate-website-commons": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-commons.sh",
+    "generate-website-blog-post": "bash node_modules/@xpack/docusaurus-template-liquid/maintenance-scripts/generate-blog-post.sh"
   },
   "dependencies": {
     "@docusaurus/core": "3.5.2",
@@ -31,6 +36,7 @@
     "@docusaurus/tsconfig": "3.5.2",
     "@docusaurus/types": "3.5.2",
     "docusaurus-plugin-typedoc": "^1.0.5",
+    "json": "^11.0.0",
     "typedoc": "^0.26.10",
     "typedoc-plugin-markdown": "^4.2.9",
     "typescript": "~5.5.2"

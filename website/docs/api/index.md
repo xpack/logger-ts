@@ -2,14 +2,12 @@
 
 ## Classes
 
-- [Logger](classes/Logger.md)
-
-## Interfaces
-
-- [LoggerBufferRecord](interfaces/LoggerBufferRecord.md)
+| Class | Description |
+| :------ | :------ |
+| [Logger](classes/Logger.md) | The **Logger** class implements the logger functionality. |
 
 ## Type Aliases
 
-- [LogLevel](type-aliases/LogLevel.md)
-- [NumericLogLevel](type-aliases/NumericLogLevel.md)
-- [LoggerFunction](type-aliases/LoggerFunction.md)
+| Type alias | Description |
+| :------ | :------ |
+| [LogLevel](type-aliases/LogLevel.md) | Type of the strings recognised as valid level names. |

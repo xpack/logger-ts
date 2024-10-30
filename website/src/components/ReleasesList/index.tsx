@@ -23,11 +23,17 @@ export function ReleasesList({items}): JSX.Element {
   return (
     <ul>
       {
-        pluginData.releasesTable.map(release => (
-          <li>
-            <a href={release.permalink}>{release.title}</a> (<a href={release.downloadUrl}>download</a>)
-          </li>
-        ))
+        pluginData.releasesTable.length > 0 ?
+          pluginData.releasesTable.map(release => (
+            <li>
+              <a href={release.permalink}>{release.title}</a> (<a href={release.downloadUrl}>download</a>)
+            </li>
+          )) :
+          (
+            <li>
+              none yet
+            </li>
+          )
       }
     </ul>
   )

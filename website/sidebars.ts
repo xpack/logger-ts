@@ -44,16 +44,33 @@ const sidebars: SidebarsConfig = {
       type: 'doc',
       id: 'support/index',
       label: 'Help Centre'
-    }, /*
+    },
     {
       type: 'doc',
       id: 'releases/index',
       label: 'Releases'
-    }, */
+    },
     {
-      type: 'doc',
-      id: 'about/index',
-      label: 'About'
+      type: 'category',
+      label: 'Project',
+      collapsed: false,
+      items: [
+        {
+          type: 'doc',
+          id: 'project/about/index',
+          label: 'About'
+        },
+        {
+          type: 'doc',
+          id: 'project/history/index',
+          label: 'History'
+        },
+        {
+          type: 'link',
+          label: 'License',
+          href: 'https://opensource.org/license/MIT',
+        },
+      ]
     },
     {
       type: 'doc',

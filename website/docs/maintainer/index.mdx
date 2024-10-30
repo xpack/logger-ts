@@ -19,8 +19,8 @@ date: 2024-10-24 23:59:00 +0300
 
 import customField from '@site/src/libs/customField';
 
-import Prerequisites from '../developer/_prerequisites.mdx';
-import GetProjectSources from '../developer/_get-project-sources.mdx';
+import Prerequisites from '../developer/_common/_prerequisites.mdx';
+import GetProjectSources from '../developer/_common/_get-project-sources.mdx';
 
 import More from './_more.mdx';
 
@@ -40,7 +40,7 @@ This page is designed for maintainers of the
 **xPack Logger**
 project and provides documentation on how to create new releases.
 
-<Prerequisites />
+<Prerequisites nodeVersion="18.0.0" nodeVersionMajor="18"/>
 
 <GetProjectSources />
 
@@ -87,14 +87,7 @@ kept as a legacy CommonJS dependency.
 Keep:
 
 - [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
-  locked to the oldest supported node (^16.18.14)
-  [release](https://nodejs.org/download/release/) available for TypeScript.
-
-:::note[TODO]
-
-Clarify the above.
-
-:::
+  locked to latest that still matches the oldest supported node (18).
 
 ### Increase the version and update it in the top `package.json`
 
@@ -173,10 +166,10 @@ to:
 ### Prepare the release
 
 - terminate all running tasks (**Terminal** → **Terminate Task...**)
-- select the `development` branch
+- switch to the `development` branch
 - commit everything
 - `npm run fix`
-- if there are changes, in the `development` branch, commit all changes
+- if there are changes, commit all changes into the `development` branch
 - `npm run test`
 - `npm run pack`; check the list of packaged files, possibly
   update `.npmignore`
@@ -199,12 +192,13 @@ npm --prefix ~/Work/npm-modules/logger-ts.git/website run generate-website-blog-
 
 - edit the front matter properties
 - select the correct summary
-- commit with _**blog post release {customField('npmVersion')} published**_
+- commit with _**website: blog post release {customField('npmVersion')} published**_
+- push the `development` branch
 
 ## Publish the release to npmjs.com
 
 ```sh
-npm --prefix ~/Work/npm-modules/logger-ts.git publish --tag next
+npm publish --tag next
 ```
 
 - when publishing for the first time, use:
@@ -242,7 +236,11 @@ The Web site deployment is performed automatically when pushing to the
 master branch, by a dedicated workflow in
 [GitHub Actions](https://github.com/xpack/logger-ts/actions/workflows/publish-github-pages.yml).
 
-- merge `development` into `website`
+- switch to the `development` branch
+- run the `website-generate-commons` script in the top `package.json`
+- commit all changes
+- run the `build` script in `website/package.json`
+- merge the `development` branch into the `website` branch
 - push the `website` branch to GitHub
 
 At this moment an automated GitHub Action will generate and publish the website.
@@ -262,7 +260,7 @@ version in `package.json` is not changed.
 In this Git repo:
 
 - select the `master` branch
-- merge `development` into `master`
+- merge the `development` branch into the `master` branch
 - push the `master` branch to GitHub
 
 ### Close milestone
@@ -288,5 +286,14 @@ When the release is considered stable, promote it as `latest`:
   - all releases [![npm](https://img.shields.io/npm/dt/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger/)
 
 Credit to [Shields IO](https://shields.io) for the badges.
+
+## Useful links
+
+- https://www.typescriptlang.org/docs/
+- https://www.typescriptlang.org/tsconfig/
+- https://typedoc.org, https://typedoc.org/guides/doccomments/
+- https://tsdoc.org
+- https://jsdoc.app/index.html
+- https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1
 
 <More />

@@ -4,8 +4,6 @@
 
 Type of the strings recognised as valid level names.
 
-## Remarks
-
 Internally these strings are converted into integer values,
 and these numbers are used in comparisons.
 
@@ -13,4 +11,4 @@ Higher values mean more verbosity.
 
 ## Defined in
 
-[logger.ts:60](https://github.com/xpack/logger-ts/blob/3c12ae665e2c169fd25e7a3e7a562063efb9889a/src/lib/logger.ts#L60)
+[logger.ts:59](https://github.com/xpack/logger-ts/blob/2846243d6dac2448aa7de3003e2e9e9b7885e439/src/lib/logger.ts#L59)

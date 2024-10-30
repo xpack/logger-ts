@@ -14,15 +14,13 @@ keywords:
 
 date: 2024-10-25 13:10:00 +0300
 
-typescript_major_version: 4
-
 ---
 
 import customField from '@site/src/libs/customField';
 import CodeBlock from '@theme/CodeBlock';
 
-import Prerequisites from './_prerequisites.mdx';
-import GetProjectSources from './_get-project-sources.mdx';
+import Prerequisites from './_common/_prerequisites.mdx';
+import GetProjectSources from './_common/_get-project-sources.mdx';
 
 import TestResults from './_test-results.mdx';
 
@@ -39,7 +37,7 @@ This page is designed for developers of the
 **xPack Logger**
 project and provides documentation on how to build and test the package.
 
-<Prerequisites />
+<Prerequisites nodeVersion="18.0.0" nodeVersionMajor="18"/>
 
 <GetProjectSources />
 
@@ -75,7 +73,7 @@ npm --prefix ~/Work/npm-modules/logger-ts.git run compile-watch
 
 ## Language standard compliance
 
-The current version is TypeScript {frontMatter.typescript_major_version}:
+The current version is compiled with TypeScript 4.9.5:
 
 - https://www.typescriptlang.org
 - https://www.typescriptlang.org/docs/handbook
