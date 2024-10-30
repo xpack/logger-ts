@@ -27,14 +27,14 @@ on:
 jobs:
   npm-test:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: $
 
     strategy:
       matrix:
         # https://github.com/actions/setup-node
         node-version: [18, 20]
         # https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners
-        os: [ubuntu-24.04, windows-2022, macos-13, macos-14]
+        os: [ubuntu-24.04, windows-2022, macos-13]
 
     steps:
     - name: Checkout
@@ -43,11 +43,11 @@ jobs:
       with:
         fetch-depth: 3
 
-    - name: Setup Node.js ${{ matrix.node-version }} on ${{ matrix.os }}
+    - name: Setup Node.js $ on $
       # https://github.com/actions/setup-node
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: $
 
     - name: Show node & npm versions, environment
       run: |
