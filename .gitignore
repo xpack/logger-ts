@@ -59,8 +59,7 @@ typings/
 
 # ---
 
-**/*.js
-!/esm/index.js
+/cjs/
 **/*.js.map
 **/*.d.ts
 **/*.d.ts.map
