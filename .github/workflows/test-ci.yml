@@ -34,7 +34,7 @@ jobs:
         # https://github.com/actions/setup-node
         node-version: [18, 20]
         # https://docs.github.com/en/actions/using-github-hosted-runners/using-github-hosted-runners/about-github-hosted-runners
-        os: [ubuntu-24.04, windows-2022, macos-13]
+        os: [ubuntu-24.04, windows-2022, macos-13, macos-14]
 
     steps:
     - name: Checkout
@@ -62,4 +62,3 @@ jobs:
       run: npm run test-100-c8
       env:
         CI: true
-
