@@ -151,12 +151,20 @@ export class Logger {
   // --------------------------------------------------------------------------
   // Static Properties.
 
-  /** The recommended default level. */
+  /**
+   * The recommended default level.
+   *
+   * @category Constants
+   */
   static defaultLevel: LogLevel = 'info'
 
   // Not an enum, to be able to define it inside the class,
   // not at global level.
-  /** Internal numerical values for the log level. */
+  /**
+   * Internal numerical values for the log level.
+   *
+   * @category Constants
+   */
   static numericLevels = {
     silent: 0,
     error: 10,
@@ -168,24 +176,50 @@ export class Logger {
     all: 70
   }
 
-  /** The value used for the undefined log level (maximum value). */
+  /**
+   * The value used for the undefined log level (maximum value).
+   *
+   * @category Constants
+   */
   static numericLevelUndefined: NumericLogLevel = Infinity
 
-  /** The value used for the `always` case (minimum value). */
+  /**
+   * The value used for the `always` case (minimum value).
+   *
+   * @category Constants
+   */
   static numericLevelAlways: NumericLogLevel = -1
 
   // --------------------------------------------------------------------------
   // Properties.
 
-  /** The console object used to output the log messages. */
+  /**
+   * The console object used to output the log messages.
+   *
+   * @category Internal Members
+   *
+   * @internal
+   */
   protected readonly _console: Console = console
-  /** The numerical value of the log level. */
+  /**
+   * The numerical value of the log level.
+   *
+   * @category Internal Members
+   */
   protected levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
-  /** The name of the log level. */
+  /**
+   * The name of the log level.
+   *
+   * @category Internal Members
+   */
   protected levelName: LogLevel | undefined = undefined
 
-  /** Empty buffer where preliminary log lines are stored
-   * until the log level is set. */
+  /**
+   * Empty buffer where preliminary log lines are stored
+   * until the log level is set.
+   *
+   * @category Internal Members
+   */
   protected buffer: LoggerBufferRecord[] = []
 
   // --------------------------------------------------------------------------
@@ -282,7 +316,7 @@ export class Logger {
    *
    * @returns True if the level was set.
    *
-   * @category Log Level Management
+   * @category Log Level Accessors
    */
   get hasLevel (): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
@@ -303,7 +337,7 @@ export class Logger {
    *
    * @param level - A string with the new log level.
    *
-   * @category Log Level Management
+   * @category Log Level Accessors
    */
   set level (level: LogLevel | undefined) {
     assert(level)
@@ -337,7 +371,7 @@ export class Logger {
    *
    * @returns A string with the log level name.
    *
-   * @category Log Level Management
+   * @category Log Level Accessors
    */
   get level (): LogLevel | undefined {
     return this.levelName
@@ -351,7 +385,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isSilent (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
@@ -365,7 +399,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isError (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
@@ -379,7 +413,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isWarn (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
@@ -393,7 +427,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isInfo (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
@@ -407,7 +441,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isVerbose (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
@@ -421,7 +455,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isDebug (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
@@ -435,7 +469,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isTrace (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
@@ -449,7 +483,7 @@ export class Logger {
    * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Checks
+   * @category Log Level Check Accessors
    */
   get isAll (): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
@@ -496,6 +530,7 @@ export class Logger {
    * @returns True if the current log level is equal to the given
    *   level or higher.
    *
+   * @category Log Level Check Methods
    */
   isLevel (level: LogLevel): boolean {
     assert(level)
@@ -516,6 +551,8 @@ export class Logger {
    * @param loggerFunction - The function to be used to write
    * the message.
    * @param message - The log message.
+   *
+   * @category Output Methods
    */
   protected write (
     numericLevel: NumericLogLevel,
@@ -556,7 +593,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   always (message: any = '', ...args: any[]): void {
     const str = util.format(message, ...args)
@@ -569,16 +606,10 @@ export class Logger {
    * The message is prefixed with `error: ` and
    * passed via `console.error()`.
    *
-   * @example
-   * ```javascript
-   * log.error('Not good...')
-   * ```
-   *
    * There is a special case when the input is an `Error` object. It
    * is expanded, including a full stack trace, and passed via
    * `console.error()`.
    *
-   * @example
    * ```javascript
    * try {
    *   // ...
@@ -587,10 +618,15 @@ export class Logger {
    * }
    * ```
    *
+   * @example
+   * ```javascript
+   * log.error('Not good...')
+   * ```
+   *
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   // error (message: Error): void
   error (message: any = '', ...args: any[]): void {
@@ -612,12 +648,10 @@ export class Logger {
    * It differs from `error()` by **not** prefixing the string with `error: `
    * and using `console.log()` instead of `console.error()`.
    *
-   * @example
-   * ```javascript
-   * log.output('Not good either...')
-   * ```
+   * There is a special case when the input is an `Error` object. It
+   * is expanded, including a full stack trace, and passed via
+   * `console.log()`.
    *
-   * @example
    * ```javascript
    * try {
    *   // ...
@@ -627,10 +661,15 @@ export class Logger {
    * }
    * ```
    *
+   * @example
+   * ```javascript
+   * log.output('Not good either...')
+   * ```
+   *
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   output (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
@@ -653,7 +692,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   warn (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.warn) {
@@ -676,7 +715,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   info (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.info) {
@@ -698,7 +737,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   verbose (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.verbose) {
@@ -721,7 +760,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   debug (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.debug) {
@@ -745,7 +784,7 @@ export class Logger {
    * @param message - Message to log, as accepted by `util.format()`.
    * @param args - Optional variable arguments.
    *
-   * @category Output
+   * @category Output Methods
    */
   trace (message: any = '', ...args: any[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.trace) {
