@@ -176,9 +176,15 @@ const config: Config = {
       'docusaurus-plugin-typedoc',
       {
         // https://typedoc-plugin-markdown.org/docs/options#display-options
-        blockTagsPreserveOrder: [ "@example" ],
+        blockTagsPreserveOrder: [
+          "@example"
+        ],
+        categorizeByGroup: false, // Otherwise it fails to load the sidebar.
         classPropertiesFormat: "list", // "table" not, it may have examples
         entryPointStrategy: "resolve",
+        entryPoints: [
+          "../src/index.ts"
+        ],
         enumMembersFormat: "table",
         excludeExternals: true,
         excludeInternal: true,
@@ -186,8 +192,18 @@ const config: Config = {
         expandParameters: true,
         indexFormat: "table",
         interfacePropertiesFormat: "list", // "table" not, it may have examples
+        logLevel: "Verbose",
         parametersFormat: "table",
+        plugin: [
+          "typedoc-plugin-markdown"
+        ],
         propertyMembersFormat: "table",
+        readme: "none",
+        skipErrorChecking: true,
+        sort: [
+          "instance-first",
+          "visibility"
+        ],
         tsconfig: '../tsconfig.json',
         "tableColumnSettings": {
           "leftAlignHeaders": true

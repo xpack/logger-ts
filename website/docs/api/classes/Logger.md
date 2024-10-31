@@ -100,185 +100,105 @@ const log = new Logger()
 
 #### Defined in
 
-[logger.ts:233](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L233)
+[logger.ts:267](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L267)
 
-## Log Level Checks
+## Constants
 
-### isSilent
+### defaultLevel
 
-> `get` **isSilent**(): `boolean`
+> `static` **defaultLevel**: [`LogLevel`](../type-aliases/LogLevel.md) = `'info'`
 
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `silent` or higher.
+The recommended default level.
 
 #### Defined in
 
-[logger.ts:356](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L356)
+[logger.ts:159](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L159)
 
 ***
 
-### isError
+### numericLevels
 
-> `get` **isError**(): `boolean`
+> `static` **numericLevels**: \{`silent`: `0`;`error`: `10`;`warn`: `20`;`info`: `30`;`verbose`: `40`;`debug`: `50`;`trace`: `60`;`all`: `70`; \}
 
-Accessor to check the log level.
+Internal numerical values for the log level.
 
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `error` or higher.
+| Name | Type | Default value | Defined in |
+| :------ | :------ | :------ | :------ |
+| `silent` | `number` | 0 | [logger.ts:169](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L169) |
+| `error` | `number` | 10 | [logger.ts:170](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L170) |
+| `warn` | `number` | 20 | [logger.ts:171](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L171) |
+| `info` | `number` | 30 | [logger.ts:172](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L172) |
+| `verbose` | `number` | 40 | [logger.ts:173](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L173) |
+| `debug` | `number` | 50 | [logger.ts:174](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L174) |
+| `trace` | `number` | 60 | [logger.ts:175](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L175) |
+| `all` | `number` | 70 | [logger.ts:176](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L176) |
 
 #### Defined in
 
-[logger.ts:370](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L370)
+[logger.ts:168](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L168)
 
 ***
 
-### isWarn
+### numericLevelUndefined
 
-> `get` **isWarn**(): `boolean`
+> `static` **numericLevelUndefined**: `number` = `Infinity`
 
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `warn` or higher.
+The value used for the undefined log level (maximum value).
 
 #### Defined in
 
-[logger.ts:384](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L384)
+[logger.ts:184](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L184)
 
 ***
 
-### isInfo
+### numericLevelAlways
 
-> `get` **isInfo**(): `boolean`
+> `static` **numericLevelAlways**: `number` = `-1`
 
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `info` or higher.
+The value used for the `always` case (minimum value).
 
 #### Defined in
 
-[logger.ts:398](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L398)
+[logger.ts:191](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L191)
+
+## Internal Members
+
+### levelNumericValue
+
+> `protected` **levelNumericValue**: `number` = `Logger.numericLevelUndefined`
+
+The numerical value of the log level.
+
+#### Defined in
+
+[logger.ts:209](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L209)
 
 ***
 
-### isVerbose
+### levelName
 
-> `get` **isVerbose**(): `boolean`
+> `protected` **levelName**: `undefined` \| [`LogLevel`](../type-aliases/LogLevel.md) = `undefined`
 
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `verbose` or higher.
+The name of the log level.
 
 #### Defined in
 
-[logger.ts:412](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L412)
+[logger.ts:215](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L215)
 
 ***
 
-### isDebug
+### buffer
 
-> `get` **isDebug**(): `boolean`
+> `protected` **buffer**: `LoggerBufferRecord`[] = `[]`
 
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `debug` or higher.
+Empty buffer where preliminary log lines are stored
+until the log level is set.
 
 #### Defined in
 
-[logger.ts:426](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L426)
+[logger.ts:223](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L223)
 
-***
-
-### isTrace
-
-> `get` **isTrace**(): `boolean`
-
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `trace` or higher.
-
-#### Defined in
-
-[logger.ts:440](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L440)
-
-***
-
-### isAll
-
-> `get` **isAll**(): `boolean`
-
-Accessor to check the log level.
-
-#### Remarks
-
-- changed to an accessor in v3.0.0.
-
-#### Returns
-
-`boolean`
-
-True if the log level is `all`.
-
-#### Defined in
-
-[logger.ts:454](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L454)
-
-## Log Level Management
+## Log Level Accessors
 
 ### hasLevel
 
@@ -311,7 +231,7 @@ True if the level was set.
 
 #### Defined in
 
-[logger.ts:287](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L287)
+[logger.ts:321](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L321)
 
 ***
 
@@ -356,31 +276,185 @@ A string with the log level name.
 
 #### Defined in
 
-[logger.ts:342](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L342)
+[logger.ts:376](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L376)
 
-## Other
+## Log Level Check Accessors
 
-### console
+### isSilent
 
-> `get` **console**(): `Console`
+> `get` **isSilent**(): `boolean`
 
-Accessor to get the underlying `console` object.
+Accessor to check the log level.
 
-Direct access to the console object is useful in tests, when
-the console is a mock object, which allows to check the logged
-messages.
+#### Remarks
+
+- changed to an accessor in v3.0.0.
 
 #### Returns
 
-`Console`
+`boolean`
 
-The console object used by the logger.
+True if the log level is `silent` or higher.
 
 #### Defined in
 
-[logger.ts:469](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L469)
+[logger.ts:390](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L390)
 
 ***
+
+### isError
+
+> `get` **isError**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `error` or higher.
+
+#### Defined in
+
+[logger.ts:404](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L404)
+
+***
+
+### isWarn
+
+> `get` **isWarn**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `warn` or higher.
+
+#### Defined in
+
+[logger.ts:418](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L418)
+
+***
+
+### isInfo
+
+> `get` **isInfo**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `info` or higher.
+
+#### Defined in
+
+[logger.ts:432](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L432)
+
+***
+
+### isVerbose
+
+> `get` **isVerbose**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `verbose` or higher.
+
+#### Defined in
+
+[logger.ts:446](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L446)
+
+***
+
+### isDebug
+
+> `get` **isDebug**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `debug` or higher.
+
+#### Defined in
+
+[logger.ts:460](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L460)
+
+***
+
+### isTrace
+
+> `get` **isTrace**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `trace` or higher.
+
+#### Defined in
+
+[logger.ts:474](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L474)
+
+***
+
+### isAll
+
+> `get` **isAll**(): `boolean`
+
+Accessor to check the log level.
+
+#### Remarks
+
+- changed to an accessor in v3.0.0.
+
+#### Returns
+
+`boolean`
+
+True if the log level is `all`.
+
+#### Defined in
+
+[logger.ts:488](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L488)
+
+## Log Level Check Methods
 
 ### isLevel()
 
@@ -421,145 +495,31 @@ True if the current log level is equal to the given
 
 #### Defined in
 
-[logger.ts:500](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L500)
+[logger.ts:535](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L535)
 
-***
+## Other
 
-### \_console
+### console
 
-> `protected` `readonly` **\_console**: `Console` = `console`
+> `get` **console**(): `Console`
 
-The console object used to output the log messages.
+Accessor to get the underlying `console` object.
 
-#### Defined in
-
-[logger.ts:181](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L181)
-
-***
-
-### levelNumericValue
-
-> `protected` **levelNumericValue**: `number` = `Logger.numericLevelUndefined`
-
-The numerical value of the log level.
-
-#### Defined in
-
-[logger.ts:183](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L183)
-
-***
-
-### levelName
-
-> `protected` **levelName**: `undefined` \| [`LogLevel`](../type-aliases/LogLevel.md) = `undefined`
-
-The name of the log level.
-
-#### Defined in
-
-[logger.ts:185](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L185)
-
-***
-
-### buffer
-
-> `protected` **buffer**: `LoggerBufferRecord`[] = `[]`
-
-Empty buffer where preliminary log lines are stored
-until the log level is set.
-
-#### Defined in
-
-[logger.ts:189](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L189)
-
-***
-
-### write()
-
-> `protected` **write**(`numericLevel`: `number`, `loggerFunction`: `LoggerFunction`, `message`: `undefined` \| `string`): `void`
-
-The internal log writer.
-
-If the log level was defined, call the actual logger function, otherwise
-store the log lines in the array buffer, for later
-processing, when the log level is finally defined.
-
-#### Parameters
-
-| Parameter | Type | Description |
-| :------ | :------ | :------ |
-| `numericLevel` | `number` | The log numeric level. |
-| `loggerFunction` | `LoggerFunction` | The function to be used to write the message. |
-| `message` | `undefined` \| `string` | The log message. |
+Direct access to the console object is useful in tests, when
+the console is a mock object, which allows to check the logged
+messages.
 
 #### Returns
 
-`void`
+`Console`
+
+The console object used by the logger.
 
 #### Defined in
 
-[logger.ts:520](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L520)
+[logger.ts:503](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L503)
 
-***
-
-### defaultLevel
-
-> `static` **defaultLevel**: [`LogLevel`](../type-aliases/LogLevel.md) = `'info'`
-
-The recommended default level.
-
-#### Defined in
-
-[logger.ts:155](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L155)
-
-***
-
-### numericLevels
-
-> `static` **numericLevels**: \{`silent`: `0`;`error`: `10`;`warn`: `20`;`info`: `30`;`verbose`: `40`;`debug`: `50`;`trace`: `60`;`all`: `70`; \}
-
-Internal numerical values for the log level.
-
-| Name | Type | Default value | Defined in |
-| :------ | :------ | :------ | :------ |
-| `silent` | `number` | 0 | [logger.ts:161](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L161) |
-| `error` | `number` | 10 | [logger.ts:162](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L162) |
-| `warn` | `number` | 20 | [logger.ts:163](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L163) |
-| `info` | `number` | 30 | [logger.ts:164](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L164) |
-| `verbose` | `number` | 40 | [logger.ts:165](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L165) |
-| `debug` | `number` | 50 | [logger.ts:166](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L166) |
-| `trace` | `number` | 60 | [logger.ts:167](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L167) |
-| `all` | `number` | 70 | [logger.ts:168](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L168) |
-
-#### Defined in
-
-[logger.ts:160](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L160)
-
-***
-
-### numericLevelUndefined
-
-> `static` **numericLevelUndefined**: `number` = `Infinity`
-
-The value used for the undefined log level (maximum value).
-
-#### Defined in
-
-[logger.ts:172](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L172)
-
-***
-
-### numericLevelAlways
-
-> `static` **numericLevelAlways**: `number` = `-1`
-
-The value used for the `always` case (minimum value).
-
-#### Defined in
-
-[logger.ts:175](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L175)
-
-## Output
+## Output Methods
 
 ### always()
 
@@ -589,7 +549,7 @@ log.always(version)
 
 #### Defined in
 
-[logger.ts:561](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L561)
+[logger.ts:598](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L598)
 
 ***
 
@@ -601,23 +561,6 @@ Log an error message, if the log level is `error` or higher.
 
 The message is prefixed with `error: ` and
 passed via `console.error()`.
-
-#### Parameters
-
-| Parameter | Type | Default value | Description |
-| :------ | :------ | :------ | :------ |
-| `message` | `any` | `''` | Message to log, as accepted by `util.format()`. |
-| ...`args` | `any`[] | `undefined` | Optional variable arguments. |
-
-#### Returns
-
-`void`
-
-#### Examples
-
-```javascript
-log.error('Not good...')
-```
 
 There is a special case when the input is an `Error` object. It
 is expanded, including a full stack trace, and passed via
@@ -631,20 +574,11 @@ try {
 }
 ```
 
-#### Defined in
+#### Example
 
-[logger.ts:596](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L596)
-
-***
-
-### output()
-
-> **output**(`message`: `any`, ...`args`: `any`[]): `void`
-
-Log an error message, if the log level is `error` or higher.
-
-It differs from `error()` by **not** prefixing the string with `error: `
-and using `console.log()` instead of `console.error()`.
+```javascript
+log.error('Not good...')
+```
 
 #### Parameters
 
@@ -657,11 +591,24 @@ and using `console.log()` instead of `console.error()`.
 
 `void`
 
-#### Examples
+#### Defined in
 
-```javascript
-log.output('Not good either...')
-```
+[logger.ts:632](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L632)
+
+***
+
+### output()
+
+> **output**(`message`: `any`, ...`args`: `any`[]): `void`
+
+Log an error message, if the log level is `error` or higher.
+
+It differs from `error()` by **not** prefixing the string with `error: `
+and using `console.log()` instead of `console.error()`.
+
+There is a special case when the input is an `Error` object. It
+is expanded, including a full stack trace, and passed via
+`console.log()`.
 
 ```javascript
 try {
@@ -672,9 +619,26 @@ try {
 }
 ```
 
+#### Example
+
+```javascript
+log.output('Not good either...')
+```
+
+#### Parameters
+
+| Parameter | Type | Default value | Description |
+| :------ | :------ | :------ | :------ |
+| `message` | `any` | `''` | Message to log, as accepted by `util.format()`. |
+| ...`args` | `any`[] | `undefined` | Optional variable arguments. |
+
+#### Returns
+
+`void`
+
 #### Defined in
 
-[logger.ts:635](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L635)
+[logger.ts:674](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L674)
 
 ***
 
@@ -706,7 +670,7 @@ log.info(title)
 
 #### Defined in
 
-[logger.ts:658](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L658)
+[logger.ts:697](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L697)
 
 ***
 
@@ -737,7 +701,7 @@ log.info(title)
 
 #### Defined in
 
-[logger.ts:681](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L681)
+[logger.ts:720](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L720)
 
 ***
 
@@ -768,7 +732,7 @@ log.verbose('Configurations:')
 
 #### Defined in
 
-[logger.ts:703](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L703)
+[logger.ts:742](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L742)
 
 ***
 
@@ -800,7 +764,7 @@ log.debug(`spawn: ${cmd}`)
 
 #### Defined in
 
-[logger.ts:726](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L726)
+[logger.ts:765](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L765)
 
 ***
 
@@ -832,4 +796,32 @@ log.trace(`${this.constructor.name}.doRun()`)
 
 #### Defined in
 
-[logger.ts:750](https://github.com/xpack/logger-ts/blob/ffc442e97f40a3dde8fb95734b7dc2c19ddabccf/src/lib/logger.ts#L750)
+[logger.ts:789](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L789)
+
+***
+
+### write()
+
+> `protected` **write**(`numericLevel`: `number`, `loggerFunction`: `LoggerFunction`, `message`: `undefined` \| `string`): `void`
+
+The internal log writer.
+
+If the log level was defined, call the actual logger function, otherwise
+store the log lines in the array buffer, for later
+processing, when the log level is finally defined.
+
+#### Parameters
+
+| Parameter | Type | Description |
+| :------ | :------ | :------ |
+| `numericLevel` | `number` | The log numeric level. |
+| `loggerFunction` | `LoggerFunction` | The function to be used to write the message. |
+| `message` | `undefined` \| `string` | The log message. |
+
+#### Returns
+
+`void`
+
+#### Defined in
+
+[logger.ts:557](https://github.com/xpack/logger-ts/blob/36710e82aebcbf11da34c40c8eb2fc19625709a0/src/lib/logger.ts#L557)
