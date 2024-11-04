@@ -72,7 +72,7 @@ it enters a **preliminary state**. During this time, all log entries are
 stored in an **internal buffer**. Once the log level is set, the buffer
 is processed, and the log entries are handled accordingly.
 
-```javascript
+```typescript
 const log = new Logger()
 log.trace('...') // Not shown immediately
 log.level = 'trace' // Set level and show the buffered messages.
@@ -95,9 +95,24 @@ The following methods are available to log messages:
 - `debug (message: any = '', ...args: any[]): void`
 - `trace (message: any = '', ...args: any[]): void`
 
+### Log level checks
+
+When preparing the log messages is expensive, it makes no sense to
+do it and call the output method to simply return if the log level
+is low and the message is not needed.
+
+Instead, the log level can be checked explicitly:
+
+```typescript
+if (log.isDebug) {
+  const message = invoke_long_method()
+  log.debug(message)
+}
+```
+
 ### Reference
 
 For more details on the available class definitions, including all methods,
 accessors, properties, etc,
 please see the TypeDoc
-[API](/docs/api/) pages.
+[API Reference](/docs/api/) pages.
