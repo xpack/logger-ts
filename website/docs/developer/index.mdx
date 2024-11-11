@@ -116,7 +116,7 @@ To manually fix compliance with the style guide (where possible):
 <CodeBlock language="console"> {
 `% npm run fix
 
-> @xpack/logger@{customField('version')} fix
+> @xpack/logger@${customField('version')} fix
 > ts-standard --fix src && standard --fix test
 ...
 `} </CodeBlock>
@@ -156,6 +156,7 @@ npm --prefix ~/Work/npm-modules/logger-ts.git run test
 
 <TestResults />
 
+
 ### Coverage tests
 
 Coverage tests are a good indication on how much of the source files is
@@ -173,15 +174,17 @@ and `/* c8 ignore start */` `/* c8 ignore stop */` for
 
 - none
 
+
 ### Continuous Integration (CI)
 
-The continuous integration tests are performed via
-[GitHub Actions](https://github.com/xpack/logger-ts/actions) on Ubuntu,
-Windows and macOS, using node 16, 18.
+The module is tested with 100% coverage and
+CI tested on every push via
+[GitHub Actions](https://github.com/xpack/logger-ts/actions), on Ubuntu,
+Windows and macOS, using node 18 and 20.
 
 ## Tricks & tips
 
-To trace module resolution:
+To trace TypeScript module resolution:
 
 ```json
     "compile": "tsc --traceResolution  -p ./",

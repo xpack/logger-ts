@@ -6,6 +6,14 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import logger from '@docusaurus/logger';
 
+
+import {redirects} from './docusaurus-config-redirects'
+
+// The node.js modules cannot be used in modules imported in browser code:
+// webpack < 5 used to include polyfills for node.js core modules by default.
+// so the entire initialisation code must be in this file, that is
+// not processed by webpack.
+
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
@@ -22,14 +30,14 @@ function getCustomFields() {
   const topFileContent = fs.readFileSync(topFilePath);
 
   const topPackageJson = JSON.parse(topFileContent.toString());
-  const npmVersion = topPackageJson.version.replace(/[.-]pre/, '');
+  const releaseVersion = topPackageJson.version.replace(/[.-]pre/, '');
 
   logger.info(`package version: ${topPackageJson.version}`);
 
   const customFields = {}
 
   return {
-    npmVersion,
+    releaseVersion,
     docusaurusVersion: require('@docusaurus/core/package.json').version,
     buildTime: new Date().getTime(),
     ...customFields,
@@ -82,7 +90,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/xpack/logger-ts/edit/master/',
+          editUrl: 'https://github.com/xpack/logger-ts/edit/master/website/',
           // showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
@@ -94,7 +102,7 @@ const config: Config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/xpack/logger-ts/edit/master/',
+          editUrl: 'https://github.com/xpack/logger-ts/edit/master/website/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -118,40 +126,7 @@ const config: Config = {
     [
       // https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-client-redirects#redirects
       '@docusaurus/plugin-client-redirects',
-      {
-        // fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
-        // toExtensions: ['exe', 'zip'], // /myAsset -> /myAsset.zip (if latter exists)
-        redirects: [
-          //   // /docs/oldDoc -> /docs/newDoc
-          //   {
-          //     to: '/docs/newDoc',
-          //     from: '/docs/oldDoc',
-          //   },
-          //   // Redirect from multiple old paths to the new path
-          //   {
-          //     to: '/docs/newDoc2',
-          //     from: ['/docs/oldDocFrom2019', '/docs/legacyDocFrom2016'],
-          //   },
-        ],
-        createRedirects(existingPath) {
-          logger.info(existingPath);
-          //   if (existingPath.includes('/evenimente')) {
-          //     // logger.info(`to ${existingPath} from ${existingPath.replace('/evenimente', '/events')}`);
-          //     // Redirect from /events/X to /evenimente/X
-          //     return [
-          //       existingPath.replace('/evenimente', '/events')
-          //     ];
-          //   } else if (existingPath.includes('/amintiri')) {
-          //     // logger.info(`to ${existingPath} from ${existingPath.replace('/amintiri', '/blog')}`);
-          //     // Redirect from /blog/Z to /amintiri/X
-          //     return [
-          //       existingPath.replace('/amintiri', '/blog')
-          //     ];
-          //   }
-          //   return undefined; // Return a falsy value: no redirect created
-          //   },
-        }
-      }
+      redirects
     ],
     [
       // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-google-gtag
@@ -215,6 +190,50 @@ const config: Config = {
 
     // Local plugins.
     './src/plugins/SelectReleasesPlugin',
+  ],
+
+
+  // https://docusaurus.io/docs/api/docusaurus-config#headTags
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        type: 'image/png',
+        href: '/logger-ts/favicons/favicon-48x48.png',
+        sizes: '48x48'
+      }
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: '/logger-ts/favicons/favicon.svg'
+      }
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'shortcut icon',
+        href: '/logger-ts/favicons/favicon.ico'
+      }
+    },
+    {
+      // This might also go to themeConfig.metadata.
+      tagName: 'meta',
+      attributes: {
+        name: 'apple-mobile-web-app-title',
+        content: 'xPack'
+      }
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'manifest',
+        href: '/logger-ts/favicons/site.webmanifest'
+      }
+    }
   ],
 
   themeConfig: {
@@ -307,9 +326,9 @@ const config: Config = {
           'aria-label': 'GitHub repository',
         },
         {
-          label: `v${customFields.npmVersion}`,
+          label: `v${customFields.releaseVersion}`,
           position: 'right',
-          href: `https://www.npmjs.com/package/@xpack/logger/v/${customFields.npmVersion}`,
+          href: `https://www.npmjs.com/package/@xpack/logger/v/${customFields.releaseVersion}`,
         },
         {
           href: 'https://github.com/xpack/',

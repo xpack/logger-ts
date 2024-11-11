@@ -28,8 +28,8 @@ import More from './_more.mdx';
 
 {/* ------------------------------------------------------------------------ */}
 
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/mater/package.json)
-[![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg)](https://www.npmjs.com/package/@xpack/logger/)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts?color=green)](https://github.com/xpack/logger-ts/blob/mater/package.json)
+[![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg?color=green)](https://www.npmjs.com/package/@xpack/logger/)
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 [![CI on Push](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml/badge.svg)](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml)
 [![GitHub issues](https://img.shields.io/github/issues/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/issues)
@@ -93,11 +93,11 @@ Keep:
 
 ### Increase the version and update it in the top `package.json`
 
-As required by npm modules, this one also uses [semver](https://semver.org).
+As required by npm modules, this one also uses [SemVer](https://semver.org).
 
-- determine the next version (like <code>{customField('npmVersion')}</code>)
+- determine the next version (like <code>{customField('releaseVersion')}</code>)
 - update the version in the top `package.json` file
-- use the new version, suffixed by `-pre`, like <code>{customField('npmVersion')}-pre</code>.
+- use the new version, suffixed by `-pre`, like <code>{customField('releaseVersion')}-pre</code>.
 
 ### Update the `websiteConfig` in top `package.json` (if necessary)
 
@@ -124,7 +124,7 @@ Check GitHub issues and pull requests:
 - https://github.com/xpack/logger-ts/pulls
 
 and fix them; assign them to a milestone
-(like <code>{customField('npmVersion')}</code>).
+(like <code>{customField('releaseVersion')}</code>).
 
 ### Update `CHANGELOG.md`
 
@@ -163,8 +163,8 @@ to:
 *
 ```
 
-- add a new entry like _**\* v{customField('npmVersion')} prepared**_
-- commit with a message like _**prepare v{customField('npmVersion')}**_
+- add a new entry like _**\* v{customField('releaseVersion')} prepared**_
+- commit with a message like _**prepare v{customField('releaseVersion')}**_
 
 ### Prepare the release
 
@@ -178,10 +178,13 @@ to:
   update `.npmignore`
 
 <CodeBlock language="sh"> {
-`npm version ${customField('npmVersion')}
+`npm version ${customField('releaseVersion')}
 `} </CodeBlock>
 
 - push all changes to GitHub
+
+### CI tests
+
 - the `postversion` npm script should also update tags via
   `git push origin --tags`; this should trigger CI
 - **wait for CI tests to complete**
@@ -198,7 +201,7 @@ npm --prefix ~/Work/npm-modules/logger-ts.git/website run generate-website-blog-
 
 - edit the front matter properties
 - select the correct summary
-- commit with _**website: blog post release {customField('npmVersion')} published**_
+- commit with _**website: blog post release {customField('releaseVersion')} published**_
 - push the `development` branch
 
 ## Publish the release to npmjs.com
@@ -216,15 +219,17 @@ npm publish --access public
 After a few moments the version will be visible at
 [@xpack/logger Versions](https://www.npmjs.com/package/@xpack/logger?activeTab=versions).
 
-### Test locally
+### Manual install test
 
-Test it the module can be installed locally:
+
+Test if the package can be installed in a project:
 
 ```bash
 rm -rf ~/tmp/logger-test && mkdir ~/tmp/logger-test
 npm --prefix ~/tmp/logger-test init --yes
 npm --prefix ~/tmp/logger-test install @xpack/logger@next
 ```
+
 
 Validate the web site content in a local build via the npm `build` script:
 
@@ -280,8 +285,10 @@ In https://github.com/xpack/xpm-liquid-ts/milestones:
 When the release is considered stable, promote it as `latest`:
 
 - `npm dist-tag ls @xpack/logger`
-- <code>npm dist-tag add @xpack/logger@{customField('npmVersion')} latest</code>
+- <code>npm dist-tag add @xpack/logger@{customField('releaseVersion')} latest</code>
 - `npm dist-tag ls @xpack/logger`
+
+
 
 ## Analytics
 
