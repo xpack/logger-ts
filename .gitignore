@@ -57,6 +57,8 @@ typings/
 # next.js build output
 .next
 
+.tap
+
 # ---
 
 /cjs/
@@ -67,5 +69,7 @@ typings/
 /docs/
 
 tsconfig.tsbuildinfo
+
+/tmp/
 
 #end
