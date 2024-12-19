@@ -9,23 +9,24 @@ The project is hosted on GitHub:
 
 - https://github.com/xpack/logger-ts.git
 
-The project uses two branches:
+The project uses multiple branches:
 
 - `master`, with the latest stable version (default)
 - `development`, with the current development version
+- `website`, with the current content of the website; pushes to this branch automatically trigger publishes the main website
 
 To clone the stable branch (`master`), run the following commands in a
 terminal (on Windows use the Git Bash console):
 
 ```sh
-mkdir ~/Work/npm-modules && cd ~/Work/npm-modules
+mkdir ~/Work/npm-packages && cd ~/Work/npm-packages
 git clone https://github.com/xpack/logger-ts.git logger-ts.git
 ```
 
 For **development** purposes, clone the `development` branch:
 
 ```sh
-mkdir ~/Work/npm-modules && cd ~/Work/npm-modules
+mkdir ~/Work/npm-packages && cd ~/Work/npm-packages
 git clone \
   --branch development \
   https://github.com/xpack/logger-ts.git logger-ts.git
@@ -34,5 +35,5 @@ git clone \
 Or, if the repo was already cloned:
 
 ```sh
-git -C ~/Work/npm-modules/logger-ts.git pull
+git -C ~/Work/npm-packages/logger-ts.git pull
 ```

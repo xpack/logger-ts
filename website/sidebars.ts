@@ -16,6 +16,7 @@ import typedocSidebarItems from "./docs/api/typedoc-sidebar.cjs";
  */
 const sidebars: SidebarsConfig = {
 
+  
   docsSidebar: [
     {
       type: 'doc',
@@ -30,7 +31,17 @@ const sidebars: SidebarsConfig = {
     {
       type: 'doc',
       id: 'user/index',
-      label: 'User Information'
+      label: 'User\'s Guide'
+    },
+    {
+      type: 'doc',
+      id: 'developer/index',
+      label: 'Contributor\'s Guide'
+    },
+    {
+      type: 'doc',
+      id: 'maintainer/index',
+      label: 'Maintainer\'s Guide'
     },
     {
       type: 'doc',
@@ -50,6 +61,10 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Project',
+      link: {
+        type: 'doc',
+        id: 'project/about/index',
+      },
       collapsed: false,
       items: [
         {
@@ -69,28 +84,21 @@ const sidebars: SidebarsConfig = {
         },
       ]
     },
-    {
-      type: 'doc',
-      id: 'developer/index',
-      label: 'Developer Information'
-    },
-    {
-      type: 'doc',
-      id: 'maintainer/index',
-      label: 'Maintainer Information'
-    },
   ],
+  
   typedocSidebar: [
     {
-      type: "category",
-      label: "API Reference (TypeDoc)",
+      type: 'category',
+      label: 'API Reference (TypeDoc)',
       link: {
-        type: "doc",
-        id: "api/index",
+        type: 'doc',
+        id: 'api/index',
       },
+      collapsed: false,
       items: typedocSidebarItems,
     },
   ],
+  
 };
 
 export default sidebars;

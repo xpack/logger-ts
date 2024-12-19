@@ -4,7 +4,8 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import logger from '@docusaurus/logger';
+// import logger from '@docusaurus/logger';
+import util from 'node:util';
 
 
 import {redirects} from './docusaurus-config-redirects'
@@ -22,19 +23,24 @@ import fs from 'node:fs';
 
 function getCustomFields() {
   const pwd = fileURLToPath(import.meta.url);
-  // logger.info(pwd);
+  // console.log(pwd);
 
   // First get the version from the top package.json.
   const topFilePath = path.join(path.dirname(path.dirname(pwd)), 'package.json');
-  // logger.info(filePath);
+  // console.log(filePath);
   const topFileContent = fs.readFileSync(topFilePath);
 
   const topPackageJson = JSON.parse(topFileContent.toString());
   const releaseVersion = topPackageJson.version.replace(/[.-]pre/, '');
 
-  logger.info(`package version: ${topPackageJson.version}`);
+  console.log(`package version: ${topPackageJson.version}`);
 
-  const customFields = {}
+  const enginesNodeVersion = topPackageJson.engines.node.replace(/[^0-9]*/, '') || '';
+  const enginesNodeVersionMajor = enginesNodeVersion.replace(/[.].*/, '');
+  const customFields = {
+    enginesNodeVersion,
+    enginesNodeVersionMajor
+  }
 
   return {
     releaseVersion,
@@ -47,12 +53,13 @@ function getCustomFields() {
 // ----------------------------------------------------------------------------
 
 const customFields = getCustomFields();
-logger.info(customFields);
+console.log('customFields: ' + util.inspect(customFields));
 
 // ----------------------------------------------------------------------------
 
 const config: Config = {
-  title: 'logger - The xPack Logger',
+  title: 'logger - The xPack Logger' +
+    ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
   tagline: 'A Node.js CommonJS/ES6 module with a generic console logger class',
   favicon: 'img/favicon.ico',
 
@@ -60,7 +67,8 @@ const config: Config = {
   url: 'https://xpack.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/logger-ts/',
+  baseUrl: process.env.DOCUSAURUS_BASEURL ??
+    '/logger-ts/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -237,8 +245,8 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    // image: 'img/docusaurus-social-card.jpg',
+    // The project's social card, og:image, twitter:image, 1200x630
+    image: 'img/sunrise-og-image.jpg',
 
     metadata: [
       {
@@ -277,8 +285,16 @@ const config: Config = {
               to: '/docs/install'
             },
             {
-              label: 'User Information',
+              label: 'User\'s Guide',
               to: '/docs/user'
+            },
+            {
+              label: 'Contributor\'s Guide',
+              to: '/docs/developer'
+            },
+            {
+              label: 'Maintainer\'s Guide',
+              to: '/docs/maintainer'
             },
             {
               label: 'Help Centre',

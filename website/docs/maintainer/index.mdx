@@ -3,7 +3,7 @@
 # DO NOT EDIT!
 # Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
-title: Maintainer Information
+title: Maintainer's Guide
 description: Assistance for project maintainers, including the release schedule, versioning scheme, and instructions on how to build, test, and publish.
 keywords:
   - xpack
@@ -17,6 +17,8 @@ date: 2024-10-24 23:59:00 +0300
 
 ---
 
+
+
 import CodeBlock from '@theme/CodeBlock';
 
 import customField from '@site/src/libs/customField';
@@ -24,11 +26,13 @@ import customField from '@site/src/libs/customField';
 import Prerequisites from '../developer/_common/_prerequisites.mdx';
 import GetProjectSources from '../developer/_common/_get-project-sources.mdx';
 
+import DependenciesDetails from './_dependencies-details.mdx'
+
 import More from './_more.mdx';
 
 {/* ------------------------------------------------------------------------ */}
 
-[![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts?color=green)](https://github.com/xpack/logger-ts/blob/mater/package.json)
+[![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts?color=green)](https://github.com/xpack/logger-ts/blob/master/package.json)
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg?color=green)](https://www.npmjs.com/package/@xpack/logger/)
 [![license](https://img.shields.io/github/license/xpack/logger-ts.svg)](https://github.com/xpack/logger-ts/blob/xpack/LICENSE)
 [![CI on Push](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml/badge.svg)](https://github.com/xpack/logger-ts/actions/workflows/test-ci.yml)
@@ -86,10 +90,14 @@ kept as a legacy CommonJS dependency.
   up to date
 - commit the changes
 
+
 Keep:
 
 - [`@types/node`](https://www.npmjs.com/package/@types/node?activeTab=versions)
   locked to latest that still matches the oldest supported node (18).
+
+
+<DependenciesDetails />
 
 ### Increase the version and update it in the top `package.json`
 
@@ -103,14 +111,19 @@ As required by npm modules, this one also uses [SemVer](https://semver.org).
 
 Check and possibly update the `websiteConfig`.
 
+### Update the website commons
+
+Run the `website-generate-commons` script in the top `package.json`;
+this will also update the top README.md file.
+
 ### Start the local web server
 
 Execute the npm script `clean` then `start` in the website sub-project,
 or run the following in a terminal:
 
 ```sh
-npm --prefix ~/Work/npm-modules/logger-ts.git/website run clean
-npm --prefix ~/Work/npm-modules/logger-ts.git/website run start
+npm run clean
+npm run start
 ```
 
 Navigate to the **Maintainer Info** page,
@@ -118,7 +131,7 @@ the **Fix possible open issues** section.
 
 ### Fix possible open issues
 
-Check GitHub issues and pull requests:
+Check GitHub Issues and Pull Requests:
 
 - https://github.com/xpack/logger-ts/issues
 - https://github.com/xpack/logger-ts/pulls
@@ -176,12 +189,13 @@ to:
 - `npm run test`
 - `npm run pack`; check the list of packaged files, possibly
   update `.npmignore`
+- push all changes to GitHub
+
+### Set the new version
 
 <CodeBlock language="sh"> {
 `npm version ${customField('releaseVersion')}
 `} </CodeBlock>
-
-- push all changes to GitHub
 
 ### CI tests
 
@@ -196,13 +210,13 @@ to:
 - run the `generate-website-blog-post` npm script; this will add a file in the `website/blog` folder:
 
 ```sh
-npm --prefix ~/Work/npm-modules/logger-ts.git/website run generate-website-blog-post
+npm run generate-website-blog-post
 ```
 
 - edit the front matter properties
 - select the correct summary
 - commit with _**website: blog post release {customField('releaseVersion')} published**_
-- push the `development` branch
+- push the `development` branch
 
 ## Publish the release to npmjs.com
 
@@ -225,32 +239,37 @@ After a few moments the version will be visible at
 Test if the package can be installed in a project:
 
 ```bash
-rm -rf ~/tmp/logger-test && mkdir ~/tmp/logger-test
-npm --prefix ~/tmp/logger-test init --yes
-npm --prefix ~/tmp/logger-test install @xpack/logger@next
+rm -rf ~/tmp/logger-test && mkdir ~/tmp/logger-test && cd ~/tmp/logger-test
+npm init --yes
+npm install @xpack/logger@next
 ```
 
 
 Validate the web site content in a local build via the npm `build` script:
 
 ```sh
-npm --prefix ~/Work/npm-modules/logger-ts.git/website run build
+npm run build
 ```
 
-## Publish the website
+## Prepare the website
 
 The documentation site is built with [Docusaurus](https://docusaurus.io) and
 published in the project
 [GitHub Pages](https://xpack.github.io/logger-ts).
 
-The Web site deployment is performed automatically when pushing to the
-master branch, by a dedicated workflow in
-[GitHub Actions](https://github.com/xpack/logger-ts/actions/workflows/publish-github-pages.yml).
-
 - switch to the `development` branch
 - run the `website-generate-commons` script in the top `package.json`
 - commit all changes
 - run the `build` script in `website/package.json`
+- fix any broken links, if any
+
+## Publish the website
+
+The Web site deployment is performed automatically when pushing to the
+`website` branch, by a dedicated workflow in
+[GitHub Actions](https://github.com/xpack/logger-ts/actions/workflows/publish-github-pages.yml).
+
+- switch to the `website` branch
 - merge the `development` branch into the `website` branch
 - push the `website` branch to GitHub
 
@@ -264,6 +283,8 @@ and the X/Twitter announcement
 The `website` branch may be subsequently updated, as long as the
 version in `package.json` is not changed.
 
+Check the result at https://xpack.github.io/logger-ts/.
+
 ## Final updates
 
 ### Update the `master` branch
@@ -276,17 +297,24 @@ In this Git repo:
 
 ### Close milestone
 
-In https://github.com/xpack/xpm-liquid-ts/milestones:
+In https://github.com/xpack/logger-ts/milestones:
 
 - close the current milestone.
+
+### Check npm package tags
+
+```sh
+npm dist-tag ls @xpack/logger
+```
 
 ### Tag the npm package as `latest`
 
 When the release is considered stable, promote it as `latest`:
 
-- `npm dist-tag ls @xpack/logger`
-- <code>npm dist-tag add @xpack/logger@{customField('releaseVersion')} latest</code>
-- `npm dist-tag ls @xpack/logger`
+<CodeBlock language="sh"> {
+`npm dist-tag add @xpack/logger@${customField('releaseVersion')} latest
+npm dist-tag ls @xpack/logger
+`} </CodeBlock>
 
 
 
@@ -310,3 +338,5 @@ Credit to [Shields IO](https://shields.io) for the badges.
 - https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1
 
 <More />
+
+

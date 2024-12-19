@@ -4,7 +4,7 @@
 
 # The xPack Logger
 
-A Node.js CommonJS/ES6 module with a generic console logger class.
+A Node.js CommonJS/ES6 module with a generic console logger class
 
 ## Project documentation
 
@@ -14,8 +14,8 @@ please refer to the
 
 ## Project source
 
-The source code of the current release is available
-on [GitHub tag v6.0.0 tree](https://github.com/xpack/logger-ts/tree/v6.0.0).
+The source code of the current release is available on
+[GitHub tag v6.0.0 tree](https://github.com/xpack/logger-ts/tree/v6.0.0).
 
 ## License
 

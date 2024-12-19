@@ -15,51 +15,14 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import Link from '@docusaurus/Link';
 
-import type {FeatureItem} from './FeatureItem'
-
-
-// Feature list for TypeScript module projects.
-const FeatureList: FeatureItem[] = [
-  {
-    title: 'Multi-language, cross-platform',
-    Svg: require('@site/static/img/mosaic.svg').default,
-    description: (
-      <>
-        The module is compatible with <b>TypeScript</b> and <b>JavaScript</b> projects,
-        and can be utilized across multiple platforms
-        (<b>Windows</b>, <b>macOS</b>, <b>GNU/Linux</b>).
-      </>
-    ),
-  },
-  {
-    title: 'Easy to Use & Reproducible',
-    Svg: require('@site/static/img/check-badge.svg').default,
-    description: (
-      <>
-        Projects refer to this module
-        via an explicitly versioned <b>dependency</b>.
-        This ensures reproducibility, which is especially
-        beneficial in <b>CI/CD</b> environments.
-      </>
-    ),
-  },
-  {
-    title: 'Part of the Node.js ecosystem',
-    Svg: require('@site/static/img/globe.svg').default,
-    description: (
-      <>
-        The module can be installed with <b>npm</b> from
-        the <b>npmjs.com</b> public repository,
-        just like millions of other packages.
-      </>
-    ),
-  },
-];
+import type { FeatureItem } from './FeatureItem'
 
 
-function Feature({title, Svg, description}: FeatureItem) {
+import { FeatureList } from './FeatureList';
+
+
+function Feature({ title, Svg, description }: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
