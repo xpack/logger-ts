@@ -1,0 +1,7 @@
+Sitemap: https://xpack.github.io/logger-ts/sitemap.xml
+
+User-agent: *
+Disallow: /logger-ts/blog/archive/
+Disallow: /logger-ts/blog/authors/
+Disallow: /logger-ts/blog/page/
+Disallow: /logger-ts/blog/tags/
