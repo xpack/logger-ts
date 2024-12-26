@@ -381,8 +381,8 @@ const config: Config = {
           title: 'Pages',
           items: [
             {
-              label: 'Install',
-              to: '/docs/install',
+              label: 'Getting Started',
+              to: '/docs/getting-started',
             },
             {
               label: 'Support',
