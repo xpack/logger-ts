@@ -20,6 +20,10 @@ node_version: "18.20.4"
 ---
 
 
+import CodeBlock from '@theme/CodeBlock';
+
+import customField from '@site/src/libs/customField';
+
 
 {/* ------------------------------------------------------------------------ */}
 
@@ -44,19 +48,29 @@ The package is available as
 from the public [`npmjs`](https://www.npmjs.com) repository;
 it can be added as a
 dependency to any TypeScript or JavaScript
-project with `npm install`:
+project.
 
-```console
+The command to install the
+**latest** available version of **@xpack/logger** is:
+
+```sh
 npm install @xpack/logger@latest
 ```
 
+To install a **specific version**, mention it explicitly:
 
-The package does not provide any executables, and generally there are no
-reasons to install it globally.
+<CodeBlock language="sh"> {
+`npm install @xpack/logger@${customField('releaseVersion')}
+`} </CodeBlock>
+
+
+The package does not provide any executables, and generally there are **no
+reasons to install it globally**.
 
 ## Uninstall
 
-As any **npm** package, it can be uninstalled from the project with:
+As any **npm** package, **@xpack/logger** can be uninstalled
+from the project and the dependency removed from `package.json` with:
 
 ```console
 npm uninstall @xpack/logger
