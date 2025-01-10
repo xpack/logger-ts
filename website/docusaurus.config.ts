@@ -295,7 +295,7 @@ const config: Config = {
       items: [
         {
           to: '/',
-          // label: 'Home',
+          label: 'logger',
           className: 'header-home-link',
           position: 'left'
         },
@@ -341,7 +341,7 @@ const config: Config = {
         },
         {
           to: '/docs/api',
-          label: 'API Reference',
+          label: 'API',
           position: 'left',
         },
         {
