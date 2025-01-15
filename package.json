@@ -117,7 +117,9 @@
       "**/*.js"
     ]
   },
-  "topConfig": {},
+  "topConfig": {
+    "longName": "xPack Logger"
+  },
   "engines": {
     "node": " >=18.0.0"
   }
