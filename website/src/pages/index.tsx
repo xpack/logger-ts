@@ -36,7 +36,7 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
 
         <div className={styles.installWithCopy}>
-          <InstallWithCopy>npm install @xpack/logger@{customField('releaseVersion')}</InstallWithCopy>
+          <InstallWithCopy>npm install @xpack/logger@6.0.0</InstallWithCopy>
         </div>
 
       </div>

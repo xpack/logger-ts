@@ -103,9 +103,9 @@ Keep:
 
 As required by npm modules, this one also uses [SemVer](https://semver.org).
 
-- determine the next version (like <code>{customField('releaseVersion')}</code>)
+- determine the next version (like <code>6.0.0</code>)
 - update the version in the top `package.json` file
-- use the new version, suffixed by `-pre`, like <code>{customField('releaseVersion')}-pre</code>.
+- use the new version, suffixed by `-pre`, like <code>6.0.0-pre</code>.
 
 ### Update the `websiteConfig` in top `package.json` (if necessary)
 
@@ -137,7 +137,7 @@ Check GitHub Issues and Pull Requests:
 - https://github.com/xpack/logger-ts/pulls
 
 and fix them; assign them to a milestone
-(like <code>{customField('releaseVersion')}</code>).
+(like <code>6.0.0</code>).
 
 ### Update `CHANGELOG.md`
 
@@ -176,8 +176,8 @@ to:
 *
 ```
 
-- add a new entry like _**\* v{customField('releaseVersion')} prepared**_
-- commit with a message like _**prepare v{customField('releaseVersion')}**_
+- add a new entry like _**\* v6.0.0 prepared**_
+- commit with a message like _**prepare v6.0.0**_
 
 ### Prepare the release
 
@@ -194,7 +194,7 @@ to:
 ### Set the new version
 
 <CodeBlock language="sh"> {
-`npm version ${customField('releaseVersion')}
+`npm version 6.0.0
 `} </CodeBlock>
 
 ### CI tests
@@ -215,7 +215,7 @@ npm run generate-website-blog-post
 
 - edit the front matter properties
 - select the correct summary
-- commit with _**website: blog post release {customField('releaseVersion')} published**_
+- commit with _**website: blog post release 6.0.0 published**_
 - push the `development` branch
 
 ## Publish the release to npmjs.com
@@ -312,7 +312,7 @@ npm dist-tag ls @xpack/logger
 When the release is considered stable, promote it as `latest`:
 
 <CodeBlock language="sh"> {
-`npm dist-tag add @xpack/logger@${customField('releaseVersion')} latest
+`npm dist-tag add @xpack/logger@6.0.0 latest
 npm dist-tag ls @xpack/logger
 `} </CodeBlock>
 
