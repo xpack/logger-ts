@@ -1,15 +1,15 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/master/package.json)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/xpack/logger-ts)](https://github.com/xpack/logger-ts/releases)
 [![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg?color=blue)](https://www.npmjs.com/package/@xpack/logger/)
 [![license](https://img.shields.io/github/license/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/master/LICENSE)
 
 # The xPack Logger
 
-A Node.js CommonJS/ES6 module with a generic console logger class
+A Node.js CommonJS/ES6 module with a generic console logger class.
 
 ## Project documentation
 
-For information on how to install and use this project,
-please refer to the
+For information on how to install and use this project, please refer to the
 [project web site](https://xpack.github.io/logger-ts/).
 
 ## Project source
