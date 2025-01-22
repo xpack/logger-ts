@@ -1,6 +1,6 @@
 [![GitHub package.json version](https://img.shields.io/github/package-json/v/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/master/package.json)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/xpack/logger-ts)](https://github.com/xpack/logger-ts/releases)
-[![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger.svg?color=blue)](https://www.npmjs.com/package/@xpack/logger/)
+[![npm (scoped)](https://img.shields.io/npm/v/@xpack/logger?color=blue)](https://www.npmjs.com/package/@xpack/logger/)
 [![license](https://img.shields.io/github/license/xpack/logger-ts)](https://github.com/xpack/logger-ts/blob/master/LICENSE)
 
 # The xPack Logger
