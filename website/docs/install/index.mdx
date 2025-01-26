@@ -15,15 +15,9 @@ keywords:
 
 date: 2024-10-24 23:57:00 +0300
 
-node_version: "18.20.4"
-
 ---
 
-
-import CodeBlock from '@theme/CodeBlock';
-
-import customField from '@site/src/libs/customField';
-
+import Content from './_common/_content.mdx';
 
 {/* ------------------------------------------------------------------------ */}
 
@@ -34,47 +28,5 @@ import customField from '@site/src/libs/customField';
 
 # How to install the xPack Logger
 
-
-## Prerequisites
-
-A recent [Node.js](https://nodejs.org) (>=**18.0.0**),
-since the TypeScript code
-is compiled into ECMAScript 2020 code, and the tests use ES6 modules.
-
-## Install
-
-The package is available as
-[`@xpack/logger`](https://www.npmjs.com/package/@xpack/logger/)
-from the public [`npmjs`](https://www.npmjs.com) repository;
-it can be added as a
-dependency to any TypeScript or JavaScript
-project.
-
-The command to install the
-**latest** available version of **@xpack/logger** is:
-
-```sh
-npm install @xpack/logger@latest
-```
-
-To install a **specific version**, mention it explicitly:
-
-<CodeBlock language="sh"> {
-`npm install @xpack/logger@6.0.0
-`} </CodeBlock>
-
-
-The package does not provide any executables, and generally there are **no
-reasons to install it globally**.
-
-## Uninstall
-
-As any **npm** package, **@xpack/logger** can be uninstalled
-from the project and the dependency removed from `package.json` with:
-
-```console
-npm uninstall @xpack/logger
-```
-
-
+<Content />
 
