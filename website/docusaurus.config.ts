@@ -7,7 +7,6 @@ import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
 import util from 'node:util';
 
-
 import {redirects} from './docusaurus-config-redirects';
 import {getCustomFields} from './customFields';
 
@@ -27,7 +26,8 @@ const config: Config = {
   title: 'logger - The xPack Logger' +
     ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
   tagline: 'A Node.js CommonJS/ES6 module with a generic console logger class',
-  favicon: 'img/favicon.ico',
+  // Explicitly set in headTags.
+  // favicon: '/img/favicon.ico',
 
   // Set the production url of your site here
   url: 'https://xpack.github.io/',
