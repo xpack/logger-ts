@@ -20,12 +20,16 @@ import {getCustomFields} from './customFields';
 const customFields = getCustomFields();
 console.log('customFields: ' + util.inspect(customFields));
 
+const actualBaseUrl = process.env.DOCUSAURUS_BASEURL ??
+    '/logger-ts/';
+
 // ----------------------------------------------------------------------------
 
 const config: Config = {
   title: 'logger - The xPack Logger' +
     ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
   tagline: 'A Node.js CommonJS/ES6 module with a generic console logger class',
+
   // Explicitly set in headTags.
   // favicon: '/img/favicon.ico',
 
@@ -33,8 +37,7 @@ const config: Config = {
   url: 'https://xpack.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: process.env.DOCUSAURUS_BASEURL ??
-    '/logger-ts/',
+  baseUrl: actualBaseUrl,
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -66,7 +69,7 @@ const config: Config = {
         sidebarPath: './sidebars.ts',
         // Please change this to your repo.
         // Remove this to remove the "edit this page" links.
-        editUrl: 'https://github.com/xpack/logger-ts/edit/master/website/',
+        editUrl: 'https://github.com/xpack/logger-ts/edit/website/website/',
         // showLastUpdateAuthor: true,
         showLastUpdateTime: true,
       },
@@ -76,13 +79,14 @@ const config: Config = {
       '@docusaurus/plugin-content-blog',
       {
         showReadingTime: true,
+        blogSidebarCount: 8,
         feedOptions: {
           type: ['rss', 'atom'],
           xslt: true,
         },
         // Please change this to your repo.
         // Remove this to remove the "edit this page" links.
-        editUrl: 'https://github.com/xpack/logger-ts/edit/master/website/',
+        editUrl: 'https://github.com/xpack/logger-ts/edit/website/website/',
         // Useful options to enforce blogging best practices
         onInlineTags: 'warn',
         onInlineAuthors: 'warn',
@@ -115,10 +119,14 @@ const config: Config = {
       // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
       '@docusaurus/plugin-sitemap',
       {
-        // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
+        lastmod: 'date',
         changefreq: 'weekly',
         priority: 0.5,
-        // ignorePatterns: ['/tags/**'],
+        ignorePatterns: [
+          actualBaseUrl + 'blog/archive/**',
+          actualBaseUrl + 'blog/authors/**',
+          actualBaseUrl + 'blog/tags/**'
+        ],
         filename: 'sitemap.xml',
       }
     ],
@@ -185,6 +193,7 @@ const config: Config = {
       }
     ],
     [
+      // Explicitly required when not using `preset-classic`.
       // https://docusaurus.io/docs/search#using-algolia-docsearch
       '@docusaurus/theme-search-algolia',
       {
@@ -199,7 +208,7 @@ const config: Config = {
       attributes: {
         rel: 'icon',
         type: 'image/png',
-        href: '/logger-ts/favicons/favicon-48x48.png',
+        href: actualBaseUrl + 'favicons/favicon-48x48.png',
         sizes: '48x48'
       }
     },
@@ -208,14 +217,14 @@ const config: Config = {
       attributes: {
         rel: 'icon',
         type: 'image/svg+xml',
-        href: '/logger-ts/favicons/favicon.svg'
+        href: actualBaseUrl + 'favicons/favicon.svg'
       }
     },
     {
       tagName: 'link',
       attributes: {
         rel: 'shortcut icon',
-        href: '/logger-ts/favicons/favicon.ico'
+        href: actualBaseUrl + 'favicons/favicon.ico'
       }
     },
     {
@@ -230,14 +239,12 @@ const config: Config = {
       tagName: 'link',
       attributes: {
         rel: 'manifest',
-        href: '/logger-ts/favicons/site.webmanifest'
+        href: actualBaseUrl + 'favicons/site.webmanifest'
       }
     }
   ],
 
-  // No longer needed.
-  // themes: [ '@docusaurus/theme-search-algolia' ],
-
+  // https://docusaurus.io/docs/seo
   themeConfig: {
     // The project's social card, og:image, twitter:image, 1200x630
     image: 'img/sunrise-og-image.jpg',
@@ -254,7 +261,7 @@ const config: Config = {
       logo: {
         alt: 'xPack Logo',
         src: 'img/components-256.png',
-        href: 'https://xpack.github.io/',
+        href: 'https://xpack.github.io/'
       },
       items: [
         {
@@ -290,6 +297,10 @@ const config: Config = {
               to: '/docs/maintainer'
             },
             {
+              label: 'FAQ',
+              to: '/docs/faq'
+            },
+            {
               label: 'Help Centre',
               to: '/docs/support'
             },
@@ -300,7 +311,7 @@ const config: Config = {
             {
               label: 'About',
               to: '/docs/project/about'
-            }
+            },
           ],
         },
         {
@@ -372,12 +383,12 @@ const config: Config = {
               to: '/docs/getting-started',
             },
             {
-              label: 'Support',
-              to: '/docs/support',
-            },
-            {
               label: 'Releases',
               to: '/docs/releases',
+            },
+            {
+              label: 'About',
+              to: '/docs/project/about',
             },
             {
               label: 'Blog',

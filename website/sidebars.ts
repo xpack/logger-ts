@@ -16,7 +16,6 @@ import typedocSidebarItems from "./docs/api/typedoc-sidebar.cjs";
  */
 const sidebars: SidebarsConfig = {
 
-  
   docsSidebar: [
     {
       type: 'doc',
@@ -85,7 +84,7 @@ const sidebars: SidebarsConfig = {
       ]
     },
   ],
-  
+
   typedocSidebar: [
     {
       type: 'category',
@@ -98,7 +97,6 @@ const sidebars: SidebarsConfig = {
       items: typedocSidebarItems,
     },
   ],
-  
 };
 
 export default sidebars;
