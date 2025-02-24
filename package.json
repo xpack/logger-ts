@@ -118,7 +118,7 @@
     ]
   },
   "topConfig": {
-    "longName": "xPack Logger"
+    "descriptiveName": "xPack Logger"
   },
   "engines": {
     "node": " >=18.0.0"
