@@ -2,7 +2,8 @@
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
-import typedocSidebarItems from "./docs/api/typedoc-sidebar.cjs";
+// import typedocSidebarItems from "./docs/api/typedoc-sidebar.cjs";
+import typedocSidebarItems from "./typedoc-sidebar.json";
 
 /**
  * Creating a sidebar enables you to:
