@@ -224,6 +224,37 @@ await test('the type parameter tag does not take the class text', (t) => {
   t.end()
 })
 
+await test('every public member of the class has a category', (t) => {
+  const node = documentedMembers().get('Logger')
+  t.ok(node, 'Logger is declared')
+  if (node === undefined || !ts.isClassDeclaration(node)) {
+    t.end()
+    return
+  }
+
+  // The generated reference groups the members by `@category`; a member
+  // without it lands in the group `Other`.
+  for (const member of node.members) {
+    if (
+      ts.isConstructorDeclaration(member) ||
+      ts.isSetAccessorDeclaration(member) ||
+      member.name === undefined ||
+      // The `#private` marker of the declaration.
+      ts.isPrivateIdentifier(member.name) ||
+      ts.getCombinedModifierFlags(member) & ts.ModifierFlags.Private
+    ) {
+      continue
+    }
+    const name = member.name.getText()
+    t.ok(
+      ts.getJSDocTags(member).some((tag) => tag.tagName.text === 'category'),
+      `${name} has a category`
+    )
+  }
+
+  t.end()
+})
+
 await test('the declarations keep the deprecations', (t) => {
   const members = documentedMembers()
 

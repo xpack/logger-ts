@@ -1068,6 +1068,8 @@ export class Logger<C extends LoggerConsole = Console> {
    * members of a mock object can be used without a cast.
    *
    * @returns The console object used by the logger.
+   *
+   * @category Configuration Accessors
    */
   get console(): C {
     return this.#console
@@ -1084,6 +1086,8 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @returns True if the messages of `error()`, `warn()`, `debug()`, and
    *   `trace()` start with a timestamp.
+   *
+   * @category Configuration Accessors
    */
   get timestamp(): boolean {
     return this.#timestamp
