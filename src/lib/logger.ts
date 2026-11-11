@@ -130,8 +130,10 @@ export interface LoggerBufferRecord {
  * members of the mock without a cast. The type must have the `log()` and
  * `error()` functions (see `LoggerConsole`).
  *
- * Use `log.always()` instead of the `console.log()`, since it accounts for
- * different contexts, created for example when using REPL.
+ * Use `log.always()` instead of the `console.log()`, since it writes on the
+ * console of the logger, so a test can capture it with a mock console and a
+ * subclass can intercept it with `write()`; in the preliminary state it is
+ * buffered, like the other messages.
  *
  * There is no `critical` level, corresponding to errors that prevent
  * the program to run, since these are actually related to bugs;
