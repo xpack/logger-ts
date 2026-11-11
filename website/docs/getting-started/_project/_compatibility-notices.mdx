@@ -50,6 +50,11 @@ the code was wrong; to use a level that may be missing, check it with
 accept an explicit `undefined`, also with `exactOptionalPropertyTypes`,
 which is not a breaking change.
 
+**Breaking change:** a console without the `log()` or the `error()` function,
+passed to the `Logger` constructor, now throws a `TypeError` instead of an
+`AssertionError`; the messages are unchanged. Code that catches
+`AssertionError` to detect an invalid console must catch `TypeError` instead.
+
 The `console` option of the constructor now accepts any object that has the
 `log()` and `error()` functions (the new exported type `LoggerConsole`),
 not only a Node.js `Console`, so a mock or a minimal `{ log, error }` object

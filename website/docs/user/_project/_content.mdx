@@ -102,7 +102,7 @@ const log = new Logger({
 
 The functions are called as methods of the object, so they may use `this`.
 An object without the `log()` or the `error()` function is rejected by the
-constructor with an `AssertionError`.
+constructor with a `TypeError`.
 
 In TypeScript, the class has a type parameter, the type of the console, which
 the `console` accessor returns. Without a console it is the Node.js

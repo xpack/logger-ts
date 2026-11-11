@@ -20,7 +20,6 @@
 
 // ----------------------------------------------------------------------------
 
-import { strict as assert } from 'node:assert'
 import type { Console } from 'node:console'
 import * as util from 'node:util'
 
@@ -710,8 +709,8 @@ export class Logger<C extends LoggerConsole = Console> {
    *   is `undefined` is the same as no level). The same errors are thrown
    *   by the `level` setter.
    * @throws A `TypeError` if the `timestamp` option is not a boolean.
-   * @throws An `AssertionError` if the console does not have the `log()`
-   *   and `error()` functions.
+   * @throws A `TypeError` if the console does not have the `log()` and
+   *   `error()` functions.
    */
   constructor(
     params: {
@@ -756,14 +755,12 @@ export class Logger<C extends LoggerConsole = Console> {
       this.level = params.level
     }
 
-    assert(
-      typeof this.#console.log === 'function',
-      'The console must have a log() function'
-    )
-    assert(
-      typeof this.#console.error === 'function',
-      'The console must have an error() function'
-    )
+    if (typeof this.#console.log !== 'function') {
+      throw new TypeError('The console must have a log() function')
+    }
+    if (typeof this.#console.error !== 'function') {
+      throw new TypeError('The console must have an error() function')
+    }
   }
 
   // --------------------------------------------------------------------------

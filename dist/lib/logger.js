@@ -1,5 +1,4 @@
 var _a;
-import { strict as assert } from 'node:assert';
 import * as util from 'node:util';
 function formatLocalTime(date) {
     const pad = (value, length = 2) => String(value).padStart(length, '0');
@@ -78,8 +77,12 @@ export class Logger {
         if (params.level !== undefined) {
             this.level = params.level;
         }
-        assert(typeof this.#console.log === 'function', 'The console must have a log() function');
-        assert(typeof this.#console.error === 'function', 'The console must have an error() function');
+        if (typeof this.#console.log !== 'function') {
+            throw new TypeError('The console must have a log() function');
+        }
+        if (typeof this.#console.error !== 'function') {
+            throw new TypeError('The console must have an error() function');
+        }
     }
     get hasLevel() {
         return this.#numericLevel !== _a.numericLevelUndefined;

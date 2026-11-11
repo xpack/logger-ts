@@ -107,7 +107,7 @@ await test('a console without log() or error() is rejected', (t) => {
   t.throws(
     () => new Logger({ console: {} as unknown as Console }),
     {
-      name: 'AssertionError',
+      name: 'TypeError',
       message: 'The console must have a log() function',
     },
     'no log()'
@@ -118,7 +118,7 @@ await test('a console without log() or error() is rejected', (t) => {
         console: { log: () => undefined } as unknown as Console,
       }),
     {
-      name: 'AssertionError',
+      name: 'TypeError',
       message: 'The console must have an error() function',
     },
     'no error()'
@@ -128,7 +128,7 @@ await test('a console without log() or error() is rejected', (t) => {
       new Logger({
         console: { log: 1, error: () => undefined } as unknown as Console,
       }),
-    { name: 'AssertionError' },
+    { name: 'TypeError' },
     'log is not a function'
   )
 
