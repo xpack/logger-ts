@@ -122,6 +122,6 @@
     "postpublish": "git push origin --follow-tags"
   },
   "engines": {
-    "node": ">=22.0"
+    "node": ">=22.12"
   }
 }
