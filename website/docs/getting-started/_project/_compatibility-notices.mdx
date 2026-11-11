@@ -30,6 +30,16 @@ ones with `"module": "commonjs"` and no explicit `moduleResolution`,
 should migrate to `node16`, `nodenext`, or `bundler`. This is not a
 breaking change in this version.
 
+**Breaking change:** an invalid log level, passed to the constructor, to
+the `level` setter, or to `isLevel()`, now throws a `RangeError` (for a
+string that is not a level name) or a `TypeError` (for a value that is not
+a string), with a message that lists the valid names, instead of an
+`AssertionError` with the message `Log level 'xyz' not supported.`
+(or, for an empty value, the generic message `The expression evaluated to
+a falsy value`). Code that catches `AssertionError` to detect an invalid
+level must catch these errors instead; to avoid the exception, check the
+value first with the new `Logger.isLogLevel()`.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

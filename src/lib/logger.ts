@@ -405,6 +405,40 @@ export class Logger {
     )
   }
 
+  /**
+   * Check that a value is the name of a valid log level, and throw an
+   * error that tells the caller what to do if it is not.
+   *
+   * The value is shown in the message as `util.inspect()` writes it, so
+   * that the newlines and the control characters of an untrusted value
+   * are escaped.
+   *
+   * @param value - The value to check.
+   *
+   * @throws A `TypeError` if the value is not a string (including
+   *   `undefined` and `null`).
+   * @throws A `RangeError` if the value is a string that is not one of
+   *   `Logger.levelNames` (including the empty string and a name with a
+   *   different case).
+   *
+   * @category Internal Members
+   */
+  private static assertLogLevel(value: unknown): asserts value is LogLevel {
+    if (typeof value !== 'string') {
+      throw new TypeError(
+        'Log level must be a string, not ' +
+          `${value === null ? 'null' : typeof value}; ` +
+          `valid levels are: ${Logger.levelNames.join(', ')}`
+      )
+    }
+    if (!Logger.isLogLevel(value)) {
+      throw new RangeError(
+        `Unsupported log level ${util.inspect(value)}; ` +
+          `valid levels are: ${Logger.levelNames.join(', ')}`
+      )
+    }
+  }
+
   // --------------------------------------------------------------------------
   // Properties.
 
@@ -478,6 +512,13 @@ export class Logger {
    * ```
    * @param params - The generic object used to pass parameters to the
    * constructor.
+   *
+   * @throws A `RangeError` if the level is a string that is not one of the
+   *   valid names, and a `TypeError` if it is not a string (a `level` that
+   *   is `undefined` is the same as no level). The same errors are thrown
+   *   by the `level` setter.
+   * @throws An `AssertionError` if the console does not have the `log()`
+   *   and `error()` functions.
    */
   constructor(
     params: {
@@ -544,10 +585,13 @@ export class Logger {
   /**
    * Accessor to set the log level.
    *
-   * If the log level is not one of the known strings, an assert will fire.
-   * To validate a level that comes from an unchecked source, like a
-   * command line option, use `Logger.isLogLevel()` first; the valid names
-   * are in `Logger.levelNames`.
+   * If the log level is not one of the known strings, an error is thrown
+   * (a `TypeError` for a value that is not a string, including
+   * `undefined`, and a `RangeError` for a string that is not a level
+   * name), with a message that lists the valid names. To validate a level
+   * that comes from an unchecked source, like a command line option, use
+   * `Logger.isLogLevel()` first; the valid names are in
+   * `Logger.levelNames`.
    *
    * If this is the first time when the log level is set,
    * flush the internal buffer.
@@ -565,11 +609,13 @@ export class Logger {
    *
    * @param level - A string with the new log level.
    *
+   * @throws A `TypeError` if the level is not a string.
+   * @throws A `RangeError` if the level is not one of the valid names.
+   *
    * @category Log Level Accessors
    */
   set level(level: LogLevel | undefined) {
-    assert(level)
-    assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`)
+    Logger.assertLogLevel(level)
 
     this.levelNumericValue = Logger.numericLevels[level]
     this.levelName = level
@@ -815,11 +861,13 @@ export class Logger {
    * @returns True if the current log level is equal to the given
    *   level or higher.
    *
+   * @throws A `TypeError` if the level is not a string.
+   * @throws A `RangeError` if the level is not one of the valid names.
+   *
    * @category Log Level Check Methods
    */
   isLevel(level: LogLevel): boolean {
-    assert(level)
-    assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`)
+    Logger.assertLogLevel(level)
 
     return this.levelNumericValue >= Logger.numericLevels[level]
   }

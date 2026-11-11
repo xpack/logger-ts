@@ -19,6 +19,17 @@ export class Logger {
         return (typeof value === 'string' &&
             Object.prototype.hasOwnProperty.call(Logger.numericLevels, value));
     }
+    static assertLogLevel(value) {
+        if (typeof value !== 'string') {
+            throw new TypeError('Log level must be a string, not ' +
+                `${value === null ? 'null' : typeof value}; ` +
+                `valid levels are: ${Logger.levelNames.join(', ')}`);
+        }
+        if (!Logger.isLogLevel(value)) {
+            throw new RangeError(`Unsupported log level ${util.inspect(value)}; ` +
+                `valid levels are: ${Logger.levelNames.join(', ')}`);
+        }
+    }
     _console = console;
     levelNumericValue = Logger.numericLevelUndefined;
     levelName = undefined;
@@ -37,8 +48,7 @@ export class Logger {
         return this.levelNumericValue !== Logger.numericLevelUndefined;
     }
     set level(level) {
-        assert(level);
-        assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`);
+        Logger.assertLogLevel(level);
         this.levelNumericValue = Logger.numericLevels[level];
         this.levelName = level;
         if (this.buffer.length > 0) {
@@ -82,8 +92,7 @@ export class Logger {
         return this._console;
     }
     isLevel(level) {
-        assert(level);
-        assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`);
+        Logger.assertLogLevel(level);
         return this.levelNumericValue >= Logger.numericLevels[level];
     }
     write(numericLevel, loggerFunction, message) {

@@ -99,8 +99,23 @@ if (Logger.isLogLevel(name)) {
 }
 ```
 
-Assigning an invalid name to `log.level`, or passing it to the
-constructor, throws an `AssertionError`.
+Assigning an invalid name to `log.level`, passing it to the constructor,
+or passing it to `isLevel()` throws an error whose message lists the valid
+names, for example:
+
+```console
+RangeError: Unsupported log level 'verbos'; valid levels are: silent, error, warn, info, verbose, debug, trace, all
+```
+
+- a `RangeError` is thrown for a string that is not a level name,
+  including the empty string, a name with a different case (`'INFO'`), and
+  the names of inherited properties (`'toString'`);
+- a `TypeError` is thrown for a value that is not a string, including
+  `null` and, for the setter and `isLevel()`, `undefined`;
+- a `level` that is `undefined` in the constructor is the same as no level.
+
+The value is written in the message as `util.inspect()` writes it, so a
+newline or an escape character of an untrusted value is escaped.
 
 ### Delaying setting the log level
 

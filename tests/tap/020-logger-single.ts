@@ -50,13 +50,14 @@ await test('logger level', (t) => {
   t.ok(logger.hasLevel, 'is initialised')
   t.equal(logger.level, 'trace', 'set level')
   t.equal(Logger.defaultLevel, 'info', 'has default')
-  try {
-    ;(logger.level as any) = 'xyz'
-    // logger.level = 'xyz'
-  } catch (err: any) {
-    // } catch (err) {
-    t.match(err.name, 'AssertionError', 'assert')
-  }
+  t.throws(
+    () => {
+      ;(logger.level as unknown) = 'xyz'
+    },
+    RangeError,
+    'invalid level throws'
+  )
+  t.equal(logger.level, 'trace', 'level is unchanged')
   t.end()
 })
 

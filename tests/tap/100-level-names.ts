@@ -142,7 +142,7 @@ await test('invalid levels still throw', (t) => {
 
   t.throws(
     () => new Logger({ console: mockConsole, level: 'nope' as LogLevel }),
-    /Log level 'nope' not supported./,
+    RangeError,
     'constructor rejects an invalid name'
   )
 
@@ -151,12 +151,12 @@ await test('invalid levels still throw', (t) => {
     () => {
       logger.level = 'INFO' as LogLevel
     },
-    /Log level 'INFO' not supported./,
+    RangeError,
     'setter rejects an invalid name'
   )
   t.throws(
     () => logger.isLevel('toString' as LogLevel),
-    /Log level 'toString' not supported./,
+    RangeError,
     'isLevel rejects an inherited name'
   )
   t.equal(logger.level, 'info', 'level is unchanged')
