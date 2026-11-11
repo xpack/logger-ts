@@ -136,7 +136,7 @@ export interface LoggerBufferRecord {
  * buffered, like the other messages.
  *
  * There is no `critical` level, corresponding to errors that prevent
- * the program to run, since these are actually related to bugs;
+ * the program from running, since these are actually related to bugs;
  * use `assert()` instead.
  *
  * The messages may include formatting directives, with additional
@@ -1042,8 +1042,8 @@ export class Logger<C extends LoggerConsole = Console> {
    * Accessor to get the underlying `console` object.
    *
    * Direct access to the console object is useful in tests, when
-   * the console is a mock object, which allows to check the logged
-   * messages. The type of the result is the type of the console that was
+   * the console is a mock object, which allows the logged messages to be
+   * checked. The type of the result is the type of the console that was
    * passed to the constructor (`Console`, if none was passed), so the
    * members of a mock object can be used without a cast.
    *
@@ -1079,7 +1079,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Check if the log level is set to a given level name, or higher.
    *
-   * This is a more generic version of the accessors (like `isDebug`, etc),
+   * This is a more generic version of the accessors (like `isDebug`),
    * to be used when the log level is not known at compile time.
    *
    * Before a level is set (the preliminary state), it returns `true` for
@@ -1235,7 +1235,7 @@ export class Logger<C extends LoggerConsole = Console> {
   // --------------------------------------------------------------------------
 
   /**
-   * Always log a message, regardless of the log level, (even `'silent'`,
+   * Always log a message, regardless of the log level (even `silent`,
    * when no other messages are logged).
    *
    * It is the only method that is written at `silent`, and it has no
@@ -1459,7 +1459,7 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * Log a debug message, if the log level is `'debug'` or higher.
+   * Log a debug message, if the log level is `debug` or higher.
    *
    * The message is prefixed with `debug: ` and
    * passed via `console.log()`. If the logger was created with the
