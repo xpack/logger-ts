@@ -17,6 +17,10 @@ argument-hint: 'Short description of the problem or improvement, or a list of fi
 Issues are opened in `xpack/logger-ts` with the `gh` CLI, run from the
 repository root.
 
+In the replies and the questions to the user, name them explicitly as
+GitHub issues, not only as issues (see "Naming GitHub issues" in
+`.github/skills/review-common.md`).
+
 ## Procedure
 
 1. **Establish the facts.** Read the code the issue refers to, at the
@@ -146,8 +150,8 @@ describe work already done on the fix.
   kind says, and its body states that the change needs a major
   version.
 - After creation, ask the user before recording the issue number in the
-  report; record it as a line `Issue #N.` at the end of the item, in
-  the format described under "Review Documents" in
+  report; record it as a line `GitHub issue #N.` at the end of the item,
+  in the format described under "Review Documents" in
   `.github/skills/github-commit/SKILL.md`, so that the commit that fixes
   it finds the item.
 

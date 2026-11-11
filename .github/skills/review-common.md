@@ -84,6 +84,21 @@ report and the number (for example `DESIGN-REVIEW-3.md #12`).
 - An item that turns out to be wrong is marked `(withdrawn)` with the
   reason; it is not deleted.
 
+## Naming GitHub issues
+
+A `#N` can be an item of a review report or a GitHub issue. Whenever a
+GitHub issue is mentioned, in a reply, a question, a draft, or a report,
+name it explicitly as a **GitHub issue** (for example "GitHub issue #46",
+"create the GitHub issue", "the closing comment on the GitHub issue"),
+never only as "the issue" or "issue #46", and call the numbered item of a
+report an **item** (for example "item #1"). This applies to the skills
+that refer to review reports (`code-review`, `design-review`,
+`consistency-check`, `github-commit`, and `create-github-issue`). The
+exceptions are the text that is posted on GitHub itself (the title and
+the body of a GitHub issue, and its comments), where "issue" is
+unambiguous, and the line `GitHub issue #N.` of a report item, which has
+a fixed format.
+
 ## Report Files
 
 Reports are written in the `maintenance/docs/` folder (create it if it

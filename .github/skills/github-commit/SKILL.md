@@ -15,6 +15,10 @@ argument-hint: 'Optional: the GitHub issue number (#N), and whether the commit c
 Never commit without explicit user approval of the file list and the
 message.
 
+In the replies and the questions to the user, name the issues explicitly
+as GitHub issues, not only as issues (see "Naming GitHub issues" in
+`.github/skills/review-common.md`).
+
 ## Procedure
 
 1. **Inspect the working tree.** Run `git status` and `git diff` (and
@@ -188,13 +192,13 @@ as such (in parentheses, or after "issue" or "fixed in"), and confirm
 the item by its content.
 
 When an issue is created from an item (see the `create-github-issue`
-skill), its number is recorded as a line `Issue #N.` at the end of the
-item, which the search above finds:
+skill), its number is recorded as a line `GitHub issue #N.` at the end of
+the item, which the search above finds:
 
 ```markdown
 - **#7 — <short title>.** [internal] **[confirmed]**
   ...
-  Issue #61.
+  GitHub issue #61.
 ```
 
 If an item refers to the issue or to the same finding, **ask the user**
@@ -206,8 +210,8 @@ mentions both the short commit hash and the GitHub issue number:
 ```markdown
 - **#7 — <short title>.** [internal] **[confirmed]** (fixed)
   ...
-  Issue #61.
-  Fixed in `a8733dc` (#61): <what was done>.
+  GitHub issue #61.
+  Fixed in `a8733dc` (GitHub issue #61): <what was done>.
 ```
 
 Do not change the `Date:` line of the report; it records when the
@@ -216,9 +220,9 @@ review was run, and decides which report is the most recent.
 Summarise what was done, and state where the fix differs from the
 recommendation of the report. For an intermediate commit of an issue
 fixed in several commits, ask whether to record it as partial
-(`Partly fixed in ... (#N): ...`). For a withdrawn finding, write
-`Withdrawn (#N): <reason>.` instead, and add `(withdrawn)` after the
-tags.
+(`Partly fixed in ... (GitHub issue #N): ...`). For a withdrawn finding,
+write `Withdrawn (GitHub issue #N): <reason>.` instead, and add
+`(withdrawn)` after the tags.
 
 Write the hashes in backticks, since the reports are read as files in
 the repository, unlike the issue comments. Do not stage the report in
