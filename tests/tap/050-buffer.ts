@@ -379,7 +379,7 @@ await test('logger level set after a failure', (t) => {
     throw new Error('no level')
   } catch (err) {
     if (!logger.hasLevel) {
-      logger.level = Logger.defaultLevel
+      logger.level = Logger.recommendedLevel
     }
     logger.error(err)
   }

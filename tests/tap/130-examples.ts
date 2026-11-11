@@ -71,7 +71,7 @@ await test('class example: the guard matches the logged level', (t) => {
 // The example of `hasLevel`.
 function setDefaultLevel(log: Logger): void {
   if (!log.hasLevel) {
-    log.level = Logger.defaultLevel
+    log.level = Logger.recommendedLevel
   }
 }
 
@@ -80,7 +80,7 @@ await test('hasLevel example: set the default level', (t) => {
   const logger = new Logger({ console: mockConsole })
 
   setDefaultLevel(logger)
-  t.equal(logger.level, Logger.defaultLevel, 'default level is set')
+  t.equal(logger.level, Logger.recommendedLevel, 'recommended level is set')
 
   const level: LogLevel = 'debug'
   const explicit = new Logger({ console: mockConsole, level })

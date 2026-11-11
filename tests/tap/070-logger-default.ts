@@ -40,4 +40,31 @@ await test('logger default', (t) => {
   t.end()
 })
 
+await test('the recommended level is never applied', (t) => {
+  t.equal(Logger.recommendedLevel, 'info', 'recommended level')
+
+  // A logger without a level stays in the preliminary state.
+  const logger = new Logger()
+  t.equal(logger.level, undefined, 'no level')
+  t.notOk(logger.hasLevel, 'preliminary state')
+
+  // The application uses it explicitly.
+  logger.level = Logger.recommendedLevel
+  t.equal(logger.level, 'info', 'level set explicitly')
+
+  t.end()
+})
+
+await test('defaultLevel is a deprecated alias of recommendedLevel', (t) => {
+  // The previous name keeps working, with the same value, until it is
+  // removed in the next major version.
+  t.equal(Logger.defaultLevel, Logger.recommendedLevel, 'same value')
+  t.equal(Logger.defaultLevel, 'info', 'info')
+
+  // It never was applied either.
+  t.equal(new Logger().level, undefined, 'a new logger has no level')
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------

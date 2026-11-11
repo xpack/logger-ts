@@ -1,7 +1,8 @@
 import { strict as assert } from 'node:assert';
 import * as util from 'node:util';
 export class Logger {
-    static defaultLevel = 'info';
+    static recommendedLevel = 'info';
+    static defaultLevel = Logger.recommendedLevel;
     static numericLevels = Object.freeze({
         silent: 0,
         error: 10,

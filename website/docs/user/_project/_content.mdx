@@ -129,12 +129,16 @@ values correspond to greater verbosity.
 The valid names, in increasing order of verbosity, are available at run
 time as the frozen array `Logger.levelNames`.
 
-The static members `Logger.numericLevels`, `Logger.defaultLevel`,
+The static members `Logger.numericLevels`, `Logger.recommendedLevel`,
 `Logger.numericLevelUndefined`, and `Logger.numericLevelAlways` are
 constants, shared by all the loggers: the compiler rejects an assignment
 to them, and at run time the `Logger` class and the `numericLevels` object
-are frozen, so an assignment throws a `TypeError`. `Logger.defaultLevel` is
-only the recommended level; the library does not apply it.
+are frozen, so an assignment throws a `TypeError`. `Logger.recommendedLevel`
+(`info`) is only the recommended level, for the applications that need one
+when none was chosen; the library does not apply it, so a logger created
+without a level stays in the preliminary state. Its previous name,
+`Logger.defaultLevel`, is deprecated, and will be removed in the next major
+version.
 
 When the level comes from a source that is not checked by the compiler,
 like a command line option or an environment variable, validate it with
@@ -231,7 +235,7 @@ try {
   log.level = parseLevel(process.argv)
 } catch (err) {
   if (!log.hasLevel) {
-    log.level = Logger.defaultLevel
+    log.level = Logger.recommendedLevel
   }
   log.error(err)
 }

@@ -93,6 +93,13 @@ await test('the class is frozen', (t) => {
 
   t.throws(
     () => {
+      statics['recommendedLevel'] = 'debug'
+    },
+    TypeError,
+    'recommendedLevel'
+  )
+  t.throws(
+    () => {
       statics['defaultLevel'] = 'debug'
     },
     TypeError,
@@ -127,6 +134,7 @@ await test('the class is frozen', (t) => {
     'a new member cannot be added'
   )
 
+  t.equal(Logger.recommendedLevel, 'info', 'recommendedLevel is unchanged')
   t.equal(Logger.defaultLevel, 'info', 'defaultLevel is unchanged')
   t.equal(Logger.numericLevelUndefined, Infinity, 'undefined is unchanged')
   t.equal(Logger.numericLevelAlways, -1, 'always is unchanged')

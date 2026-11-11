@@ -49,7 +49,7 @@ await test('logger level', (t) => {
   logger.level = 'trace'
   t.ok(logger.hasLevel, 'is initialised')
   t.equal(logger.level, 'trace', 'set level')
-  t.equal(Logger.defaultLevel, 'info', 'has default')
+  t.equal(Logger.recommendedLevel, 'info', 'has recommended level')
   t.throws(
     () => {
       ;(logger.level as unknown) = 'xyz'

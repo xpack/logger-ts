@@ -298,7 +298,7 @@ export interface LoggerBufferRecord {
  *   log.level = parseLevel(process.argv)
  * } catch (err) {
  *   if (!log.hasLevel) {
- *     log.level = Logger.defaultLevel
+ *     log.level = Logger.recommendedLevel
  *   }
  *   log.error(err)
  * }
@@ -329,14 +329,39 @@ export class Logger<C extends LoggerConsole = Console> {
   // Static Properties.
 
   /**
-   * The recommended default level.
+   * The recommended log level, `info`, for the applications that need a
+   * level when none was chosen.
+   *
+   * The library never applies it: a logger created without a level stays
+   * in the preliminary state, until the level is set, so the application
+   * must use this value explicitly, for example
+   * `log.level = Logger.recommendedLevel`.
    *
    * It is read-only: the compiler rejects an assignment, and at run time
    * the class is frozen, so an assignment throws a `TypeError`.
    *
+   * @remarks
+   * - added in v7.0.0, as the new name of `defaultLevel`
+   *
    * @category Constants
    */
-  static readonly defaultLevel: LogLevel = 'info'
+  static readonly recommendedLevel: LogLevel = 'info'
+
+  /**
+   * The previous name of `recommendedLevel`, with the same value.
+   *
+   * The name suggested that a logger created without a level gets this
+   * level, which the library never did.
+   *
+   * @remarks
+   * - deprecated in v7.0.0, to be removed in the next major version
+   *
+   * @deprecated Use `Logger.recommendedLevel`; it will be removed in the
+   *   next major version.
+   *
+   * @category Constants
+   */
+  static readonly defaultLevel: LogLevel = Logger.recommendedLevel
 
   // Not an enum, to be able to define it inside the class,
   // not at global level.
@@ -366,7 +391,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The value used for the undefined log level (maximum value).
    *
-   * It is read-only, like `defaultLevel`.
+   * It is read-only, like `recommendedLevel`.
    *
    * @category Constants
    */
@@ -375,7 +400,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The value used for the `always` case (minimum value).
    *
-   * It is read-only, like `defaultLevel`.
+   * It is read-only, like `recommendedLevel`.
    *
    * @category Constants
    */
@@ -604,7 +629,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @example
    * ```javascript
    * if (!log.hasLevel) {
-   *   log.level = Logger.defaultLevel
+   *   log.level = Logger.recommendedLevel
    * }
    * ```
    *

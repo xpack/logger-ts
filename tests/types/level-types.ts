@@ -57,10 +57,16 @@ export function staticsAreReadOnly(): void {
   // Reading is fine, and the numeric levels have literal types.
   const info: 30 = Logger.numericLevels.info
   const levels: readonly LogLevel[] = Logger.levelNames
-  const fallback: LogLevel = Logger.defaultLevel
+  const fallback: LogLevel = Logger.recommendedLevel
+  // The deprecated name still compiles.
+  const deprecated: LogLevel = Logger.defaultLevel
+  void deprecated
   void info
   void levels
   void fallback
+
+  // @ts-expect-error: `recommendedLevel` is read-only.
+  Logger.recommendedLevel = 'debug'
 
   // @ts-expect-error: `defaultLevel` is read-only.
   Logger.defaultLevel = 'debug'
