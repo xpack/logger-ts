@@ -36,7 +36,9 @@ by `src/index.ts`.
   `tap --show-full-coverage`. Lint runs once. Use
   `npm run test-no-coverage` to skip coverage (its
   `pretest-no-coverage` hook also runs lint, but it does not compile).
-- Run a single test file: `npx tap --disable-coverage tests/tap/040-is-level.ts`.
+- Run a single test file: `npx tap --disable-coverage tests/tap/040-is-level.ts`,
+  or `npm run test-one -- tests/tap/040-is-level.ts` (several files can be
+  given).
 - `npm run dev-cycle`: ESLint fix, compile, and test.
 - `npm run clean` removes build output; `prepare` runs Prettier, lint, and
   compile.
