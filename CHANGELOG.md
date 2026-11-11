@@ -4,9 +4,204 @@ Changes in reverse chronological order.
 
 Refer to GitHub [issues](https://github.com/xpack/logger-ts/issues).
 
+## 2026-11-11
+
+* b09ac5b re-generate top commons, now es only
+
+## 2026-11-10
+
+* 6d0e2f4 package*.json update
+* 0993f20 copyright year 2026 & license updates
+* 4e0ce98 copilot & claude updates
+
+## 2025-07-17
+
+* 7677a3e website update typedoc-sidebar
+
+## 2025-02-24
+
+* 3bf2851 website: re-generate commons
+* bb5b39d re-generate descriptive & permalink names
+
+## 2025-02-02
+
+* 312a83a website: re-generate commons
+
+## 2025-01-31
+
+* 091e347 website: updates and final common rework
+
+## 2025-01-30
+
+* 054af53 website: more rework with commons
+
+## 2025-01-29
+
+* 8dc659c website: more rework with commons
+
+## 2025-01-26
+
+* ecaa7ba website: rework with _project
+* 96de829 website: rework with _project
+
+## 2025-01-23
+
+* c0feb35 website: re-generate commons
+* 61ecdb0 website: re-generate commons
+
+## 2025-01-22
+
+* 054dba1 re-generate commons
+* c4538cd website: re-generate commons
+
+## 2025-01-21
+
+* 957a9d1 website: re-generate commons
+* 39f8311 website: re-generate commons
+* c25e9aa website: re-generate commons
+
+## 2025-01-20
+
+* 7e21d99 website: re-generate commons
+
+## 2025-01-17
+
+* ecc82d2 website: re-generate commons
+* ff91950 website: re-generate commons
+
+## 2025-01-15
+
+* 21fc4d9 website: re-generate commons
+* 4acd923 website: re-generate commons
+* 7e0747d re-generate commons
+
+## 2025-01-14
+
+* ac290de website: bump deps
+* df1eea0 re-generate commons
+* 91683ab re-generate commons
+
+## 2025-01-12
+
+* de91c13 website: update seo_title
+
+## 2025-01-10
+
+* 89f5c9a website: re-generate commons
+
+## 2025-01-08
+
+* fd671d1 re-generate commons
+* c2909bc website: re-generate commons
+* 0c82e1a re-generate commons
+
+## 2025-01-07
+
+* fcfc0d2 website/package.json: fix syntax
+* 050da2a website: re-generate commons
+
+## 2025-01-05
+
+* da4b10b website: updates
+
+## 2025-01-03
+
+* bdaffe1 website: updates
+
+## 2025-01-02
+
+* 74f52b7 re-generate commons
+* 63ec402 website: updates
+
+## 2024-12-31
+
+* 741be3e website: updates
+
+## 2024-12-30
+
+* 642c895 website: updates
+* e186396 website: updates
+
+## 2024-12-27
+
+* b096c46 re-generate commons
+* ed77789 website: updates
+
+## 2024-12-26
+
+* 0b0878a website: updates
+* ec588f9 website: updates
+* 9659850 website: updates
+
+## 2024-12-24
+
+* 30204b4 re-generate commons
+* d3c5535 website: updates
+
+## 2024-12-22
+
+* 8780f5e website: add robots.txt
+* a87264c website: re-generate commons
+
+## 2024-12-19
+
+* b356cd7 package-lock.json
+* eb61b08 website: re-generate commons
+* 96db477 re-generate workflows
+
+## 2024-11-12
+
+* 0893615 package.json update
+* 9f9dddc package.json: update tests
+* 5d92750 re-generate commons
+
+## 2024-11-11
+
+* 988964b website: project/history
+* c71ecdb re-generate workflows
+* 472362f package.json: move websiteConfig
+* e0b9256 website: re-generate commons
+* a403d75 re-generate workflows
+
+## 2024-11-04
+
+* 6e1356d website update
+
+## 2024-11-03
+
+* a5f2b4d website: bump deps
+
+## 2024-11-01
+
+* 5d39e6f .gitignore docs/api
+* 00d6d31 website: remove docs/api content
+
+## 2024-10-31
+
+* 3cd8bca website update api
+* c2237cb top package.json updates
+* 36710e8 logger.ts: update typedoc metadata
+
 ## 2024-10-30
 
-* v6.0.0 prepared
+* f566a9a website: add missing .js
+* 210d5ae re-generate workflows
+* ff72db4 re-generate .gitignore
+* 4fcdc35 force workflow
+* b370d39 re-generate website
+* ffc442e test-ci.yml: re-enable macos-14
+* 858355c package*.json update deps
+* 7f3e728 try to force new build
+* ebcb385 re-generate website
+* 30cd90b fix test-ci.yml
+* b69f449 test-ci.yml: skip macos-14
+* 8415a9a package-lock.json update
+* a991079 6.0.0
+* 7c7f2b8 .npmignore update
+* 6ba2b67 website update
+* 03d189b website update
+* 64b5732 website update
+* 87ce486 prepare v6.0.0
 * af09113 package.json update
 * 4286082 logger.ts: update typedoc metadata
 * 438b133 re-generate workflows
