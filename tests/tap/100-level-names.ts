@@ -64,6 +64,16 @@ await test('Logger.levelNames', (t) => {
   t.end()
 })
 
+await test('numericLevels has exactly the level names', (t) => {
+  // Compile-time check: fails to compile if a level name is missing.
+  const levels: Record<LogLevel, number> = Logger.numericLevels
+  // Run-time check of the other direction: no extra key.
+  const names: string[] = Object.keys(levels)
+  t.same(names, [...Logger.levelNames], 'the keys are the level names')
+
+  t.end()
+})
+
 await test('Logger.isLogLevel valid', (t) => {
   for (const name of Logger.levelNames) {
     t.ok(Logger.isLogLevel(name), `'${name}' is valid`)

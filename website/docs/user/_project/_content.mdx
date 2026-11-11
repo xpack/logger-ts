@@ -50,8 +50,9 @@ export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 ```
 
-Internally, string levels are converted to integer values for comparison
-purposes. Higher integer values correspond to greater verbosity.
+Internally, string levels are converted to numeric values (the
+`Logger.numericLevels` object) for comparison purposes. Higher numeric
+values correspond to greater verbosity.
 
 The valid names, in increasing order of verbosity, are available at run
 time as the frozen array `Logger.levelNames`.

@@ -52,8 +52,8 @@ import * as util from 'node:util'
 /**
  * Type of the strings recognised as valid level names.
  *
- * Internally these strings are converted into integer values,
- * and these numbers are used in comparisons.
+ * Internally these strings are converted into numeric values (see
+ * `Logger.numericLevels`), and these numbers are used in comparisons.
  *
  * Higher values mean more verbosity.
  */
@@ -298,6 +298,9 @@ export class Logger {
   /**
    * Internal numerical values for the log level.
    *
+   * The keys are exactly the level names of `LogLevel`; the compiler
+   * reports an error if a name is missing or if there is an extra one.
+   *
    * @category Constants
    */
   static numericLevels = {
@@ -309,7 +312,7 @@ export class Logger {
     debug: 50,
     trace: 60,
     all: 70,
-  }
+  } satisfies Record<LogLevel, number>
 
   /**
    * The value used for the undefined log level (maximum value).
