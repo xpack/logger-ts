@@ -42,7 +42,7 @@ assert(Logger)
 await test('logger level', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mockConsole
+    console: mockConsole,
   })
   t.ok(!logger.hasLevel, 'is uninitialised')
   t.equal(logger.level, undefined, 'initial level')
@@ -51,10 +51,10 @@ await test('logger level', (t) => {
   t.equal(logger.level, 'trace', 'set level')
   t.equal(Logger.defaultLevel, 'info', 'has default')
   try {
-    (logger.level as any) = 'xyz'
+    ;(logger.level as any) = 'xyz'
     // logger.level = 'xyz'
   } catch (err: any) {
-  // } catch (err) {
+    // } catch (err) {
     t.match(err.name, 'AssertionError', 'assert')
   }
   t.end()
@@ -64,7 +64,7 @@ await test('logger level all', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'all'
+    level: 'all',
   })
   t.equal(logger.level, 'all', 'level')
 
@@ -124,7 +124,7 @@ await test('logger level trace', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'trace'
+    level: 'trace',
   })
   t.equal(logger.level, 'trace', 'level')
 
@@ -183,7 +183,7 @@ await test('logger level debug', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'debug'
+    level: 'debug',
   })
   t.equal(logger.level, 'debug', 'level')
 
@@ -241,7 +241,7 @@ await test('logger level verbose', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'verbose'
+    level: 'verbose',
   })
   t.equal(logger.level, 'verbose', 'level')
 
@@ -298,7 +298,7 @@ await test('logger level info', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'info'
+    level: 'info',
   })
   t.equal(logger.level, 'info', 'level')
 
@@ -354,7 +354,7 @@ await test('logger level warn', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'warn'
+    level: 'warn',
   })
   t.equal(logger.level, 'warn', 'level')
 
@@ -409,7 +409,7 @@ await test('logger level error', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'error'
+    level: 'error',
   })
   t.equal(logger.level, 'error', 'level')
 
@@ -463,7 +463,7 @@ await test('logger level silent', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'silent'
+    level: 'silent',
   })
   t.equal(logger.level, 'silent', 'level')
 
@@ -515,7 +515,7 @@ await test('logger error exception', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'info'
+    level: 'info',
   })
   logger.error(new Error('msg'))
   // console.log(mockConsole.errLines)

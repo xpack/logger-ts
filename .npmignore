@@ -1,3 +1,8 @@
+# -----------------------------------------------------------------------------
+# DO NOT EDIT! Automatically generated from template file:
+# npm-packages-helper/templates/common/.npmignore-liquid
+# -----------------------------------------------------------------------------
+
 # https://docs.npmjs.com/files/package.json#files
 # Certain files are always included, regardless of settings:
 # - package.json
@@ -55,21 +60,15 @@ tests/
 README-*.md
 LICENSE-*
 !LICENSE-XPACK
+!LICENSE-liquid
+!LICENSE-Boost
 CONTRIBUTING**
 NOTES.md
-
-*.ts
-lib/**/*.ts
-# The above removes all TypeScript including the .d.ts files.
-# Bring those later back.
-!*.d.ts
-!lib/*.d.ts
 
 **/tsconfig*.json
 typedoc.json
 tsconfig.tsbuildinfo
 
-src/
 xpacks/
 node_modules/
 docs/
@@ -87,5 +86,25 @@ docs/
 build-assets/
 wrappers/
 extras/
+inspiration/
+maintenance/
+tests/
+config/
+
+# config
+
+.prettierignore
+.prettierrc.json
+
+.taprc
+
+api-extractor.json
+eslint.config.js
+
+**/.cmake-format.yaml
+**/code-review.md
+**/CODE-REVIEW.md
+**/CLAUDE.md
+.claude/
 
 #end

@@ -17,7 +17,7 @@ import { Logger } from '../../src/index.js'
 
 const mm = (): void => {
   const logger = new Logger({
-    level: 'info'
+    level: 'info',
   })
 
   logger.info('hello')

@@ -39,7 +39,7 @@ await test('logger level all empty', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
     console: mockConsole,
-    level: 'all'
+    level: 'all',
   })
   t.equal(logger.level, 'all', 'level')
 

@@ -37,7 +37,7 @@ import { Logger, NumericLogLevel, LoggerFunction } from '../../src/index.js'
 
 class MyLogger extends Logger {
   // Allow access to protected function.
-  public override write (
+  public override write(
     numericLevel: NumericLogLevel,
     loggerFunction: LoggerFunction,
     message: string | undefined
@@ -49,7 +49,7 @@ class MyLogger extends Logger {
 await test('logger undefined', (t) => {
   const mockConsole = new MockConsole()
   const logger = new MyLogger({
-    console: mockConsole
+    console: mockConsole,
   })
   t.equal(logger.level, undefined, 'initial level')
 
@@ -70,7 +70,7 @@ await test('logger undefined', (t) => {
 await test('logger level warn', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mockConsole
+    console: mockConsole,
   })
   t.equal(logger.level, undefined, 'initial level')
 
@@ -108,7 +108,7 @@ await test('logger level warn', (t) => {
 await test('logger level error', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mockConsole
+    console: mockConsole,
   })
   t.equal(logger.level, undefined, 'initial level')
 
@@ -145,7 +145,7 @@ await test('logger level error', (t) => {
 await test('logger level silent', (t) => {
   const mockConsole = new MockConsole()
   const logger = new Logger({
-    console: mockConsole
+    console: mockConsole,
   })
   t.equal(logger.level, undefined, 'initial level')
 

@@ -173,7 +173,7 @@ export class Logger {
     verbose: 40,
     debug: 50,
     trace: 60,
-    all: 70
+    all: 70,
   }
 
   /**
@@ -264,20 +264,22 @@ export class Logger {
    * @param params - The generic object used to pass parameters to the
    * constructor.
    */
-  constructor (params: {
-    /**
-     * The name of the log level; if not passed, the logger is created in
-     * a preliminary state, and all log lines will be stored in an internal
-     * buffer, until the log level is set. Optional.
-     */
-    level?: LogLevel
-    /**
-     * The underlying console object used to log the message.
-     * Optional. If not passed, the JavaScript standard `console` object
-     * is used.
-     */
-    console?: Console
-  } = {}) {
+  constructor(
+    params: {
+      /**
+       * The name of the log level; if not passed, the logger is created in
+       * a preliminary state, and all log lines will be stored in an internal
+       * buffer, until the log level is set. Optional.
+       */
+      level?: LogLevel
+      /**
+       * The underlying console object used to log the message.
+       * Optional. If not passed, the JavaScript standard `console` object
+       * is used.
+       */
+      console?: Console
+    } = {}
+  ) {
     if (params.console != null) {
       this._console = params.console
     }
@@ -285,10 +287,14 @@ export class Logger {
       this.level = params.level
     }
 
-    assert(typeof this._console.log === 'function',
-      'The console must have a log() function')
-    assert(typeof this._console.error === 'function',
-      'The console must have an error() function')
+    assert(
+      typeof this._console.log === 'function',
+      'The console must have a log() function'
+    )
+    assert(
+      typeof this._console.error === 'function',
+      'The console must have an error() function'
+    )
 
     this.trace(`${this.constructor.name}.constructor()`)
   }
@@ -318,7 +324,7 @@ export class Logger {
    *
    * @category Log Level Accessors
    */
-  get hasLevel (): boolean {
+  get hasLevel(): boolean {
     return this.levelNumericValue !== Logger.numericLevelUndefined
   }
 
@@ -339,22 +345,23 @@ export class Logger {
    *
    * @category Log Level Accessors
    */
-  set level (level: LogLevel | undefined) {
+  set level(level: LogLevel | undefined) {
     assert(level)
-    assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
-      `Log level '${level}' not supported.`)
+    assert(
+      Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
+      `Log level '${level}' not supported.`
+    )
 
     this.levelNumericValue = Logger.numericLevels[level]
     this.levelName = level
 
     // FLush the internal buffer.
     if (this.buffer.length > 0) {
-      this.buffer.forEach(
-        (record) => {
-          if (this.levelNumericValue >= record.numericLevel) {
-            record.func(record.message)
-          }
-        })
+      this.buffer.forEach((record) => {
+        if (this.levelNumericValue >= record.numericLevel) {
+          record.func(record.message)
+        }
+      })
 
       // Clear the buffer.
       this.buffer = []
@@ -373,7 +380,7 @@ export class Logger {
    *
    * @category Log Level Accessors
    */
-  get level (): LogLevel | undefined {
+  get level(): LogLevel | undefined {
     return this.levelName
   }
 
@@ -387,7 +394,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isSilent (): boolean {
+  get isSilent(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.silent
   }
 
@@ -401,7 +408,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isError (): boolean {
+  get isError(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.error
   }
 
@@ -415,7 +422,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isWarn (): boolean {
+  get isWarn(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.warn
   }
 
@@ -429,7 +436,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isInfo (): boolean {
+  get isInfo(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.info
   }
 
@@ -443,7 +450,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isVerbose (): boolean {
+  get isVerbose(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.verbose
   }
 
@@ -457,7 +464,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isDebug (): boolean {
+  get isDebug(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.debug
   }
 
@@ -471,7 +478,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isTrace (): boolean {
+  get isTrace(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.trace
   }
 
@@ -485,7 +492,7 @@ export class Logger {
    *
    * @category Log Level Check Accessors
    */
-  get isAll (): boolean {
+  get isAll(): boolean {
     return this.levelNumericValue >= Logger.numericLevels.all
   }
 
@@ -500,7 +507,7 @@ export class Logger {
    *
    * @returns The console object used by the logger.
    */
-  get console (): Console {
+  get console(): Console {
     return this._console
   }
 
@@ -532,10 +539,12 @@ export class Logger {
    *
    * @category Log Level Check Methods
    */
-  isLevel (level: LogLevel): boolean {
+  isLevel(level: LogLevel): boolean {
     assert(level)
-    assert(Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
-      `Log level '${level}' not supported.`)
+    assert(
+      Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
+      `Log level '${level}' not supported.`
+    )
 
     return this.levelNumericValue >= Logger.numericLevels[level]
   }
@@ -554,12 +563,12 @@ export class Logger {
    *
    * @category Output Methods
    */
-  protected write (
+  protected write(
     numericLevel: NumericLogLevel,
     loggerFunction: LoggerFunction,
     message: string | undefined
   ): void {
-    if (message === undefined || message === null) {
+    if (message === undefined) {
       // Ignore if nothing to write.
       return
     }
@@ -572,7 +581,7 @@ export class Logger {
       this.buffer.push({
         numericLevel,
         func: loggerFunction,
-        message
+        message,
       })
     }
   }
@@ -595,9 +604,15 @@ export class Logger {
    *
    * @category Output Methods
    */
-  always (message: any = '', ...args: any[]): void {
+  always(message: unknown = '', ...args: unknown[]): void {
     const str = util.format(message, ...args)
-    this.write(Logger.numericLevelAlways, this._console.log, str)
+    this.write(
+      Logger.numericLevelAlways,
+      (msg: string) => {
+        this._console.log(msg)
+      },
+      str
+    )
   }
 
   /**
@@ -629,15 +644,26 @@ export class Logger {
    * @category Output Methods
    */
   // error (message: Error): void
-  error (message: any = '', ...args: any[]): void {
+  error(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
       if (message instanceof Error) {
         const str = util.format(message, ...args)
-        this.write(Logger.numericLevels.error, this._console.error, str)
+        this.write(
+          Logger.numericLevels.error,
+          (msg: string) => {
+            this._console.error(msg)
+          },
+          str
+        )
       } else {
         const str = util.format(message, ...args)
-        this.write(Logger.numericLevels.error, this._console.error,
-          'error: ' + str)
+        this.write(
+          Logger.numericLevels.error,
+          (msg: string) => {
+            this._console.error(msg)
+          },
+          'error: ' + str
+        )
       }
     }
   }
@@ -671,10 +697,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  output (message: any = '', ...args: any[]): void {
+  output(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.error) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.error, this._console.log, str)
+      this.write(
+        Logger.numericLevels.error,
+        (msg: string) => {
+          this._console.log(msg)
+        },
+        str
+      )
     }
   }
 
@@ -694,11 +726,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  warn (message: any = '', ...args: any[]): void {
+  warn(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.warn) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.warn, this._console.error,
-        'warning: ' + str)
+      this.write(
+        Logger.numericLevels.warn,
+        (msg: string) => {
+          this._console.error(msg)
+        },
+        'warning: ' + str
+      )
     }
   }
 
@@ -717,10 +754,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  info (message: any = '', ...args: any[]): void {
+  info(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.info) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.info, this._console.log, str)
+      this.write(
+        Logger.numericLevels.info,
+        (msg: string) => {
+          this._console.log(msg)
+        },
+        str
+      )
     }
   }
 
@@ -739,10 +782,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  verbose (message: any = '', ...args: any[]): void {
+  verbose(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.verbose) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.verbose, this._console.log, str)
+      this.write(
+        Logger.numericLevels.verbose,
+        (msg: string) => {
+          this._console.log(msg)
+        },
+        str
+      )
     }
   }
 
@@ -762,11 +811,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  debug (message: any = '', ...args: any[]): void {
+  debug(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.debug) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.debug, this._console.log,
-        'debug: ' + str)
+      this.write(
+        Logger.numericLevels.debug,
+        (msg: string) => {
+          this._console.log(msg)
+        },
+        'debug: ' + str
+      )
     }
   }
 
@@ -786,11 +840,16 @@ export class Logger {
    *
    * @category Output Methods
    */
-  trace (message: any = '', ...args: any[]): void {
+  trace(message: unknown = '', ...args: unknown[]): void {
     if (this.levelNumericValue >= Logger.numericLevels.trace) {
       const str = util.format(message, ...args)
-      this.write(Logger.numericLevels.trace, this._console.log,
-        'trace: ' + str)
+      this.write(
+        Logger.numericLevels.trace,
+        (msg: string) => {
+          this._console.log(msg)
+        },
+        'trace: ' + str
+      )
     }
   }
 

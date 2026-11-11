@@ -1,9 +1,5 @@
 # Copilot Instructions
 
-## Project Overview
-
-This is ...
-
 ## General
 
 - Avoid sycophantic behaviour; for all conversation, never soften criticism

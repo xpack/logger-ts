@@ -65,7 +65,7 @@ Tests can be started using scripts:
 
 - coverage checks for projects with ES6 modules is not yet supported; use `c8`
 - `ts-node` requires a top `tsconfig.json`, currently there is no
-configuration to pass a different path
+  configuration to pass a different path
 
 ## Links
 
