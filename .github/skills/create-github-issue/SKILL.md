@@ -59,13 +59,20 @@ repository root.
    List the milestones with
    `gh api 'repos/xpack/logger-ts/milestones?state=all'`. A milestone
    is named after the release version (for example `6.0.1`); propose
-   the one of the upcoming release in the draft. If none matches, ask
-   which version to use, or whether to leave the issue without a
-   milestone; do not create a milestone without approval. Do not use
+   the one of the upcoming release in the draft. Do not use
    `Time Permitting`, which the maintainer assigns, and do not assume
    that a milestone that exists is current (the repository has a
    `3.0.1` milestone from an earlier major version). Ask about
    `Next Release` before using it.
+
+   When no milestone matches the upcoming release, create one,
+   named after the `version` in `package.json` without the
+   pre-release suffix (`7.0.0-pre` gives `7.0.0`), and state in the
+   draft that it will be created:
+
+   ```sh
+   gh api repos/xpack/logger-ts/milestones -f title="<version>"
+   ```
 8. **Report** the number and URL; for several issues, a table (number,
    title, labels).
 
