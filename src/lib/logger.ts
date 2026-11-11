@@ -20,8 +20,8 @@
  * different contexts, created, for example, when using REPL.
  *
  * The messages may include formatting directives, with additional
- * arguments, as defined by the Node.js console (not really necessary
- * with ES6).
+ * arguments, as defined by the Node.js console (template literals are
+ * often simpler).
  *
  * There is no `critical` level, corresponding to errors that prevent
  * the program to run, since these are actually related to bugs;
@@ -117,14 +117,13 @@ export interface LoggerBufferRecord {
  * use `assert()` instead.
  *
  * The messages may include formatting directives, with additional
- * arguments, as defined by the Node.js console (not really necessary
- * with ES6).
+ * arguments, as defined by the Node.js console (template literals are
+ * often simpler).
  *
- * All output functions accept an optional string message and possibly
- * some arguments,
- * as processed by the standard Node.js
- * [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
-function.
+ * All output methods accept an optional message, of any type, and
+ * possibly some arguments, as processed by the standard Node.js
+ * [`util.format(msg, ...args)`](https://nodejs.org/api/util.html#utilformatformat-args)
+ * function.
  *
  * **Empty messages.** If the message is omitted or `undefined`, it is
  * replaced by an empty string, so `log.info()` and `log.info(undefined)`
@@ -210,7 +209,7 @@ function.
  * if not high enough, skip the code entirely.
  *
  * ```javascript
- *   if (log.isVerbose) {
+ *   if (log.isTrace) {
  *     for (const [folderName, folder] of Object.entries(folders)) {
  *       log.trace(`'${folderName}' ${folder.toolchainOptions}`)
  *     }
@@ -465,9 +464,9 @@ export class Logger {
    * in an internal buffer until the log level is set.
    *
    * @example
-   * ```console
+   * ```javascript
    * if (!log.hasLevel) {
-   *   log.level = defaultLevel
+   *   log.level = Logger.defaultLevel
    * }
    * ```
    *
@@ -981,7 +980,7 @@ export class Logger {
    *
    * @example
    * ```javascript
-   * log.info(title)
+   * log.warn('The configuration file is missing, using the defaults')
    * ```
    *
    * @param message - Message to log, as accepted by `util.format()`. If
