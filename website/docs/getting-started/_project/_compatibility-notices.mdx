@@ -97,6 +97,12 @@ replaces the prefix by the kind in square brackets (for example
 off by default, so the existing output does not change (this is not a
 breaking change). The `timestamp` accessor returns its value.
 
+The published declaration files (`.d.ts`) now include the TSDoc comments of
+the library, so editors show the documentation, and the deprecations of this
+version (like the strike-through of `isSilent` and `defaultLevel`); before,
+the comments were removed by the compiler. The compiled JavaScript files
+still have no comments.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

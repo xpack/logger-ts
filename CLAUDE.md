@@ -81,6 +81,16 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
     point of the subclasses is the protected `write()`. Static initializers
     must use `this`, not `Logger`, since the emitted code assigns the class
     alias after the class definition.
+  - The build has two passes (the `compile` script): `tsconfig.json`
+    compiles without comments (`removeComments` in
+    `maintenance/config/tsconfig-common.json`), and
+    `tsconfig-declarations.json` then emits only the declaration files, with
+    the comments, so the published `.d.ts` files carry the TSDoc and the
+    `@deprecated` tags, which `tests/tap/160-package.ts` checks, while the
+    tracked JavaScript in `dist/` changes only when the code changes. Running
+    only the first pass leaves bare declarations; `compile-watch` runs only
+    the first pass. The second configuration and the changed script are not
+    in the template yet.
   - The constructor option `timestamp` (fixed at construction, with a
     read-only accessor) makes the four methods that have a prefix (`error`,
     `warn`, `debug`, and `trace`) start with the local time,

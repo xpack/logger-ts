@@ -28,6 +28,8 @@ import { execFileSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+import ts from 'typescript'
+
 // https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
@@ -139,6 +141,87 @@ await test('the package can be imported dynamically from CommonJS', (t) => {
     `import('@xpack/logger').then((m) => console.log(typeof m.Logger))`
   )
   t.equal(output, 'function', 'Logger is usable with import()')
+
+  t.end()
+})
+
+// The declaration files are what the editors of the users show: they must
+// keep the TSDoc comments, with the deprecations.
+function documentedMembers(): Map<string, ts.Node> {
+  const path = `${packageFolder}dist/lib/logger.d.ts`
+  const source = ts.createSourceFile(
+    path,
+    readFileSync(path, 'utf8'),
+    ts.ScriptTarget.ES2022,
+    true
+  )
+
+  const members = new Map<string, ts.Node>()
+  const visit = (node: ts.Node): void => {
+    if (
+      (ts.isClassDeclaration(node) ||
+        ts.isPropertyDeclaration(node) ||
+        ts.isMethodDeclaration(node) ||
+        ts.isGetAccessorDeclaration(node)) &&
+      node.name !== undefined
+    ) {
+      members.set(node.name.getText(source), node)
+    }
+    ts.forEachChild(node, visit)
+  }
+  visit(source)
+  return members
+}
+
+await test('the declarations keep the TSDoc comments', (t) => {
+  const members = documentedMembers()
+
+  for (const name of [
+    'Logger',
+    'level',
+    'isLevel',
+    'timestamp',
+    'recommendedLevel',
+    'info',
+    'error',
+    'write',
+  ]) {
+    const node = members.get(name)
+    t.ok(node, `${name} is declared`)
+    if (node !== undefined) {
+      t.ok(
+        ts.getJSDocCommentsAndTags(node).some(ts.isJSDoc),
+        `${name} has a TSDoc comment`
+      )
+    }
+  }
+
+  t.end()
+})
+
+await test('the declarations keep the deprecations', (t) => {
+  const members = documentedMembers()
+
+  // What the editors show with a strike-through.
+  for (const name of [
+    'defaultLevel',
+    'isSilent',
+    '_console',
+    'levelNumericValue',
+    'levelName',
+    'buffer',
+  ]) {
+    const node = members.get(name)
+    t.ok(node, `${name} is declared`)
+    if (node !== undefined) {
+      t.ok(ts.getJSDocDeprecatedTag(node), `${name} is deprecated`)
+    }
+  }
+
+  t.notOk(
+    ts.getJSDocDeprecatedTag(members.get('recommendedLevel') as ts.Node),
+    'recommendedLevel is not deprecated'
+  )
 
   t.end()
 })

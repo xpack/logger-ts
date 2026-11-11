@@ -87,7 +87,7 @@
     "compile-watch": "tsc --project tsconfig.json --watch",
     "prettier": "prettier src tests --write --config maintenance/config/.prettierrc.json --ignore-path maintenance/config/.prettierignore",
     "fix": "eslint --config maintenance/config/eslint.config.js --fix src",
-    "compile": "tsc --project tsconfig.json",
+    "compile": "tsc --project tsconfig.json && tsc --project tsconfig-declarations.json",
     "compile-tests": "tsc --project maintenance/config/tsconfig-tests.json",
     "fix-compile": "npm run prettier && npm run fix && npm run compile",
     "lint": "eslint --config maintenance/config/eslint.config.js src",
