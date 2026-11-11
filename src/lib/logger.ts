@@ -336,6 +336,12 @@ export class Logger {
    * If this is the first time when the log level is set,
    * flush the internal buffer.
    *
+   * The buffer is emptied before the messages are written, so each
+   * buffered message is written at most once. If the console throws
+   * while the buffer is flushed, the exception is propagated to the
+   * caller, the level remains set, and the buffered messages that were
+   * not yet written are discarded.
+   *
    * @example
    * ```javascript
    * log.level = 'info'
@@ -355,16 +361,18 @@ export class Logger {
     this.levelNumericValue = Logger.numericLevels[level]
     this.levelName = level
 
-    // FLush the internal buffer.
+    // Flush the internal buffer.
     if (this.buffer.length > 0) {
-      this.buffer.forEach((record) => {
+      // Detach the buffer before the replay, so that a record is never
+      // written twice, even if the console throws.
+      const records = this.buffer
+      this.buffer = []
+
+      records.forEach((record) => {
         if (this.levelNumericValue >= record.numericLevel) {
           record.func(record.message)
         }
       })
-
-      // Clear the buffer.
-      this.buffer = []
     }
   }
 

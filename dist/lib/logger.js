@@ -38,12 +38,13 @@ export class Logger {
         this.levelNumericValue = Logger.numericLevels[level];
         this.levelName = level;
         if (this.buffer.length > 0) {
-            this.buffer.forEach((record) => {
+            const records = this.buffer;
+            this.buffer = [];
+            records.forEach((record) => {
                 if (this.levelNumericValue >= record.numericLevel) {
                     record.func(record.message);
                 }
             });
-            this.buffer = [];
         }
     }
     get level() {

@@ -360,4 +360,68 @@ await test('logger level silent', (t) => {
   t.end()
 })
 
+// A console that throws on the second call of `log()`.
+class ThrowingConsole extends MockConsole {
+  calls = 0
+
+  public override log(message?: unknown, ...optionalParams: unknown[]): void {
+    this.calls += 1
+    if (this.calls === 2) {
+      throw new Error('log failed')
+    }
+    super.log(message, ...optionalParams)
+  }
+}
+
+await test('logger console throws during flush', (t) => {
+  const mockConsole = new ThrowingConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  logger.info('first')
+  logger.info('second')
+  logger.info('third')
+
+  t.throws(
+    () => {
+      logger.level = 'info'
+    },
+    /log failed/,
+    'level setter propagates the exception'
+  )
+  t.equal(logger.level, 'info', 'level is set')
+  t.same(mockConsole.outLines, ['first'], 'stdout has only the first')
+
+  // The buffer was emptied, so assigning the level again does not
+  // write the same messages a second time.
+  logger.level = 'info'
+  t.same(mockConsole.outLines, ['first'], 'stdout is not duplicated')
+
+  logger.info('fourth')
+  t.same(mockConsole.outLines, ['first', 'fourth'], 'stdout continues')
+
+  t.end()
+})
+
+await test('logger second level assignment does not replay', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  logger.info('first')
+  logger.debug('second')
+
+  logger.level = 'debug'
+  logger.level = 'info'
+  t.same(
+    mockConsole.outLines,
+    ['first', 'debug: second'],
+    'stdout has each message once'
+  )
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------

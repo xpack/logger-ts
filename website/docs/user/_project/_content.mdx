@@ -65,6 +65,12 @@ log.info('hello') // Displayed on stdout.
 log.debug('world') // Ignored.
 ```
 
+The buffer is emptied before the messages are written, so each buffered
+message is written at most once. If the console throws while the buffer
+is flushed, the exception is propagated from the level setter, the level
+remains set, and the buffered messages that were not yet written are
+discarded.
+
 ### Output methods
 
 The following methods are available to log messages:
