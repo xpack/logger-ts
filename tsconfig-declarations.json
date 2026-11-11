@@ -1,4 +1,7 @@
 {
+  // DO NOT EDIT! Automatically generated from template file:
+  // npm-packages-helper/templates/common/_xpack/tsconfig-declarations-liquid.json
+
   // The second pass of the compilation: emit only the declaration files,
   // with the comments, which the first pass (tsconfig.json) removes from
   // the compiled files. The TSDoc comments of the declarations are what

@@ -61,6 +61,7 @@
     "prettier": "https://www.npmjs.com/package/prettier",
     "typescript": "https://www.npmjs.com/package/typescript"
   },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^26.6.6",
     "@types/tap": "^15.0.12",
