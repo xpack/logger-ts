@@ -17,10 +17,24 @@ package must be installed, as in any other Node.js project. Without it,
 the compiler reports that it cannot find the `node:console` module, unless
 `skipLibCheck` is enabled.
 
-In JavaScript with CommonJS, use `require()`:
+The package is an ES module only. In JavaScript with CommonJS, use
+`require()`, which loads ES modules by default in Node.js 22.12 or later
+(the minimum version supported by the package):
 
 ```javascript
-const { Logger } = request('@xpack/logger')
+const { Logger } = require('@xpack/logger')
+```
+
+The module does not use top-level `await`, so it can be loaded
+synchronously. The asynchronous alternative, which is the only possibility
+in the versions of Node.js that fail with `ERR_REQUIRE_ESM`, also works,
+inside an `async` function (CommonJS has no top-level `await`):
+
+```javascript
+async function main() {
+  const { Logger } = await import('@xpack/logger')
+  // ...
+}
 ```
 
 The module can be included in any application and the class can be used

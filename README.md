@@ -5,7 +5,7 @@
 
 # The xPack Logger
 
-A Node.js CommonJS/ES6 module with a generic console logger class.
+A Node.js ES module with a generic console logger class.
 
 ## Project documentation
 

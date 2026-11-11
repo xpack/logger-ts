@@ -54,7 +54,10 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
   too).
 - **ES module only packaging**: the root `package.json` has `"type": "module"`
   and its `exports` map points to `dist/index.js` and `dist/index.d.ts`; there
-  is no CommonJS build. Source imports use `.js` extensions
+  is no CommonJS build. The minimum Node.js version is 22.12 (`engines`), the
+  first 22.x that loads ES modules with `require()` by default, so CommonJS
+  consumers can still `require()` the package; `tests/tap/160-package.ts`
+  checks this. Source imports use `.js` extensions
   (`./lib/logger.js`) because of Node.js module resolution.
 - **Published files**: the `files` list in `package.json` selects `dist/` and
   `src/` (without `src/README.md`); check with `npm pack --dry-run`. Note that
