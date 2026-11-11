@@ -1,6 +1,6 @@
 {
   "name": "@xpack/logger",
-  "version": "6.0.0",
+  "version": "7.0.0-pre",
   "description": "A Node.js ES6 module with a generic console logger class",
   "type": "module",
   "main": "./dist/index.js",
