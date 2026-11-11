@@ -14,30 +14,8 @@
 // ----------------------------------------------------------------------------
 
 /*
- * This file implements a generic console logger.
- *
- * Use `log.always()` instead of the `console.log()`, since it accounts for
- * different contexts, created, for example, when using REPL.
- *
- * The messages may include formatting directives, with additional
- * arguments, as defined by the Node.js console (template literals are
- * often simpler).
- *
- * There is no `critical` level, corresponding to errors that prevent
- * the program to run, since these are actually related to bugs;
- * use `assert()` instead.
- *
- * Delayed log level use cases
- * ---------------------------
- *
- * There are cases when the logger must be created very early in the
- * life cycle of an application, even before it is practically possible
- * to determine the log level.
- *
- * For these cases, if the logger is created without a log level,
- * the logger is in a preliminary state, and all messages are
- * stored in an internal buffer, until the moment when the log
- * level is set, when the buffer is replayed and the messages are written.
+ * This file implements a generic console logger; the description of the
+ * class is in the TSDoc comment of `Logger`.
  */
 
 // ----------------------------------------------------------------------------
