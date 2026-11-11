@@ -88,3 +88,10 @@ The skills in `.github/skills/` (also visible as `.claude/skills`) share
 `.github/skills/review-common.md` (judging, numbering, report files, probes,
 acting on an item). Review reports are written to `maintenance/docs/`, which is
 created on demand and excluded from the npm package by `.npmignore`.
+
+## Questions to the user
+
+When running on macOS and a question for the user is needed (for example
+when asking for approval of a draft or a decision between alternatives),
+first speak the question with the `say` command (run it before the text
+is displayed), then display the text of the question as usual.
