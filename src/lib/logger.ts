@@ -77,6 +77,27 @@ export type LoggerConsole = Pick<Console, 'log' | 'error'>
 // Internal definitions.
 
 /**
+ * Format a date as the local time, with milliseconds, like
+ * `2026-11-11 23:32:31.358`.
+ *
+ * @param date - The date to format.
+ *
+ * @returns The date and the time, in the local time zone, without the
+ *   time zone.
+ */
+function formatLocalTime(date: Date): string {
+  const pad = (value: number, length = 2): string =>
+    String(value).padStart(length, '0')
+
+  return (
+    `${pad(date.getFullYear(), 4)}-${pad(date.getMonth() + 1)}` +
+    `-${pad(date.getDate())} ${pad(date.getHours())}` +
+    `:${pad(date.getMinutes())}:${pad(date.getSeconds())}` +
+    `.${pad(date.getMilliseconds(), 3)}`
+  )
+}
+
+/**
  * Type of the numeric log level.
  *
  * The numeric log level is used in log level comparisons; its values are
@@ -202,6 +223,34 @@ export interface LoggerBufferRecord {
  * to the state (`_console`, `levelNumericValue`, `levelName`, and
  * `buffer`) are deprecated, still work, and will be removed in the next
  * major version.
+ *
+ * **Timestamps.** If the logger is created with the `timestamp` option,
+ * the messages of the methods that have a prefix (`error()`, `warn()`,
+ * `debug()`, and `trace()`) start with a timestamp, and the prefix is
+ * replaced by the kind of the message in square brackets:
+ *
+ * ```text
+ * 2026-11-11 23:32:31.358 [warning] the file is missing
+ * ```
+ *
+ * The timestamp is in the local time, without the time zone, with
+ * milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`,
+ * `warning`, `debug`, or `trace`. Without the option, the same messages
+ * start with the prefix, as in `warning: the file is missing`.
+ *
+ * The timestamp and the kind are tied to the method, not to the prefix
+ * that is written: `error()` with an `Error` that comes first has no
+ * prefix without the option, but with the option it has both, as in
+ * `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped
+ * messages have the same structure. The messages without a prefix
+ * (`always()`, `output()`, `info()`, and `verbose()`) are the normal output
+ * and the progress messages, and are never stamped. The timestamp and the
+ * kind are on the first line only, like the prefix, so the stack trace of
+ * an `Error`, and the following lines of a multi-line message, are not
+ * stamped. The time is taken when the message is logged, so the messages
+ * of the preliminary state keep it, although they are written later. The
+ * option cannot be changed after the logger is created (see the
+ * `timestamp` accessor).
  *
  * **The prefix of an `Error`.** Only `error()` omits its prefix, and only
  * when the first argument is an `Error`: the first line of the expanded
@@ -541,6 +590,9 @@ export class Logger<C extends LoggerConsole = Console> {
   /** The name of the log level. */
   #levelName: LogLevel | undefined = undefined
 
+  /** Whether the diagnostic messages start with a timestamp. */
+  readonly #timestamp: boolean
+
   /**
    * Empty buffer where the messages of the preliminary state are stored
    * until the log level is set.
@@ -677,6 +729,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   valid names, and a `TypeError` if it is not a string (a `level` that
    *   is `undefined` is the same as no level). The same errors are thrown
    *   by the `level` setter.
+   * @throws A `TypeError` if the `timestamp` option is not a boolean.
    * @throws An `AssertionError` if the console does not have the `log()`
    *   and `error()` functions.
    */
@@ -695,8 +748,27 @@ export class Logger<C extends LoggerConsole = Console> {
        * `console` object is used.
        */
       console?: C | undefined
+      /**
+       * If true, the messages of the logging methods that have a prefix
+       * (`error()`, `warn()`, `debug()`, and `trace()`) start with a
+       * timestamp, in the local time, with milliseconds, and the prefix is
+       * replaced by the kind in square brackets, for example
+       * `2026-11-11 23:32:31.358 [warning] message`. Optional, the default
+       * is false. It cannot be changed after the logger is created.
+       */
+      timestamp?: boolean | undefined
     } = {}
   ) {
+    // The option may come from untyped code.
+    const timestamp: unknown = params.timestamp
+    if (timestamp !== undefined && typeof timestamp !== 'boolean') {
+      throw new TypeError(
+        'The timestamp option must be a boolean, not ' +
+          (timestamp === null ? 'null' : typeof timestamp)
+      )
+    }
+    this.#timestamp = timestamp === true
+
     if (params.console != null) {
       this.#console = params.console
     }
@@ -1001,6 +1073,22 @@ export class Logger<C extends LoggerConsole = Console> {
     return this.#console
   }
 
+  /**
+   * Accessor to check if the diagnostic messages start with a timestamp.
+   *
+   * It is the value of the `timestamp` option of the constructor, and it
+   * cannot be changed after the logger is created.
+   *
+   * @remarks
+   * - added in v7.0.0
+   *
+   * @returns True if the messages of `error()`, `warn()`, `debug()`, and
+   *   `trace()` start with a timestamp.
+   */
+  get timestamp(): boolean {
+    return this.#timestamp
+  }
+
   // --------------------------------------------------------------------------
   // Methods.
 
@@ -1107,7 +1195,17 @@ export class Logger<C extends LoggerConsole = Console> {
    * @param numericLevel - The numeric level of the method.
    * @param stream - The console method used to write the message,
    * `log` for stdout and `error` for stderr.
-   * @param prefix - The string added in front of the formatted message.
+   * @param kind - The kind of the message, which is the word of the prefix
+   *   (`error`, `warning`, `debug`, or `trace`), or the empty string for the
+   *   methods that have no prefix. The messages of a method that has a kind
+   *   are written as `kind: message`, or, if the logger was created with the
+   *   `timestamp` option, as `timestamp [kind] message`; the time is taken
+   *   when the message is logged, so the messages of the preliminary state
+   *   keep it.
+   * @param omitPrefix - True to omit the `kind: ` prefix when the logger
+   *   was not created with the `timestamp` option (`error()` omits it for an
+   *   `Error` that comes first); it does not affect the `[kind]` of the
+   *   timestamp mode, which is always written.
    * @param message - The message, as accepted by `util.format()`.
    * @param args - The optional variable arguments.
    *
@@ -1116,7 +1214,8 @@ export class Logger<C extends LoggerConsole = Console> {
   private emit(
     numericLevel: NumericLogLevel,
     stream: 'log' | 'error',
-    prefix: string,
+    kind: string,
+    omitPrefix: boolean,
     message: unknown,
     args: unknown[]
   ): void {
@@ -1125,6 +1224,17 @@ export class Logger<C extends LoggerConsole = Console> {
     }
 
     const str = util.format(message, ...args)
+
+    // The timestamp and the kind are tied to the method, not to the prefix
+    // that is written.
+    let prefix = ''
+    if (kind !== '') {
+      if (this.#timestamp) {
+        prefix = `${formatLocalTime(new Date())} [${kind}] `
+      } else if (!omitPrefix) {
+        prefix = `${kind}: `
+      }
+    }
     this.write(
       numericLevel,
       (msg: string) => {
@@ -1174,14 +1284,17 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   always(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevelAlways, 'log', '', message, args)
+    this.emit(Logger.numericLevelAlways, 'log', '', false, message, args)
   }
 
   /**
    * Log an error message, if the log level is `error` or higher.
    *
    * The message is prefixed with `error: ` and
-   * passed via `console.error()`.
+   * passed via `console.error()`. If the logger was created with the
+   * `timestamp` option, it starts with a timestamp, and the prefix is
+   * replaced by `[error]`, also for an `Error` that comes first (see
+   * below).
    *
    * There is a special case when the first argument is an `Error`
    * object: the prefix is omitted, since the first line of the expanded
@@ -1226,7 +1339,8 @@ export class Logger<C extends LoggerConsole = Console> {
     this.emit(
       Logger.numericLevels.error,
       'error',
-      message instanceof Error ? '' : 'error: ',
+      'error',
+      message instanceof Error,
       message,
       args
     )
@@ -1272,14 +1386,16 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   output(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.error, 'log', '', message, args)
+    this.emit(Logger.numericLevels.error, 'log', '', false, message, args)
   }
 
   /**
    * Log a warning message, if the log level is `warn` or higher.
    *
    * The message is prefixed with `warning: ` and
-   * passed via `console.error()`.
+   * passed via `console.error()`. If the logger was created with the
+   * `timestamp` option, it starts with a timestamp, and the prefix is
+   * replaced by `[warning]`.
    *
    * An `Error` object is expanded with the full stack trace and the
    * `cause` chain, on several lines; unlike in `error()`, the prefix is
@@ -1301,7 +1417,14 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   warn(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.warn, 'error', 'warning: ', message, args)
+    this.emit(
+      Logger.numericLevels.warn,
+      'error',
+      'warning',
+      false,
+      message,
+      args
+    )
   }
 
   /**
@@ -1325,7 +1448,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   info(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.info, 'log', '', message, args)
+    this.emit(Logger.numericLevels.info, 'log', '', false, message, args)
   }
 
   /**
@@ -1349,18 +1472,20 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   verbose(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.verbose, 'log', '', message, args)
+    this.emit(Logger.numericLevels.verbose, 'log', '', false, message, args)
   }
 
   /**
    * Log a debug message, if the log level is `'debug'` or higher.
    *
    * The message is prefixed with `debug: ` and
-   * passed via `console.log()`. An `Error` object is expanded with the
-   * full stack trace and the `cause` chain, on several lines, and the
-   * prefix is kept, even when the error is the first argument
-   * (`debug: Error: boom`, followed by the stack trace; see **The prefix
-   * of an `Error`** in the description of the class).
+   * passed via `console.log()`. If the logger was created with the
+   * `timestamp` option, it starts with a timestamp, and the prefix is
+   * replaced by `[debug]`. An `Error` object is
+   * expanded with the full stack trace and the `cause` chain, on several
+   * lines, and the prefix is kept, even when the error is the first
+   * argument (`debug: Error: boom`, followed by the stack trace; see **The
+   * prefix of an `Error`** in the description of the class).
    *
    * @example
    * ```javascript
@@ -1375,18 +1500,20 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   debug(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.debug, 'log', 'debug: ', message, args)
+    this.emit(Logger.numericLevels.debug, 'log', 'debug', false, message, args)
   }
 
   /**
    * Log a trace message, if the log level is `trace` or higher.
    *
    * The message is prefixed with `trace: ` and
-   * passed via `console.log()`. An `Error` object is expanded with the
-   * full stack trace and the `cause` chain, on several lines, and the
-   * prefix is kept, even when the error is the first argument
-   * (`trace: Error: boom`, followed by the stack trace; see **The prefix
-   * of an `Error`** in the description of the class).
+   * passed via `console.log()`. If the logger was created with the
+   * `timestamp` option, it starts with a timestamp, and the prefix is
+   * replaced by `[trace]`. An `Error` object is
+   * expanded with the full stack trace and the `cause` chain, on several
+   * lines, and the prefix is kept, even when the error is the first
+   * argument (`trace: Error: boom`, followed by the stack trace; see **The
+   * prefix of an `Error`** in the description of the class).
    *
    * @example
    * ```javascript
@@ -1401,7 +1528,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Logging Methods
    */
   trace(message: unknown = '', ...args: unknown[]): void {
-    this.emit(Logger.numericLevels.trace, 'log', 'trace: ', message, args)
+    this.emit(Logger.numericLevels.trace, 'log', 'trace', false, message, args)
   }
 
   // --------------------------------------------------------------------------

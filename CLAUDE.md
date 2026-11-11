@@ -81,6 +81,14 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
     point of the subclasses is the protected `write()`. Static initializers
     must use `this`, not `Logger`, since the emitted code assigns the class
     alias after the class definition.
+  - The constructor option `timestamp` (fixed at construction, with a
+    read-only accessor) makes the four methods that have a prefix (`error`,
+    `warn`, `debug`, and `trace`) start with the local time,
+    `YYYY-MM-DD HH:mm:ss.SSS`, and replaces the prefix by the kind in square
+    brackets (`[warning]`); it is tied to the method, not to the prefix that
+    is written, so `error(err)` is stamped too. The tests control the clock
+    with `mock.timers` of `node:test`, and the time zone with the `TZ`
+    variable.
   - Vocabulary, used in the code, the TSDoc, and the documentation: a logger
     without a level is in the **preliminary state**; the messages logged then
     are stored in the **internal buffer**, and replayed when the level is set;

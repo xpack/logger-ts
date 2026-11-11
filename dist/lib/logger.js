@@ -1,6 +1,13 @@
 var _a;
 import { strict as assert } from 'node:assert';
 import * as util from 'node:util';
+function formatLocalTime(date) {
+    const pad = (value, length = 2) => String(value).padStart(length, '0');
+    return (`${pad(date.getFullYear(), 4)}-${pad(date.getMonth() + 1)}` +
+        `-${pad(date.getDate())} ${pad(date.getHours())}` +
+        `:${pad(date.getMinutes())}:${pad(date.getSeconds())}` +
+        `.${pad(date.getMilliseconds(), 3)}`);
+}
 export class Logger {
     static recommendedLevel = 'info';
     static defaultLevel = this.recommendedLevel;
@@ -35,6 +42,7 @@ export class Logger {
     #console = console;
     #numericLevel = _a.numericLevelUndefined;
     #levelName = undefined;
+    #timestamp;
     #buffer = [];
     get _console() {
         return this.#console;
@@ -58,6 +66,12 @@ export class Logger {
         this.#buffer = value;
     }
     constructor(params = {}) {
+        const timestamp = params.timestamp;
+        if (timestamp !== undefined && typeof timestamp !== 'boolean') {
+            throw new TypeError('The timestamp option must be a boolean, not ' +
+                (timestamp === null ? 'null' : typeof timestamp));
+        }
+        this.#timestamp = timestamp === true;
         if (params.console != null) {
             this.#console = params.console;
         }
@@ -114,6 +128,9 @@ export class Logger {
     get console() {
         return this.#console;
     }
+    get timestamp() {
+        return this.#timestamp;
+    }
     isLevel(level) {
         _a.assertLogLevel(level);
         return this.#numericLevel >= _a.numericLevels[level];
@@ -133,11 +150,20 @@ export class Logger {
             });
         }
     }
-    emit(numericLevel, stream, prefix, message, args) {
+    emit(numericLevel, stream, kind, omitPrefix, message, args) {
         if (this.#numericLevel < numericLevel) {
             return;
         }
         const str = util.format(message, ...args);
+        let prefix = '';
+        if (kind !== '') {
+            if (this.#timestamp) {
+                prefix = `${formatLocalTime(new Date())} [${kind}] `;
+            }
+            else if (!omitPrefix) {
+                prefix = `${kind}: `;
+            }
+        }
         this.write(numericLevel, (msg) => {
             if (stream === 'log') {
                 this.#console.log(msg);
@@ -148,28 +174,28 @@ export class Logger {
         }, prefix + str);
     }
     always(message = '', ...args) {
-        this.emit(_a.numericLevelAlways, 'log', '', message, args);
+        this.emit(_a.numericLevelAlways, 'log', '', false, message, args);
     }
     error(message = '', ...args) {
-        this.emit(_a.numericLevels.error, 'error', message instanceof Error ? '' : 'error: ', message, args);
+        this.emit(_a.numericLevels.error, 'error', 'error', message instanceof Error, message, args);
     }
     output(message = '', ...args) {
-        this.emit(_a.numericLevels.error, 'log', '', message, args);
+        this.emit(_a.numericLevels.error, 'log', '', false, message, args);
     }
     warn(message = '', ...args) {
-        this.emit(_a.numericLevels.warn, 'error', 'warning: ', message, args);
+        this.emit(_a.numericLevels.warn, 'error', 'warning', false, message, args);
     }
     info(message = '', ...args) {
-        this.emit(_a.numericLevels.info, 'log', '', message, args);
+        this.emit(_a.numericLevels.info, 'log', '', false, message, args);
     }
     verbose(message = '', ...args) {
-        this.emit(_a.numericLevels.verbose, 'log', '', message, args);
+        this.emit(_a.numericLevels.verbose, 'log', '', false, message, args);
     }
     debug(message = '', ...args) {
-        this.emit(_a.numericLevels.debug, 'log', 'debug: ', message, args);
+        this.emit(_a.numericLevels.debug, 'log', 'debug', false, message, args);
     }
     trace(message = '', ...args) {
-        this.emit(_a.numericLevels.trace, 'log', 'trace: ', message, args);
+        this.emit(_a.numericLevels.trace, 'log', 'trace', false, message, args);
     }
 }
 _a = Logger;

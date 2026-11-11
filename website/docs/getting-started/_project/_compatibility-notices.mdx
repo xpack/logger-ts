@@ -89,6 +89,14 @@ which is now documented, with the types `NumericLogLevel` and
 `LoggerFunction` of its signature. This is not a breaking change in this
 version.
 
+The new boolean option `timestamp` of the constructor makes the messages of
+`error()`, `warn()`, `debug()`, and `trace()`, the methods that have a
+prefix, start with a timestamp in the local time, with milliseconds, and
+replaces the prefix by the kind in square brackets (for example
+`2026-11-11 23:32:31.358 [warning] oops`, instead of `warning: oops`). It is
+off by default, so the existing output does not change (this is not a
+breaking change). The `timestamp` accessor returns its value.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

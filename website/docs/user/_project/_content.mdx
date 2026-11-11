@@ -291,6 +291,56 @@ different purposes:
   suppressed at `silent`, together with all the other messages;
 - `info()` is for informative messages, shown from the `info` level.
 
+### Timestamps
+
+If the logger is created with the `timestamp` option, the messages of the
+methods that have a prefix (`error()`, `warn()`, `debug()`, and `trace()`)
+start with a timestamp, and the prefix is replaced by the kind of the
+message in square brackets:
+
+```typescript
+const log = new Logger({ level: 'info', timestamp: true })
+
+log.warn('the file is missing')
+// 2026-11-11 23:32:31.358 [warning] the file is missing
+```
+
+Without the option, the same message is written as
+`warning: the file is missing`.
+
+The timestamp is in the local time, without the time zone, with
+milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`, `warning`,
+`debug`, or `trace`. The layout is the one of the logs of many editors and
+tools:
+
+```console
+2026-11-11 23:32:31.358 [error] Calculating the configuration failed.
+Error: No configuration found.
+    at getConfig (/project/src/config.js:10:11)
+```
+
+The rules are:
+
+- it is tied to the method, not to the prefix that is written: `error()`
+  with an `Error` that comes first has no prefix without the option (see
+  below), but with the option it has the timestamp and the kind, as
+  `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped messages
+  have the same structure;
+- the messages without a prefix (`always()`, `output()`, `info()`, and
+  `verbose()`) are the normal output and the progress messages, and are
+  never stamped;
+- the timestamp and the kind are written on the first line only, like the
+  prefix, so the stack trace of an `Error`, and the following lines of a
+  multi-line message, are not stamped;
+- the time is taken when the message is logged, so the messages of the
+  preliminary state keep it, although they are written later, when the log
+  level is set;
+- the local time has no time zone, so a log file does not say its own, and
+  the hour is repeated when the clocks change;
+- the option is fixed when the logger is created, and cannot be changed
+  later; the `timestamp` accessor returns its value;
+- a value that is not a boolean is rejected with a `TypeError`.
+
 ### Empty messages
 
 If the message is omitted or `undefined`, it is replaced by an empty

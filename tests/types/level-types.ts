@@ -126,4 +126,21 @@ export function protectedMembers(): void {
   void logger._console
 }
 
+// The `timestamp` option is optional, accepts an explicit `undefined`, and
+// the accessor is read-only.
+export function timestampOption(maybe: boolean | undefined): void {
+  const on = new Logger({ timestamp: true })
+  new Logger({ timestamp: maybe })
+  new Logger({ timestamp: undefined, level: 'info' })
+
+  const enabled: boolean = on.timestamp
+  void enabled
+
+  // @ts-expect-error: the accessor is read-only.
+  on.timestamp = false
+
+  // @ts-expect-error: the option is a boolean.
+  new Logger({ timestamp: 'yes' })
+}
+
 // ----------------------------------------------------------------------------
