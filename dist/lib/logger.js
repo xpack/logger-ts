@@ -102,75 +102,43 @@ export class Logger {
             });
         }
     }
-    always(message = '', ...args) {
+    emit(numericLevel, stream, prefix, message, args) {
+        if (this.levelNumericValue < numericLevel) {
+            return;
+        }
         const str = util.format(message, ...args);
-        this.write(Logger.numericLevelAlways, (msg) => {
-            this._console.log(msg);
-        }, str);
-    }
-    error(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.error) {
-            if (message instanceof Error) {
-                const str = util.format(message, ...args);
-                this.write(Logger.numericLevels.error, (msg) => {
-                    this._console.error(msg);
-                }, str);
+        this.write(numericLevel, (msg) => {
+            if (stream === 'log') {
+                this._console.log(msg);
             }
             else {
-                const str = util.format(message, ...args);
-                this.write(Logger.numericLevels.error, (msg) => {
-                    this._console.error(msg);
-                }, 'error: ' + str);
+                this._console.error(msg);
             }
-        }
+        }, prefix + str);
+    }
+    always(message = '', ...args) {
+        this.emit(Logger.numericLevelAlways, 'log', '', message, args);
+    }
+    error(message = '', ...args) {
+        this.emit(Logger.numericLevels.error, 'error', message instanceof Error ? '' : 'error: ', message, args);
     }
     output(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.error) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.error, (msg) => {
-                this._console.log(msg);
-            }, str);
-        }
+        this.emit(Logger.numericLevels.error, 'log', '', message, args);
     }
     warn(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.warn) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.warn, (msg) => {
-                this._console.error(msg);
-            }, 'warning: ' + str);
-        }
+        this.emit(Logger.numericLevels.warn, 'error', 'warning: ', message, args);
     }
     info(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.info) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.info, (msg) => {
-                this._console.log(msg);
-            }, str);
-        }
+        this.emit(Logger.numericLevels.info, 'log', '', message, args);
     }
     verbose(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.verbose) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.verbose, (msg) => {
-                this._console.log(msg);
-            }, str);
-        }
+        this.emit(Logger.numericLevels.verbose, 'log', '', message, args);
     }
     debug(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.debug) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.debug, (msg) => {
-                this._console.log(msg);
-            }, 'debug: ' + str);
-        }
+        this.emit(Logger.numericLevels.debug, 'log', 'debug: ', message, args);
     }
     trace(message = '', ...args) {
-        if (this.levelNumericValue >= Logger.numericLevels.trace) {
-            const str = util.format(message, ...args);
-            this.write(Logger.numericLevels.trace, (msg) => {
-                this._console.log(msg);
-            }, 'trace: ' + str);
-        }
+        this.emit(Logger.numericLevels.trace, 'log', 'trace: ', message, args);
     }
 }
 //# sourceMappingURL=logger.js.map

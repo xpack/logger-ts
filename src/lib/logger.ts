@@ -772,6 +772,11 @@ export class Logger {
    * store the log lines in the array buffer, for later
    * processing, when the log level is finally defined.
    *
+   * If the message is `undefined`, nothing is written and nothing is
+   * stored. The public output methods always pass a string; the case is
+   * part of the contract of this method, for the subclasses that call it
+   * directly.
+   *
    * @param numericLevel - The log numeric level.
    * @param loggerFunction - The function to be used to write
    * the message.
@@ -800,6 +805,52 @@ export class Logger {
         message,
       })
     }
+  }
+
+  /**
+   * The common implementation of the output methods.
+   *
+   * If the current log level is lower than the numeric level of the
+   * method, nothing is done, and the message is not formatted. Otherwise
+   * the message is formatted with `util.format()`, prefixed, and passed
+   * to `write()`, with a function that writes it on the given stream of
+   * the console.
+   *
+   * In the preliminary state the current log level is the maximum, so the
+   * message is always formatted and passed to `write()`, which buffers it.
+   *
+   * @param numericLevel - The numeric level of the method.
+   * @param stream - The console method used to write the message,
+   * `log` for stdout and `error` for stderr.
+   * @param prefix - The string added in front of the formatted message.
+   * @param message - The message, as accepted by `util.format()`.
+   * @param args - The optional variable arguments.
+   *
+   * @category Internal Members
+   */
+  private emit(
+    numericLevel: NumericLogLevel,
+    stream: 'log' | 'error',
+    prefix: string,
+    message: unknown,
+    args: unknown[]
+  ): void {
+    if (this.levelNumericValue < numericLevel) {
+      return
+    }
+
+    const str = util.format(message, ...args)
+    this.write(
+      numericLevel,
+      (msg: string) => {
+        if (stream === 'log') {
+          this._console.log(msg)
+        } else {
+          this._console.error(msg)
+        }
+      },
+      prefix + str
+    )
   }
 
   // --------------------------------------------------------------------------
@@ -835,14 +886,7 @@ export class Logger {
    * @category Output Methods
    */
   always(message: unknown = '', ...args: unknown[]): void {
-    const str = util.format(message, ...args)
-    this.write(
-      Logger.numericLevelAlways,
-      (msg: string) => {
-        this._console.log(msg)
-      },
-      str
-    )
+    this.emit(Logger.numericLevelAlways, 'log', '', message, args)
   }
 
   /**
@@ -890,27 +934,13 @@ export class Logger {
    */
   // error (message: Error): void
   error(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.error) {
-      if (message instanceof Error) {
-        const str = util.format(message, ...args)
-        this.write(
-          Logger.numericLevels.error,
-          (msg: string) => {
-            this._console.error(msg)
-          },
-          str // Error object expanded with stack trace
-        )
-      } else {
-        const str = util.format(message, ...args)
-        this.write(
-          Logger.numericLevels.error,
-          (msg: string) => {
-            this._console.error(msg)
-          },
-          'error: ' + str // Prefix with 'error: ' for non-Error messages
-        )
-      }
-    }
+    this.emit(
+      Logger.numericLevels.error,
+      'error',
+      message instanceof Error ? '' : 'error: ',
+      message,
+      args
+    )
   }
 
   /**
@@ -953,16 +983,7 @@ export class Logger {
    * @category Output Methods
    */
   output(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.error) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.error,
-        (msg: string) => {
-          this._console.log(msg)
-        },
-        str
-      )
-    }
+    this.emit(Logger.numericLevels.error, 'log', '', message, args)
   }
 
   /**
@@ -991,16 +1012,7 @@ export class Logger {
    * @category Output Methods
    */
   warn(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.warn) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.warn,
-        (msg: string) => {
-          this._console.error(msg)
-        },
-        'warning: ' + str
-      )
-    }
+    this.emit(Logger.numericLevels.warn, 'error', 'warning: ', message, args)
   }
 
   /**
@@ -1021,16 +1033,7 @@ export class Logger {
    * @category Output Methods
    */
   info(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.info) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.info,
-        (msg: string) => {
-          this._console.log(msg)
-        },
-        str
-      )
-    }
+    this.emit(Logger.numericLevels.info, 'log', '', message, args)
   }
 
   /**
@@ -1051,16 +1054,7 @@ export class Logger {
    * @category Output Methods
    */
   verbose(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.verbose) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.verbose,
-        (msg: string) => {
-          this._console.log(msg)
-        },
-        str
-      )
-    }
+    this.emit(Logger.numericLevels.verbose, 'log', '', message, args)
   }
 
   /**
@@ -1082,16 +1076,7 @@ export class Logger {
    * @category Output Methods
    */
   debug(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.debug) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.debug,
-        (msg: string) => {
-          this._console.log(msg)
-        },
-        'debug: ' + str
-      )
-    }
+    this.emit(Logger.numericLevels.debug, 'log', 'debug: ', message, args)
   }
 
   /**
@@ -1113,16 +1098,7 @@ export class Logger {
    * @category Output Methods
    */
   trace(message: unknown = '', ...args: unknown[]): void {
-    if (this.levelNumericValue >= Logger.numericLevels.trace) {
-      const str = util.format(message, ...args)
-      this.write(
-        Logger.numericLevels.trace,
-        (msg: string) => {
-          this._console.log(msg)
-        },
-        'trace: ' + str
-      )
-    }
+    this.emit(Logger.numericLevels.trace, 'log', 'trace: ', message, args)
   }
 
   // --------------------------------------------------------------------------
