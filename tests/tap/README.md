@@ -10,7 +10,7 @@ separately.
 To install the prerequisites as development dependencies:
 
 ```sh
-npm install --save-dep node-tap @types/tap c8 ts-node typescript
+npm install --save-dep node-tap c8 ts-node typescript
 ```
 
 Note: c8 is required since the current `tap` version does not
