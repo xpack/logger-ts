@@ -42,7 +42,9 @@ by `src/index.ts`.
   compile.
 
 Tests under `tests/tap/*.ts` are TypeScript run directly by `tap` (no separate
-compilation) and import from the library sources.
+compilation) and import from the library sources. The `include` option in
+`.taprc` restricts `tap` to these files; without it, `tap` would also run
+the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
 
 ## Architecture
 

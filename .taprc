@@ -1,0 +1,7 @@
+# vim: set filetype=yaml :
+
+# Run only the test files in tests/tap/, not the other TypeScript files
+# under tests/ (like the sample in tests/samples/), which tap would run
+# by default.
+include:
+  - tests/tap/**/*.ts
