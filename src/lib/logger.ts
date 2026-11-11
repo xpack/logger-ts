@@ -1124,6 +1124,15 @@ export class Logger<C extends LoggerConsole = Console> {
    * override can inspect, change, redirect, or drop it, and call
    * `super.write()` to continue.
    *
+   * In the preliminary state the level is not known, so every message is
+   * passed here, including those that the level, once set, will discard.
+   * `super.write()` stores them in the internal buffer, and the `level`
+   * setter filters them, and calls the stored functions directly, without
+   * calling `write()` again. An override that does not call
+   * `super.write()` must therefore not assume that a message passes the
+   * level: when `hasLevel` is true, it can compare `numericLevel` with
+   * `Logger.numericLevels[this.level]`.
+   *
    * If the log level was set, call the actual logger function, otherwise
    * store the message in the internal buffer, for later
    * processing, when the log level is finally set (the function is
