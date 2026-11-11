@@ -1323,7 +1323,12 @@ export class Logger<C extends LoggerConsole = Console> {
       Logger.numericLevels.error,
       'error',
       'error',
-      message instanceof Error,
+      // The tag of a native error is the same in every realm, unlike its
+      // prototype, so an error created in another realm (for example in a
+      // `vm` context) is recognised too. `Error.isError()` does this, but it
+      // is missing on Node.js 22, the minimum version.
+      Object.prototype.toString.call(message) === '[object Error]' ||
+        message instanceof Error,
       message,
       args
     )

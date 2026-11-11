@@ -177,7 +177,8 @@ export class Logger {
         this.emit(_a.numericLevelAlways, 'log', '', false, message, args);
     }
     error(message = '', ...args) {
-        this.emit(_a.numericLevels.error, 'error', 'error', message instanceof Error, message, args);
+        this.emit(_a.numericLevels.error, 'error', 'error', Object.prototype.toString.call(message) === '[object Error]' ||
+            message instanceof Error, message, args);
     }
     output(message = '', ...args) {
         this.emit(_a.numericLevels.error, 'log', '', false, message, args);

@@ -20,6 +20,8 @@
 
 // ----------------------------------------------------------------------------
 
+import { runInNewContext } from 'node:vm'
+
 // https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
@@ -239,6 +241,56 @@ await test('only error() omits its prefix, and only for an Error first', (t) => 
       `${name}('context:', err)`
     )
   }
+
+  t.end()
+})
+
+await test('error() omits its prefix for an Error of another realm', (t) => {
+  // `instanceof Error` is false for these, but `util.format()` expands
+  // them as errors, so they are handled like an `Error` of this realm.
+  const foreign: unknown[] = [
+    runInNewContext('new Error("foreign")'),
+    runInNewContext('new TypeError("foreign")'),
+    runInNewContext('class Custom extends Error {}; new Custom("foreign")'),
+  ]
+
+  for (const err of foreign) {
+    t.notOk(err instanceof Error, 'the error is of another realm')
+
+    const { logger, mockConsole } = createLogger('error')
+    logger.error(err)
+    t.match(mockConsole.errLines[0], /foreign$/, 'the first line')
+    t.notMatch(mockConsole.errLines[0], /^error: /, 'no prefix')
+    t.match(mockConsole.errLines[1], stackLine, 'the stack follows')
+
+    // Not first: the prefix is kept, as for an `Error` of this realm.
+    const later = createLogger('error')
+    later.logger.error('context:', err)
+    t.match(later.mockConsole.errLines[0], /^error: context: /, 'prefix kept')
+  }
+
+  // Buffered, in the preliminary state.
+  const buffered = createLogger()
+  buffered.logger.error(foreign[0])
+  buffered.logger.level = 'error'
+  t.equal(buffered.mockConsole.errLines[0], 'Error: foreign', 'buffered')
+
+  t.end()
+})
+
+await test('error() keeps its prefix for an object that is not an Error', (t) => {
+  // It has the properties of an error, but it is not one.
+  const lookalike = { name: 'Error', message: 'fake', stack: 'Error: fake' }
+
+  const { logger, mockConsole } = createLogger('error')
+  logger.error(lookalike)
+  t.match(mockConsole.errLines[0], /^error: /, 'prefix kept')
+
+  // An object that inherits from `Error` is one, as for `instanceof`.
+  const inheriting = Object.create(Error.prototype) as Error
+  const second = createLogger('error')
+  second.logger.error(inheriting)
+  t.notMatch(second.mockConsole.errLines[0], /^error: /, 'inheriting Error')
 
   t.end()
 })
