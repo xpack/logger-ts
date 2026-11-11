@@ -10,6 +10,12 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+/* eslint-disable @typescript-eslint/no-deprecated,
+   @typescript-eslint/no-meaningless-void-operator,
+   @typescript-eslint/no-unsafe-call --
+   the fixture uses the deprecated members, marks the variables as used with
+   void (noUnusedLocals), and calls members that must not exist (see the
+   ts-expect-error comments) */
 
 // ----------------------------------------------------------------------------
 

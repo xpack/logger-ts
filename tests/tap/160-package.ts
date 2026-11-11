@@ -64,8 +64,8 @@ await test('package is an ES module only', (t) => {
   const entry = packageJson.exports?.['.']
   t.ok(entry && typeof entry === 'object', 'has the main export')
   const conditions = typeof entry === 'object' ? entry : {}
-  t.ok(conditions['default'], 'has a default condition')
-  t.ok(conditions['types'], 'has a types condition')
+  t.ok(conditions.default, 'has a default condition')
+  t.ok(conditions.types, 'has a types condition')
 
   for (const target of Object.values(conditions)) {
     t.ok(existsSync(`${packageFolder}${target}`), `${target} exists`)
@@ -81,8 +81,8 @@ await test('legacy fields repeat the exports map', (t) => {
   const entry = packageJson.exports?.['.']
   const conditions = typeof entry === 'object' ? entry : {}
 
-  t.equal(packageJson.main, conditions['default'], 'main is the default')
-  t.equal(packageJson.typings, conditions['types'], 'typings is the types')
+  t.equal(packageJson.main, conditions.default, 'main is the default')
+  t.equal(packageJson.typings, conditions.types, 'typings is the types')
 
   t.end()
 })
@@ -274,8 +274,9 @@ await test('the declarations keep the deprecations', (t) => {
     }
   }
 
-  t.notOk(
-    ts.getJSDocDeprecatedTag(members.get('recommendedLevel') as ts.Node),
+  const recommended = members.get('recommendedLevel')
+  t.ok(
+    recommended && !ts.getJSDocDeprecatedTag(recommended),
     'recommendedLevel is not deprecated'
   )
 

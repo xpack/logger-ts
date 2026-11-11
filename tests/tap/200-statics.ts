@@ -10,6 +10,8 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+/* eslint-disable @typescript-eslint/no-deprecated --
+   the test checks the deprecated defaultLevel */
 
 // ----------------------------------------------------------------------------
 
@@ -42,29 +44,28 @@ await test('numericLevels is frozen', (t) => {
 
   t.throws(
     () => {
-      levels['debug'] = 0
+      levels.debug = 0
     },
     TypeError,
     'a value cannot be changed'
   )
   t.throws(
     () => {
-      levels['extra'] = 80
+      levels.extra = 80
     },
     TypeError,
     'a level cannot be added'
   )
   t.throws(
     () => {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete levels['silent']
+      delete levels.silent
     },
     TypeError,
     'a level cannot be removed'
   )
   t.throws(
     () => {
-      statics['numericLevels'] = {}
+      statics.numericLevels = {}
     },
     TypeError,
     'the object cannot be replaced'
@@ -93,42 +94,42 @@ await test('the class is frozen', (t) => {
 
   t.throws(
     () => {
-      statics['recommendedLevel'] = 'debug'
+      statics.recommendedLevel = 'debug'
     },
     TypeError,
     'recommendedLevel'
   )
   t.throws(
     () => {
-      statics['defaultLevel'] = 'debug'
+      statics.defaultLevel = 'debug'
     },
     TypeError,
     'defaultLevel'
   )
   t.throws(
     () => {
-      statics['numericLevelUndefined'] = 5
+      statics.numericLevelUndefined = 5
     },
     TypeError,
     'numericLevelUndefined'
   )
   t.throws(
     () => {
-      statics['numericLevelAlways'] = 0
+      statics.numericLevelAlways = 0
     },
     TypeError,
     'numericLevelAlways'
   )
   t.throws(
     () => {
-      statics['levelNames'] = []
+      statics.levelNames = []
     },
     TypeError,
     'levelNames'
   )
   t.throws(
     () => {
-      statics['somethingNew'] = true
+      statics.somethingNew = true
     },
     TypeError,
     'a new member cannot be added'
@@ -147,13 +148,13 @@ await test('the behaviour is not affected by the attempts', (t) => {
   // Attempts to change the configuration, all of them rejected.
   for (const attempt of [
     () => {
-      levels['debug'] = 0
+      levels.debug = 0
     },
     () => {
-      statics['numericLevelUndefined'] = 5
+      statics.numericLevelUndefined = 5
     },
     () => {
-      statics['defaultLevel'] = 'trace'
+      statics.defaultLevel = 'trace'
     },
   ]) {
     t.throws(attempt, TypeError, 'attempt rejected')

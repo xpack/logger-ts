@@ -10,6 +10,8 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+/* eslint-disable @typescript-eslint/no-deprecated --
+   the test checks the deprecated defaultLevel */
 
 // ----------------------------------------------------------------------------
 

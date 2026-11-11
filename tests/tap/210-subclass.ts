@@ -10,6 +10,8 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+/* eslint-disable @typescript-eslint/no-deprecated --
+   the test checks the deprecated protected members */
 
 // ----------------------------------------------------------------------------
 
@@ -48,6 +50,9 @@ class Probe extends Logger {
     this.levelNumericValue = value
   }
 
+  // The getter is wider than the setter on purpose: the setter takes the one
+  // value that the test writes.
+  // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
   get probeLevelName(): string | undefined {
     return this.levelName
   }
@@ -56,6 +61,9 @@ class Probe extends Logger {
     this.levelName = value
   }
 
+  // The getter is narrower than the setter on purpose, like the deprecated
+  // member that it exposes (see the cast in the test).
+  // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
   get probeBuffer(): { message: string; numericLevel: number }[] {
     return this.buffer
   }

@@ -19,6 +19,7 @@
   ],
   "hasWebsite": true,
   "isTypescript": true,
+  "lintTests": true,
   "testCoverage": true,
   "useEslint": true,
   "usePrettier": true,

@@ -136,7 +136,7 @@ await test('write() is not called for a suppressed message', (t) => {
   t.end()
 })
 
-await test('write() receives all the messages in the preliminary state', (t) => {
+await test('write() receives all the messages when there is no level', (t) => {
   const mockConsole = new MockConsole()
   const logger = new RecordingLogger({ console: mockConsole })
 

@@ -217,7 +217,7 @@ function linesOf(mockConsole: MockConsole, name: MethodName): string[] {
     : mockConsole.errLines
 }
 
-await test('only error() omits its prefix, and only for an Error first', (t) => {
+await test('only error() omits the prefix, and only for a first Error', (t) => {
   for (const name of names) {
     const { prefix } = methods[name]
 
@@ -278,7 +278,7 @@ await test('error() omits its prefix for an Error of another realm', (t) => {
   t.end()
 })
 
-await test('error() keeps its prefix for an object that is not an Error', (t) => {
+await test('error() keeps its prefix for an object that is no Error', (t) => {
   // It has the properties of an error, but it is not one.
   const lookalike = { name: 'Error', message: 'fake', stack: 'Error: fake' }
 

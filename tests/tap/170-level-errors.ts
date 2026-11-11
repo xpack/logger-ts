@@ -108,7 +108,7 @@ await test('a value that is not a string is a TypeError', (t) => {
           name: 'TypeError',
           message: `Log level must be a string, not ${type}; ${validList}`,
         },
-        `${name}(${String(JSON.stringify(value))})`
+        `${name}(${JSON.stringify(value)})`
       )
     }
   }

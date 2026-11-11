@@ -59,7 +59,13 @@ await test('logger undefined', (t) => {
   logger.level = 'info'
   t.equal(logger.level, 'info', 'level')
 
-  logger.write(MyLogger.numericLevels.info, logger.console.log, undefined)
+  logger.write(
+    MyLogger.numericLevels.info,
+    (message: string) => {
+      logger.console.log(message)
+    },
+    undefined
+  )
 
   t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
   t.equal(mockConsole.errLines.length, 0, 'stderr is empty')

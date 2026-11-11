@@ -58,6 +58,18 @@ export default tseslint.config(
     },
   },
   {
+    // The tests are not part of the project of the sources, so their type
+    // information comes from the tsconfig of the tests.
+    files: ['tests/**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        projectService: false,
+        project: path.resolve(configFolderPath, 'tsconfig-tests.json'),
+        tsconfigRootDir: path.resolve(configFolderPath, '..'),
+      },
+    },
+  },
+  {
     // Override for test files - disable TypeScript type checking
     files: ['tests/**/*.js'],
     extends: [tseslint.configs.disableTypeChecked],

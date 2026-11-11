@@ -285,10 +285,10 @@ const zones: [string, string, number, string][] = [
 ]
 
 await test('the local time follows the time zone', (t) => {
-  const saved = process.env['TZ']
+  const saved = process.env.TZ
   try {
     for (const [zone, instant, offset, expected] of zones) {
-      process.env['TZ'] = zone
+      process.env.TZ = zone
       if (new Date(instant).getTimezoneOffset() !== offset) {
         t.comment(`the TZ variable has no effect for ${zone}, skipped`)
         continue
@@ -311,10 +311,9 @@ await test('the local time follows the time zone', (t) => {
     }
   } finally {
     if (saved === undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete process.env['TZ']
+      delete process.env.TZ
     } else {
-      process.env['TZ'] = saved
+      process.env.TZ = saved
     }
   }
 
@@ -364,7 +363,7 @@ await test('the timestamp option must be a boolean', (t) => {
         name: 'TypeError',
         message: `The timestamp option must be a boolean, not ${type}`,
       },
-      `${String(JSON.stringify(value))}`
+      JSON.stringify(value)
     )
   }
 

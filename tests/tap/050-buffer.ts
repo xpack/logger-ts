@@ -513,7 +513,7 @@ await test('preliminary buffer is not limited', (t) => {
 
   const count = 20000
   for (let i = 0; i < count; i++) {
-    logger.info(`message ${i}`)
+    logger.info(`message ${String(i)}`)
   }
 
   logger.level = 'info'
@@ -521,7 +521,7 @@ await test('preliminary buffer is not limited', (t) => {
   t.equal(mockConsole.outLines[0], 'message 0', 'in order, from the first')
   t.equal(
     mockConsole.outLines[count - 1],
-    `message ${count - 1}`,
+    `message ${String(count - 1)}`,
     'to the last'
   )
 
