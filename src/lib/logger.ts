@@ -43,6 +43,7 @@
 // ----------------------------------------------------------------------------
 
 import { strict as assert } from 'node:assert'
+import type { Console } from 'node:console'
 import * as util from 'node:util'
 
 // ----------------------------------------------------------------------------

@@ -10,6 +10,13 @@ In TypeScript and ECMAScript modules, use `import`:
 import { Logger } from '@xpack/logger'
 ```
 
+The typings refer to the Node.js `Console` type (imported from
+`node:console`), used by the `console` parameter of the constructor and
+by the `console` accessor, so in TypeScript projects the `@types/node`
+package must be installed, as in any other Node.js project. Without it,
+the compiler reports that it cannot find the `node:console` module, unless
+`skipLibCheck` is enabled.
+
 In JavaScript with CommonJS, use `require()`:
 
 ```javascript
