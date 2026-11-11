@@ -38,8 +38,6 @@ const escape = 'x\u001b[31mred\u001b[0m'
 function createLogger(): { logger: Logger; mockConsole: MockConsole } {
   const mockConsole = new MockConsole()
   const logger = new Logger({ console: mockConsole, level: 'all' })
-  // Ignore the constructor trace.
-  mockConsole.clear()
   return { logger, mockConsole }
 }
 

@@ -32,7 +32,6 @@ export class Logger {
         }
         assert(typeof this._console.log === 'function', 'The console must have a log() function');
         assert(typeof this._console.error === 'function', 'The console must have an error() function');
-        this.trace(`${this.constructor.name}.constructor()`);
     }
     get hasLevel() {
         return this.levelNumericValue !== Logger.numericLevelUndefined;

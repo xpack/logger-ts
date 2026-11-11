@@ -3,19 +3,26 @@
 
 ### v7.0.0
 
-The package is now an **ES module only**; the CommonJS build, with the
-ES6 wrapper of v6, was removed.
+**Breaking change:** the package is now an **ES module only**; the
+CommonJS build, with the ES6 wrapper of v6, was removed.
 
-The minimum Node.js version is now **22.12**, the first version of the
-22 line that loads ES modules with `require()` by default (the previous
-versions fail with `ERR_REQUIRE_ESM`). ES module projects need no change.
-CommonJS projects can keep using `require('@xpack/logger')` on Node.js
-22.12 or later, or use `await import('@xpack/logger')`.
+**Breaking change:** the minimum Node.js version is now **22.12**, the
+first version of the 22 line that loads ES modules with `require()` by
+default (the previous versions fail with `ERR_REQUIRE_ESM`). ES module
+projects need no change. CommonJS projects can keep using
+`require('@xpack/logger')` on Node.js 22.12 or later, or use
+`await import('@xpack/logger')`.
 
-The `isSilent` accessor was deprecated. Since `silent` is the lowest
-level, it was always `true`, for every level, so it could not tell
-whether the logger is silent. It will be removed in the next major
-version.
+**Breaking change:** the `Logger` constructor no longer logs the line
+`trace: Logger.constructor()` when the log level is `trace` or `all`. If
+your tests counted the lines captured by a mock console, or compared them
+with the lines of the previous versions, remove this line from the expected
+results.
+
+The `isSilent` accessor was deprecated (this is not a breaking change).
+Since `silent` is the lowest level, it was always `true`, for every level,
+so it could not tell whether the logger is silent. It will be removed in
+the next major version.
 
 If used, replace it with a comparison of the log level name:
 

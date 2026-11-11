@@ -61,21 +61,15 @@ await test('logger level all', (t) => {
   logger.level = 'all'
   t.equal(logger.level, 'all', 'level')
 
-  t.equal(mockConsole.outLines.length, 7, 'stdout has 7 entries')
+  t.equal(mockConsole.outLines.length, 6, 'stdout has 6 entries')
   t.equal(mockConsole.errLines.length, 2, 'stderr has 2 entries')
 
-  t.equal(
-    mockConsole.outLines[0],
-    'trace: Logger.constructor()',
-    'stdout is constructor'
-  )
-
-  t.equal(mockConsole.outLines[1], 'trace: trace', 'stdout is trace')
-  t.equal(mockConsole.outLines[2], 'debug: debug', 'stdout is debug')
-  t.equal(mockConsole.outLines[3], 'verbose', 'stdout is verbose')
-  t.equal(mockConsole.outLines[4], 'info', 'stdout is info')
-  t.equal(mockConsole.outLines[5], 'output', 'stdout is output')
-  t.equal(mockConsole.outLines[6], 'always', 'stdout is always')
+  t.equal(mockConsole.outLines[0], 'trace: trace', 'stdout is trace')
+  t.equal(mockConsole.outLines[1], 'debug: debug', 'stdout is debug')
+  t.equal(mockConsole.outLines[2], 'verbose', 'stdout is verbose')
+  t.equal(mockConsole.outLines[3], 'info', 'stdout is info')
+  t.equal(mockConsole.outLines[4], 'output', 'stdout is output')
+  t.equal(mockConsole.outLines[5], 'always', 'stdout is always')
 
   t.equal(mockConsole.errLines[0], 'warning: warn', 'stderr is warn')
   t.equal(mockConsole.errLines[1], 'error: error', 'stderr is error')
@@ -109,21 +103,15 @@ await test('logger level trace', (t) => {
   logger.level = 'trace'
   t.equal(logger.level, 'trace', 'level')
 
-  t.equal(mockConsole.outLines.length, 7, 'stdout has 7 entries')
+  t.equal(mockConsole.outLines.length, 6, 'stdout has 6 entries')
   t.equal(mockConsole.errLines.length, 2, 'stderr has 2 entries')
 
-  t.equal(
-    mockConsole.outLines[0],
-    'trace: Logger.constructor()',
-    'stdout is constructor'
-  )
-
-  t.equal(mockConsole.outLines[1], 'trace: trace', 'stdout is trace')
-  t.equal(mockConsole.outLines[2], 'debug: debug', 'stdout is debug')
-  t.equal(mockConsole.outLines[3], 'verbose', 'stdout is verbose')
-  t.equal(mockConsole.outLines[4], 'info', 'stdout is info')
-  t.equal(mockConsole.outLines[5], 'output', 'stdout is output')
-  t.equal(mockConsole.outLines[6], 'always', 'stdout is always')
+  t.equal(mockConsole.outLines[0], 'trace: trace', 'stdout is trace')
+  t.equal(mockConsole.outLines[1], 'debug: debug', 'stdout is debug')
+  t.equal(mockConsole.outLines[2], 'verbose', 'stdout is verbose')
+  t.equal(mockConsole.outLines[3], 'info', 'stdout is info')
+  t.equal(mockConsole.outLines[4], 'output', 'stdout is output')
+  t.equal(mockConsole.outLines[5], 'always', 'stdout is always')
 
   t.equal(mockConsole.errLines[0], 'warning: warn', 'stderr is warn')
   t.equal(mockConsole.errLines[1], 'error: error', 'stderr is error')

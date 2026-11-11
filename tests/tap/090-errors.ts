@@ -187,7 +187,7 @@ await test('pattern in the preliminary state', (t) => {
 
   logger.level = 'info'
   t.same(mockConsole.errLines, ['error: boom'], 'stderr is the message')
-  // The details are filtered, together with the constructor trace.
+  // The details are filtered.
   t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
 
   t.end()

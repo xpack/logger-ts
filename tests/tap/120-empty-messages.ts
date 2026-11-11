@@ -48,8 +48,6 @@ const methods = Object.keys(prefixes) as (keyof typeof prefixes)[]
 function createLogger(): { logger: Logger; mockConsole: MockConsole } {
   const mockConsole = new MockConsole()
   const logger = new Logger({ console: mockConsole, level: 'all' })
-  // Ignore the constructor trace.
-  mockConsole.clear()
   return { logger, mockConsole }
 }
 

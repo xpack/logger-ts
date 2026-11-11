@@ -50,16 +50,14 @@ interface WriteCall {
 
 // A logger that records the calls of `write()`, and passes them on.
 class RecordingLogger extends Logger {
-  // The constructor of the base class may call `write()` (the trace
-  // message), before this field is initialised, hence the optional type.
-  calls?: WriteCall[]
+  calls: WriteCall[] = []
 
   protected override write(
     numericLevel: number,
     loggerFunction: (message: string) => void,
     message: string | undefined
   ): void {
-    ;(this.calls ??= []).push({ numericLevel, message, func: loggerFunction })
+    this.calls.push({ numericLevel, message, func: loggerFunction })
     super.write(numericLevel, loggerFunction, message)
   }
 }
@@ -86,13 +84,12 @@ await test('write() receives the level, the function, and the message', (t) => {
   for (const spec of table) {
     const mockConsole = new MockConsole()
     const logger = new RecordingLogger({ console: mockConsole, level: 'all' })
-    logger.calls = []
     mockConsole.clear()
 
     logger[spec.name]('text %d', 7)
 
-    t.equal((logger.calls ?? []).length, 1, `${spec.name}() calls write() once`)
-    const call = logger.calls?.[0]
+    t.equal(logger.calls.length, 1, `${spec.name}() calls write() once`)
+    const call = logger.calls[0]
     if (call === undefined) {
       continue
     }
@@ -123,19 +120,18 @@ await test('write() receives the level, the function, and the message', (t) => {
 await test('write() is not called for a suppressed message', (t) => {
   const mockConsole = new MockConsole()
   const logger = new RecordingLogger({ console: mockConsole, level: 'error' })
-  logger.calls = []
 
   logger.warn('suppressed')
   logger.info('suppressed')
   logger.verbose('suppressed')
   logger.debug('suppressed')
   logger.trace('suppressed')
-  t.equal((logger.calls ?? []).length, 0, 'no calls for the suppressed methods')
+  t.equal(logger.calls.length, 0, 'no calls for the suppressed methods')
 
   logger.always('always')
   logger.error('error')
   logger.output('output')
-  t.equal((logger.calls ?? []).length, 3, 'calls for the others')
+  t.equal(logger.calls.length, 3, 'calls for the others')
 
   t.end()
 })
@@ -143,19 +139,14 @@ await test('write() is not called for a suppressed message', (t) => {
 await test('write() receives all the messages in the preliminary state', (t) => {
   const mockConsole = new MockConsole()
   const logger = new RecordingLogger({ console: mockConsole })
-  logger.calls = []
 
   for (const spec of table) {
     logger[spec.name]('x')
   }
 
-  t.equal(
-    (logger.calls ?? []).length,
-    table.length,
-    'every method calls write()'
-  )
+  t.equal(logger.calls.length, table.length, 'every method calls write()')
   t.same(
-    (logger.calls ?? []).map((call) => call.message),
+    logger.calls.map((call) => call.message),
     table.map((spec) => `${spec.prefix}x`),
     'messages with their prefixes'
   )
@@ -166,13 +157,12 @@ await test('write() receives all the messages in the preliminary state', (t) => 
 await test('error() with an Error passes the message without prefix', (t) => {
   const mockConsole = new MockConsole()
   const logger = new RecordingLogger({ console: mockConsole, level: 'error' })
-  logger.calls = []
 
   logger.error(new Error('boom'))
   logger.error('context:', new Error('boom'))
 
-  const first = logger.calls?.[0]?.message ?? ''
-  const second = logger.calls?.[1]?.message ?? ''
+  const first = logger.calls[0]?.message ?? ''
+  const second = logger.calls[1]?.message ?? ''
   t.ok(first.startsWith('Error: boom'), 'no prefix when the Error is first')
   t.ok(second.startsWith('error: context: Error: boom'), 'prefix otherwise')
 
@@ -204,6 +194,38 @@ await test('write() ignores an undefined message', (t) => {
   t.doesNotThrow(() => {
     preliminary.level = 'trace'
   }, 'nothing is buffered')
+
+  t.end()
+})
+
+await test('the constructor writes nothing', (t) => {
+  for (const level of [...Logger.levelNames, undefined]) {
+    const mockConsole = new MockConsole()
+    const logger =
+      level === undefined
+        ? new RecordingLogger({ console: mockConsole })
+        : new RecordingLogger({ console: mockConsole, level })
+
+    t.equal(logger.calls.length, 0, `no write() at '${String(level)}'`)
+    t.equal(
+      mockConsole.outLines.length,
+      0,
+      `stdout is empty at ${String(level)}`
+    )
+    t.equal(
+      mockConsole.errLines.length,
+      0,
+      `stderr is empty at ${String(level)}`
+    )
+
+    // Nothing was buffered in the preliminary state either.
+    logger.level = 'all'
+    t.equal(
+      mockConsole.outLines.length,
+      0,
+      `nothing buffered at ${String(level)}`
+    )
+  }
 
   t.end()
 })

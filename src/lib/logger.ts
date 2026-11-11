@@ -510,8 +510,6 @@ export class Logger {
       typeof this._console.error === 'function',
       'The console must have an error() function'
     )
-
-    this.trace(`${this.constructor.name}.constructor()`)
   }
 
   // --------------------------------------------------------------------------

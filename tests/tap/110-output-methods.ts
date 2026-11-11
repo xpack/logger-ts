@@ -70,8 +70,6 @@ await test('output methods table', (t) => {
       console: mockConsole,
       level,
     })
-    // Ignore the constructor trace.
-    mockConsole.clear()
 
     const expectedOut: string[] = []
     const expectedErr: string[] = []
