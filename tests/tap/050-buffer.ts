@@ -360,6 +360,52 @@ await test('logger level silent', (t) => {
   t.end()
 })
 
+await test('logger level never set', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  logger.always('always')
+  logger.error('error')
+  logger.output('output')
+
+  // Nothing is written, not even the `always()` and `error()` messages.
+  t.notOk(logger.hasLevel, 'has no level')
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+  t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
+
+  t.end()
+})
+
+await test('logger level set after a failure', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  logger.info('buffered')
+
+  // The documented pattern to avoid losing the buffered messages.
+  try {
+    throw new Error('no level')
+  } catch (err) {
+    if (!logger.hasLevel) {
+      logger.level = Logger.defaultLevel
+    }
+    logger.error(err)
+  }
+
+  t.equal(logger.level, 'info', 'default level set')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has 1 entry')
+  t.equal(mockConsole.outLines[0], 'buffered', 'stdout is buffered')
+  // The error is expanded, with the stack trace, on several lines.
+  t.ok(mockConsole.errLines.length > 0, 'stderr is not empty')
+  t.equal(mockConsole.errLines[0], 'Error: no level', 'stderr is the error')
+
+  t.end()
+})
+
 // A console that throws on the second call of `log()`.
 class ThrowingConsole extends MockConsole {
   calls = 0

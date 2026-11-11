@@ -65,6 +65,25 @@ log.info('hello') // Displayed on stdout.
 log.debug('world') // Ignored.
 ```
 
+Nothing is written while the logger is in the preliminary state, not even
+the messages of `always()` and `error()`. If the log level is never set
+(for example when the application fails before it determines the level),
+the buffered messages are never written and are lost. Set the log level on
+every path, for example in a `catch` block, using `hasLevel` to check
+whether it was set:
+
+```typescript
+try {
+  // Determine the log level, then set it.
+  log.level = parseLevel(process.argv)
+} catch (err) {
+  if (!log.hasLevel) {
+    log.level = Logger.defaultLevel
+  }
+  log.error(err)
+}
+```
+
 The buffer is emptied before the messages are written, so each buffered
 message is written at most once. If the console throws while the buffer
 is flushed, the exception is propagated from the level setter, the level

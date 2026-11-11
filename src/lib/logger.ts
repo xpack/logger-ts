@@ -146,6 +146,25 @@ function.
  * it is set to a **preliminary state**, and all log lines are
  * stored in an **internal buffer**, until the log
  * level is set, when the buffer is walked and the lines are processed.
+ *
+ * Nothing is written while the logger is in the preliminary state, not
+ * even the messages of `always()` and `error()`. If the log level is never
+ * set (for example when the application fails before it determines the
+ * level), the buffered messages are never written and are lost. Set the
+ * log level on every path, for example in a `catch` or `finally` block,
+ * using `hasLevel` to check whether it was set:
+ *
+ * ```javascript
+ * try {
+ *   // Determine the log level, then set it.
+ *   log.level = parseLevel(process.argv)
+ * } catch (err) {
+ *   if (!log.hasLevel) {
+ *     log.level = Logger.defaultLevel
+ *   }
+ *   log.error(err)
+ * }
+ * ```
  */
 export class Logger {
   // --------------------------------------------------------------------------
@@ -656,6 +675,11 @@ export class Logger {
   /**
    * Always log a message, regardless of the log level, (even `'silent'`,
    * when no other messages are logged).
+   *
+   * Before a log level is set (the preliminary state), the message is
+   * stored in the internal buffer, like all the others, and is written
+   * when the level is set; if the level is never set, it is never
+   * written.
    *
    * The message is passed via `console.log()`.
    *
