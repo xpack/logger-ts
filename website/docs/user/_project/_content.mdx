@@ -133,6 +133,35 @@ The following methods are available to log messages:
 - `debug (message: any = '', ...args: any[]): void`
 - `trace (message: any = '', ...args: any[]): void`
 
+The methods differ by the level from which they are written (the
+threshold), by the console stream, and by a prefix added to the message:
+
+| Method | Written from level | Stream | Prefix |
+| --- | --- | --- | --- |
+| `always()` | every level | stdout | none |
+| `error()` | `error` | stderr | `error: ` |
+| `output()` | `error` | stdout | none |
+| `warn()` | `warn` | stderr | `warning: ` |
+| `info()` | `info` | stdout | none |
+| `verbose()` | `verbose` | stdout | none |
+| `debug()` | `debug` | stdout | `debug: ` |
+| `trace()` | `trace` | stdout | `trace: ` |
+
+Here stdout is `console.log()` and stderr is `console.error()`. A method
+is written when the log level is equal to or higher than its threshold;
+at `silent` only `always()` is written. The method `error()` omits its
+prefix when the first argument is an `Error` (see below).
+
+The three methods that write on stdout without a prefix are used for
+different purposes:
+
+- `always()` is for the messages that must be shown at every log level,
+  including `silent`, like the version or the result requested by the
+  user;
+- `output()` is for the normal output of the application, which is
+  suppressed at `silent`, together with all the other messages;
+- `info()` is for informative messages, shown from the `info` level.
+
 ### Logging errors
 
 `Error` objects are expanded by `util.format()`, as by `console.log()`:

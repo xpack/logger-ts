@@ -126,6 +126,37 @@ export interface LoggerBufferRecord {
  * [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
 function.
  *
+ * **Output methods.** The methods differ by the level from which they
+ * are written (the threshold), by the console stream, and by a prefix
+ * added to the message:
+ *
+ * | Method      | Written from level | Stream | Prefix       |
+ * | ----------- | ------------------ | ------ | ------------ |
+ * | `always()`  | every level        | stdout | none         |
+ * | `error()`   | `error`            | stderr | `error: `    |
+ * | `output()`  | `error`            | stdout | none         |
+ * | `warn()`    | `warn`             | stderr | `warning: `  |
+ * | `info()`    | `info`             | stdout | none         |
+ * | `verbose()` | `verbose`          | stdout | none         |
+ * | `debug()`   | `debug`            | stdout | `debug: `    |
+ * | `trace()`   | `trace`            | stdout | `trace: `    |
+ *
+ * Here stdout is `console.log()` and stderr is `console.error()`. A
+ * method is written when the log level is equal to or higher than its
+ * threshold; at `silent` only `always()` is written. The method
+ * `error()` omits its prefix when the first argument is an `Error`
+ * (see below).
+ *
+ * The three methods that write on stdout without a prefix are used for
+ * different purposes:
+ *
+ * - `always()` is for the messages that must be shown at every log level,
+ *   including `silent`, like the version or the result requested by the
+ *   user;
+ * - `output()` is for the normal output of the application, which is
+ *   suppressed at `silent`, together with all the other messages;
+ * - `info()` is for informative messages, shown from the `info` level.
+ *
  * **Logging errors.** `Error` objects (and objects derived from it) are
  * expanded by `util.format()`, as by `console.log()`: the first line has
  * the name and the message (for example `Error: boom`), and it is
@@ -765,6 +796,13 @@ export class Logger {
    * Always log a message, regardless of the log level, (even `'silent'`,
    * when no other messages are logged).
    *
+   * It is the only method that is written at `silent`, and it has no
+   * prefix. Use it for the messages that must be shown at every log
+   * level, like the version or the result requested by the user; for the
+   * normal output of an application, that `silent` suppresses, use
+   * `output()` (see the table of output methods in the description of
+   * the class).
+   *
    * Before a log level is set (the preliminary state), the message is
    * stored in the internal buffer, like all the others, and is written
    * when the level is set; if the level is never set, it is never
@@ -860,10 +898,16 @@ export class Logger {
   }
 
   /**
-   * Log an error message, if the log level is `error` or higher.
+   * Log a message on the standard output, if the log level is `error` or
+   * higher.
    *
-   * It differs from `error()` by **not** prefixing the string with `error: `
-   * and using `console.log()` instead of `console.error()`.
+   * It is meant for the normal output of an application, that is
+   * suppressed at `silent`, like all the other messages except
+   * `always()`. It differs from `error()` by **not** prefixing the string
+   * with `error: ` and using `console.log()` instead of
+   * `console.error()`, and from `info()` by being written from the
+   * `error` level, not from the `info` level (see the table of output
+   * methods in the description of the class).
    *
    * An `Error` object is expanded as by `error()`, with the full stack
    * trace and the `cause` chain, on several lines, and passed via
