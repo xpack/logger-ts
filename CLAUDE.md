@@ -30,9 +30,12 @@ by `src/index.ts`.
   `maintenance/scripts/`, fail with "was not found by the project service";
   lint them with a configuration that extends the project one and sets
   `parserOptions.projectService.allowDefaultProject`.
-- `npm test`: runs `test-coverage`, i.e. lint, then
-  `tap --show-full-coverage` (the `pretest-coverage` hook runs lint first). Use `npm run test-no-coverage` to skip
-  coverage.
+- `npm test`: the `pretest` hook compiles the sources and type-checks the
+  tests (`compile`, `compile-tests`); then `test` runs `test-coverage`,
+  whose `pretest-coverage` hook runs lint, followed by
+  `tap --show-full-coverage`. Lint runs once. Use
+  `npm run test-no-coverage` to skip coverage (its
+  `pretest-no-coverage` hook also runs lint, but it does not compile).
 - Run a single test file: `npx tap --disable-coverage tests/tap/040-is-level.ts`.
 - `npm run dev-cycle`: ESLint fix, compile, and test.
 - `npm run clean` removes build output; `prepare` runs Prettier, lint, and

@@ -62,7 +62,8 @@ an internal buffer and replayed when the `level` setter is called.
 npm run compile      # Compile TypeScript to dist/
 npm run lint         # ESLint check
 npm run fix          # ESLint with --fix
-npm test             # Lint, then run the tests with coverage
+npm test             # Compile, type-check the tests, lint, then run
+                     # the tests with coverage
 ```
 
 Tests are in `tests/tap/` and run directly from TypeScript.
