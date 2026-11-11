@@ -129,6 +129,13 @@ values correspond to greater verbosity.
 The valid names, in increasing order of verbosity, are available at run
 time as the frozen array `Logger.levelNames`.
 
+The static members `Logger.numericLevels`, `Logger.defaultLevel`,
+`Logger.numericLevelUndefined`, and `Logger.numericLevelAlways` are
+constants, shared by all the loggers: the compiler rejects an assignment
+to them, and at run time the `Logger` class and the `numericLevels` object
+are frozen, so an assignment throws a `TypeError`. `Logger.defaultLevel` is
+only the recommended level; the library does not apply it.
+
 When the level comes from a source that is not checked by the compiler,
 like a command line option or an environment variable, validate it with
 the type guard `Logger.isLogLevel()`, which narrows the type of its

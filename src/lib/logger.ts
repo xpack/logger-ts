@@ -331,9 +331,12 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The recommended default level.
    *
+   * It is read-only: the compiler rejects an assignment, and at run time
+   * the class is frozen, so an assignment throws a `TypeError`.
+   *
    * @category Constants
    */
-  static defaultLevel: LogLevel = 'info'
+  static readonly defaultLevel: LogLevel = 'info'
 
   // Not an enum, to be able to define it inside the class,
   // not at global level.
@@ -343,9 +346,13 @@ export class Logger<C extends LoggerConsole = Console> {
    * The keys are exactly the level names of `LogLevel`; the compiler
    * reports an error if a name is missing or if there is an extra one.
    *
+   * The object is frozen and its properties are read-only, so no code can
+   * change the thresholds of the levels: the compiler rejects an
+   * assignment, and at run time an assignment throws a `TypeError`.
+   *
    * @category Constants
    */
-  static numericLevels = {
+  static readonly numericLevels = Object.freeze({
     silent: 0,
     error: 10,
     warn: 20,
@@ -354,21 +361,25 @@ export class Logger<C extends LoggerConsole = Console> {
     debug: 50,
     trace: 60,
     all: 70,
-  } satisfies Record<LogLevel, number>
+  } as const satisfies Record<LogLevel, number>)
 
   /**
    * The value used for the undefined log level (maximum value).
    *
+   * It is read-only, like `defaultLevel`.
+   *
    * @category Constants
    */
-  static numericLevelUndefined: NumericLogLevel = Infinity
+  static readonly numericLevelUndefined: NumericLogLevel = Infinity
 
   /**
    * The value used for the `always` case (minimum value).
    *
+   * It is read-only, like `defaultLevel`.
+   *
    * @category Constants
    */
-  static numericLevelAlways: NumericLogLevel = -1
+  static readonly numericLevelAlways: NumericLogLevel = -1
 
   /**
    * The names of the valid log levels, in increasing order of verbosity,
@@ -1248,5 +1259,10 @@ export class Logger<C extends LoggerConsole = Console> {
 
   // --------------------------------------------------------------------------
 }
+
+// Freeze the class, so that the static members, which are the shared
+// configuration of all the loggers, cannot be changed at run time. The
+// `readonly` modifiers are checked only by the compiler.
+Object.freeze(Logger)
 
 // ----------------------------------------------------------------------------

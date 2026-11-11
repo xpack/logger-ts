@@ -2,7 +2,7 @@ import { strict as assert } from 'node:assert';
 import * as util from 'node:util';
 export class Logger {
     static defaultLevel = 'info';
-    static numericLevels = {
+    static numericLevels = Object.freeze({
         silent: 0,
         error: 10,
         warn: 20,
@@ -11,7 +11,7 @@ export class Logger {
         debug: 50,
         trace: 60,
         all: 70,
-    };
+    });
     static numericLevelUndefined = Infinity;
     static numericLevelAlways = -1;
     static levelNames = Object.freeze(Object.keys(Logger.numericLevels));
@@ -149,4 +149,5 @@ export class Logger {
         this.emit(Logger.numericLevels.trace, 'log', 'trace: ', message, args);
     }
 }
+Object.freeze(Logger);
 //# sourceMappingURL=logger.js.map

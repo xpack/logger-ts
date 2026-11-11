@@ -58,6 +58,18 @@ type of the console, which the `console` accessor returns; its default is
 the Node.js `Console`, so the existing code is not affected (this is not a
 breaking change).
 
+**Breaking change:** the static members of `Logger` are now constants. In
+TypeScript, `Logger.defaultLevel`, `Logger.numericLevels` (and its
+properties), `Logger.numericLevelUndefined`, and `Logger.numericLevelAlways`
+are `readonly`, and the numeric levels have literal types; at run time the
+`Logger` class and the `numericLevels` object are frozen, so an assignment
+to any of them, or adding a member, throws a `TypeError`, instead of
+silently changing the behaviour of all the loggers in the process (for
+example `Logger.numericLevels.debug = 0` made `debug()` write at the
+`info` level). Code that changes these members must stop; to change the
+level of a logger, set its `level`. A subclass must not assign to the
+inherited static members.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

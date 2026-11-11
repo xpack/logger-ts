@@ -53,4 +53,32 @@ export function levelTypes(
   logger.level = 'verbos'
 }
 
+export function staticsAreReadOnly(): void {
+  // Reading is fine, and the numeric levels have literal types.
+  const info: 30 = Logger.numericLevels.info
+  const levels: readonly LogLevel[] = Logger.levelNames
+  const fallback: LogLevel = Logger.defaultLevel
+  void info
+  void levels
+  void fallback
+
+  // @ts-expect-error: `defaultLevel` is read-only.
+  Logger.defaultLevel = 'debug'
+
+  // @ts-expect-error: the properties of `numericLevels` are read-only.
+  Logger.numericLevels.info = 99
+
+  // @ts-expect-error: `numericLevels` is read-only.
+  Logger.numericLevels = { ...Logger.numericLevels }
+
+  // @ts-expect-error: `numericLevelUndefined` is read-only.
+  Logger.numericLevelUndefined = 5
+
+  // @ts-expect-error: `numericLevelAlways` is read-only.
+  Logger.numericLevelAlways = 0
+
+  // @ts-expect-error: `levelNames` is a read-only array.
+  Logger.levelNames.push('info')
+}
+
 // ----------------------------------------------------------------------------

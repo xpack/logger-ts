@@ -68,7 +68,9 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
   `src/` (without `src/README.md`); check with `npm pack --dry-run`. Note that
   `npm pack` runs `prepare`, which rebuilds `dist/`.
 - **Logger model**:
-  - Levels are ordered by `Logger.numericLevels` (`silent` 0 to `all` 70).
+  - Levels are ordered by `Logger.numericLevels` (`silent` 0 to `all` 70);
+    it, and the other static members, are read-only, and the class is
+    frozen after its definition.
     A message is emitted when the logger's numeric level is greater than or
     equal to the method's level.
   - `always()` uses `numericLevelAlways` (-1), so it is always output.
