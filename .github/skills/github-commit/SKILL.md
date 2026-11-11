@@ -137,21 +137,34 @@ gh issue comment <N> --repo xpack/logger-ts \
   --body-file <scratchpad>/issue-comment.md
 ```
 
-- Start with `Fixed in <short hash>`, followed by a brief explanation
-  of what was changed, what was deliberately not changed and why, and
-  how it was verified.
+The comment is short: the commit message already explains the change
+and how it was verified, and GitHub shows the commit under the issue.
+
+- If the proposal in the issue was followed, the comment is a single
+  line, `Fixed in <short hash>, on YYYY-MM-DD.` (with several hashes,
+  `Fixed in <hash> and <hash>, on YYYY-MM-DD.`).
+- Only if the proposal in the issue was not followed, or a part of it
+  was deliberately not done, use three paragraphs: the line
+  `Fixed in <short hash>.`, then one or two sentences with what differs
+  and why, then the separate line `Fixed on YYYY-MM-DD.`. Do not repeat
+  the explanation of the change or of its verification.
+- The date is from `git log -1 --format=%cs` of the fix commit.
 - Write the hashes bare, without backticks, so that GitHub links them.
-- If the proposal in the issue was not followed, say so and why.
 - One line per paragraph, in Markdown, with backticks for identifiers;
   GitHub renders every newline in an issue comment as a line break,
   so the paragraphs are not wrapped.
-- End with a separate line `Fixed on YYYY-MM-DD.`, from
-  `git log -1 --format=%cs`.
 - Do not close the issue; it is closed when the commit reaches the
   default branch.
 
-Show the comment to the user before posting it, unless already
-approved. Posting a comment is a public action.
+For example, an issue whose proposal was followed:
+
+```markdown
+Fixed in a8733dc, on 2026-11-11.
+```
+
+Show the comments to the user before posting them, unless already
+approved; for several issues, show them all. Posting a comment is a
+public action.
 
 ## Review Documents
 
