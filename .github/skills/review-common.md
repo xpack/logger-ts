@@ -28,10 +28,17 @@ not a skill.
   - **[internal]** when it does not;
   - **[confirmed]** when a probe or a reproduction confirmed it.
 - For each **[breaking]** finding, state that it requires a major
-  version (semantic versioning), propose a migration path (keep the
-  old member as deprecated, with a TSDoc `@deprecated` tag, for one
-  major version), or give the reason why that is not possible, and the
-  text that the release notes should give to the users.
+  version (semantic versioning), and that the release notes must mark
+  it as a breaking change. **The previous feature must be preserved**,
+  marked as deprecated with a TSDoc `@deprecated` tag that names the
+  replacement and the release that removes it, and kept working for at
+  least one major version; propose this migration path (for example,
+  the old member as a deprecated alias of the new one). Only when
+  preserving the previous feature is not possible (for example, a
+  changed result or error that cannot coexist with the old one, a
+  stricter type, or a higher minimum Node.js version), give the reason
+  why. In both cases give the text that the release notes should give
+  to the users.
 
 ## Confirming Findings with Probes
 
@@ -124,8 +131,12 @@ one, naming only that one.
 2. If the item has no GitHub issue, offer to create one with the
    `create-github-issue` skill, since the commit subject refers to it,
    and record its number in the report as described there.
-3. Change the code, keeping the tests consistent with it. After each
-   change, also update:
+3. Change the code, keeping the tests consistent with it. For a
+   **[breaking]** item, preserve the previous feature, marked with a
+   TSDoc `@deprecated` tag (see "Judging Findings"), unless the item
+   explains why that is not possible; mark the breaking part as such in
+   the compatibility notice of the website. After each change, also
+   update:
    - the tests in `tests/tap/`: add new tests for the changed or the
      newly documented behaviour (including the documented examples),
      not only adjust the existing ones;
