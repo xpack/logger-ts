@@ -193,4 +193,78 @@ await test('pattern in the preliminary state', (t) => {
   t.end()
 })
 
+// The prefix of every method, and the stream of its output.
+const methods = {
+  always: { prefix: '', stream: 'out' },
+  error: { prefix: 'error: ', stream: 'err' },
+  output: { prefix: '', stream: 'out' },
+  warn: { prefix: 'warning: ', stream: 'err' },
+  info: { prefix: '', stream: 'out' },
+  verbose: { prefix: '', stream: 'out' },
+  debug: { prefix: 'debug: ', stream: 'out' },
+  trace: { prefix: 'trace: ', stream: 'out' },
+} as const
+
+type MethodName = keyof typeof methods
+
+const names = Object.keys(methods) as MethodName[]
+
+function linesOf(mockConsole: MockConsole, name: MethodName): string[] {
+  return methods[name].stream === 'out'
+    ? mockConsole.outLines
+    : mockConsole.errLines
+}
+
+await test('only error() omits its prefix, and only for an Error first', (t) => {
+  for (const name of names) {
+    const { prefix } = methods[name]
+
+    // An `Error` that comes first: only error() drops its prefix.
+    const first = createLogger('all')
+    first.logger[name](new Error('boom'))
+    const firstLines = linesOf(first.mockConsole, name)
+    t.equal(
+      firstLines[0],
+      name === 'error' ? 'Error: boom' : `${prefix}Error: boom`,
+      `${name}(err)`
+    )
+    t.match(firstLines[1], stackLine, `${name}(err) has the stack`)
+
+    // An `Error` that does not come first: all the methods keep the prefix.
+    const later = createLogger('all')
+    later.logger[name]('context:', new Error('boom'))
+    t.equal(
+      linesOf(later.mockConsole, name)[0],
+      `${prefix}context: Error: boom`,
+      `${name}('context:', err)`
+    )
+  }
+
+  t.end()
+})
+
+await test('the prefix rule is the same for the buffered messages', (t) => {
+  for (const name of names) {
+    const { prefix } = methods[name]
+
+    const buffered = createLogger()
+    buffered.logger[name](new Error('boom'))
+    buffered.logger[name]('context:', new Error('boom'))
+    buffered.logger.level = 'all'
+
+    const lines = linesOf(buffered.mockConsole, name)
+    t.equal(
+      lines[0],
+      name === 'error' ? 'Error: boom' : `${prefix}Error: boom`,
+      `${name}(err), buffered`
+    )
+    t.ok(
+      lines.includes(`${prefix}context: Error: boom`),
+      `${name}('context:', err), buffered`
+    )
+  }
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------

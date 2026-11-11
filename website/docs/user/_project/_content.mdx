@@ -378,7 +378,13 @@ The prefix depends on the method and on the position of the error:
 
 Only `error()` omits its prefix, and only when the error is the first
 argument, since the first line of the expanded error already starts with
-its name.
+its name (like `Error: boom` or `TypeError: bad`), which tells the
+severity. This is deliberate. The other methods keep their prefix, since
+without it a warning would look like an error, and a debug message like a
+failure; and an error that is not the first argument of `error()` keeps the
+prefix too. The methods without a prefix (`always()`, `output()`, `info()`,
+and `verbose()`) expand an error in the same way, without one. It is the
+same when the messages are buffered in the preliminary state.
 
 A common pattern is to show the message at the `error` level, and the full
 details only when the log level is `debug` or higher. It also works in the

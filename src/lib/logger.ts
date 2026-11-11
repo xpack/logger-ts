@@ -191,6 +191,17 @@ export interface LoggerBufferRecord {
  *   suppressed at `silent`, together with all the other messages;
  * - `info()` is for informative messages, shown from the `info` level.
  *
+ * **The prefix of an `Error`.** Only `error()` omits its prefix, and only
+ * when the first argument is an `Error`: the first line of the expanded
+ * error already starts with its name (like `Error: boom` or
+ * `TypeError: bad`), which tells the severity. This is deliberate. The
+ * other methods keep their prefix (`warning: Error: boom`,
+ * `debug: Error: boom`), since without it a warning would look like an
+ * error, and a debug message like a failure; and an `Error` that is not
+ * the first argument of `error()` keeps the prefix too
+ * (`error: failed: Error: boom`). It is the same for all the methods,
+ * whether the message is written at once or buffered.
+ *
  * **Logging errors.** `Error` objects (and objects derived from it) are
  * expanded by `util.format()`, as by `console.log()`: the first line has
  * the name and the message (for example `Error: boom`), and it is
@@ -1052,7 +1063,10 @@ export class Logger<C extends LoggerConsole = Console> {
    * when the level is set; if the level is never set, it is never
    * written.
    *
-   * The message is passed via `console.log()`.
+   * The message is passed via `console.log()`. An `Error` object is
+   * expanded with the full stack trace and the `cause` chain, on several
+   * lines, without a prefix (see **Logging errors** in the description of
+   * the class).
    *
    * @example
    * ```javascript
@@ -1078,7 +1092,8 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * There is a special case when the first argument is an `Error`
    * object: the prefix is omitted, since the first line of the expanded
-   * error already starts with its name (for example `Error: boom`). The
+   * error already starts with its name (for example `Error: boom`). This
+   * is deliberate, and only `error()` does it. The
    * error is expanded with the full stack trace and the `cause` chain,
    * on several lines, and passed via `console.error()`.
    *
@@ -1199,7 +1214,10 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log an informative message, if the log level is `info` or higher.
    *
-   * The message is passed via `console.log()`.
+   * The message is passed via `console.log()`. An `Error` object is
+   * expanded with the full stack trace and the `cause` chain, on several
+   * lines, without a prefix (see **Logging errors** in the description of
+   * the class).
    *
    * @example
    * ```javascript
@@ -1220,7 +1238,10 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log a verbose message, if the log level is `verbose` or higher.
    *
-   * The message is passed via `console.log()`.
+   * The message is passed via `console.log()`. An `Error` object is
+   * expanded with the full stack trace and the `cause` chain, on several
+   * lines, without a prefix (see **Logging errors** in the description of
+   * the class).
    *
    * @example
    * ```javascript
@@ -1242,7 +1263,11 @@ export class Logger<C extends LoggerConsole = Console> {
    * Log a debug message, if the log level is `'debug'` or higher.
    *
    * The message is prefixed with `debug: ` and
-   * passed via `console.log()`.
+   * passed via `console.log()`. An `Error` object is expanded with the
+   * full stack trace and the `cause` chain, on several lines, and the
+   * prefix is kept, even when the error is the first argument
+   * (`debug: Error: boom`, followed by the stack trace; see **The prefix
+   * of an `Error`** in the description of the class).
    *
    * @example
    * ```javascript
@@ -1264,7 +1289,11 @@ export class Logger<C extends LoggerConsole = Console> {
    * Log a trace message, if the log level is `trace` or higher.
    *
    * The message is prefixed with `trace: ` and
-   * passed via `console.log()`.
+   * passed via `console.log()`. An `Error` object is expanded with the
+   * full stack trace and the `cause` chain, on several lines, and the
+   * prefix is kept, even when the error is the first argument
+   * (`trace: Error: boom`, followed by the stack trace; see **The prefix
+   * of an `Error`** in the description of the class).
    *
    * @example
    * ```javascript
