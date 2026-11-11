@@ -523,17 +523,17 @@ export class Logger {
   constructor(
     params: {
       /**
-       * The name of the log level; if not passed, the logger is created in
-       * a preliminary state, and all log lines will be stored in an internal
-       * buffer, until the log level is set. Optional.
+       * The name of the log level; if not passed, or `undefined`, the logger
+       * is created in a preliminary state, and all log lines will be stored
+       * in an internal buffer, until the log level is set. Optional.
        */
-      level?: LogLevel
+      level?: LogLevel | undefined
       /**
        * The underlying console object used to log the message.
-       * Optional. If not passed, the JavaScript standard `console` object
-       * is used.
+       * Optional. If not passed, or `undefined`, the JavaScript standard
+       * `console` object is used.
        */
-      console?: Console
+      console?: Console | undefined
     } = {}
   ) {
     if (params.console != null) {
@@ -607,6 +607,10 @@ export class Logger {
    * log.level = 'info'
    * ```
    *
+   * The type of the setter is `LogLevel`, while the getter is
+   * `LogLevel | undefined`: the level is `undefined` only in the
+   * preliminary state, and cannot be set back to `undefined`.
+   *
    * @param level - A string with the new log level.
    *
    * @throws A `TypeError` if the level is not a string.
@@ -614,7 +618,7 @@ export class Logger {
    *
    * @category Log Level Accessors
    */
-  set level(level: LogLevel | undefined) {
+  set level(level: LogLevel) {
     Logger.assertLogLevel(level)
 
     this.levelNumericValue = Logger.numericLevels[level]
@@ -647,6 +651,11 @@ export class Logger {
    *
    * @category Log Level Accessors
    */
+  // The getter returns `undefined` in the preliminary state, but the setter
+  // does not accept `undefined`, which is rejected at run time: this is
+  // deliberate, so the rule that wants the getter type to be assignable to
+  // the setter type is disabled for this pair.
+  // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
   get level(): LogLevel | undefined {
     return this.levelName
   }

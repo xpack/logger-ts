@@ -117,6 +117,15 @@ RangeError: Unsupported log level 'verbos'; valid levels are: silent, error, war
 The value is written in the message as `util.inspect()` writes it, so a
 newline or an escape character of an untrusted value is escaped.
 
+In TypeScript, the `level` getter has the type `LogLevel | undefined`,
+since the level is `undefined` in the preliminary state, but the setter
+accepts only a `LogLevel`: the level cannot be set back to `undefined`, and
+`log.level = undefined` does not compile. The `level` and `console`
+properties of the constructor options accept an explicit `undefined`, also
+with the compiler option `exactOptionalPropertyTypes`, which is the same
+as not passing them, so `new Logger({ level: process.env.LOG_LEVEL })` can
+be written when the value is already checked with `Logger.isLogLevel()`.
+
 ### Delaying setting the log level
 
 In some cases, the logger needs to be initialized very early in the

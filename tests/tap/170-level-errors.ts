@@ -121,7 +121,8 @@ await test('undefined is a TypeError, except in the constructor', (t) => {
 
   t.throws(
     () => {
-      logger.level = undefined
+      // The compiler rejects `undefined`; this tests the run-time check.
+      logger.level = undefined as unknown as LogLevel
     },
     {
       name: 'TypeError',

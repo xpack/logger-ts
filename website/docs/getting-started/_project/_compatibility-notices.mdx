@@ -40,6 +40,16 @@ a falsy value`). Code that catches `AssertionError` to detect an invalid
 level must catch these errors instead; to avoid the exception, check the
 value first with the new `Logger.isLogLevel()`.
 
+**Breaking change (compile time only):** the type of the `level` setter is
+now `LogLevel`, not `LogLevel | undefined`, so TypeScript code that assigns
+`undefined` to `log.level` no longer compiles. Such an assignment was
+already rejected at run time (with a `TypeError` since this version), so
+the code was wrong; to use a level that may be missing, check it with
+`Logger.isLogLevel()` first. The getter still returns
+`LogLevel | undefined`. The `level` and `console` constructor options now
+accept an explicit `undefined`, also with `exactOptionalPropertyTypes`,
+which is not a breaking change.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in
