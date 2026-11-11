@@ -50,6 +50,14 @@ the code was wrong; to use a level that may be missing, check it with
 accept an explicit `undefined`, also with `exactOptionalPropertyTypes`,
 which is not a breaking change.
 
+The `console` option of the constructor now accepts any object that has the
+`log()` and `error()` functions (the new exported type `LoggerConsole`),
+not only a Node.js `Console`, so a mock or a minimal `{ log, error }` object
+no longer needs a cast. The `Logger` class has a new type parameter, the
+type of the console, which the `console` accessor returns; its default is
+the Node.js `Console`, so the existing code is not affected (this is not a
+breaking change).
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

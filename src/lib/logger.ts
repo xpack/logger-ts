@@ -60,6 +60,19 @@ import * as util from 'node:util'
 export type LogLevel =
   'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
+/**
+ * Type of the console objects accepted by the logger.
+ *
+ * The logger uses only the `log()` function, for the standard output, and
+ * the `error()` function, for the standard error, so any object that has
+ * them can be used, not only a Node.js `Console`: a mock console, a custom
+ * object, or a minimal `{ log, error }` object.
+ *
+ * The functions are called as methods of the object, so they may use
+ * `this`.
+ */
+export type LoggerConsole = Pick<Console, 'log' | 'error'>
+
 // ----------------------------------------------------------------------------
 // Internal definitions.
 
@@ -107,7 +120,16 @@ export interface LoggerBufferRecord {
  * The **Logger** class implements the logger functionality.
  *
  * The logger is constructed on top of a console object, where the
- * messages are logged.
+ * messages are logged. The class has a type parameter, the type of the
+ * console, so that the `console` accessor returns the object that was
+ * passed, with its own type: a `Logger` without a console is a
+ * `Logger<Console>`, and a logger constructed with a `MockConsole` is a
+ * `Logger<MockConsole>`, whose `console` accessor gives access to the
+ * members of the mock without a cast. The type must have the `log()` and
+ * `error()` functions (see `LoggerConsole`).
+ *
+ * @typeParam C - The type of the console object; the default is the
+ *   Node.js `Console`, which is used when no console is passed.
  *
  * Use `log.always()` instead of the `console.log()`, since it accounts for
  * different contexts, created for example when using REPL.
@@ -302,7 +324,7 @@ export interface LoggerBufferRecord {
  * (see above) is true in the preliminary state, so the preparation is
  * done there too.
  */
-export class Logger {
+export class Logger<C extends LoggerConsole = Console> {
   // --------------------------------------------------------------------------
   // Static Properties.
 
@@ -449,7 +471,10 @@ export class Logger {
    *
    * @internal
    */
-  protected readonly _console: Console = console
+  // The global console is used only when no console is passed, and then
+  // `C` is the default type, `Console`, so the cast is sound, unless the
+  // type argument is given explicitly without passing a console.
+  protected readonly _console: C = console as unknown as C
   /**
    * The numerical value of the log level.
    *
@@ -499,8 +524,9 @@ export class Logger {
    * })
    * ```
    *
-   * If present, the `console` must be an object derived from the
-   * node **Console**, possibly with some methods overridden.
+   * If present, the `console` must be an object that has the `log()` and
+   * `error()` functions (see `LoggerConsole`), like the node **Console**,
+   * a mock console derived from it, or a minimal `{ log, error }` object.
    *
    * The `level` property is optional since it can be set later.
    * Without it, the constructor will
@@ -529,11 +555,12 @@ export class Logger {
        */
       level?: LogLevel | undefined
       /**
-       * The underlying console object used to log the message.
+       * The underlying console object used to log the message; any object
+       * with the `log()` and `error()` functions (see `LoggerConsole`).
        * Optional. If not passed, or `undefined`, the JavaScript standard
        * `console` object is used.
        */
-      console?: Console | undefined
+      console?: C | undefined
     } = {}
   ) {
     if (params.console != null) {
@@ -830,11 +857,13 @@ export class Logger {
    *
    * Direct access to the console object is useful in tests, when
    * the console is a mock object, which allows to check the logged
-   * messages.
+   * messages. The type of the result is the type of the console that was
+   * passed to the constructor (`Console`, if none was passed), so the
+   * members of a mock object can be used without a cast.
    *
    * @returns The console object used by the logger.
    */
-  get console(): Console {
+  get console(): C {
     return this._console
   }
 

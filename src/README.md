@@ -47,6 +47,9 @@ an internal buffer and replayed when the `level` setter is called.
 - `LogLevel`: the union of the level names.
 - `NumericLogLevel`: the numeric value of a level.
 - `LoggerFunction`: the signature of a logging function.
+- `LoggerConsole`: the console objects accepted by the logger, any object
+  with the `log()` and `error()` functions; the `Logger` class has the type
+  of the console as a type parameter.
 
 ## Coding Conventions
 

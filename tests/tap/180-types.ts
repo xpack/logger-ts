@@ -79,4 +79,20 @@ await test('level types compile without exactOptionalPropertyTypes', (t) => {
   t.end()
 })
 
+await test('console types compile with exactOptionalPropertyTypes', (t) => {
+  const result = compile('tests/types/console-types.ts', [
+    '--exactOptionalPropertyTypes',
+  ])
+  t.equal(result.status, 0, `tsc succeeds ${result.output}`)
+
+  t.end()
+})
+
+await test('console types compile without exactOptionalPropertyTypes', (t) => {
+  const result = compile('tests/types/console-types.ts', [])
+  t.equal(result.status, 0, `tsc succeeds ${result.output}`)
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------

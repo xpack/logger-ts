@@ -67,6 +67,52 @@ log.debug('world') // Ignored.
 In more complex use cases, the log level can be tested and the (possibly)
 long operations be performed only if necessary.
 
+### The console
+
+By default, the logger writes on the global `console`. A different console
+can be passed to the constructor, for example a mock console, to capture
+the messages in tests:
+
+```typescript
+import { MockConsole } from '@xpack/mock-console'
+
+const mock = new MockConsole()
+const log = new Logger({ console: mock, level: 'info' })
+
+log.info('hello')
+// The `console` accessor returns the mock, with its own type.
+console.log(log.console.outLines)
+```
+
+The logger uses only the `log()` function, for the standard output, and the
+`error()` function, for the standard error (see the table of the output
+methods below), so any object that has these two functions can be used, not
+only a Node.js `Console`; the TypeScript type is `LoggerConsole`:
+
+```typescript
+const lines: string[] = []
+const log = new Logger({
+  console: {
+    log: (message: unknown) => lines.push(`${String(message)}`),
+    error: (message: unknown) => lines.push(`error: ${String(message)}`),
+  },
+  level: 'info',
+})
+```
+
+The functions are called as methods of the object, so they may use `this`.
+An object without the `log()` or the `error()` function is rejected by the
+constructor with an `AssertionError`.
+
+In TypeScript, the class has a type parameter, the type of the console, which
+the `console` accessor returns. Without a console it is the Node.js
+`Console`, so `log.console.table()` is available; with a minimal object it is
+the type of that object, so the compiler does not allow functions that it
+does not have; with a mock it is the type of the mock, so its members are
+available without a cast. The default type argument keeps the existing code
+working: a variable of type `Logger`, and a class that extends `Logger`,
+mean the logger with the Node.js `Console`.
+
 ### Log levels
 
 The following strings are recognised as valid level names:
