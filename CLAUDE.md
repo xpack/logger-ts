@@ -74,6 +74,13 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
     A message is emitted when the logger's numeric level is greater than or
     equal to the method's level.
   - `always()` uses `numericLevelAlways` (-1), so it is always output.
+  - The state of the logger is in ES private fields (`#numericLevel`,
+    `#levelName`, `#buffer`, and `#console`). The protected `_console`,
+    `levelNumericValue`, `levelName`, and `buffer` are deprecated accessors
+    over it, kept until the next major version; the supported extension
+    point of the subclasses is the protected `write()`. Static initializers
+    must use `this`, not `Logger`, since the emitted code assigns the class
+    alias after the class definition.
   - A logger created without a `level` is in a **preliminary state**
     (`numericLevelUndefined` is `Infinity`): messages are stored in an internal
     `buffer` and replayed when the `level` setter is called.

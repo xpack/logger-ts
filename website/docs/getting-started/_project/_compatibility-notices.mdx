@@ -77,6 +77,18 @@ name is kept, with the same value, and is **deprecated**: it will be removed
 in the next major version, so replace it with `Logger.recommendedLevel`
 (this is not a breaking change in this version).
 
+The state of the logger is now private (ES private fields), so it is no
+longer a property of the object: `Object.keys(log)` and `JSON.stringify(log)`
+no longer show the internal fields. The protected members that gave the
+subclasses direct access to it, `_console`, `levelNumericValue`, `levelName`,
+and `buffer`, are **deprecated**: they still work, with the same behaviour,
+but they will be removed in the next major version, so a subclass should use
+the public `console`, `level`, `hasLevel`, and `isLevel()` members. The
+supported extension point of a subclass is the protected `write()` method,
+which is now documented, with the types `NumericLogLevel` and
+`LoggerFunction` of its signature. This is not a breaking change in this
+version.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

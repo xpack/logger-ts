@@ -408,6 +408,39 @@ hence the `instanceof` check. To also keep the name of the error, use
 `String(err)` instead of `err.message`: `log.error(String(err))` outputs,
 for example, `error: TypeError: boom`.
 
+### Extending the logger
+
+A class can be derived from `Logger`, for example to add a timestamp, to
+redirect the messages, or to count them. The supported extension point is
+the protected `write()` method: every message that passes the log level
+check is formatted, prefixed, and passed to it, with the numeric level, the
+function that writes the message (on the standard output or on the standard
+error), and the message; an override can inspect, change, redirect, or drop
+the message, and call `super.write()` to continue:
+
+```typescript
+class UpperCaseLogger extends Logger {
+  protected override write(
+    numericLevel: NumericLogLevel,
+    loggerFunction: LoggerFunction,
+    message: string | undefined
+  ): void {
+    super.write(numericLevel, loggerFunction, message?.toUpperCase())
+  }
+}
+```
+
+In the preliminary state `write()` stores the message in the internal
+buffer, and the function is called when the log level is set. A `message`
+that is `undefined` is ignored.
+
+The state of the logger is private. The protected members that gave a
+subclass direct access to it (`_console`, `levelNumericValue`, `levelName`,
+and `buffer`) are **deprecated**: they still work, with the same
+behaviour, but they will be removed in the next major version; use the
+public `console`, `level`, `hasLevel`, and `isLevel()` members instead (the
+buffer has no replacement).
+
 ### Log level checks
 
 When preparing the log messages is expensive, it makes no sense to

@@ -77,19 +77,18 @@ export type LoggerConsole = Pick<Console, 'log' | 'error'>
 // Internal definitions.
 
 /**
- * @internal
- *
  * Type of the numeric log level.
  *
- * The numeric log level is stored internally and is used in log level
- * comparisons.
+ * The numeric log level is used in log level comparisons; its values are
+ * in `Logger.numericLevels`. It is the type of the first argument of the
+ * `write()` method, which subclasses may override.
  */
 export type NumericLogLevel = number
 
 /**
- * @internal
- *
- * Type of a generic logger function processing a string message.
+ * Type of the function that writes a message, passed to the `write()`
+ * method, which subclasses may override: it writes the message on the
+ * console, on the standard output or on the standard error.
  */
 export type LoggerFunction = (message: string) => void
 
@@ -97,6 +96,10 @@ export type LoggerFunction = (message: string) => void
  * @internal
  *
  * Type of a record stored in the internal buffer.
+ *
+ * The buffer is private; this type is exported only because of the
+ * deprecated protected `buffer` member, and will not be exported in the
+ * next major version.
  *
  * If the logger was constructed without a log level, all initial
  * messages are stored in a buffer, and processed at a later time,
@@ -190,6 +193,15 @@ export interface LoggerBufferRecord {
  * - `output()` is for the normal output of the application, which is
  *   suppressed at `silent`, together with all the other messages;
  * - `info()` is for informative messages, shown from the `info` level.
+ *
+ * **Extending the class.** A subclass can intercept the messages by
+ * overriding the protected `write()` method, which is the only supported
+ * extension point (see its description for the contract). The state of
+ * the logger is private; use the public members, like `level`, `hasLevel`,
+ * `isLevel()`, and `console`. The protected members that gave direct access
+ * to the state (`_console`, `levelNumericValue`, `levelName`, and
+ * `buffer`) are deprecated, still work, and will be removed in the next
+ * major version.
  *
  * **The prefix of an `Error`.** Only `error()` omits its prefix, and only
  * when the first argument is an `Error`: the first line of the expanded
@@ -372,7 +384,10 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @category Constants
    */
-  static readonly defaultLevel: LogLevel = Logger.recommendedLevel
+  // `this` is the class: the name `Logger` cannot be used in a static
+  // initializer, since the emitted code assigns the class alias after the
+  // class definition.
+  static readonly defaultLevel: LogLevel = this.recommendedLevel
 
   // Not an enum, to be able to define it inside the class,
   // not at global level.
@@ -435,7 +450,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Constants
    */
   static readonly levelNames: readonly LogLevel[] = Object.freeze(
-    Object.keys(Logger.numericLevels) as LogLevel[]
+    Object.keys(this.numericLevels) as LogLevel[]
   )
 
   /**
@@ -513,35 +528,106 @@ export class Logger<C extends LoggerConsole = Console> {
 
   /**
    * The console object used to output the log messages.
-   *
-   * @category Internal Members
-   *
-   * @internal
    */
   // The global console is used only when no console is passed, and then
   // `C` is the default type, `Console`, so the cast is sound, unless the
   // type argument is given explicitly without passing a console.
-  protected readonly _console: C = console as unknown as C
-  /**
-   * The numerical value of the log level.
-   *
-   * @category Internal Members
-   */
-  protected levelNumericValue: NumericLogLevel = Logger.numericLevelUndefined
-  /**
-   * The name of the log level.
-   *
-   * @category Internal Members
-   */
-  protected levelName: LogLevel | undefined = undefined
+  readonly #console: C = console as unknown as C
+
+  /** The numerical value of the log level. */
+  #numericLevel: NumericLogLevel = Logger.numericLevelUndefined
+
+  /** The name of the log level. */
+  #levelName: LogLevel | undefined = undefined
 
   /**
    * Empty buffer where preliminary log lines are stored
    * until the log level is set.
-   *
-   * @category Internal Members
    */
-  protected buffer: LoggerBufferRecord[] = []
+  #buffer: LoggerBufferRecord[] = []
+
+  // --------------------------------------------------------------------------
+  // Deprecated protected members.
+  //
+  // The state of the logger is private. The members below gave the
+  // subclasses direct access to it; they are kept, over the same state and
+  // with the same behaviour, to be removed in the next major version.
+  // The supported extension point of the subclasses is `write()`.
+
+  /**
+   * The console object used to output the log messages.
+   *
+   * @remarks
+   * - deprecated in v7.0.0, to be removed in the next major version
+   *
+   * @deprecated The state of the logger will be private in the next major
+   *   version; use the `console` accessor.
+   *
+   * @category Deprecated Members
+   */
+  protected get _console(): C {
+    return this.#console
+  }
+
+  /**
+   * The numerical value of the log level.
+   *
+   * It is `Logger.numericLevelUndefined` in the preliminary state.
+   *
+   * @remarks
+   * - deprecated in v7.0.0, to be removed in the next major version
+   *
+   * @deprecated The state of the logger will be private in the next major
+   *   version; use the `level`, `hasLevel`, and `isLevel()` members.
+   *
+   * @category Deprecated Members
+   */
+  protected get levelNumericValue(): NumericLogLevel {
+    return this.#numericLevel
+  }
+
+  protected set levelNumericValue(value: NumericLogLevel) {
+    this.#numericLevel = value
+  }
+
+  /**
+   * The name of the log level.
+   *
+   * @remarks
+   * - deprecated in v7.0.0, to be removed in the next major version
+   *
+   * @deprecated The state of the logger will be private in the next major
+   *   version; use the `level` accessor.
+   *
+   * @category Deprecated Members
+   */
+  protected get levelName(): LogLevel | undefined {
+    return this.#levelName
+  }
+
+  protected set levelName(value: LogLevel | undefined) {
+    this.#levelName = value
+  }
+
+  /**
+   * The buffer where the preliminary log lines are stored until the log
+   * level is set.
+   *
+   * @remarks
+   * - deprecated in v7.0.0, to be removed in the next major version
+   *
+   * @deprecated The state of the logger will be private in the next major
+   *   version; the buffer has no replacement.
+   *
+   * @category Deprecated Members
+   */
+  protected get buffer(): LoggerBufferRecord[] {
+    return this.#buffer
+  }
+
+  protected set buffer(value: LoggerBufferRecord[]) {
+    this.#buffer = value
+  }
 
   // --------------------------------------------------------------------------
   // Constructor.
@@ -611,18 +697,18 @@ export class Logger<C extends LoggerConsole = Console> {
     } = {}
   ) {
     if (params.console != null) {
-      this._console = params.console
+      this.#console = params.console
     }
     if (params.level !== undefined) {
       this.level = params.level
     }
 
     assert(
-      typeof this._console.log === 'function',
+      typeof this.#console.log === 'function',
       'The console must have a log() function'
     )
     assert(
-      typeof this._console.error === 'function',
+      typeof this.#console.error === 'function',
       'The console must have an error() function'
     )
   }
@@ -653,7 +739,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Accessors
    */
   get hasLevel(): boolean {
-    return this.levelNumericValue !== Logger.numericLevelUndefined
+    return this.#numericLevel !== Logger.numericLevelUndefined
   }
 
   /**
@@ -695,18 +781,18 @@ export class Logger<C extends LoggerConsole = Console> {
   set level(level: LogLevel) {
     Logger.assertLogLevel(level)
 
-    this.levelNumericValue = Logger.numericLevels[level]
-    this.levelName = level
+    this.#numericLevel = Logger.numericLevels[level]
+    this.#levelName = level
 
     // Flush the internal buffer.
-    if (this.buffer.length > 0) {
+    if (this.#buffer.length > 0) {
       // Detach the buffer before the replay, so that a record is never
       // written twice, even if the console throws.
-      const records = this.buffer
-      this.buffer = []
+      const records = this.#buffer
+      this.#buffer = []
 
       records.forEach((record) => {
-        if (this.levelNumericValue >= record.numericLevel) {
+        if (this.#numericLevel >= record.numericLevel) {
           record.func(record.message)
         }
       })
@@ -731,7 +817,7 @@ export class Logger<C extends LoggerConsole = Console> {
   // the setter type is disabled for this pair.
   // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
   get level(): LogLevel | undefined {
-    return this.levelName
+    return this.#levelName
   }
 
   /**
@@ -761,7 +847,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isSilent(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.silent
+    return this.#numericLevel >= Logger.numericLevels.silent
   }
 
   /**
@@ -780,7 +866,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isError(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.error
+    return this.#numericLevel >= Logger.numericLevels.error
   }
 
   /**
@@ -799,7 +885,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isWarn(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.warn
+    return this.#numericLevel >= Logger.numericLevels.warn
   }
 
   /**
@@ -818,7 +904,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isInfo(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.info
+    return this.#numericLevel >= Logger.numericLevels.info
   }
 
   /**
@@ -837,7 +923,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isVerbose(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.verbose
+    return this.#numericLevel >= Logger.numericLevels.verbose
   }
 
   /**
@@ -856,7 +942,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isDebug(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.debug
+    return this.#numericLevel >= Logger.numericLevels.debug
   }
 
   /**
@@ -875,7 +961,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isTrace(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.trace
+    return this.#numericLevel >= Logger.numericLevels.trace
   }
 
   /**
@@ -894,7 +980,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @category Log Level Check Accessors
    */
   get isAll(): boolean {
-    return this.levelNumericValue >= Logger.numericLevels.all
+    return this.#numericLevel >= Logger.numericLevels.all
   }
 
   // --------------------------------------------------------------------------
@@ -911,7 +997,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * @returns The console object used by the logger.
    */
   get console(): C {
-    return this._console
+    return this.#console
   }
 
   // --------------------------------------------------------------------------
@@ -954,15 +1040,21 @@ export class Logger<C extends LoggerConsole = Console> {
   isLevel(level: LogLevel): boolean {
     Logger.assertLogLevel(level)
 
-    return this.levelNumericValue >= Logger.numericLevels[level]
+    return this.#numericLevel >= Logger.numericLevels[level]
   }
 
   /**
-   * The internal log writer.
+   * The internal log writer, which subclasses may override.
+   *
+   * It is the supported extension point of the class: every message that
+   * passes the level check is formatted, prefixed, and passed here, so an
+   * override can inspect, change, redirect, or drop it, and call
+   * `super.write()` to continue.
    *
    * If the log level was defined, call the actual logger function, otherwise
    * store the log lines in the array buffer, for later
-   * processing, when the log level is finally defined.
+   * processing, when the log level is finally defined (the function is
+   * then called when the level is set, if the message passes the level).
    *
    * If the message is `undefined`, nothing is written and nothing is
    * stored. The public output methods always pass a string; the case is
@@ -974,7 +1066,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * the message.
    * @param message - The log message.
    *
-   * @category Output Methods
+   * @category Extension Points
    */
   protected write(
     numericLevel: NumericLogLevel,
@@ -986,12 +1078,12 @@ export class Logger<C extends LoggerConsole = Console> {
       return
     }
 
-    if (this.levelNumericValue !== Logger.numericLevelUndefined) {
+    if (this.#numericLevel !== Logger.numericLevelUndefined) {
       // If the level was set, output the message.
       loggerFunction(message)
     } else {
       // Store the log entry details in the buffer.
-      this.buffer.push({
+      this.#buffer.push({
         numericLevel,
         func: loggerFunction,
         message,
@@ -1027,7 +1119,7 @@ export class Logger<C extends LoggerConsole = Console> {
     message: unknown,
     args: unknown[]
   ): void {
-    if (this.levelNumericValue < numericLevel) {
+    if (this.#numericLevel < numericLevel) {
       return
     }
 
@@ -1036,9 +1128,9 @@ export class Logger<C extends LoggerConsole = Console> {
       numericLevel,
       (msg: string) => {
         if (stream === 'log') {
-          this._console.log(msg)
+          this.#console.log(msg)
         } else {
-          this._console.error(msg)
+          this.#console.error(msg)
         }
       },
       prefix + str

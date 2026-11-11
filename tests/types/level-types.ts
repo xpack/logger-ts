@@ -87,4 +87,43 @@ export function staticsAreReadOnly(): void {
   Logger.levelNames.push('info')
 }
 
+// A subclass may override `write()`, and use the deprecated protected
+// members; outside code cannot use them.
+export function protectedMembers(): void {
+  class Extended extends Logger {
+    protected override write(
+      numericLevel: number,
+      loggerFunction: (message: string) => void,
+      message: string | undefined
+    ): void {
+      super.write(numericLevel, loggerFunction, message)
+    }
+
+    probe(): number {
+      void this._console
+      void this.levelName
+      void this.buffer
+      return this.levelNumericValue
+    }
+  }
+  void new Extended().probe()
+
+  const logger = new Logger()
+
+  // @ts-expect-error: `write()` is protected.
+  logger.write(0, () => undefined, 'x')
+
+  // @ts-expect-error: `buffer` is protected.
+  void logger.buffer
+
+  // @ts-expect-error: `levelNumericValue` is protected.
+  void logger.levelNumericValue
+
+  // @ts-expect-error: `levelName` is protected.
+  void logger.levelName
+
+  // @ts-expect-error: `_console` is protected.
+  void logger._console
+}
+
 // ----------------------------------------------------------------------------
