@@ -125,6 +125,40 @@ export interface LoggerBufferRecord {
  * [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
 function.
  *
+ * **Logging errors.** `Error` objects (and objects derived from it) are
+ * expanded by `util.format()`, as by `console.log()`: the first line has
+ * the name and the message (for example `Error: boom`), and it is
+ * followed by the stack trace and, if present, the `cause` chain, on
+ * several lines. This is the same in all output methods, which differ
+ * only by the stream and the prefix. The caller decides how much of an
+ * error is shown:
+ *
+ * - to show the full details, including the stack trace, pass the error
+ *   object, for example `log.error(err)`;
+ * - to show a single line, pass only its message, for example
+ *   `log.error(err.message)`, which outputs `error: boom`.
+ *
+ * A common pattern, which also works in the preliminary state, is to show
+ * the message at the `error` level, and the full details only when the
+ * log level is `debug` or higher:
+ *
+ * ```javascript
+ * try {
+ *   // ...
+ * } catch (err) {
+ *   // On stderr: `error: boom`.
+ *   log.error(err instanceof Error ? err.message : String(err))
+ *   // On stdout, only at `debug` or higher: `debug: Error: boom`,
+ *   // followed by the stack trace.
+ *   log.debug(err)
+ * }
+ * ```
+ *
+ * In TypeScript, the variable of a `catch` clause has the type `unknown`,
+ * hence the `instanceof` check. To also keep the name of the error, use
+ * `String(err)` instead of `err.message`: `log.error(String(err))`
+ * outputs, for example, `error: TypeError: boom`.
+ *
  * If the logging code is more complex than a single line,
  * for example if it needs a long loop,
  * it is recommended to explicitly check the log level and,
@@ -710,15 +744,28 @@ export class Logger {
    * The message is prefixed with `error: ` and
    * passed via `console.error()`.
    *
-   * There is a special case when the input is an `Error` object. It
-   * is expanded, including a full stack trace, and passed via
-   * `console.error()`.
+   * There is a special case when the first argument is an `Error`
+   * object: the prefix is omitted, since the first line of the expanded
+   * error already starts with its name (for example `Error: boom`). The
+   * error is expanded with the full stack trace and the `cause` chain,
+   * on several lines, and passed via `console.error()`.
+   *
+   * An `Error` passed after other arguments is also expanded, but the
+   * prefix is kept: `log.error('failed:', err)` outputs
+   * `error: failed: Error: boom`, followed by the stack trace.
+   *
+   * To show only the message of an error, on a single line with the
+   * prefix, pass its message instead of the object (see
+   * **Logging errors** in the description of the class):
    *
    * ```javascript
    * try {
    *   // ...
    * } catch (err) {
+   *   // `Error: boom`, followed by the stack trace.
    *   log.error(err)
+   *   // `error: boom`, on a single line.
+   *   log.error(err instanceof Error ? err.message : String(err))
    * }
    * ```
    *
@@ -742,7 +789,7 @@ export class Logger {
           (msg: string) => {
             this._console.error(msg)
           },
-          str
+          str // Error object expanded with stack trace
         )
       } else {
         const str = util.format(message, ...args)
@@ -751,7 +798,7 @@ export class Logger {
           (msg: string) => {
             this._console.error(msg)
           },
-          'error: ' + str
+          'error: ' + str // Prefix with 'error: ' for non-Error messages
         )
       }
     }
@@ -763,16 +810,18 @@ export class Logger {
    * It differs from `error()` by **not** prefixing the string with `error: `
    * and using `console.log()` instead of `console.error()`.
    *
-   * There is a special case when the input is an `Error` object. It
-   * is expanded, including a full stack trace, and passed via
-   * `console.log()`.
+   * An `Error` object is expanded as by `error()`, with the full stack
+   * trace and the `cause` chain, on several lines, and passed via
+   * `console.log()`. To show only the message, without the stack trace,
+   * pass its message instead of the object (see **Logging errors** in
+   * the description of the class):
    *
    * ```javascript
    * try {
    *   // ...
    * } catch (err) {
-   *   // Do not show the stack trace.
-   *   log.output(err)
+   *   // `boom`, on a single line, without the stack trace.
+   *   log.output(err instanceof Error ? err.message : String(err))
    * }
    * ```
    *
@@ -804,6 +853,13 @@ export class Logger {
    *
    * The message is prefixed with `warning: ` and
    * passed via `console.error()`.
+   *
+   * An `Error` object is expanded with the full stack trace and the
+   * `cause` chain, on several lines; unlike in `error()`, the prefix is
+   * kept even when the error is the first argument
+   * (`warning: Error: boom`, followed by the stack trace). To show only
+   * the message, pass `err.message` instead of the object (see
+   * **Logging errors** in the description of the class).
    *
    * @example
    * ```javascript

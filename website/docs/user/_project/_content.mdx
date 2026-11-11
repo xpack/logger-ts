@@ -104,6 +104,59 @@ The following methods are available to log messages:
 - `debug (message: any = '', ...args: any[]): void`
 - `trace (message: any = '', ...args: any[]): void`
 
+### Logging errors
+
+`Error` objects are expanded by `util.format()`, as by `console.log()`:
+the first line has the name and the message (for example `Error: boom`),
+and it is followed by the stack trace and, if present, the `cause` chain,
+on several lines. This is the same in all output methods, which differ
+only by the stream and the prefix.
+
+The caller decides how much of an error is shown:
+
+- to show the full details, including the stack trace, pass the error
+  object, for example `log.error(err)`;
+- to show a single line, pass only its message, for example
+  `log.error(err.message)`.
+
+The prefix depends on the method and on the position of the error:
+
+| Call | Output (first line) | Stream |
+| --- | --- | --- |
+| `log.error(err)` | `Error: boom`, then the stack trace | stderr |
+| `log.error('failed:', err)` | `error: failed: Error: boom`, then the stack trace | stderr |
+| `log.error(err.message)` | `error: boom` | stderr |
+| `log.warn(err)` | `warning: Error: boom`, then the stack trace | stderr |
+| `log.output(err)` | `Error: boom`, then the stack trace | stdout |
+| `log.output(err.message)` | `boom` | stdout |
+| `log.debug(err)` | `debug: Error: boom`, then the stack trace | stdout |
+
+Only `error()` omits its prefix, and only when the error is the first
+argument, since the first line of the expanded error already starts with
+its name.
+
+A common pattern is to show the message at the `error` level, and the full
+details only when the log level is `debug` or higher. It also works in the
+preliminary state, since both messages are buffered and filtered when the
+log level is set:
+
+```typescript
+try {
+  // ...
+} catch (err) {
+  // On stderr: `error: boom`.
+  log.error(err instanceof Error ? err.message : String(err))
+  // On stdout, only at `debug` or higher: `debug: Error: boom`,
+  // followed by the stack trace.
+  log.debug(err)
+}
+```
+
+In TypeScript, the variable of a `catch` clause has the type `unknown`,
+hence the `instanceof` check. To also keep the name of the error, use
+`String(err)` instead of `err.message`: `log.error(String(err))` outputs,
+for example, `error: TypeError: boom`.
+
 ### Log level checks
 
 When preparing the log messages is expensive, it makes no sense to
