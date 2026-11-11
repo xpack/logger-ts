@@ -112,6 +112,13 @@ recent report is the one with the latest `Date:` line among the files
 in `maintenance/docs/`; the modification times of the files do not
 count, since marking an item changes them.
 
+**One item at a time.** Work on a single item, from the issue to the
+commit and the report, and ask the user only about that item: do not
+put questions, decisions, or approvals about several items in the same
+message (for example, the choices for the next two items, or issue
+drafts for several items). Finish the item first, then propose the next
+one, naming only that one.
+
 1. Make sure that the previous fix is committed; do not start a new
    fix on top of uncommitted changes.
 2. If the item has no GitHub issue, offer to create one with the
