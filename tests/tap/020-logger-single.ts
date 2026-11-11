@@ -44,10 +44,10 @@ await test('logger level', (t) => {
   const logger = new Logger({
     console: mockConsole,
   })
-  t.ok(!logger.hasLevel, 'is uninitialised')
+  t.ok(!logger.hasLevel, 'has no level')
   t.equal(logger.level, undefined, 'initial level')
   logger.level = 'trace'
-  t.ok(logger.hasLevel, 'is initialised')
+  t.ok(logger.hasLevel, 'has a level')
   t.equal(logger.level, 'trace', 'set level')
   t.equal(Logger.recommendedLevel, 'info', 'has recommended level')
   t.throws(

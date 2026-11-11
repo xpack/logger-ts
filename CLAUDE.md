@@ -81,6 +81,13 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
     point of the subclasses is the protected `write()`. Static initializers
     must use `this`, not `Logger`, since the emitted code assigns the class
     alias after the class definition.
+  - Vocabulary, used in the code, the TSDoc, and the documentation: a logger
+    without a level is in the **preliminary state**; the messages logged then
+    are stored in the **internal buffer**, and replayed when the level is set;
+    a **message** is what one call of an output method logs (not "log line"
+    or "log entry"); a level has a **name** (`LogLevel`, like `info`) and a
+    **numeric level** (`Logger.numericLevels`); a level is **set**, not
+    "initialised"; the methods are the **logging methods**.
   - A logger created without a `level` is in a **preliminary state**
     (`numericLevelUndefined` is `Infinity`): messages are stored in an internal
     `buffer` and replayed when the `level` setter is called.

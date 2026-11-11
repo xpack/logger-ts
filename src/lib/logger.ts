@@ -35,9 +35,9 @@
  * to determine the log level.
  *
  * For these cases, if the logger is created without a log level,
- * the logger is set to a preliminary state, and all log lines are
+ * the logger is in a preliminary state, and all messages are
  * stored in an internal buffer, until the moment when the log
- * level is set, when the buffer is walked and the lines are processed.
+ * level is set, when the buffer is replayed and the messages are written.
  */
 
 // ----------------------------------------------------------------------------
@@ -304,9 +304,9 @@ export interface LoggerBufferRecord {
  * to determine the log level.
  *
  * For these cases, if the logger is created without a log level,
- * it is set to a **preliminary state**, and all log lines are
+ * it is in a **preliminary state**, and all messages are
  * stored in an **internal buffer**, until the log
- * level is set, when the buffer is walked and the lines are processed.
+ * level is set, when the buffer is replayed and the messages are written.
  *
  * Nothing is written while the logger is in the preliminary state, not
  * even the messages of `always()` and `error()`. If the log level is never
@@ -415,7 +415,8 @@ export class Logger<C extends LoggerConsole = Console> {
   } as const satisfies Record<LogLevel, number>)
 
   /**
-   * The value used for the undefined log level (maximum value).
+   * The numeric level of the preliminary state, when no log level was set
+   * (maximum value).
    *
    * It is read-only, like `recommendedLevel`.
    *
@@ -541,7 +542,7 @@ export class Logger<C extends LoggerConsole = Console> {
   #levelName: LogLevel | undefined = undefined
 
   /**
-   * Empty buffer where preliminary log lines are stored
+   * Empty buffer where the messages of the preliminary state are stored
    * until the log level is set.
    */
   #buffer: LoggerBufferRecord[] = []
@@ -610,8 +611,8 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * The buffer where the preliminary log lines are stored until the log
-   * level is set.
+   * The buffer where the messages of the preliminary state are stored
+   * until the log level is set.
    *
    * @remarks
    * - deprecated in v7.0.0, to be removed in the next major version
@@ -663,7 +664,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * The `level` property is optional since it can be set later.
    * Without it, the constructor will
-   * create the logger in a preliminary state, and all log lines will be stored
+   * create the logger in a preliminary state, and all messages will be stored
    * in an internal buffer until the log level is set.
    *
    * ```javascript
@@ -683,7 +684,7 @@ export class Logger<C extends LoggerConsole = Console> {
     params: {
       /**
        * The name of the log level; if not passed, or `undefined`, the logger
-       * is created in a preliminary state, and all log lines will be stored
+       * is created in a preliminary state, and all messages will be stored
        * in an internal buffer, until the log level is set. Optional.
        */
       level?: LogLevel | undefined
@@ -717,10 +718,10 @@ export class Logger<C extends LoggerConsole = Console> {
   // Accessors (getters & setters).
 
   /**
-   * Accessor to check if the log level was initialised.
+   * Accessor to check if the log level was set.
    *
    * If the logger was created without an explicit log level, the
-   * logger is in a preliminary state and all log lines will be stored
+   * logger is in a preliminary state and all messages will be stored
    * in an internal buffer until the log level is set.
    *
    * @example
@@ -1051,9 +1052,9 @@ export class Logger<C extends LoggerConsole = Console> {
    * override can inspect, change, redirect, or drop it, and call
    * `super.write()` to continue.
    *
-   * If the log level was defined, call the actual logger function, otherwise
-   * store the log lines in the array buffer, for later
-   * processing, when the log level is finally defined (the function is
+   * If the log level was set, call the actual logger function, otherwise
+   * store the message in the internal buffer, for later
+   * processing, when the log level is finally set (the function is
    * then called when the level is set, if the message passes the level).
    *
    * If the message is `undefined`, nothing is written and nothing is
@@ -1082,7 +1083,7 @@ export class Logger<C extends LoggerConsole = Console> {
       // If the level was set, output the message.
       loggerFunction(message)
     } else {
-      // Store the log entry details in the buffer.
+      // Store the message details in the internal buffer.
       this.#buffer.push({
         numericLevel,
         func: loggerFunction,
@@ -1170,7 +1171,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   always(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevelAlways, 'log', '', message, args)
@@ -1218,7 +1219,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   // error (message: Error): void
   error(message: unknown = '', ...args: unknown[]): void {
@@ -1268,7 +1269,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   output(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.error, 'log', '', message, args)
@@ -1297,7 +1298,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   warn(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.warn, 'error', 'warning: ', message, args)
@@ -1321,7 +1322,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   info(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.info, 'log', '', message, args)
@@ -1345,7 +1346,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   verbose(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.verbose, 'log', '', message, args)
@@ -1371,7 +1372,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   debug(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.debug, 'log', 'debug: ', message, args)
@@ -1397,7 +1398,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
-   * @category Output Methods
+   * @category Logging Methods
    */
   trace(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.trace, 'log', 'trace: ', message, args)

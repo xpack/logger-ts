@@ -185,13 +185,14 @@ be written when the value is already checked with `Logger.isLogLevel()`.
 
 ### Delaying setting the log level
 
-In some cases, the logger needs to be initialized very early in the
+In some cases, the logger needs to be created very early in the
 application's lifecycle, even before the log level can be determined.
 
-In such cases, if the logger is initialized without a specified log level,
-it enters a **preliminary state**. During this time, all log entries are
+In such cases, if the logger is created without a log level, it is in a
+**preliminary state**. During this time, all messages are
 stored in an **internal buffer**. Once the log level is set, the buffer
-is processed, and the log entries are handled accordingly.
+is replayed, and the messages are written, or discarded, according to the
+log level.
 
 ```typescript
 const log = new Logger()
