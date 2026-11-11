@@ -93,3 +93,23 @@ if (log.isDebug) {
   log.debug(message)
 }
 ```
+
+When the log level is not known at compile time, use the generic
+`isLevel(level)` method, which returns `true` if the current log level
+is equal to the given level or higher.
+
+Before a log level is set (the preliminary state), all checks
+(`isDebug`, `isLevel()`, and the others) return `true`. This way, the
+messages produced under the check are stored in the internal buffer
+rather than lost, and are filtered when the log level is set. Use
+`hasLevel` to tell whether a log level was set.
+
+For example, to ensure that the log level is not decreased, check
+`hasLevel` first, since in the preliminary state there is no level
+to compare with:
+
+```typescript
+if (!log.hasLevel || !log.isLevel(newLevel)) {
+  log.level = newLevel
+}
+```

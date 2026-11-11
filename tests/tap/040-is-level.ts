@@ -31,7 +31,7 @@ import { MockConsole } from '@xpack/mock-console'
 
 // ----------------------------------------------------------------------------
 
-import { Logger } from '../../src/index.js'
+import { Logger, type LogLevel } from '../../src/index.js'
 
 // ----------------------------------------------------------------------------
 
@@ -229,6 +229,101 @@ await test('logger isLevel', (t) => {
   t.ok(logger.isLevel('warn'), 'is Warn')
   t.ok(logger.isLevel('error'), 'is Error')
   t.ok(logger.isLevel('silent'), 'is Silent')
+
+  t.end()
+})
+
+await test('logger preliminary state checks', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+  t.notOk(logger.hasLevel, 'has no level')
+
+  // All checks are true until the level is set.
+  t.ok(logger.isAll, 'is All')
+  t.ok(logger.isTrace, 'is Trace')
+  t.ok(logger.isDebug, 'is Debug')
+  t.ok(logger.isVerbose, 'is Verbose')
+  t.ok(logger.isInfo, 'is Info')
+  t.ok(logger.isWarn, 'is Warn')
+  t.ok(logger.isError, 'is Error')
+  t.ok(logger.isSilent, 'is Silent')
+
+  for (const level of Object.keys(Logger.numericLevels) as LogLevel[]) {
+    t.ok(logger.isLevel(level), `isLevel('${level}')`)
+  }
+
+  t.end()
+})
+
+await test('logger preliminary state guarded message kept', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  if (logger.isDebug) {
+    logger.debug('guarded')
+  }
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+
+  logger.level = 'debug'
+  t.equal(mockConsole.outLines.length, 1, 'stdout has 1 entry')
+  t.equal(mockConsole.outLines[0], 'debug: guarded', 'stdout is guarded')
+
+  t.end()
+})
+
+await test('logger preliminary state guarded message filtered', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  if (logger.isDebug) {
+    logger.debug('guarded')
+  }
+
+  logger.level = 'info'
+  t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
+
+  t.end()
+})
+
+// The documented pattern to set a level without decreasing it.
+function raiseLevel(logger: Logger, newLevel: LogLevel): void {
+  if (!logger.hasLevel || !logger.isLevel(newLevel)) {
+    logger.level = newLevel
+  }
+}
+
+await test('logger isLevel not decreased', (t) => {
+  const mockConsole = new MockConsole()
+
+  const preliminary = new Logger({
+    console: mockConsole,
+  })
+  preliminary.info('buffered')
+  raiseLevel(preliminary, 'info')
+  t.equal(preliminary.level, 'info', 'preliminary level set')
+  t.ok(preliminary.hasLevel, 'preliminary has level')
+  t.equal(mockConsole.outLines.length, 1, 'stdout has 1 entry')
+  t.equal(mockConsole.outLines[0], 'buffered', 'stdout is buffered')
+
+  const higher = new Logger({
+    console: mockConsole,
+    level: 'debug',
+  })
+  raiseLevel(higher, 'info')
+  t.equal(higher.level, 'debug', 'higher level kept')
+
+  const lower = new Logger({
+    console: mockConsole,
+    level: 'info',
+  })
+  raiseLevel(lower, 'trace')
+  t.equal(lower.level, 'trace', 'lower level raised')
 
   t.end()
 })

@@ -387,6 +387,11 @@ export class Logger {
   /**
    * Accessor to check the log level.
    *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
+   *
    * @returns True if the log level is `silent` or higher.
    *
    * @remarks
@@ -400,6 +405,11 @@ export class Logger {
 
   /**
    * Accessor to check the log level.
+   *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
    *
    * @returns True if the log level is `error` or higher.
    *
@@ -415,6 +425,11 @@ export class Logger {
   /**
    * Accessor to check the log level.
    *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
+   *
    * @returns True if the log level is `warn` or higher.
    *
    * @remarks
@@ -428,6 +443,11 @@ export class Logger {
 
   /**
    * Accessor to check the log level.
+   *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
    *
    * @returns True if the log level is `info` or higher.
    *
@@ -443,6 +463,11 @@ export class Logger {
   /**
    * Accessor to check the log level.
    *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
+   *
    * @returns True if the log level is `verbose` or higher.
    *
    * @remarks
@@ -456,6 +481,11 @@ export class Logger {
 
   /**
    * Accessor to check the log level.
+   *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
    *
    * @returns True if the log level is `debug` or higher.
    *
@@ -471,6 +501,11 @@ export class Logger {
   /**
    * Accessor to check the log level.
    *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
+   *
    * @returns True if the log level is `trace` or higher.
    *
    * @remarks
@@ -484,6 +519,11 @@ export class Logger {
 
   /**
    * Accessor to check the log level.
+   *
+   * Before a level is set (the preliminary state), it returns `true`,
+   * so that the messages produced under the check are buffered rather
+   * than lost; they are filtered when the level is set. Use `hasLevel`
+   * to tell whether a level was set.
    *
    * @returns True if the log level is `all`.
    *
@@ -515,17 +555,23 @@ export class Logger {
   // Methods.
 
   /**
-   * Check if the log level is set to a given level name.
+   * Check if the log level is set to a given level name, or higher.
    *
    * This is a more generic version of the accessors (like `isDebug`, etc),
-   * to be used when the log level is not know at compile time.
+   * to be used when the log level is not known at compile time.
    *
-   * It can also be used to ensure that the log level is not decreased,
-   * for example:
+   * Before a level is set (the preliminary state), it returns `true` for
+   * every level, so that the messages produced under the check are
+   * buffered rather than lost; they are filtered when the level is set.
+   * Use `hasLevel` to tell whether a level was set.
+   *
+   * It can also be used to ensure that the log level is not decreased.
+   * Since in the preliminary state there is no level to compare with,
+   * check `hasLevel` first:
    *
    * @example
    * ```javascript
-   * if (!log.islevel(newLevel)) {
+   * if (!log.hasLevel || !log.isLevel(newLevel)) {
    *   log.level = newLevel
    * }
    * ```
