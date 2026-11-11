@@ -7,14 +7,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 `@xpack/logger` is a small TypeScript library that provides a levelled console
-logger (`Logger` class), published to npm as a dual CommonJS/ES module package.
+logger (`Logger` class), published to npm as an ES module only package.
 The whole implementation is a single class in `src/lib/logger.ts`, re-exported
 by `src/index.ts`.
 
 ## Commands
 
-- `npm run compile`: build `src` to `cjs/` (`tsc --build src`); `compile-watch`
-  for watch mode.
+- `npm run compile`: build `src` to `dist/` (`tsc --project tsconfig.json`);
+  `compile-watch` for watch mode.
 - `npm run lint`: ESLint on `src`, with
   `maintenance/config/eslint.config.js` (`@eslint/js` recommended,
   `typescript-eslint` `strictTypeChecked` and `stylisticTypeChecked`, and
@@ -30,27 +30,30 @@ by `src/index.ts`.
   `maintenance/scripts/`, fail with "was not found by the project service";
   lint them with a configuration that extends the project one and sets
   `parserOptions.projectService.allowDefaultProject`.
-- `npm test`: lint, then `tap --show-full-coverage` (the `pretest-coverage`
-  hook runs lint first). Use `npm run test-no-coverage` to skip coverage.
+- `npm test`: runs `test-coverage`, i.e. lint, then
+  `tap --show-full-coverage` (the `pretest-coverage` hook runs lint first). Use `npm run test-no-coverage` to skip
+  coverage.
 - Run a single test file: `npx tap --disable-coverage tests/tap/040-is-level.ts`.
 - `npm run dev-cycle`: ESLint fix, compile, and test.
 - `npm run clean` removes build output; `prepare` runs Prettier, lint, and
   compile.
 
 Tests under `tests/tap/*.ts` are TypeScript run directly by `tap` (no separate
-compilation) and import from the library sources. `tests/mocha/` is only a
-reference setup (it is not part of `npm test`).
+compilation) and import from the library sources.
 
 ## Architecture
 
 - **Single source of truth**: `src/lib/logger.ts`. There is no other runtime
-  code. `src/tsconfig.json` compiles it as CommonJS into `cjs/` (gitignored,
-  generated; it contains `.d.ts` files too).
-- **Dual packaging**: `esm/index.js` is a hand-written shim that does
-  `export * from '../cjs/index.js'`, with `esm/package.json` setting
-  `"type": "module"`. There is no separate ESM build; the `exports` map in the
-  root `package.json` selects `esm` or `cjs`. Source imports use `.js`
-  extensions (`./lib/logger.js`) because of `node16` module resolution.
+  code. The root `tsconfig.json` compiles it as ES modules into `dist/`
+  (generated, but tracked in git; it contains `.d.ts` and source map files
+  too).
+- **ES module only packaging**: the root `package.json` has `"type": "module"`
+  and its `exports` map points to `dist/index.js` and `dist/index.d.ts`; there
+  is no CommonJS build. Source imports use `.js` extensions
+  (`./lib/logger.js`) because of Node.js module resolution.
+- **Published files**: the `files` list in `package.json` selects `dist/` and
+  `src/` (without `src/README.md`); check with `npm pack --dry-run`. Note that
+  `npm pack` runs `prepare`, which rebuilds `dist/`.
 - **Logger model**:
   - Levels are ordered by `Logger.numericLevels` (`silent` 0 to `all` 70).
     A message is emitted when the logger's numeric level is greater than or
@@ -61,9 +64,9 @@ reference setup (it is not part of `npm test`).
     `buffer` and replayed when the `level` setter is called.
   - The constructor accepts an optional `console`, so tests inject
     `@xpack/mock-console` (the only runtime dependency) to capture output.
-- `tsconfig-common.json` is strict (`exactOptionalPropertyTypes`,
-  `noUncheckedIndexedAccess`, `noImplicitOverride`, and others), targeting
-  ES2020.
+- `maintenance/config/tsconfig-common.json` extends
+  `@tsconfig/node22` and is strict (`exactOptionalPropertyTypes`,
+  `noUncheckedIndexedAccess`, `noImplicitOverride`, and others).
 
 ## Website and generated files
 
@@ -73,14 +76,8 @@ reference setup (it is not part of `npm test`).
 - `generate-top-commons` (via `@xpack/npm-packages-helper`) regenerates shared
   boilerplate files (workflows, website commons, some root files); these are
   generated, so avoid hand-editing them.
-- `tests/tap/README.md` and `tests/mocha/README.md` describe setup for the
-  respective frameworks and may not match the current `package.json`
-  configuration; trust `package.json`.
-
-## Known stale content
-
-- `.github/copilot-instructions.md` still has a placeholder ("This is ...")
-  in its Project Overview.
+- `tests/tap/README.md` describes the setup for `tap` and may not match the
+  current `package.json` configuration; trust `package.json`.
 
 ## Skills
 

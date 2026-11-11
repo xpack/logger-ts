@@ -35,10 +35,10 @@ Include the tests in `tests/tap/` that exercise the changed code, and
 the parts of `package.json` that depend on it (`exports`, `main`,
 `module`, `types`, `scripts`, `tap`, `engines`).
 
-Do not review `cjs/`, `node_modules/`, `website/`, or the generated
-common files (the workflows, and the `_common` folders under
-`website/`), which are produced by `generate-top-commons`. `esm/index.js`
-is a hand-written shim and is reviewed.
+Do not review `dist/` (the compiled output, which is tracked in git;
+review the sources that produce it), `node_modules/`, `website/`, or
+the generated common files (the workflows, and the `_common` folders
+under `website/`), which are produced by `generate-top-commons`.
 
 State the scope, the branch, and the commit (`git rev-parse --short
 HEAD`) at the top of the report.
@@ -49,10 +49,10 @@ Review every item below, with file and line references.
 
 ### Naming and style
 
-- The code passes `ts-standard` (the `standard` style: two spaces, no
-  semicolons, single quotes, a space before the parentheses of
-  function and method declarations); no line exceeds 80 characters,
-  including comments, except for URLs.
+- The code passes `npm run lint` (ESLint) and is formatted by Prettier
+  with `maintenance/config/.prettierrc.json` (two spaces, no
+  semicolons, single quotes, `es5` trailing commas); no line exceeds
+  80 characters, including comments, except for URLs.
 - Classes and types are `PascalCase`; functions, methods, properties,
   and variables are `camelCase`; constants follow the style already
   used in the file.
@@ -60,12 +60,15 @@ Review every item below, with file and line references.
   in the file; flag a new member that does not.
 - Method names start with a verb that states their effect; getters
   have no side effects.
-- Relative imports use the `.js` extension (`node16` module
+- Relative imports use the `.js` extension (Node.js ES module
   resolution).
 - The sections of a file use the existing separator comments
   (`// ----` and `// ====`).
 - The change follows the patterns already used elsewhere in the code
   base, or has a visible reason not to.
+- Except when backing fields behind a getter and setter (_level behind
+ level), do not use _ as a prefix or suffix for identifiers, including
+ private properties
 
 ### Documentation (TSDoc)
 
@@ -91,8 +94,10 @@ Review every item below, with file and line references.
   users; flag it as **[breaking]**.
 - `package.json` stays consistent with the code: `exports`, `main`,
   `module`, and `types` point to files that exist after `npm run
-  compile`; `esm/index.js` re-exports everything that `cjs/index.js`
-  does.
+  compile` (`dist/index.js` and `dist/index.d.ts`), and `dist/index.js`
+  exports everything that `src/index.ts` does. The package is ES
+  module only; a change that reintroduces a CommonJS entry point is
+  a change of the packaging contract.
 - The library stays free of runtime dependencies that it does not
   import in `src/`.
 
@@ -130,6 +135,9 @@ Review every item below, with file and line references.
 - The tests would still pass if the implementation were wrong in the
   obvious way (for example, they assert on both the `log` and the
   `error` output).
+- The tests keep the coverage at 100 %, including all the branches and
+  the edge cases, and verify the behaviour under different console
+  implementations.
 
 ## Tooling Verification
 

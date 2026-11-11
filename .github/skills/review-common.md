@@ -41,10 +41,12 @@ reproduced; otherwise say that it is derived from reading the code.
 Write small probe programs in the scratchpad folder, never in the
 repository:
 
-1. Run `npm run compile`, so that `cjs/` is current.
-2. For CommonJS, `require()` the absolute path of `cjs/index.js`; for
-   ES modules, `import` the absolute path of `esm/index.js` from a
-   `.mjs` file.
+1. Run `npm run compile`, so that `dist/` is current.
+2. For ES modules, `import` the absolute path of `dist/index.js` from a
+   `.mjs` file. A probe in the scratchpad folder does not resolve
+   packages from the repository, so import `@xpack/mock-console` by
+   the absolute path of its entry point under the repository's
+   `node_modules/`.
 3. Pass a console to the `Logger` constructor, to capture the output:
    an instance of `MockConsole` from `@xpack/mock-console`, or a
    `new Console(stdoutStream, stderrStream)` over two in-memory

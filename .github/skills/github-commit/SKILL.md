@@ -37,8 +37,11 @@ message.
    over them without explicit approval.
 4. **Check consistency.** If a public member, a level, or the
    packaging changed, the TSDoc comments, the tests, and the website
-   pages that describe it must be updated in the same commit. Do not
-   stage `cjs/`, `*.d.ts`, `*.js.map`, or `*.tgz` files (they are
+   pages that describe it must be updated in the same commit. The
+   compiled `dist/` folder (including the `*.d.ts` and `*.js.map`
+   files) is tracked: after `npm run compile`, stage the `dist/` files
+   that changed together with the source change that caused them, and
+   no other `dist/` changes. Do not stage `*.tgz` files (they are
    ignored).
 5. **Draft the message** (see "Message Format") and write it to a file
    in the scratchpad folder.

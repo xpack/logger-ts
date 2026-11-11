@@ -28,8 +28,8 @@ repository root.
    behaviour with a probe program (see "Confirming Findings with
    Probes" in `.github/skills/review-common.md`), and keep the evidence
    to show the user. State what was observed and what was inferred.
-   Record the library version, the Node.js version, the module system
-   (CommonJS or ES module), and the operating system when they matter.
+   Record the library version, the Node.js version, and the operating
+   system when they matter (the package is ES module only).
 3. **Check for duplicates:**
 
    ```sh
@@ -75,7 +75,7 @@ Use only the existing repository labels:
 
 - `bug` — the library behaves incorrectly: a wrong or lost message, a
   wrong stream or level, an exception, a packaging defect that breaks
-  the import from CommonJS or ES modules, or behaviour that contradicts
+  the import of the package, or behaviour that contradicts
   the documentation.
 - `enhancement` — the library works, but can be improved: new members
   or levels, performance, refactoring, and documentation wording.

@@ -1,7 +1,7 @@
 ---
 name: design-review
-description: 'Review the design and implementation of the whole xPack Logger library (@xpack/logger): defects, usability for a new user (tasks done from the documentation and the typings alone), the public API, the dual CommonJS/ES module packaging, structure, naming and consistency, simplicity, modern TypeScript usage, performance, and security. Confirm suspected defects with probe programs. Each review is fresh (the earlier reports are not read); report the problems found in a new numbered report, each with a permanent number, and suggest improvements. Use when the user asks for a "design review", an "architecture review", a "full review" of the library, to "analyse the design", or for a review before a release.'
-argument-hint: 'Optional: file or folder to review (e.g. src/lib/logger.ts); defaults to src/, esm/, and the packaging in package.json'
+description: 'Review the design and implementation of the whole xPack Logger library (@xpack/logger): defects, usability for a new user (tasks done from the documentation and the typings alone), the public API, the ES module only packaging, structure, naming and consistency, simplicity, modern TypeScript usage, performance, and security. Confirm suspected defects with probe programs. Each review is fresh (the earlier reports are not read); report the problems found in a new numbered report, each with a permanent number, and suggest improvements. Use when the user asks for a "design review", an "architecture review", a "full review" of the library, to "analyse the design", or for a review before a release.'
+argument-hint: 'Optional: file or folder to review (e.g. src/lib/logger.ts); defaults to src/ and the packaging in package.json'
 ---
 
 # Design Review — xPack Logger
@@ -28,8 +28,9 @@ Related skills, with different scopes:
 
 - `code-review`: the conventions, documentation, and correctness of a
   change (a diff, a set of commits, or a path); cheap, and run often;
-- `consistency-check`: the consistency between the code, the
-  packaging, the tests, the website, and the other project files.
+- `consistency-check`: the consistency between the code, the TSDoc
+  documentation, the website, the packaging, the tests, and the other
+  project files.
 
 ## A Fresh Review Each Time
 
@@ -53,14 +54,14 @@ If the user specifies a file or a folder, review only that (but read
 whatever it depends on). Otherwise review:
 
 - all the sources in `src/` (`index.ts` and `lib/logger.ts`);
-- the hand-written module shim `esm/index.js` and `esm/package.json`;
 - the packaging in `package.json` (`exports`, `main`, `module`,
   `types`, `type`, `engines`, `dependencies`, `devDependencies`,
-  `scripts`, `tap`) and `.npmignore`;
-- the TypeScript configuration (`tsconfig*.json`, `src/tsconfig.json`);
+  `scripts`) and `.npmignore`;
+- the TypeScript configuration (`tsconfig.json` and
+  `maintenance/config/tsconfig-*.json`);
 - the tests in `tests/tap/`, as a statement of the intended behaviour.
 
-Do not review `cjs/`, `node_modules/`, or `website/` (the website is
+Do not review `node_modules/`, or `website/` (the website is
 reviewed only for the claims that it makes about the API; see
 "Using the Library as a Newcomer"). Do not review the generated common
 files, which are produced by `generate-top-commons`.
@@ -80,7 +81,7 @@ with only this section as its instructions, and use its notes.
 Otherwise do it before reading `src/`.
 
 The newcomer reads only what a user sees: `README.md`, the published
-typings (`cjs/index.d.ts` and `cjs/lib/logger.d.ts`, after `npm run
+typings (`dist/index.d.ts` and `dist/lib/logger.d.ts`, after `npm run
 compile`), and the pages of the project website in `website/docs/`
 (`getting-started`, `install`, `faq`, and the generated API reference).
 
@@ -88,8 +89,10 @@ The newcomer does not read `src/lib/logger.ts`, the tests, or the
 earlier reports. For each task, write down the steps, and write the
 program in `<scratch>/newcomer/`, then run it:
 
-1. install the package, and use it from a CommonJS program and from an
-   ES module program (the packaging is part of the usability);
+1. install the package, use it from an ES module program, and try it
+   from a CommonJS program, noting what the user sees and whether the
+   documentation explains it (the package is ES module only; the
+   packaging is part of the usability);
 2. create a logger with a level and write a message at each level;
 3. create a logger without a level, log some messages, set the level,
    and see which messages appear;
@@ -115,7 +118,7 @@ is stale documentation goes to the incidental observations, with the
 Read **every** file in scope in full; do not skim and do not rely on
 searches alone. A useful order:
 
-1. `package.json`, `esm/`, and `src/index.ts` (what is exported, and
+1. `package.json` and `src/index.ts` (what is exported, and
    how a consumer resolves it);
 2. the types and the constants at the top of `src/lib/logger.ts`;
 3. the constructor, the `level` setter, the buffer, and the `write()`
@@ -182,10 +185,11 @@ The findings of the newcomer exercise, and:
 - The visibility of the members (`protected` versus `private`, and the
   members marked `@internal`): what a subclass may rely on, and
   whether the protected surface is part of the contract.
-- The dual packaging: the `exports` map (the order of the conditions,
-  the `types` condition, the `default`), the hand-written `esm/` shim,
-  the CommonJS-only build with an ES module wrapper (named exports,
-  `instanceof` across the two entry points), and the declaration files.
+- The ES module only packaging: the `exports` map (the `types`
+  condition, the `default`), the `files` list, the tracked `dist/`
+  output, the declaration files, and the consequences for CommonJS
+  consumers (`require()` of an ES module, the minimum Node.js version
+  in `engines`).
 - The `dependencies`: whether `@xpack/mock-console` is used by `src/`,
   or only by the tests, and so belongs in `devDependencies`.
 - The `engines` field against `@types/node`, the `target` and `lib` of
@@ -212,7 +216,8 @@ The findings of the newcomer exercise, and:
 
 - The compiler options against the current practice
   (`strict`, `exactOptionalPropertyTypes`, and the others in
-  `tsconfig-common.json`), and the TypeScript version pinned in
+  `maintenance/config/tsconfig-common.json`), and the TypeScript
+  version pinned in
   `devDependencies` against the syntax that the code could use.
 - Static members used as mutable global state (`defaultLevel`,
   `numericLevels`, `numericLevelUndefined`, `numericLevelAlways`):

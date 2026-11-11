@@ -1,7 +1,7 @@
 {
   "name": "@xpack/logger",
   "version": "6.0.0",
-  "description": "A Node.js CommonJS/ES6 module with a generic console logger class",
+  "description": "A Node.js ES6 module with a generic console logger class",
   "type": "module",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -13,7 +13,8 @@
   },
   "files": [
     "dist/",
-    "src/"
+    "src/",
+    "!src/README.md"
   ],
   "repository": {
     "type": "git",
@@ -93,7 +94,7 @@
     "lint": "eslint --config maintenance/config/eslint.config.js src",
     "npm-install": "npm install",
     "npm-link": "npm link",
-    "npm-link-helpers": "npm link @xpack/npm-packages-helper @xpack/docusaurus-template-liquid",
+    "npm-link-helpers": "npm link @xpack/npm-packages-helper",
     "npm-link-deps": "npm link @xpack/logger",
     "npm-outdated": "npm outdated",
     "npm-update": "npm update",
@@ -113,6 +114,7 @@
     "dev-cycle": "npm run fix && npm run compile && npm run test",
     "clean": "del-cli --force dist build .tap",
     "deep-clean": "npm run clean && del-cli --force node_modules package-lock.json",
+    "update-changelog": "node maintenance/scripts/update-changelog.mjs CHANGELOG.md",
     "npm-audit": "npm audit fix --force",
     "dumpconf": "env | sort | uniq",
     "show-versions": "echo $(which node) $(node --version) && echo $(which npm) $(npm --version)",
