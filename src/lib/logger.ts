@@ -152,9 +152,6 @@ export interface LoggerBufferRecord {
  * members of the mock without a cast. The type must have the `log()` and
  * `error()` functions (see `LoggerConsole`).
  *
- * @typeParam C - The type of the console object; the default is the
- *   Node.js `Console`, which is used when no console is passed.
- *
  * Use `log.always()` instead of the `console.log()`, since it accounts for
  * different contexts, created for example when using REPL.
  *
@@ -395,6 +392,9 @@ export interface LoggerBufferRecord {
  * The check of the level before an expensive preparation of the message
  * (see above) is true in the preliminary state, so the preparation is
  * done there too.
+ *
+ * @typeParam C - The type of the console object; the default is the
+ *   Node.js `Console`, which is used when no console is passed.
  */
 export class Logger<C extends LoggerConsole = Console> {
   // --------------------------------------------------------------------------

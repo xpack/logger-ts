@@ -199,6 +199,31 @@ await test('the declarations keep the TSDoc comments', (t) => {
   t.end()
 })
 
+await test('the type parameter tag does not take the class text', (t) => {
+  const node = documentedMembers().get('Logger')
+  t.ok(node, 'Logger is declared')
+  if (node === undefined) {
+    t.end()
+    return
+  }
+
+  // A block tag extends to the next block tag, so a `@typeParam` placed
+  // before the description would take it, in the generated reference and
+  // in the editors.
+  // TypeScript does not know `@typeParam` (it knows `@template`), so it is
+  // a generic tag, found by name.
+  const tags = ts
+    .getJSDocTags(node)
+    .filter((tag) => tag.tagName.text === 'typeParam')
+  t.equal(tags.length, 1, 'one type parameter tag')
+  const text = ts.getTextOfJSDocComment(tags[0]?.comment) ?? ''
+  t.ok(text.length > 0, 'the tag has a text')
+  t.ok(text.length < 200, `the tag text is short (${String(text.length)})`)
+  t.notMatch(text, /Output methods/, 'the tag has no description of the class')
+
+  t.end()
+})
+
 await test('the declarations keep the deprecations', (t) => {
   const members = documentedMembers()
 
