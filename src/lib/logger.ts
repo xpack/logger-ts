@@ -1334,7 +1334,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @category Logging Methods
    */
-  // error (message: Error): void
   error(message: unknown = '', ...args: unknown[]): void {
     this.emit(
       Logger.numericLevels.error,
