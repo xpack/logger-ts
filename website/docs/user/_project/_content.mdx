@@ -17,6 +17,18 @@ package must be installed, as in any other Node.js project. Without it,
 the compiler reports that it cannot find the `node:console` module, unless
 `skipLibCheck` is enabled.
 
+The typings are found through the `exports` map of the package by the
+TypeScript module resolution modes `node16`, `nodenext`, and `bundler`,
+which are the ones to use. The legacy mode `node10` (the old default of
+the projects with `"module": "commonjs"`) ignores `exports`, and works only
+because `package.json` still has the legacy `main` and `typings` fields.
+**Support for `node10` will be removed in a future major release**, by
+removing these two fields; projects that still use it should migrate to one
+of the modern modes.
+
+The `package.json` file of the package can be read through the package
+name, for example with `require('@xpack/logger/package.json')`.
+
 The package is an ES module only. In JavaScript with CommonJS, use
 `require()`, which loads ES modules by default in Node.js 22.12 or later
 (the minimum version supported by the package):

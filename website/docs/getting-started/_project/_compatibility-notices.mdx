@@ -19,6 +19,17 @@ your tests counted the lines captured by a mock console, or compared them
 with the lines of the previous versions, remove this line from the expected
 results.
 
+The `package.json` file is now exported, so tools can read it through the
+package name (`@xpack/logger/package.json`); this is not a breaking change.
+
+The TypeScript module resolution mode `node10`, which ignores the `exports`
+map, is still supported through the legacy `main` and `typings` fields of
+`package.json`, but it is **deprecated**: **support for `node10` will be
+removed in a future major release**. Projects that use it, usually the
+ones with `"module": "commonjs"` and no explicit `moduleResolution`,
+should migrate to `node16`, `nodenext`, or `bundler`. This is not a
+breaking change in this version.
+
 The `isSilent` accessor was deprecated (this is not a breaking change).
 Since `silent` is the lowest level, it was always `true`, for every level,
 so it could not tell whether the logger is silent. It will be removed in

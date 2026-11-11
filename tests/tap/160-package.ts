@@ -39,7 +39,8 @@ const packageFolder = fileURLToPath(new URL('../../', import.meta.url))
 interface PackageJson {
   type?: string
   main?: string
-  exports?: Record<string, Record<string, string>>
+  typings?: string
+  exports?: Record<string, string | Record<string, string>>
   engines?: { node?: string }
 }
 
@@ -59,13 +60,43 @@ await test('package is an ES module only', (t) => {
   t.equal(packageJson.type, 'module', 'type is module')
 
   const entry = packageJson.exports?.['.']
-  t.ok(entry, 'has the main export')
-  t.ok(entry?.['default'], 'has a default condition')
-  t.ok(entry?.['types'], 'has a types condition')
+  t.ok(entry && typeof entry === 'object', 'has the main export')
+  const conditions = typeof entry === 'object' ? entry : {}
+  t.ok(conditions['default'], 'has a default condition')
+  t.ok(conditions['types'], 'has a types condition')
 
-  for (const target of Object.values(entry ?? {})) {
+  for (const target of Object.values(conditions)) {
     t.ok(existsSync(`${packageFolder}${target}`), `${target} exists`)
   }
+
+  t.end()
+})
+
+await test('legacy fields repeat the exports map', (t) => {
+  // `main` and `typings` are kept for the TypeScript projects that use
+  // `moduleResolution: node10`, which ignores `exports`; support for them
+  // will be removed in a future major release.
+  const entry = packageJson.exports?.['.']
+  const conditions = typeof entry === 'object' ? entry : {}
+
+  t.equal(packageJson.main, conditions['default'], 'main is the default')
+  t.equal(packageJson.typings, conditions['types'], 'typings is the types')
+
+  t.end()
+})
+
+await test('package.json can be read through the package name', (t) => {
+  t.equal(
+    packageJson.exports?.['./package.json'],
+    './package.json',
+    'package.json is exported'
+  )
+
+  const output = runNode(
+    'commonjs',
+    `console.log(require('@xpack/logger/package.json').name)`
+  )
+  t.equal(output, '@xpack/logger', 'require() of package.json works')
 
   t.end()
 })
