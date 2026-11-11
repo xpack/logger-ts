@@ -291,6 +291,30 @@ await test('logger preliminary state guarded message filtered', (t) => {
   t.end()
 })
 
+await test('logger silent level check', (t) => {
+  const mockConsole = new MockConsole()
+
+  for (const level of Object.keys(Logger.numericLevels) as LogLevel[]) {
+    const logger = new Logger({
+      console: mockConsole,
+      level,
+    })
+
+    // The deprecated accessor is true for every level.
+    t.ok(logger.isSilent, `isSilent at '${level}'`)
+    // The documented replacement tells the silent level apart.
+    t.equal(logger.level === 'silent', level === 'silent', `silent '${level}'`)
+  }
+
+  const preliminary = new Logger({
+    console: mockConsole,
+  })
+  t.ok(preliminary.isSilent, 'isSilent in preliminary state')
+  t.notOk(preliminary.level === 'silent', 'not silent in preliminary state')
+
+  t.end()
+})
+
 // The documented pattern to set a level without decreasing it.
 function raiseLevel(logger: Logger, newLevel: LogLevel): void {
   if (!logger.hasLevel || !logger.isLevel(newLevel)) {

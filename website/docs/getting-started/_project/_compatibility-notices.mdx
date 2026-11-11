@@ -1,6 +1,21 @@
 
 {/* ------------------------------------------------------------------------ */}
 
+### v7.0.0
+
+The `isSilent` accessor was deprecated. Since `silent` is the lowest
+level, it was always `true`, for every level, so it could not tell
+whether the logger is silent. It will be removed in the next major
+version.
+
+If used, replace it with a comparison of the log level name:
+
+```javascript
+if (log.level === 'silent') {
+  // ...
+}
+```
+
 ### v6.0.0
 
 The TypeScript code is compiled into

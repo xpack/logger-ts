@@ -113,3 +113,6 @@ if (!log.hasLevel || !log.isLevel(newLevel)) {
   log.level = newLevel
 }
 ```
+
+The `isSilent` accessor is deprecated, since it is always `true`; to
+check for the `silent` level, use `log.level === 'silent'`.

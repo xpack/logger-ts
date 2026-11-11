@@ -387,15 +387,26 @@ export class Logger {
   /**
    * Accessor to check the log level.
    *
-   * Before a level is set (the preliminary state), it returns `true`,
-   * so that the messages produced under the check are buffered rather
-   * than lost; they are filtered when the level is set. Use `hasLevel`
-   * to tell whether a level was set.
+   * Since `silent` is the lowest level, this accessor is always `true`,
+   * for every level that was set, and also before a level is set (the
+   * preliminary state). It cannot tell whether the logger is silent.
    *
-   * @returns True if the log level is `silent` or higher.
+   * To check for the `silent` level, compare the `level` accessor.
+   *
+   * @example
+   * ```javascript
+   * if (log.level === 'silent') {
+   *   // Nothing but `always()` messages are output.
+   * }
+   * ```
+   *
+   * @returns Always `true`.
    *
    * @remarks
-   * - changed to an accessor in v3.0.0.
+   * - changed to an accessor in v3.0.0;
+   * - deprecated in v7.0.0, to be removed in the next major version.
+   *
+   * @deprecated Always `true`, use `log.level === 'silent'` instead.
    *
    * @category Log Level Check Accessors
    */
