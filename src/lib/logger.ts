@@ -281,6 +281,26 @@ export interface LoggerBufferRecord {
  *   log.error(err)
  * }
  * ```
+ *
+ * **Cost of the preliminary state.** With the level set, a message that
+ * is below the level is skipped before it is formatted, which costs a
+ * few nanoseconds. In the preliminary state the final level is not known,
+ * so every message, including `debug()` and `trace()`, is formatted
+ * immediately and stored in the buffer, until the level is set:
+ *
+ * - the formatting is done even for the messages that are later
+ *   discarded; for example, an object passed to a `%o` directive is
+ *   inspected at each call (about 3 microseconds, against 0.2
+ *   microseconds for a short string message);
+ * - the buffer is not limited, and a message of about 70 characters
+ *   takes about 250 bytes, so a long running application that logs a lot
+ *   before the level is set should set it as early as possible;
+ * - since the message is formatted when it is logged, a later change of
+ *   an argument does not alter the buffered message.
+ *
+ * The check of the level before an expensive preparation of the message
+ * (see above) is true in the preliminary state, so the preparation is
+ * done there too.
  */
 export class Logger {
   // --------------------------------------------------------------------------

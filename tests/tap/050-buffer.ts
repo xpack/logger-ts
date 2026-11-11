@@ -470,4 +470,74 @@ await test('logger second level assignment does not replay', (t) => {
   t.end()
 })
 
+await test('preliminary state formats the messages when logged', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  let calls = 0
+  const argument = {
+    toString(): string {
+      calls += 1
+      return 'text'
+    },
+  }
+
+  // The messages are formatted when logged, even if the final level
+  // discards them.
+  logger.debug('%s', argument)
+  logger.trace('%s', argument)
+  t.equal(calls, 2, 'formatted in the preliminary state')
+
+  logger.level = 'error'
+  t.equal(calls, 2, 'not formatted again when the buffer is flushed')
+  t.equal(mockConsole.outLines.length, 0, 'the messages were discarded')
+
+  // With the level set, a suppressed message is not formatted.
+  logger.debug('%s', argument)
+  t.equal(calls, 2, 'not formatted when suppressed')
+
+  t.end()
+})
+
+await test('preliminary state keeps the messages as formatted', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  const value = { v: 1 }
+  logger.info('%j', value)
+  value.v = 2
+
+  logger.level = 'info'
+  t.same(mockConsole.outLines, ['{"v":1}'], 'the later change is not seen')
+
+  t.end()
+})
+
+await test('preliminary buffer is not limited', (t) => {
+  const mockConsole = new MockConsole()
+  const logger = new Logger({
+    console: mockConsole,
+  })
+
+  const count = 20000
+  for (let i = 0; i < count; i++) {
+    logger.info(`message ${i}`)
+  }
+
+  logger.level = 'info'
+  t.equal(mockConsole.outLines.length, count, 'all the messages are kept')
+  t.equal(mockConsole.outLines[0], 'message 0', 'in order, from the first')
+  t.equal(
+    mockConsole.outLines[count - 1],
+    `message ${count - 1}`,
+    'to the last'
+  )
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------

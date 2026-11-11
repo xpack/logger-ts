@@ -95,6 +95,26 @@ log.info('hello') // Displayed on stdout.
 log.debug('world') // Ignored.
 ```
 
+With the log level set, a message that is below the level is skipped
+before it is formatted, which costs a few nanoseconds. In the preliminary
+state the final log level is not known, so every message, including
+`debug()` and `trace()`, is formatted immediately and stored in the
+buffer, until the log level is set:
+
+- the formatting is done even for the messages that are later discarded;
+  for example, an object passed to a `%o` directive is inspected at each
+  call (about 3 microseconds, against 0.2 microseconds for a short string
+  message);
+- the buffer is not limited, and a message of about 70 characters takes
+  about 250 bytes, so a long running application that logs a lot before
+  the log level is set should set it as early as possible;
+- since the message is formatted when it is logged, a later change of an
+  argument does not alter the buffered message.
+
+The checks of the log level (`isDebug`, `isLevel()`, and the others) are
+`true` in the preliminary state, so the preparation of a message guarded by
+them is done there too.
+
 Nothing is written while the logger is in the preliminary state, not even
 the messages of `always()` and `error()`. If the log level is never set
 (for example when the application fails before it determines the level),
