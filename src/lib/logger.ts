@@ -126,6 +126,19 @@ export interface LoggerBufferRecord {
  * [`util.format(msg, ...args)`](https://nodejs.org/dist/latest-v10.x/docs/api/util.html#util_util_format_format_args)
 function.
  *
+ * **Empty messages.** If the message is omitted or `undefined`, it is
+ * replaced by an empty string, so `log.info()` and `log.info(undefined)`
+ * write an empty line, and the methods with a prefix write only the
+ * prefix (for example `debug: `). This differs from `console.log()`,
+ * which writes `undefined`. Other falsy values are written as they are
+ * (`null`, `0`, and `false` give `null`, `0`, and `false`), and
+ * `undefined` is written as usual when it is not the first argument
+ * (`log.info('value:', undefined)` gives `value: undefined`). Since
+ * the empty string is still a message, any further arguments are
+ * appended to it after a space (`log.info(undefined, 1)` gives ` 1`,
+ * with a leading space). To write the text `undefined`, convert it
+ * explicitly, for example `log.info(String(value))`.
+ *
  * **Output methods.** The methods differ by the level from which they
  * are written (the threshold), by the console stream, and by a prefix
  * added to the message:
@@ -815,7 +828,9 @@ export class Logger {
    * log.always(version)
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -867,7 +882,9 @@ export class Logger {
    * log.error('Not good...')
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -929,7 +946,9 @@ export class Logger {
    * log.output('Not good either...')
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -965,7 +984,9 @@ export class Logger {
    * log.info(title)
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -993,7 +1014,9 @@ export class Logger {
    * log.info(title)
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -1021,7 +1044,9 @@ export class Logger {
    * log.verbose('Configurations:')
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -1050,7 +1075,9 @@ export class Logger {
    * log.debug(`spawn: ${cmd}`)
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods
@@ -1079,7 +1106,9 @@ export class Logger {
    * log.trace(`${this.constructor.name}.doRun()`)
    * ```
    *
-   * @param message - Message to log, as accepted by `util.format()`.
+   * @param message - Message to log, as accepted by `util.format()`. If
+   *   omitted or `undefined`, it is replaced by an empty string (see
+   *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
    *
    * @category Output Methods

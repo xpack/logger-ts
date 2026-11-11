@@ -162,6 +162,26 @@ different purposes:
   suppressed at `silent`, together with all the other messages;
 - `info()` is for informative messages, shown from the `info` level.
 
+### Empty messages
+
+If the message is omitted or `undefined`, it is replaced by an empty
+string, so `log.info()` and `log.info(undefined)` write an empty line, and
+the methods with a prefix write only the prefix (for example `debug: `).
+This differs from `console.log()`, which writes `undefined`.
+
+Other falsy values are written as they are (`null`, `0`, and `false` give
+`null`, `0`, and `false`), and `undefined` is written as usual when it is
+not the first argument (`log.info('value:', undefined)` gives
+`value: undefined`). Since the empty string is still a message, any
+further arguments are appended to it after a space (`log.info(undefined, 1)`
+gives ` 1`, with a leading space).
+
+To write the text `undefined`, convert it explicitly:
+
+```typescript
+log.info(String(value))
+```
+
 ### Logging errors
 
 `Error` objects are expanded by `util.format()`, as by `console.log()`:
