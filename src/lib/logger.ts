@@ -203,6 +203,44 @@ export interface LoggerBufferRecord {
  * `String(err)` instead of `err.message`: `log.error(String(err))`
  * outputs, for example, `error: TypeError: boom`.
  *
+ * **Untrusted input.** The messages are written as they are, without
+ * any escaping, so text that comes from outside the application (like
+ * a file name, a user name, or the content of a network request) can
+ * forge log lines, send control sequences to the terminal, and be
+ * interpreted as format directives:
+ *
+ * - a newline in the text starts a new line in the output, and a prefix
+ *   is added only to the first line, so the text `'bob\nerror: forged'`
+ *   in a `warn()` call writes the line `warning: bob`, followed by a
+ *   line that looks like a genuine `error: forged` message;
+ * - control characters, like the ANSI escape sequences, are passed to
+ *   the terminal unchanged;
+ * - if the first argument contains directives (like `%s`, `%d`, or `%j`)
+ *   and there are further arguments, the directives consume them, so
+ *   `log.info(text, secret)` may write the secret; a single argument is
+ *   not processed (`log.info('100%d')` writes `100%d`), but
+ *   `log.info('100%d', 5)` writes `1005`.
+ *
+ * Therefore pass the untrusted text as an argument, never as the first
+ * argument, with a constant format string:
+ *
+ * ```javascript
+ * log.info('user: %s', name)
+ * ```
+ *
+ * This prevents the interpretation of the directives, but `%s` writes a
+ * string as it is, including the newlines and the control characters. To
+ * also escape them, use `%j` (JSON) or `%O` (as `util.inspect()`), which
+ * write the string between quotes, with a newline as `\n` and the
+ * escape character as `\u001b` or `\x1B`:
+ *
+ * ```javascript
+ * log.info('user: %j', name)
+ * ```
+ *
+ * Note that `%j` calls the `toJSON()` method of an object, and that
+ * `%j` and `%O` quote the strings.
+ *
  * If the logging code is more complex than a single line,
  * for example if it needs a long loop,
  * it is recommended to explicitly check the log level and,
