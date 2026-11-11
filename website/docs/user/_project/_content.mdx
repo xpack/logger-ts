@@ -46,6 +46,28 @@ export type LogLevel =
 Internally, string levels are converted to integer values for comparison
 purposes. Higher integer values correspond to greater verbosity.
 
+The valid names, in increasing order of verbosity, are available at run
+time as the frozen array `Logger.levelNames`.
+
+When the level comes from a source that is not checked by the compiler,
+like a command line option or an environment variable, validate it with
+the type guard `Logger.isLogLevel()`, which narrows the type of its
+argument to `LogLevel`. It returns `false` for non-string values, for
+strings with a different case (`'INFO'`), and for the names of inherited
+properties (`'toString'`):
+
+```typescript
+const name = process.env.LOG_LEVEL
+if (Logger.isLogLevel(name)) {
+  log.level = name
+} else {
+  log.error(`Level must be one of: ${Logger.levelNames.join(', ')}`)
+}
+```
+
+Assigning an invalid name to `log.level`, or passing it to the
+constructor, throws an `AssertionError`.
+
 ### Delaying setting the log level
 
 In some cases, the logger needs to be initialized very early in the

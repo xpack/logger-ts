@@ -243,6 +243,63 @@ export class Logger {
    */
   static numericLevelAlways: NumericLogLevel = -1
 
+  /**
+   * The names of the valid log levels, in increasing order of verbosity,
+   * from `silent` to `all`.
+   *
+   * The array is frozen. It is derived from the keys of `numericLevels`,
+   * so that the two cannot drift apart.
+   *
+   * @example
+   * ```javascript
+   * console.log(`Valid levels: ${Logger.levelNames.join(', ')}`)
+   * ```
+   *
+   * @remarks
+   * - added in v7.0.0
+   *
+   * @category Constants
+   */
+  static readonly levelNames: readonly LogLevel[] = Object.freeze(
+    Object.keys(Logger.numericLevels) as LogLevel[]
+  )
+
+  /**
+   * Check if a value is the name of a valid log level.
+   *
+   * It is a type guard, to be used when the level comes from a source that
+   * is not checked by the compiler, like a command line option or an
+   * environment variable. It returns `false` for any value that is not
+   * one of the strings in `levelNames`, including non-string values,
+   * strings with different case, and the names of inherited properties
+   * (like `'toString'`).
+   *
+   * @example
+   * ```javascript
+   * const name = process.env.LOG_LEVEL
+   * if (Logger.isLogLevel(name)) {
+   *   log.level = name
+   * } else {
+   *   log.error(`Level must be one of: ${Logger.levelNames.join(', ')}`)
+   * }
+   * ```
+   *
+   * @remarks
+   * - added in v7.0.0
+   *
+   * @param value - The value to check.
+   *
+   * @returns True if the value is a valid log level name.
+   *
+   * @category Log Level Check Methods
+   */
+  static isLogLevel(value: unknown): value is LogLevel {
+    return (
+      typeof value === 'string' &&
+      Object.prototype.hasOwnProperty.call(Logger.numericLevels, value)
+    )
+  }
+
   // --------------------------------------------------------------------------
   // Properties.
 
@@ -385,6 +442,9 @@ export class Logger {
    * Accessor to set the log level.
    *
    * If the log level is not one of the known strings, an assert will fire.
+   * To validate a level that comes from an unchecked source, like a
+   * command line option, use `Logger.isLogLevel()` first; the valid names
+   * are in `Logger.levelNames`.
    *
    * If this is the first time when the log level is set,
    * flush the internal buffer.
@@ -406,10 +466,7 @@ export class Logger {
    */
   set level(level: LogLevel | undefined) {
     assert(level)
-    assert(
-      Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
-      `Log level '${level}' not supported.`
-    )
+    assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`)
 
     this.levelNumericValue = Logger.numericLevels[level]
     this.levelName = level
@@ -659,10 +716,7 @@ export class Logger {
    */
   isLevel(level: LogLevel): boolean {
     assert(level)
-    assert(
-      Object.prototype.hasOwnProperty.call(Logger.numericLevels, level),
-      `Log level '${level}' not supported.`
-    )
+    assert(Logger.isLogLevel(level), `Log level '${level}' not supported.`)
 
     return this.levelNumericValue >= Logger.numericLevels[level]
   }
