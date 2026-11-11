@@ -60,12 +60,10 @@
     "prettier": "https://www.npmjs.com/package/prettier",
     "typescript": "https://www.npmjs.com/package/typescript"
   },
-  "dependencies": {
-    "@xpack/mock-console": "^1.0.0"
-  },
   "devDependencies": {
     "@types/node": "^26.6.6",
     "@types/tap": "^15.0.12",
+    "@xpack/mock-console": "^1.0.0",
     "del-cli": "^8.0.1",
     "json": "^11.0.0",
     "liquidjs": "^10.30.1",

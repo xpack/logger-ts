@@ -68,7 +68,8 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
     (`numericLevelUndefined` is `Infinity`): messages are stored in an internal
     `buffer` and replayed when the `level` setter is called.
   - The constructor accepts an optional `console`, so tests inject
-    `@xpack/mock-console` (the only runtime dependency) to capture output.
+    `@xpack/mock-console` (a development dependency; the package has no
+    runtime dependencies) to capture output.
 - `maintenance/config/tsconfig-common.json` extends
   `@tsconfig/node22` and is strict (`exactOptionalPropertyTypes`,
   `noUncheckedIndexedAccess`, `noImplicitOverride`, and others).
