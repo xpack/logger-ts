@@ -85,7 +85,7 @@
     "npm-install": "npm install",
     "npm-link": "npm link",
     "npm-link-helpers": "npm link @xpack/npm-packages-helper",
-    "npm-link-deps": "npm link @xpack/logger",
+    "npm-link-dependencies": "npm link @xpack/mock-console",
     "npm-outdated": "npm outdated",
     "npm-update": "npm update",
     "postversion": "git push origin --all && git push origin --tags",
