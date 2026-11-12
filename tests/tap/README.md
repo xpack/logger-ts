@@ -1,74 +1,56 @@
 # tap
 
-This folder defines the unit tests, using `node-tap`
+This folder contains the unit tests of the library, which use
+[`tap`](https://node-tap.org).
 
-The tests are written in TypeScript, and do not need to be compiled
-separately.
-
-## Prerequisites
-
-To install the prerequisites as development dependencies:
-
-```sh
-npm install --save-dep node-tap c8 ts-node typescript
-```
-
-Note: c8 is required since the current `tap` version does not
-support coverage.
+The tests are written in TypeScript and run directly by `tap`, with its
+built-in TypeScript support; they are not compiled separately. They import
+the library from the sources (`src/index.js`), and use
+`@xpack/mock-console` to capture the output of the logger.
 
 ## Configuration
 
-To configure mocha to use the ES modules, add a property to `package.json`:
+The configuration is in `.taprc`, in the root of the project. Its `include`
+option restricts `tap` to the files in `tests/tap/`; without it, `tap`
+would also run the other TypeScript files under `tests/`, such as
+`tests/samples/sample.ts`.
 
-```json
-  "tap": {
-    "check-coverage": false,
-    "coverage": false,
-    "files": [
-      "tests/tap/*.ts"
-    ],
-    "node-arg": [
-      "--loader=ts-node/esm"
-    ],
-    "reporter": "classic",
-    "timeout": 30,
-    "ts": true
-  },
-```
+`tap` does not check the types of the tests by default. The type check is
+done by the `compile-tests` script, with
+`maintenance/config/tsconfig-tests.json`, which is also what ESLint uses
+for the tests. The files in `tests/types/` are fixtures for the type
+checks, compiled by `180-types.ts`; they are not run.
 
-To see the available configuration variables:
+To see the effective configuration of `tap`:
 
 ```sh
-node_modules/.bin/tap --dump-config
+npm run test-tap-config-list
 ```
 
-## Test
+## Test files
 
-Tests can be started using scripts:
+The names of the test files are a number, in steps of 10, followed by
+a short description, like `040-is-level.ts`. The numbers are unique and
+give the order of the files.
 
-```json
-    "pretest-100": "npm run compile",
-    "pretest-100-c8": "npm run compile",
-    "tap": "tap --reporter=spec",
-    "tap-c8": "c8 tap --reporter=spec",
-    "test-tap": "tap",
-    "test-tap-coverage": "tap --coverage",
-    "test-tap-coverage-c8": "c8 -- tap",
-    "test-tap-coverage-100": "tap --coverage --100",
-    "test-tap-coverage-100-c8": "c8 --100 -- tap",
-    "test": "npm run test-tap -s",
-    "test-100": "npm run test-tap-coverage-100 -s",
-    "test-100-c8": "npm run test-tap-coverage-100-c8 -s",
-```
+## Running the tests
 
-## Known issues
+The tests are started with the scripts of `package.json`:
 
-- coverage checks for projects with ES6 modules is not yet supported; use `c8`
-- `ts-node` requires a top `tsconfig.json`, currently there is no
-  configuration to pass a different path
+- `npm test`: compile the sources, type-check the tests, run the lint, and
+  run the tests with the coverage, which must be 100% for statements,
+  branches, functions, and lines;
+- `npm run test-no-coverage`: run the lint and the tests, without the
+  coverage and without compiling;
+- `npm run test-one -- tests/tap/040-is-level.ts`: run one or more
+  given test files, with the TAP reporter;
+- `npm run test-ci`: the tests with a terse reporter, as run by the
+  continuous integration workflow, after compiling, type-checking, and
+  linting (the `pretest-ci` script);
+- `npm run test-all`: all the tests, with the TAP reporter and without the
+  coverage.
 
 ## Links
 
 - <https://node-tap.org>
-- <https://github.com/bcoe/c8>
-- <https://www.npmjs.com/package/ts-node>
+- <https://www.npmjs.com/package/@xpack/mock-console>
