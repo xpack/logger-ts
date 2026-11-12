@@ -466,8 +466,10 @@ for example, `error: TypeError: boom`.
 
 ### Extending the logger
 
-A class can be derived from `Logger`, for example to add a timestamp, to
-redirect the messages, or to count them. The supported extension point is
+A class can be derived from `Logger`, for example to redirect the messages,
+to count them, or to change their format; to add a timestamp, use the
+`timestamp` option of the constructor instead (see
+[Timestamps](#timestamps)). The supported extension point is
 the protected `write()` method: every message that passes the log level
 check is formatted, prefixed, and passed to it, with the numeric level, the
 function that writes the message (on the standard output or on the standard
