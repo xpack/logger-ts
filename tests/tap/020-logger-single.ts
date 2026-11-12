@@ -19,10 +19,6 @@
 
 // ----------------------------------------------------------------------------
 
-import { strict as assert } from 'node:assert'
-
-// ----------------------------------------------------------------------------
-
 // https://www.npmjs.com/package/tap
 import { test } from 'tap'
 
@@ -34,8 +30,6 @@ import { MockConsole } from '@xpack/mock-console'
 // ----------------------------------------------------------------------------
 
 import { Logger } from '../../src/index.js'
-
-assert(Logger)
 
 // ----------------------------------------------------------------------------
 
@@ -71,7 +65,6 @@ await test('logger level all', (t) => {
 
   mockConsole.clear()
   logger.trace('trace')
-  console.log(mockConsole.outLines)
   t.equal(mockConsole.outLines.length, 1, 'stdout has one entry')
   t.equal(mockConsole.outLines[0], 'trace: trace', 'stdout is trace')
   t.equal(mockConsole.errLines.length, 0, 'stderr is empty')
@@ -519,7 +512,6 @@ await test('logger error exception', (t) => {
     level: 'info',
   })
   logger.error(new Error('msg'))
-  // console.log(mockConsole.errLines)
   t.ok(mockConsole.errLines.length > 1, 'stderr has lines')
   if (mockConsole.errLines.length > 1) {
     t.equal(mockConsole.errLines[0], 'Error: msg', 'stderr[0] is msg')
