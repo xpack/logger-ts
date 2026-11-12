@@ -4,6 +4,11 @@
 
 ## Logger.isWarn property
 
+> Warning: This API is now obsolete.
+> 
+> Use `isWarning`<!-- -->, which has the same meaning.
+> 
+
 Accessor to check the log level.
 
 **Signature:**
@@ -16,5 +21,5 @@ get isWarn(): boolean;
 
 Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 
-- changed to an accessor in v3.0.0.
+- changed to an accessor in v3.0.0; - deprecated in v7.0.0, to be removed in the next major version.
 

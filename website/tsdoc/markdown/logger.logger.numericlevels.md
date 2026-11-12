@@ -13,6 +13,7 @@ static readonly numericLevels: Readonly<{
         readonly silent: 0;
         readonly error: 10;
         readonly warn: 20;
+        readonly warning: 20;
         readonly info: 30;
         readonly verbose: 40;
         readonly debug: 50;
@@ -25,7 +26,7 @@ static readonly numericLevels: Readonly<{
 
 It is not an enum, to be able to define it inside the class, not at global level.
 
-The keys are exactly the level names of `LogLevel`<!-- -->; the compiler reports an error if a name is missing or if there is an extra one.
+The keys are exactly the level names of `LogLevel`<!-- -->; the compiler reports an error if a name is missing or if there is an extra one. The name `warning`<!-- -->, the main one since v7.0.0, has the same value as `warn`<!-- -->, which is kept for compatibility.
 
 The object is frozen and its properties are read-only, so no code can change the thresholds of the levels: the compiler rejects an assignment, and at run time an assignment throws a `TypeError`<!-- -->.
 

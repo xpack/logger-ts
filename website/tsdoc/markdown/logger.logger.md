@@ -452,6 +452,27 @@ Accessor to check the log level.
 </td></tr>
 <tr><td>
 
+[isWarning](./logger.logger.iswarning.md)
+
+
+</td><td>
+
+`readonly`
+
+
+</td><td>
+
+boolean
+
+
+</td><td>
+
+Accessor to check the log level, the replacement of `isWarn`<!-- -->.
+
+
+</td></tr>
+<tr><td>
+
 [level](./logger.logger.level.md)
 
 
@@ -571,7 +592,7 @@ The value used for the `always` case (minimum value).
 
 </td><td>
 
-Readonly&lt;{ readonly silent: 0; readonly error: 10; readonly warn: 20; readonly info: 30; readonly verbose: 40; readonly debug: 50; readonly trace: 60; readonly all: 70; }&gt;
+Readonly&lt;{ readonly silent: 0; readonly error: 10; readonly warn: 20; readonly warning: 20; readonly info: 30; readonly verbose: 40; readonly debug: 50; readonly trace: 60; readonly all: 70; }&gt;
 
 
 </td><td>

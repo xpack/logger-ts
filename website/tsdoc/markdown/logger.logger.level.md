@@ -39,4 +39,5 @@ log.level = 'info'
 ```javascript
 console.log(log.level)
 ```
+Since v7.0.0, `warning` is the main name of this level, and `warn` is kept for compatibility, with the same meaning. The getter returns the name that was set, so after `log.level = 'warn'` it returns `'warn'`<!-- -->, not `'warning'`<!-- -->; to test the level regardless of the name, use `isLevel('warning')` or `isWarning`<!-- -->.
 

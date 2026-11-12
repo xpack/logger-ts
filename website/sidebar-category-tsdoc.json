@@ -118,6 +118,12 @@
                 },
                 {
                   "type": "doc",
+                  "label": "isWarning",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/iswarning"
+                },
+                {
+                  "type": "doc",
                   "label": "level",
                   "className": "tsdocEllipsis",
                   "id": "api/logger/classes/logger/level"

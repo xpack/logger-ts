@@ -14,7 +14,7 @@ static readonly levelNames: readonly LogLevel[];
 
 ## Remarks
 
-They are in increasing order of verbosity, from `silent` to `all`<!-- -->.
+They are in increasing order of verbosity, from `silent` to `all`<!-- -->; `warning`<!-- -->, the main name since v7.0.0, follows `warn`<!-- -->, which is kept for compatibility, with the same numeric level.
 
 The array is frozen. It is derived from the keys of `numericLevels`<!-- -->, so that the two cannot drift apart.
 

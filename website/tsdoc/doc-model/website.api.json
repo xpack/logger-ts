@@ -210,7 +210,7 @@
             {
               "kind": "Reference",
               "text": "Console",
-              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+              "canonicalReference": "@types/node!__global.Console:interface"
             },
             {
               "kind": "Content",
@@ -1014,7 +1014,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/logger!Logger#isWarn:member",
-              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `warn` or higher.\n */\n",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0;\n * - deprecated in v7.0.0, to be removed in the next major version.\n *\n * @deprecated\n *\n * Use `isWarning`, which has the same meaning.\n *\n * @returns True if the log level is `warning` (or `warn`) or\n *  higher.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1043,8 +1043,38 @@
             },
             {
               "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isWarning:member",
+              "docComment": "/**\n * Accessor to check the log level, the replacement of `isWarn`.\n *\n * @remarks\n *\n * It has the same meaning as the deprecated `isWarn`, and matches the\n * level name `warning`. Before a level is set (the preliminary state),\n * it returns `true`, so that the messages produced under the check are\n * buffered rather than lost; they are filtered when the level is set. Use\n * `hasLevel` to tell whether a level was set.\n *\n * - added in v7.0.0\n *\n * @returns True if the log level is `warning` (or `warn`) or\n *  higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isWarning(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isWarning",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
               "canonicalReference": "@xpack/logger!Logger#level:member",
-              "docComment": "/**\n * Accessor to get or set the log level.\n *\n * @remarks\n *\n * The getter returns the name of the log level, or `undefined` in the\n * preliminary state (see `hasLevel`).\n *\n * If the log level that is set is not one of the known strings, an error\n * is thrown (a `TypeError` for a value that is not a string, including\n * `undefined`, and a `RangeError` for a string that is not a level\n * name), with a message that lists the valid names. To validate a level\n * that comes from an unchecked source, like a command line option, use\n * `Logger.isLogLevel()` first; the valid names are in\n * `Logger.levelNames`.\n *\n * If this is the first time when the log level is set,\n * flush the internal buffer.\n *\n * The buffer is emptied before the messages are written, so each\n * buffered message is written at most once. If the console throws\n * while the buffer is flushed, the exception is propagated to the\n * caller, the level remains set, and the buffered messages that were\n * not yet written are discarded.\n *\n * The type of the setter is `LogLevel`, while the getter is\n * `LogLevel | undefined`: the level is `undefined` only in the\n * preliminary state, and cannot be set back to `undefined`. This is\n * deliberate, so the lint rule that wants the type of the getter to be\n * assignable to the type of the setter is disabled for this pair.\n *\n * @returns A string with the log level name, or `undefined` in the\n *  preliminary state.\n *\n * @example\n * ```javascript\n * log.level = 'info'\n * ```\n *\n * @example\n * ```javascript\n * console.log(log.level)\n * ```\n *\n * @throws\n *\n * A `TypeError` if the level that is set is not a string.\n *\n * @throws\n *\n * A `RangeError` if the level that is set is not one of the\n *  valid names.\n */\n",
+              "docComment": "/**\n * Accessor to get or set the log level.\n *\n * @remarks\n *\n * The getter returns the name of the log level, or `undefined` in the\n * preliminary state (see `hasLevel`).\n *\n * If the log level that is set is not one of the known strings, an error\n * is thrown (a `TypeError` for a value that is not a string, including\n * `undefined`, and a `RangeError` for a string that is not a level\n * name), with a message that lists the valid names. To validate a level\n * that comes from an unchecked source, like a command line option, use\n * `Logger.isLogLevel()` first; the valid names are in\n * `Logger.levelNames`.\n *\n * If this is the first time when the log level is set,\n * flush the internal buffer.\n *\n * The buffer is emptied before the messages are written, so each\n * buffered message is written at most once. If the console throws\n * while the buffer is flushed, the exception is propagated to the\n * caller, the level remains set, and the buffered messages that were\n * not yet written are discarded.\n *\n * The type of the setter is `LogLevel`, while the getter is\n * `LogLevel | undefined`: the level is `undefined` only in the\n * preliminary state, and cannot be set back to `undefined`. This is\n * deliberate, so the lint rule that wants the type of the getter to be\n * assignable to the type of the setter is disabled for this pair.\n *\n * @returns A string with the log level name, as it was set, or\n *  `undefined` in the preliminary state.\n *\n * @example\n * ```javascript\n * log.level = 'info'\n * ```\n *\n * @example\n * ```javascript\n * console.log(log.level)\n * ```\n *\n * Since v7.0.0, `warning` is the main name of this level, and `warn` is\n * kept for compatibility, with the same meaning. The getter returns the\n * name that was set, so after `log.level = 'warn'` it returns `'warn'`,\n * not `'warning'`; to test the level regardless of the name, use\n * `isLevel('warning')` or `isWarning`.\n *\n * @throws\n *\n * A `TypeError` if the level that is set is not a string.\n *\n * @throws\n *\n * A `RangeError` if the level that is set is not one of the\n *  valid names.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1132,7 +1162,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/logger!Logger.levelNames:member",
-              "docComment": "/**\n * The names of the valid log levels.\n *\n * @remarks\n *\n * They are in increasing order of verbosity, from `silent` to `all`.\n *\n * The array is frozen. It is derived from the keys of `numericLevels`,\n * so that the two cannot drift apart.\n *\n * - added in v7.0.0\n *\n * @example\n * ```javascript\n * console.log(`Valid levels: ${Logger.levelNames.join(', ')}`)\n * ```\n *\n */\n",
+              "docComment": "/**\n * The names of the valid log levels.\n *\n * @remarks\n *\n * They are in increasing order of verbosity, from `silent` to `all`;\n * `warning`, the main name since v7.0.0, follows `warn`, which is kept\n * for compatibility, with the same numeric level.\n *\n * The array is frozen. It is derived from the keys of `numericLevels`,\n * so that the two cannot drift apart.\n *\n * - added in v7.0.0\n *\n * @example\n * ```javascript\n * console.log(`Valid levels: ${Logger.levelNames.join(', ')}`)\n * ```\n *\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1242,7 +1272,7 @@
             {
               "kind": "Property",
               "canonicalReference": "@xpack/logger!Logger.numericLevels:member",
-              "docComment": "/**\n * Internal numerical values for the log level.\n *\n * @remarks\n *\n * It is not an enum, to be able to define it inside the class, not at\n * global level.\n *\n * The keys are exactly the level names of `LogLevel`; the compiler\n * reports an error if a name is missing or if there is an extra one.\n *\n * The object is frozen and its properties are read-only, so no code can\n * change the thresholds of the levels: the compiler rejects an\n * assignment, and at run time an assignment throws a `TypeError`.\n */\n",
+              "docComment": "/**\n * Internal numerical values for the log level.\n *\n * @remarks\n *\n * It is not an enum, to be able to define it inside the class, not at\n * global level.\n *\n * The keys are exactly the level names of `LogLevel`; the compiler\n * reports an error if a name is missing or if there is an extra one.\n * The name `warning`, the main one since v7.0.0, has the same value as\n * `warn`, which is kept for compatibility.\n *\n * The object is frozen and its properties are read-only, so no code can\n * change the thresholds of the levels: the compiler rejects an\n * assignment, and at run time an assignment throws a `TypeError`.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
@@ -1255,7 +1285,7 @@
                 },
                 {
                   "kind": "Content",
-                  "text": "<{\n        readonly silent: 0;\n        readonly error: 10;\n        readonly warn: 20;\n        readonly info: 30;\n        readonly verbose: 40;\n        readonly debug: 50;\n        readonly trace: 60;\n        readonly all: 70;\n    }>"
+                  "text": "<{\n        readonly silent: 0;\n        readonly error: 10;\n        readonly warn: 20;\n        readonly warning: 20;\n        readonly info: 30;\n        readonly verbose: 40;\n        readonly debug: 50;\n        readonly trace: 60;\n        readonly all: 70;\n    }>"
                 },
                 {
                   "kind": "Content",
@@ -1728,7 +1758,7 @@
             {
               "kind": "Reference",
               "text": "Console",
-              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+              "canonicalReference": "@types/node!__global.Console:interface"
             },
             {
               "kind": "Content",
@@ -1737,7 +1767,7 @@
             {
               "kind": "Reference",
               "text": "Console",
-              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+              "canonicalReference": "@types/node!__global.Console:interface"
             },
             {
               "kind": "Content",
@@ -1909,7 +1939,7 @@
             {
               "kind": "Reference",
               "text": "Console",
-              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+              "canonicalReference": "@types/node!__global.Console:interface"
             },
             {
               "kind": "Content",
@@ -1975,7 +2005,7 @@
             {
               "kind": "Reference",
               "text": "Console",
-              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+              "canonicalReference": "@types/node!__global.Console:interface"
             },
             {
               "kind": "Content",
@@ -2092,7 +2122,7 @@
         {
           "kind": "TypeAlias",
           "canonicalReference": "@xpack/logger!LogLevel:type",
-          "docComment": "/**\n * Type of the strings recognised as valid level names.\n *\n * @remarks\n *\n * Internally these strings are converted into numeric values (see\n * `Logger.numericLevels`), and these numbers are used in comparisons.\n *\n * Higher values mean more verbosity.\n */\n",
+          "docComment": "/**\n * Type of the strings recognised as valid level names.\n *\n * @remarks\n *\n * Internally these strings are converted into numeric values (see\n * `Logger.numericLevels`), and these numbers are used in comparisons.\n *\n * Higher values mean more verbosity.\n *\n * Since v7.0.0, `warning` is the main name of this level, and `warn` is\n * kept for compatibility: both have the same numeric level. The `level`\n * getter returns the name that was set, so code that compares the level\n * name must test both, or use `Logger.isLevel()`.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
@@ -2100,7 +2130,7 @@
             },
             {
               "kind": "Content",
-              "text": "'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'"
+              "text": "'silent' | 'error' | 'warn' | 'warning' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'"
             },
             {
               "kind": "Content",
