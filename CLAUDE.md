@@ -15,12 +15,12 @@ by `src/index.ts`.
 
 - `npm run compile`: build `src` to `dist/` (`tsc --project tsconfig.json`);
   `compile-watch` for watch mode.
-- `npm run lint`: ESLint on `src`, with
+- `npm run lint`: ESLint on `src` and `tests`, with
   `maintenance/config/eslint.config.js` (`@eslint/js` recommended,
   `typescript-eslint` `strictTypeChecked` and `stylisticTypeChecked`, and
   `eslint-config-prettier`). Line length is limited to 80 characters
   (`max-len`, a warning).
-- `npm run fix`: ESLint with `--fix` on `src`.
+- `npm run fix`: ESLint with `--fix` on `src` and `tests`.
 - `npm run prettier`: format `src` and `tests` with Prettier, using
   `maintenance/config/.prettierrc.json` (no semicolons, single quotes,
   `es5` trailing commas, 80 columns) and `maintenance/config/.prettierignore`.
