@@ -54,6 +54,13 @@ export type LoggerConsole = Pick<Console, 'log' | 'error'>
 // Internal definitions.
 
 /**
+ * The kind of a message, which is the word of its prefix: `error`,
+ * `warning`, `debug`, or `trace`, or the empty string for the methods that
+ * have no prefix. It is internal, and is not exported.
+ */
+type MessageKind = '' | 'error' | 'warning' | 'debug' | 'trace'
+
+/**
  * Format a date as the local time, with milliseconds, like
  * `2026-11-11 23:32:31.358`.
  *
@@ -1203,7 +1210,7 @@ export class Logger<C extends LoggerConsole = Console> {
   private emit(
     numericLevel: NumericLogLevel,
     stream: 'log' | 'error',
-    kind: string,
+    kind: MessageKind,
     omitPrefix: boolean,
     message: unknown,
     args: unknown[]
