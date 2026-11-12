@@ -113,6 +113,8 @@ report are relative to the repository root.
 | `design-review`     | `maintenance/docs/DESIGN-REVIEW-<n>.md`      |
 | `code-review`       | `maintenance/docs/CODE-REVIEW-<n>.md`        |
 | `consistency-check` | `maintenance/docs/CONSISTENCY-CHECK.md`      |
+| `website-review`    | `maintenance/docs/WEBSITE-REVIEW-<n>.md`     |
+| `website-api-review` | `maintenance/docs/WEBSITE-API-REVIEW-<n>.md` |
 
 `<n>` is one more than the highest number among the existing files of
 the same kind (list the file names only; `1` if there are none). Never
