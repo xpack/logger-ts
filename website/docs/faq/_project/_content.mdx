@@ -1,8 +1,191 @@
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Why does nothing appear when I create a logger without a level?</summary>
+
+A logger created without a `level` is in a **preliminary state**: the
+messages are formatted and stored in an internal buffer, and they are
+written only when the level is set, for example `log.level = 'info'`.
+If the level is never set, for example because the application fails
+before it determines it, the buffered messages are never written, not
+even the ones of `always()` and `error()`.
+
+Set the level on every path, and use `hasLevel` to check whether it was
+set; see [Delaying setting the log level](/docs/user/#delaying-setting-the-log-level).
+</details>
 
 {/* ------------------------------------------------------------------------ */}
 
 <details>
-<summary>Warum?</summary>
+<summary>How do I validate a level that comes from the command line or from an environment variable?</summary>
 
-Darum!
+Use the type guard `Logger.isLogLevel()`, and list the valid names with
+`Logger.levelNames`:
+
+```javascript
+const name = process.env.LOG_LEVEL
+if (Logger.isLogLevel(name)) {
+  log.level = name
+} else {
+  log.error(`Level must be one of: ${Logger.levelNames.join(', ')}`)
+}
+```
+
+Without the check, the `level` setter throws a `TypeError` for a value that
+is not a string, and a `RangeError` for a string that is not a level name;
+the message of the error lists the valid names.
 </details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>What is the difference between always(), output(), and info()?</summary>
+
+All three write on the standard output, without a prefix; they differ by
+the level from which they are written:
+
+- `always()` is written at every level, including `silent`, and is meant
+  for the messages that must always be shown, like the version or the
+  result requested by the user;
+- `output()` is the normal output of an application; it is written from
+  the `error` level, so it is suppressed at `silent`, like all the other
+  messages;
+- `info()` is for informative messages, written from the `info` level.
+
+The table of the logging methods is in the
+[User's Guide](/docs/user/#logging-methods).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Why does log.info() write an empty line, and not undefined?</summary>
+
+This is deliberate. If the message is omitted or `undefined`, it is replaced
+by an empty string, so `log.info()` writes an empty line, and the methods
+with a prefix write only the prefix (for example `debug: `). Other values
+are written as they are, and an `undefined` that is not the first argument
+is written as usual, so `log.info('value:', undefined)` writes
+`value: undefined`.
+
+To write the text `undefined`, convert it explicitly, for example
+`log.info(String(value))`. See [Empty messages](/docs/user/#empty-messages).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>How do I log an error, with the stack trace or only with its message?</summary>
+
+Pass the error object to show all the details, including the stack trace
+and the `cause` chain:
+
+```javascript
+log.error(err)
+```
+
+To show a single line, pass only its message:
+
+```javascript
+log.error(err instanceof Error ? err.message : String(err))
+```
+
+A common pattern is to show the message at the `error` level, and the full
+details only when the level is `debug` or higher, with `log.debug(err)`.
+Only `error()` omits its prefix when the first argument is an `Error`, since
+the first line of the expanded error already starts with its name.
+See [Logging errors](/docs/user/#logging-errors).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Can I use the package from a CommonJS application?</summary>
+
+Yes, with Node.js 22.12 or later, the minimum version supported by the
+package. The package is an ES module only, but these versions load ES
+modules with `require()`:
+
+```javascript
+const { Logger } = require('@xpack/logger')
+```
+
+The asynchronous alternative, `await import('@xpack/logger')` inside an
+`async` function, also works.
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>How do I capture the messages in tests?</summary>
+
+Pass a mock console to the constructor, for example the `MockConsole` of
+the `@xpack/mock-console` package, and read the captured lines from the
+`console` accessor, which has the type of the mock:
+
+```typescript
+import { MockConsole } from '@xpack/mock-console'
+
+const mock = new MockConsole()
+const log = new Logger({ console: mock, level: 'info' })
+
+log.info('hello')
+console.log(log.console.outLines)
+```
+
+In TypeScript, the `console` option is required for a `Logger<MockConsole>`,
+and the compiler rejects the constructor call without it. See
+[The console](/docs/user/#the-console).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>How do I add a timestamp to the messages?</summary>
+
+Create the logger with the `timestamp` option:
+
+```javascript
+const log = new Logger({ level: 'info', timestamp: true })
+```
+
+The messages of `error()`, `warn()`, `debug()`, and `trace()` then start
+with the local time, with milliseconds, and the prefix is replaced by the
+kind in square brackets, like
+`2026-11-11 23:32:31.358 [warning] the file is missing`. The option cannot
+be changed after the logger is created. See
+[Timestamps](/docs/user/#timestamps).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Is it safe to log text that comes from outside the application?</summary>
+
+Not without care: the messages are written as they are, so a newline in the
+text can forge an additional message, control characters are passed to the
+terminal, and a first argument with format directives (like `%s`) consumes
+the further arguments.
+
+Pass the untrusted text as an argument, with a constant format string, and
+use `%j` to also escape the newlines and the control characters:
+
+```javascript
+log.info('user: %j', name)
+```
+
+See [Logging untrusted input](/docs/user/#logging-untrusted-input).
+</details>
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Why is there no critical level?</summary>
+
+The levels are `silent`, `error`, `warn`, `info`, `verbose`, `debug`,
+`trace`, and `all`. There is no `critical` level, corresponding to the
+errors that prevent the program from running, since these are actually
+related to bugs; use `assert()` instead.
+</details>
+
+{/* ------------------------------------------------------------------------ */}
