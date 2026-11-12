@@ -29,6 +29,7 @@ import * as util from 'node:util'
 /**
  * Type of the strings recognised as valid level names.
  *
+ * @remarks
  * Internally these strings are converted into numeric values (see
  * `Logger.numericLevels`), and these numbers are used in comparisons.
  *
@@ -40,6 +41,7 @@ export type LogLevel =
 /**
  * Type of the console objects accepted by the logger.
  *
+ * @remarks
  * The logger uses only the `log()` function, for the standard output, and
  * the `error()` function, for the standard error, so any object that has
  * them can be used, not only a Node.js `Console`: a mock console, a custom
@@ -54,15 +56,19 @@ export type LoggerConsole = Pick<Console, 'log' | 'error'>
 // Internal definitions.
 
 /**
- * The kind of a message, which is the word of its prefix: `error`,
- * `warning`, `debug`, or `trace`, or the empty string for the methods that
- * have no prefix. It is internal, and is not exported.
+ * The kind of a message, which is the word of its prefix.
+ *
+ * @remarks
+ * It is `error`, `warning`, `debug`, or `trace`, or the empty string for the
+ * methods that have no prefix. It is internal, and is not exported.
  */
 type MessageKind = '' | 'error' | 'warning' | 'debug' | 'trace'
 
 /**
- * Format a date as the local time, with milliseconds, like
- * `2026-11-11 23:32:31.358`.
+ * Format a date as the local time, with milliseconds.
+ *
+ * @remarks
+ * For example `2026-11-11 23:32:31.358`.
  *
  * @param date - The date to format.
  *
@@ -84,6 +90,7 @@ function formatLocalTime(date: Date): string {
 /**
  * Type of the numeric log level.
  *
+ * @remarks
  * The numeric log level is used in log level comparisons; its values are
  * in `Logger.numericLevels`. It is the type of the first argument of the
  * `write()` method, which subclasses may override.
@@ -91,17 +98,19 @@ function formatLocalTime(date: Date): string {
 export type NumericLogLevel = number
 
 /**
- * Type of the function that writes a message, passed to the `write()`
- * method, which subclasses may override: it writes the message on the
- * console, on the standard output or on the standard error.
+ * Type of the function that writes a message.
+ *
+ * @remarks
+ * It is passed to the `write()` method, which subclasses may override: it
+ * writes the message on the console, on the standard output or on the standard
+ * error.
  */
 export type LoggerFunction = (message: string) => void
 
 /**
- * @internal
- *
  * Type of a record stored in the internal buffer.
  *
+ * @remarks
  * The buffer is private; this type is exported only because of the
  * deprecated protected `buffer` member, and will not be exported in the
  * next major version.
@@ -129,36 +138,47 @@ export interface LoggerBufferRecord {
  */
 export interface LoggerParams<C extends LoggerConsole = Console> {
   /**
-   * The name of the log level; if not passed, or `undefined`, the logger
-   * is created in a preliminary state, and all messages will be stored
-   * in an internal buffer, until the log level is set. Optional.
+   * The name of the log level.
+   *
+   * @remarks
+   * If not passed, or `undefined`, the logger is created in a preliminary
+   * state, and all messages will be stored in an internal buffer, until the log
+   * level is set. Optional.
    */
   level?: LogLevel | undefined
   /**
-   * The underlying console object used to log the message; any object
-   * with the `log()` and `error()` functions (see `LoggerConsole`).
-   * Optional if the JavaScript standard `console` object is of type `C`
-   * (the default `Console`, or a minimal `{ log, error }` type); if not
-   * passed, or `undefined`, that object is used. Otherwise, for example
-   * for `Logger<MockConsole>`, it is required.
+   * The underlying console object used to log the message.
+   *
+   * @remarks
+   * Any object with the `log()` and `error()` functions (see `LoggerConsole`).
+   * Optional if the JavaScript standard `console` object is of type `C` (the
+   * default `Console`, or a minimal `{ log, error }` type); if not passed, or
+   * `undefined`, that object is used. Otherwise, for example for
+   * `Logger<MockConsole>`, it is required.
    */
   console?: C | undefined
   /**
-   * If true, the messages of the logging methods that have a prefix
-   * (`error()`, `warn()`, `debug()`, and `trace()`) start with a
-   * timestamp, in the local time, with milliseconds, and the prefix is
-   * replaced by the kind in square brackets, for example
-   * `2026-11-11 23:32:31.358 [warning] message`. Optional, the default
-   * is false. It cannot be changed after the logger is created.
+   * Whether the diagnostic messages start with a timestamp.
+   *
+   * @remarks
+   * If true, the messages of the logging methods that have a prefix (`error()`,
+   * `warn()`, `debug()`, and `trace()`) start with a timestamp, in the local
+   * time, with milliseconds, and the prefix is replaced by the kind in square
+   * brackets, for example `2026-11-11 23:32:31.358 [warning] message`.
+   * Optional, the default is false. It cannot be changed after the logger is
+   * created.
    */
   timestamp?: boolean | undefined
 }
 
 /**
- * The arguments of the `Logger` constructor: the options are optional, and
- * so is the console, if the JavaScript standard `console` object is of type
- * `C`; otherwise the console is required, since the logger would use an
- * object that is not of the type that the `console` accessor promises.
+ * The arguments of the `Logger` constructor.
+ *
+ * @remarks
+ * The options are optional, and so is the console, if the JavaScript standard
+ * `console` object is of type `C`; otherwise the console is required, since the
+ * logger would use an object that is not of the type that the `console`
+ * accessor promises.
  *
  * @typeParam C - The type of the console object.
  */
@@ -170,8 +190,9 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
 // ============================================================================
 
 /**
- * The **Logger** class implements the logger functionality.
+ * The `Logger` class implements the logger functionality.
  *
+ * @remarks
  * The logger is constructed on top of a console object, where the
  * messages are logged. The class has a type parameter, the type of the
  * console, so that the `console` accessor returns the object that was
@@ -436,8 +457,10 @@ export class Logger<C extends LoggerConsole = Console> {
   // Static Properties.
 
   /**
-   * The recommended log level, `info`, for the applications that need a
-   * level when none was chosen.
+   * The recommended log level, `info`.
+   *
+   * @remarks
+   * It is meant for the applications that need a level when none was chosen.
    *
    * The library never applies it: a logger created without a level stays
    * in the preliminary state, until the level is set, so the application
@@ -447,36 +470,34 @@ export class Logger<C extends LoggerConsole = Console> {
    * It is read-only: the compiler rejects an assignment, and at run time
    * the class is frozen, so an assignment throws a `TypeError`.
    *
-   * @remarks
    * - added in v7.0.0, as the new name of `defaultLevel`
-   *
-   * @category Constants
    */
   static readonly recommendedLevel: LogLevel = 'info'
 
   /**
    * The previous name of `recommendedLevel`, with the same value.
    *
+   * @remarks
    * The name suggested that a logger created without a level gets this
    * level, which the library never did.
    *
-   * @remarks
+   * In the initializer, `this` is the class: the name `Logger` cannot be
+   * used in a static initializer, since the emitted code assigns the class
+   * alias after the class definition.
+   *
    * - deprecated in v7.0.0, to be removed in the next major version
    *
    * @deprecated Use `Logger.recommendedLevel`; it will be removed in the
    *   next major version.
-   *
-   * @category Constants
    */
-  // `this` is the class: the name `Logger` cannot be used in a static
-  // initializer, since the emitted code assigns the class alias after the
-  // class definition.
   static readonly defaultLevel: LogLevel = this.recommendedLevel
 
-  // Not an enum, to be able to define it inside the class,
-  // not at global level.
   /**
    * Internal numerical values for the log level.
+   *
+   * @remarks
+   * It is not an enum, to be able to define it inside the class, not at
+   * global level.
    *
    * The keys are exactly the level names of `LogLevel`; the compiler
    * reports an error if a name is missing or if there is an extra one.
@@ -484,8 +505,6 @@ export class Logger<C extends LoggerConsole = Console> {
    * The object is frozen and its properties are read-only, so no code can
    * change the thresholds of the levels: the compiler rejects an
    * assignment, and at run time an assignment throws a `TypeError`.
-   *
-   * @category Constants
    */
   static readonly numericLevels = Object.freeze({
     silent: 0,
@@ -499,40 +518,38 @@ export class Logger<C extends LoggerConsole = Console> {
   } as const satisfies Record<LogLevel, number>)
 
   /**
-   * The numeric level of the preliminary state, when no log level was set
-   * (maximum value).
+   * The numeric level of the preliminary state.
+   *
+   * @remarks
+   * It is the maximum value, used when no log level was set.
    *
    * It is read-only, like `recommendedLevel`.
-   *
-   * @category Constants
    */
   static readonly numericLevelUndefined: NumericLogLevel = Infinity
 
   /**
    * The value used for the `always` case (minimum value).
    *
+   * @remarks
    * It is read-only, like `recommendedLevel`.
-   *
-   * @category Constants
    */
   static readonly numericLevelAlways: NumericLogLevel = -1
 
   /**
-   * The names of the valid log levels, in increasing order of verbosity,
-   * from `silent` to `all`.
+   * The names of the valid log levels.
+   *
+   * @remarks
+   * They are in increasing order of verbosity, from `silent` to `all`.
    *
    * The array is frozen. It is derived from the keys of `numericLevels`,
    * so that the two cannot drift apart.
+   *
+   * - added in v7.0.0
    *
    * @example
    * ```javascript
    * console.log(`Valid levels: ${Logger.levelNames.join(', ')}`)
    * ```
-   *
-   * @remarks
-   * - added in v7.0.0
-   *
-   * @category Constants
    */
   static readonly levelNames: readonly LogLevel[] = Object.freeze(
     Object.keys(this.numericLevels) as LogLevel[]
@@ -541,12 +558,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Check if a value is the name of a valid log level.
    *
+   * @remarks
    * It is a type guard, to be used when the level comes from a source that
    * is not checked by the compiler, like a command line option or an
    * environment variable. It returns `false` for any value that is not
    * one of the strings in `levelNames`, including non-string values,
    * strings with different case, and the names of inherited properties
    * (like `'toString'`).
+   *
+   * - added in v7.0.0
    *
    * @example
    * ```javascript
@@ -558,14 +578,9 @@ export class Logger<C extends LoggerConsole = Console> {
    * }
    * ```
    *
-   * @remarks
-   * - added in v7.0.0
-   *
    * @param value - The value to check.
    *
    * @returns True if the value is a valid log level name.
-   *
-   * @category Log Level Check Methods
    */
   static isLogLevel(value: unknown): value is LogLevel {
     return (
@@ -574,8 +589,10 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * Check that a value is the name of a valid log level, and throw an
-   * error that tells the caller what to do if it is not.
+   * Check that a value is the name of a valid log level.
+   *
+   * @remarks
+   * It throws an error that tells the caller what to do if it is not.
    *
    * The value is shown in the message as `util.inspect()` writes it, so
    * that the newlines and the control characters of an untrusted value
@@ -588,8 +605,6 @@ export class Logger<C extends LoggerConsole = Console> {
    * @throws A `RangeError` if the value is a string that is not one of
    *   `Logger.levelNames` (including the empty string and a name with a
    *   different case).
-   *
-   * @category Internal Members
    */
   private static assertLogLevel(value: unknown): asserts value is LogLevel {
     if (typeof value !== 'string') {
@@ -612,10 +627,12 @@ export class Logger<C extends LoggerConsole = Console> {
 
   /**
    * The console object used to output the log messages.
+   *
+   * @remarks
+   * The global console is used only when no console is passed, and then `C`
+   * is the default type, `Console`, so the cast is sound, unless the type
+   * argument is given explicitly without passing a console.
    */
-  // The global console is used only when no console is passed, and then
-  // `C` is the default type, `Console`, so the cast is sound, unless the
-  // type argument is given explicitly without passing a console.
   readonly #console: C = console as unknown as C
 
   /** The numerical value of the log level. */
@@ -628,7 +645,10 @@ export class Logger<C extends LoggerConsole = Console> {
   readonly #timestamp: boolean
 
   /**
-   * Empty buffer where the messages of the preliminary state are stored
+   * The internal buffer of the preliminary state.
+   *
+   * @remarks
+   * It is empty at first, and stores the messages of the preliminary state
    * until the log level is set.
    */
   #buffer: LoggerBufferRecord[] = []
@@ -649,8 +669,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @deprecated The state of the logger will be private in the next major
    *   version; use the `console` accessor.
-   *
-   * @category Deprecated Members
    */
   protected get _console(): C {
     return this.#console
@@ -659,18 +677,16 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The numerical value of the log level.
    *
+   * @remarks
    * It is `Logger.numericLevelUndefined` in the preliminary state.
    *
    * Writing it changes the level checks, but not the `level` accessor, so
    * the two can disagree; set the `level` accessor instead.
    *
-   * @remarks
    * - deprecated in v7.0.0, to be removed in the next major version
    *
    * @deprecated The state of the logger will be private in the next major
    *   version; use the `level`, `hasLevel`, and `isLevel()` members.
-   *
-   * @category Deprecated Members
    */
   protected get levelNumericValue(): NumericLogLevel {
     return this.#numericLevel
@@ -683,16 +699,14 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The name of the log level.
    *
+   * @remarks
    * Writing it changes the `level` accessor, but not the level checks, so
    * the two can disagree; set the `level` accessor instead.
    *
-   * @remarks
    * - deprecated in v7.0.0, to be removed in the next major version
    *
    * @deprecated The state of the logger will be private in the next major
    *   version; use the `level` accessor.
-   *
-   * @category Deprecated Members
    */
   protected get levelName(): LogLevel | undefined {
     return this.#levelName
@@ -703,16 +717,15 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * The buffer where the messages of the preliminary state are stored
-   * until the log level is set.
+   * The buffer of the messages of the preliminary state.
    *
    * @remarks
+   * The messages are stored in it until the log level is set.
+   *
    * - deprecated in v7.0.0, to be removed in the next major version
    *
    * @deprecated The state of the logger will be private in the next major
    *   version; the buffer has no replacement.
-   *
-   * @category Deprecated Members
    */
   protected get buffer(): LoggerBufferRecord[] {
     return this.#buffer
@@ -728,6 +741,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Create a **Logger** instance.
    *
+   * @remarks
    * The typical use case is to create a logger with a given log level,
    * usually `info`.
    *
@@ -766,6 +780,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * ```javascript
    * const log = new Logger()
    * ```
+   *
    * @param args - The optional options object (see `LoggerParams`), which
    *   is required if the `console` of the type `C` is required (see
    *   `LoggerArguments`).
@@ -813,9 +828,13 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check if the log level was set.
    *
+   * @remarks
    * If the logger was created without an explicit log level, the
    * logger is in a preliminary state and all messages will be stored
    * in an internal buffer until the log level is set.
+   *
+   * - changed to an accessor in v5.0.0
+   * - added as a method in v2.1.0
    *
    * @example
    * ```javascript
@@ -824,23 +843,21 @@ export class Logger<C extends LoggerConsole = Console> {
    * }
    * ```
    *
-   * @remarks
-   * - changed to an accessor in v5.0.0
-   * - added as a method in v2.1.0
-   *
    * @returns True if the level was set.
-   *
-   * @category Log Level Accessors
    */
   get hasLevel(): boolean {
     return this.#numericLevel !== Logger.numericLevelUndefined
   }
 
   /**
-   * Accessor to set the log level.
+   * Accessor to get or set the log level.
    *
-   * If the log level is not one of the known strings, an error is thrown
-   * (a `TypeError` for a value that is not a string, including
+   * @remarks
+   * The getter returns the name of the log level, or `undefined` in the
+   * preliminary state (see `hasLevel`).
+   *
+   * If the log level that is set is not one of the known strings, an error
+   * is thrown (a `TypeError` for a value that is not a string, including
    * `undefined`, and a `RangeError` for a string that is not a level
    * name), with a message that lists the valid names. To validate a level
    * that comes from an unchecked source, like a command line option, use
@@ -856,22 +873,34 @@ export class Logger<C extends LoggerConsole = Console> {
    * caller, the level remains set, and the buffered messages that were
    * not yet written are discarded.
    *
+   * The type of the setter is `LogLevel`, while the getter is
+   * `LogLevel | undefined`: the level is `undefined` only in the
+   * preliminary state, and cannot be set back to `undefined`. This is
+   * deliberate, so the lint rule that wants the type of the getter to be
+   * assignable to the type of the setter is disabled for this pair.
+   *
    * @example
    * ```javascript
    * log.level = 'info'
    * ```
    *
-   * The type of the setter is `LogLevel`, while the getter is
-   * `LogLevel | undefined`: the level is `undefined` only in the
-   * preliminary state, and cannot be set back to `undefined`.
+   * @example
+   * ```javascript
+   * console.log(log.level)
+   * ```
    *
-   * @param level - A string with the new log level.
+   * @returns A string with the log level name, or `undefined` in the
+   *   preliminary state.
    *
-   * @throws A `TypeError` if the level is not a string.
-   * @throws A `RangeError` if the level is not one of the valid names.
-   *
-   * @category Log Level Accessors
+   * @throws A `TypeError` if the level that is set is not a string.
+   * @throws A `RangeError` if the level that is set is not one of the
+   *   valid names.
    */
+  // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
+  get level(): LogLevel | undefined {
+    return this.#levelName
+  }
+
   set level(level: LogLevel) {
     Logger.assertLogLevel(level)
 
@@ -894,34 +923,17 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * Accessor to get the log level.
-   *
-   * @example
-   * ```javascript
-   * console.log(log.level)
-   * ```
-   *
-   * @returns A string with the log level name.
-   *
-   * @category Log Level Accessors
-   */
-  // The getter returns `undefined` in the preliminary state, but the setter
-  // does not accept `undefined`, which is rejected at run time: this is
-  // deliberate, so the rule that wants the getter type to be assignable to
-  // the setter type is disabled for this pair.
-  // eslint-disable-next-line @typescript-eslint/related-getter-setter-pairs
-  get level(): LogLevel | undefined {
-    return this.#levelName
-  }
-
-  /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Since `silent` is the lowest level, this accessor is always `true`,
    * for every level that was set, and also before a level is set (the
    * preliminary state). It cannot tell whether the logger is silent.
    *
    * To check for the `silent` level, compare the `level` accessor.
+   *
+   * - changed to an accessor in v3.0.0;
+   * - deprecated in v7.0.0, to be removed in the next major version.
    *
    * @example
    * ```javascript
@@ -932,13 +944,7 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @returns Always `true`.
    *
-   * @remarks
-   * - changed to an accessor in v3.0.0;
-   * - deprecated in v7.0.0, to be removed in the next major version.
-   *
    * @deprecated Always `true`, use `log.level === 'silent'` instead.
-   *
-   * @category Log Level Check Accessors
    */
   get isSilent(): boolean {
     return this.#numericLevel >= Logger.numericLevels.silent
@@ -947,17 +953,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `error` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `error` or higher.
    */
   get isError(): boolean {
     return this.#numericLevel >= Logger.numericLevels.error
@@ -966,17 +970,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `warn` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `warn` or higher.
    */
   get isWarn(): boolean {
     return this.#numericLevel >= Logger.numericLevels.warn
@@ -985,17 +987,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `info` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `info` or higher.
    */
   get isInfo(): boolean {
     return this.#numericLevel >= Logger.numericLevels.info
@@ -1004,17 +1004,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `verbose` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `verbose` or higher.
    */
   get isVerbose(): boolean {
     return this.#numericLevel >= Logger.numericLevels.verbose
@@ -1023,17 +1021,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `debug` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `debug` or higher.
    */
   get isDebug(): boolean {
     return this.#numericLevel >= Logger.numericLevels.debug
@@ -1042,17 +1038,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `trace` or higher.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `trace` or higher.
    */
   get isTrace(): boolean {
     return this.#numericLevel >= Logger.numericLevels.trace
@@ -1061,17 +1055,15 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check the log level.
    *
+   * @remarks
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
-   * @returns True if the log level is `all`.
-   *
-   * @remarks
    * - changed to an accessor in v3.0.0.
    *
-   * @category Log Level Check Accessors
+   * @returns True if the log level is `all`.
    */
   get isAll(): boolean {
     return this.#numericLevel >= Logger.numericLevels.all
@@ -1082,6 +1074,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to get the underlying `console` object.
    *
+   * @remarks
    * Direct access to the console object is useful in tests, when
    * the console is a mock object, which allows the logged messages to be
    * checked. The type of the result is the type of the console that was
@@ -1089,8 +1082,6 @@ export class Logger<C extends LoggerConsole = Console> {
    * members of a mock object can be used without a cast.
    *
    * @returns The console object used by the logger.
-   *
-   * @category Configuration Accessors
    */
   get console(): C {
     return this.#console
@@ -1099,16 +1090,14 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Accessor to check if the diagnostic messages start with a timestamp.
    *
+   * @remarks
    * It is the value of the `timestamp` option of the constructor, and it
    * cannot be changed after the logger is created.
    *
-   * @remarks
    * - added in v7.0.0
    *
    * @returns True if the messages of `error()`, `warn()`, `debug()`, and
    *   `trace()` start with a timestamp.
-   *
-   * @category Configuration Accessors
    */
   get timestamp(): boolean {
     return this.#timestamp
@@ -1120,6 +1109,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Check if the log level is set to a given level name, or higher.
    *
+   * @remarks
    * This is a more generic version of the accessors (like `isDebug`),
    * to be used when the log level is not known at compile time.
    *
@@ -1132,14 +1122,14 @@ export class Logger<C extends LoggerConsole = Console> {
    * Since in the preliminary state there is no level to compare with,
    * check `hasLevel` first:
    *
+   * - added in v6.0.0
+   *
    * @example
    * ```javascript
    * if (!log.hasLevel || !log.isLevel(newLevel)) {
    *   log.level = newLevel
    * }
    * ```
-   * @remarks
-   * - added in v6.0.0
    *
    * @param level - The name of the log level.
    *
@@ -1148,8 +1138,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * @throws A `TypeError` if the level is not a string.
    * @throws A `RangeError` if the level is not one of the valid names.
-   *
-   * @category Log Level Check Methods
    */
   isLevel(level: LogLevel): boolean {
     Logger.assertLogLevel(level)
@@ -1160,6 +1148,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The internal log writer, which subclasses may override.
    *
+   * @remarks
    * It is the supported extension point of the class: every message that
    * passes the level check is formatted, prefixed, and passed here, so an
    * override can inspect, change, redirect, or drop it, and call
@@ -1188,8 +1177,6 @@ export class Logger<C extends LoggerConsole = Console> {
    * @param loggerFunction - The function to be used to write
    * the message.
    * @param message - The log message.
-   *
-   * @category Extension Points
    */
   protected write(
     numericLevel: NumericLogLevel,
@@ -1217,6 +1204,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * The common implementation of the logging methods.
    *
+   * @remarks
    * If the current log level is lower than the numeric level of the
    * method, nothing is done, and the message is not formatted. Otherwise
    * the message is formatted with `util.format()`, prefixed, and passed
@@ -1242,8 +1230,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   timestamp mode, which is always written.
    * @param message - The message, as accepted by `util.format()`.
    * @param args - The optional variable arguments.
-   *
-   * @category Internal Members
    */
   private emit(
     numericLevel: NumericLogLevel,
@@ -1285,8 +1271,10 @@ export class Logger<C extends LoggerConsole = Console> {
   // --------------------------------------------------------------------------
 
   /**
-   * Always log a message, regardless of the log level (even `silent`,
-   * when no other messages are logged).
+   * Always log a message, regardless of the log level.
+   *
+   * @remarks
+   * The message is logged even at `silent`, when no other messages are logged.
    *
    * It is the only method that is written at `silent`, and it has no
    * prefix. Use it for the messages that must be shown at every log
@@ -1314,8 +1302,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   always(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevelAlways, 'log', '', false, message, args)
@@ -1324,6 +1310,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log an error message, if the log level is `error` or higher.
    *
+   * @remarks
    * The message is prefixed with `error: ` and
    * passed via `console.error()`. If the logger was created with the
    * `timestamp` option, it starts with a timestamp, and the prefix is
@@ -1365,8 +1352,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   error(message: unknown = '', ...args: unknown[]): void {
     this.emit(
@@ -1385,9 +1370,9 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * Log a message on the standard output, if the log level is `error` or
-   * higher.
+   * Log a message on the standard output from the `error` level.
    *
+   * @remarks
    * It is meant for the normal output of an application, that is
    * suppressed at `silent`, like all the other messages except
    * `always()`. It differs from `error()` by **not** prefixing the string
@@ -1420,8 +1405,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   output(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.error, 'log', '', false, message, args)
@@ -1430,6 +1413,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log a warning message, if the log level is `warn` or higher.
    *
+   * @remarks
    * The message is prefixed with `warning: ` and
    * passed via `console.error()`. If the logger was created with the
    * `timestamp` option, it starts with a timestamp, and the prefix is
@@ -1451,8 +1435,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   warn(message: unknown = '', ...args: unknown[]): void {
     this.emit(
@@ -1468,6 +1450,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log an informative message, if the log level is `info` or higher.
    *
+   * @remarks
    * The message is passed via `console.log()`. An `Error` object is
    * expanded with the full stack trace and the `cause` chain, on several
    * lines, without a prefix (see **Logging errors** in the description of
@@ -1482,8 +1465,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   info(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.info, 'log', '', false, message, args)
@@ -1492,6 +1473,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log a verbose message, if the log level is `verbose` or higher.
    *
+   * @remarks
    * The message is passed via `console.log()`. An `Error` object is
    * expanded with the full stack trace and the `cause` chain, on several
    * lines, without a prefix (see **Logging errors** in the description of
@@ -1506,8 +1488,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   verbose(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.verbose, 'log', '', false, message, args)
@@ -1516,6 +1496,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log a debug message, if the log level is `debug` or higher.
    *
+   * @remarks
    * The message is prefixed with `debug: ` and
    * passed via `console.log()`. If the logger was created with the
    * `timestamp` option, it starts with a timestamp, and the prefix is
@@ -1534,8 +1515,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   debug(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.debug, 'log', 'debug', false, message, args)
@@ -1544,6 +1523,7 @@ export class Logger<C extends LoggerConsole = Console> {
   /**
    * Log a trace message, if the log level is `trace` or higher.
    *
+   * @remarks
    * The message is prefixed with `trace: ` and
    * passed via `console.log()`. If the logger was created with the
    * `timestamp` option, it starts with a timestamp, and the prefix is
@@ -1562,8 +1542,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *   omitted or `undefined`, it is replaced by an empty string (see
    *   **Empty messages** in the description of the class).
    * @param args - Optional variable arguments.
-   *
-   * @category Logging Methods
    */
   trace(message: unknown = '', ...args: unknown[]): void {
     this.emit(Logger.numericLevels.trace, 'log', 'trace', false, message, args)

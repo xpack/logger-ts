@@ -87,6 +87,9 @@ export class Logger {
     get hasLevel() {
         return this.#numericLevel !== _a.numericLevelUndefined;
     }
+    get level() {
+        return this.#levelName;
+    }
     set level(level) {
         _a.assertLogLevel(level);
         this.#numericLevel = _a.numericLevels[level];
@@ -100,9 +103,6 @@ export class Logger {
                 }
             });
         }
-    }
-    get level() {
-        return this.#levelName;
     }
     get isSilent() {
         return this.#numericLevel >= _a.numericLevels.silent;

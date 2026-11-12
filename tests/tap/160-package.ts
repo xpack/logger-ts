@@ -224,32 +224,56 @@ await test('the type parameter tag does not take the class text', (t) => {
   t.end()
 })
 
-await test('every public member of the class has a category', (t) => {
-  const node = documentedMembers().get('Logger')
-  t.ok(node, 'Logger is declared')
-  if (node === undefined || !ts.isClassDeclaration(node)) {
-    t.end()
-    return
-  }
+await test('every comment has a one line brief and the remarks', (t) => {
+  // The brief description is the first line of a comment, shown in the lists
+  // of the generated reference. It is the only text before the first block
+  // tag; the full description follows the `@remarks` tag, which must be the
+  // first block tag. All the comments of the source are checked.
+  const path = `${packageFolder}src/lib/logger.ts`
+  const source = ts.createSourceFile(
+    path,
+    readFileSync(path, 'utf8'),
+    ts.ScriptTarget.ES2022,
+    true
+  )
 
-  // The generated reference groups the members by `@category`; a member
-  // without it lands in the group `Other`.
-  for (const member of node.members) {
-    if (
-      ts.isConstructorDeclaration(member) ||
-      ts.isSetAccessorDeclaration(member) ||
-      member.name === undefined ||
-      // The `#private` marker of the declaration.
-      ts.isPrivateIdentifier(member.name) ||
-      ts.getCombinedModifierFlags(member) & ts.ModifierFlags.Private
-    ) {
-      continue
+  const comments = new Set<ts.JSDoc>()
+  const visit = (node: ts.Node): void => {
+    for (const comment of ts.getJSDocCommentsAndTags(node)) {
+      if (ts.isJSDoc(comment)) {
+        comments.add(comment)
+      }
     }
-    const name = member.name.getText()
-    t.ok(
-      ts.getJSDocTags(member).some((tag) => tag.tagName.text === 'category'),
-      `${name} has a category`
+    ts.forEachChild(node, visit)
+  }
+  visit(source)
+
+  t.ok(
+    comments.size > 40,
+    `many comments are checked (${String(comments.size)})`
+  )
+  for (const comment of comments) {
+    const { line } = source.getLineAndCharacterOfPosition(comment.getStart())
+    const where = `the comment at line ${String(line + 1)}`
+
+    const brief = ts.getTextOfJSDocComment(comment.comment) ?? ''
+    t.ok(brief.length > 0, `${where} has a brief description`)
+    t.notMatch(brief, /\n/, `${where} has a one line brief description`)
+
+    const tags = comment.tags ?? []
+    // `@category` is a typedoc tag, not supported by api-extractor, which
+    // generates the API reference.
+    t.notOk(
+      tags.some((tag) => tag.tagName.text === 'category'),
+      `${where} does not use @category`
     )
+    if (tags.some((tag) => tag.tagName.text === 'remarks')) {
+      t.equal(
+        tags[0]?.tagName.text,
+        'remarks',
+        `${where} has the remarks right after the brief description`
+      )
+    }
   }
 
   t.end()

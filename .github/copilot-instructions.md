@@ -35,6 +35,12 @@
 
 - Add comprehensive documentation comments accepted by TSDoc
 - Document all classes, methods, properties, parameters, and return types.
+- Start each TSDoc comment with a brief description on a single line, which
+  is the only text before the first block tag. Put the full description after
+  `@remarks`, which must be the first block tag, directly after the brief
+  description, before `@example`, `@param`, `@returns`, `@throws`, and
+  `@deprecated`. Do not use `@category`: it is a typedoc tag, and the API
+  reference is generated with api-extractor, which does not support it.
 
 ## Folder Structure
 

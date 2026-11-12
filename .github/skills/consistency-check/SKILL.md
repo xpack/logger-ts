@@ -90,8 +90,8 @@ exists, the command or script exists, the version is still used).
   that match `engines` and the scripts.
 - **Website:** the version, the install instructions, the examples, the
   API names, and the links in `website/docs/` and `website/src/` match
-  `package.json` and the code; `typedoc-sidebar.json` matches the
-  exported API.
+  `package.json` and the code; `website/sidebar-category-tsdoc.json`
+  matches the exported API.
 
 ### 2. Documentation
 
@@ -106,7 +106,11 @@ Stale or incorrect content in:
   `update-changelog` script and its documentation);
 - `package.json` metadata (`description`, `repository`, `bugs`,
   `homepage`, `keywords`, `author`);
-- the TSDoc comments and the examples in them.
+- the TSDoc comments and the examples in them, including their structure:
+  a single line brief description, the only text before the first block
+  tag, and the full description after `@remarks`, which is the first block
+  tag, and no `@category` tag (see "Documentation (TSDoc)" in the
+  `code-review` skill).
 
 Look for: commands, scripts, and files that do not exist (for example
 a configuration path named in the instructions that is not in the

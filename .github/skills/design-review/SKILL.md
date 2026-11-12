@@ -175,7 +175,9 @@ The findings of the newcomer exercise, and:
 - whether the level can be read and set conveniently, and whether the
   errors for an invalid level tell the caller what to do;
 - the documentation in the TSDoc comments: accuracy, examples that
-  work, and completeness for the generated reference;
+  work, completeness for the generated reference, and the structure of
+  the comments (a single line brief description, then the full
+  description after `@remarks`; see the `code-review` skill);
 - the use of the library from both module systems and from TypeScript.
 
 ### 3. Structure and layering
