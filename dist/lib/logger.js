@@ -107,26 +107,47 @@ export class Logger {
     get isSilent() {
         return this.#numericLevel >= _a.numericLevels.silent;
     }
-    get isError() {
+    get isErrorEnabled() {
         return this.#numericLevel >= _a.numericLevels.error;
     }
-    get isWarn() {
+    get isWarnEnabled() {
         return this.#numericLevel >= _a.numericLevels.warn;
     }
-    get isInfo() {
+    get isInfoEnabled() {
         return this.#numericLevel >= _a.numericLevels.info;
     }
-    get isVerbose() {
+    get isVerboseEnabled() {
         return this.#numericLevel >= _a.numericLevels.verbose;
     }
-    get isDebug() {
+    get isDebugEnabled() {
         return this.#numericLevel >= _a.numericLevels.debug;
     }
-    get isTrace() {
+    get isTraceEnabled() {
         return this.#numericLevel >= _a.numericLevels.trace;
     }
-    get isAll() {
+    get isAllEnabled() {
         return this.#numericLevel >= _a.numericLevels.all;
+    }
+    get isError() {
+        return this.isErrorEnabled;
+    }
+    get isWarn() {
+        return this.isWarnEnabled;
+    }
+    get isInfo() {
+        return this.isInfoEnabled;
+    }
+    get isVerbose() {
+        return this.isVerboseEnabled;
+    }
+    get isDebug() {
+        return this.isDebugEnabled;
+    }
+    get isTrace() {
+        return this.isTraceEnabled;
+    }
+    get isAll() {
+        return this.isAllEnabled;
     }
     get console() {
         return this.#console;

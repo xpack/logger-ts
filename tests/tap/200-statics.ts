@@ -165,7 +165,7 @@ await test('the behaviour is not affected by the attempts', (t) => {
   logger.debug('suppressed')
   logger.info('info')
   t.same(mockConsole.outLines, ['info'], 'debug is still suppressed at info')
-  t.notOk(logger.isDebug, 'isDebug is false')
+  t.notOk(logger.isDebugEnabled, 'isDebugEnabled is false')
 
   const preliminary = new Logger({ console: mockConsole })
   t.notOk(preliminary.hasLevel, 'a logger without a level is still unset')

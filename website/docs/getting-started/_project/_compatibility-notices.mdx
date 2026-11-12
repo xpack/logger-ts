@@ -19,6 +19,23 @@ your tests counted the lines captured by a mock console, or compared them
 with the lines of the previous versions, remove this line from the expected
 results.
 
+The accessors that check the log level have new names, `isErrorEnabled`,
+`isWarnEnabled`, `isInfoEnabled`, `isVerboseEnabled`, `isDebugEnabled`,
+`isTraceEnabled`, and `isAllEnabled`, which say that they tell whether the
+messages of a level are output, not whether the level is equal to it. The
+previous names, `isError`, `isWarn`, `isInfo`, `isVerbose`, `isDebug`,
+`isTrace`, and `isAll`, are **deprecated** (this is not a breaking
+change): they still work, with the same behaviour, and will be removed in
+the next major version.
+
+If used, replace them:
+
+```javascript
+if (log.isDebugEnabled) {
+  // ...
+}
+```
+
 The `package.json` file is now exported, so tools can read it through the
 package name (`@xpack/logger/package.json`); this is not a breaking change.
 

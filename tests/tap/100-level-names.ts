@@ -36,9 +36,9 @@ await test('the warn level has the prefix warning', (t) => {
   const logger = new Logger({ console: mockConsole, level: 'warn' })
   t.equal(logger.level, 'warn', 'level is the name set')
 
-  t.ok(logger.isError, 'isError at warn')
-  t.ok(logger.isWarn, 'isWarn at warn')
-  t.notOk(logger.isInfo, 'not isInfo at warn')
+  t.ok(logger.isErrorEnabled, 'isErrorEnabled at warn')
+  t.ok(logger.isWarnEnabled, 'isWarnEnabled at warn')
+  t.notOk(logger.isInfoEnabled, 'not isInfoEnabled at warn')
   t.ok(logger.isLevel('warn'), "isLevel('warn') at warn")
   t.notOk(logger.isLevel('info'), "not isLevel('info') at warn")
 

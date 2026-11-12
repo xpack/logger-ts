@@ -35,7 +35,7 @@ import { Logger, type LogLevel } from '../../src/index.js'
 // The example of the description of the class: check the level before
 // a long loop.
 function logFolders(log: Logger, folders: Record<string, string>): void {
-  if (log.isTrace) {
+  if (log.isTraceEnabled) {
     for (const [folderName, folder] of Object.entries(folders)) {
       log.trace(`'${folderName}' ${folder}`)
     }
@@ -56,13 +56,13 @@ await test('class example: the guard matches the logged level', (t) => {
   )
 
   // At `debug` the guard is false, so the loop is skipped; with the
-  // `isVerbose` guard the loop would run, only to have every message
+  // `isVerboseEnabled` guard the loop would run, only to have every message
   // discarded by `trace()`.
   const debugConsole = new MockConsole()
   const debugLogger = new Logger({ console: debugConsole, level: 'debug' })
   debugConsole.clear()
   logFolders(debugLogger, folders)
-  t.equal(debugLogger.isTrace, false, 'the guard is false at debug')
+  t.equal(debugLogger.isTraceEnabled, false, 'the guard is false at debug')
   t.equal(debugConsole.outLines.length, 0, 'nothing is written at debug')
 
   t.end()

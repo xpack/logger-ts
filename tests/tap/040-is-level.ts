@@ -11,7 +11,7 @@
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
 /* eslint-disable @typescript-eslint/no-deprecated --
-   the test checks the deprecated isSilent */
+   the test checks the deprecated isSilent and the old names */
 
 // ----------------------------------------------------------------------------
 
@@ -43,13 +43,13 @@ await test('logger level all', (t) => {
 
   mockConsole.clear()
 
-  t.ok(logger.isAll, 'is All')
-  t.ok(logger.isTrace, 'is Trace')
-  t.ok(logger.isDebug, 'is Debug')
-  t.ok(logger.isVerbose, 'is Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isError, 'is Error')
-  t.ok(logger.isWarn, 'is Warn')
+  t.ok(logger.isAllEnabled, 'is All')
+  t.ok(logger.isTraceEnabled, 'is Trace')
+  t.ok(logger.isDebugEnabled, 'is Debug')
+  t.ok(logger.isVerboseEnabled, 'is Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isErrorEnabled, 'is Error')
+  t.ok(logger.isWarnEnabled, 'is Warn')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -65,13 +65,13 @@ await test('logger level trace', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.ok(logger.isTrace, 'is Trace')
-  t.ok(logger.isDebug, 'is Debug')
-  t.ok(logger.isVerbose, 'is Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isError, 'is Error')
-  t.ok(logger.isWarn, 'is Warn')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.ok(logger.isTraceEnabled, 'is Trace')
+  t.ok(logger.isDebugEnabled, 'is Debug')
+  t.ok(logger.isVerboseEnabled, 'is Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isErrorEnabled, 'is Error')
+  t.ok(logger.isWarnEnabled, 'is Warn')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -87,13 +87,13 @@ await test('logger level debug', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.ok(logger.isDebug, 'is Debug')
-  t.ok(logger.isVerbose, 'is Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isError, 'is Error')
-  t.ok(logger.isWarn, 'is Warn')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.ok(logger.isDebugEnabled, 'is Debug')
+  t.ok(logger.isVerboseEnabled, 'is Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isErrorEnabled, 'is Error')
+  t.ok(logger.isWarnEnabled, 'is Warn')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -109,13 +109,13 @@ await test('logger level verbose', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.notOk(logger.isDebug, 'is not Debug')
-  t.ok(logger.isVerbose, 'is Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isError, 'is Error')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.notOk(logger.isDebugEnabled, 'is not Debug')
+  t.ok(logger.isVerboseEnabled, 'is Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isWarnEnabled, 'is Warn')
+  t.ok(logger.isErrorEnabled, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -131,13 +131,13 @@ await test('logger level info', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.notOk(logger.isDebug, 'is not Debug')
-  t.notOk(logger.isVerbose, 'is not Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isError, 'is Error')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.notOk(logger.isDebugEnabled, 'is not Debug')
+  t.notOk(logger.isVerboseEnabled, 'is not Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isWarnEnabled, 'is Warn')
+  t.ok(logger.isErrorEnabled, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -153,13 +153,13 @@ await test('logger level warn', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.notOk(logger.isDebug, 'is not Debug')
-  t.notOk(logger.isVerbose, 'is not Verbose')
-  t.notOk(logger.isInfo, 'is not Info')
-  t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isError, 'is Error')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.notOk(logger.isDebugEnabled, 'is not Debug')
+  t.notOk(logger.isVerboseEnabled, 'is not Verbose')
+  t.notOk(logger.isInfoEnabled, 'is not Info')
+  t.ok(logger.isWarnEnabled, 'is Warn')
+  t.ok(logger.isErrorEnabled, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -175,13 +175,13 @@ await test('logger level error', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.notOk(logger.isDebug, 'is not Debug')
-  t.notOk(logger.isVerbose, 'is not Verbose')
-  t.notOk(logger.isInfo, 'is not Info')
-  t.notOk(logger.isWarn, 'is not Warn')
-  t.ok(logger.isError, 'is Error')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.notOk(logger.isDebugEnabled, 'is not Debug')
+  t.notOk(logger.isVerboseEnabled, 'is not Verbose')
+  t.notOk(logger.isInfoEnabled, 'is not Info')
+  t.notOk(logger.isWarnEnabled, 'is not Warn')
+  t.ok(logger.isErrorEnabled, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -197,13 +197,13 @@ await test('logger level silent', (t) => {
 
   mockConsole.clear()
 
-  t.notOk(logger.isAll, 'is not All')
-  t.notOk(logger.isTrace, 'is not Trace')
-  t.notOk(logger.isDebug, 'is not Debug')
-  t.notOk(logger.isVerbose, 'is not Verbose')
-  t.notOk(logger.isInfo, 'is not Info')
-  t.notOk(logger.isWarn, 'is not Warn')
-  t.notOk(logger.isError, 'is not Error')
+  t.notOk(logger.isAllEnabled, 'is not All')
+  t.notOk(logger.isTraceEnabled, 'is not Trace')
+  t.notOk(logger.isDebugEnabled, 'is not Debug')
+  t.notOk(logger.isVerboseEnabled, 'is not Verbose')
+  t.notOk(logger.isInfoEnabled, 'is not Info')
+  t.notOk(logger.isWarnEnabled, 'is not Warn')
+  t.notOk(logger.isErrorEnabled, 'is not Error')
   t.ok(logger.isSilent, 'is Silent')
 
   t.end()
@@ -239,13 +239,13 @@ await test('logger preliminary state checks', (t) => {
   t.notOk(logger.hasLevel, 'has no level')
 
   // All checks are true until the level is set.
-  t.ok(logger.isAll, 'is All')
-  t.ok(logger.isTrace, 'is Trace')
-  t.ok(logger.isDebug, 'is Debug')
-  t.ok(logger.isVerbose, 'is Verbose')
-  t.ok(logger.isInfo, 'is Info')
-  t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isError, 'is Error')
+  t.ok(logger.isAllEnabled, 'is All')
+  t.ok(logger.isTraceEnabled, 'is Trace')
+  t.ok(logger.isDebugEnabled, 'is Debug')
+  t.ok(logger.isVerboseEnabled, 'is Verbose')
+  t.ok(logger.isInfoEnabled, 'is Info')
+  t.ok(logger.isWarnEnabled, 'is Warn')
+  t.ok(logger.isErrorEnabled, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
   for (const level of Object.keys(Logger.numericLevels) as LogLevel[]) {
@@ -261,7 +261,7 @@ await test('logger preliminary state guarded message kept', (t) => {
     console: mockConsole,
   })
 
-  if (logger.isDebug) {
+  if (logger.isDebugEnabled) {
     logger.debug('guarded')
   }
   t.equal(mockConsole.outLines.length, 0, 'stdout is empty')
@@ -279,7 +279,7 @@ await test('logger preliminary state guarded message filtered', (t) => {
     console: mockConsole,
   })
 
-  if (logger.isDebug) {
+  if (logger.isDebugEnabled) {
     logger.debug('guarded')
   }
 
@@ -346,6 +346,30 @@ await test('logger isLevel not decreased', (t) => {
   })
   raiseLevel(lower, 'trace')
   t.equal(lower.level, 'trace', 'lower level raised')
+
+  t.end()
+})
+
+// ----------------------------------------------------------------------------
+
+await test('the deprecated names are the same as the new ones', (t) => {
+  const levels: LogLevel[] = [...Logger.levelNames]
+  for (const name of [undefined, ...levels]) {
+    const logger = new Logger(
+      name === undefined
+        ? { console: new MockConsole() }
+        : { console: new MockConsole(), level: name }
+    )
+    const label = name ?? 'the preliminary state'
+
+    t.equal(logger.isError, logger.isErrorEnabled, `isError at ${label}`)
+    t.equal(logger.isWarn, logger.isWarnEnabled, `isWarn at ${label}`)
+    t.equal(logger.isInfo, logger.isInfoEnabled, `isInfo at ${label}`)
+    t.equal(logger.isVerbose, logger.isVerboseEnabled, `isVerbose at ${label}`)
+    t.equal(logger.isDebug, logger.isDebugEnabled, `isDebug at ${label}`)
+    t.equal(logger.isTrace, logger.isTraceEnabled, `isTrace at ${label}`)
+    t.equal(logger.isAll, logger.isAllEnabled, `isAll at ${label}`)
+  }
 
   t.end()
 })

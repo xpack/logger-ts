@@ -44,9 +44,10 @@ The `Logger` class is a levelled console logger.
   `Logger.numericLevelAlways` (-1), so it is always output; `error()` and
   `warn()` write to the standard error, the others to the standard output.
   The table of the logging methods is in the TSDoc of `Logger`.
-- The `isLevel()` method and the `isError`, `isWarn`, ..., `isAll`
-  getters test the current level; `hasLevel` tells whether a level was
-  set. The `isSilent` getter is deprecated, since it is always true.
+- The `isLevel()` method and the `isErrorEnabled`, `isWarnEnabled`, ...,
+  `isAllEnabled` getters test the current level; `hasLevel` tells whether
+  a level was set. The previous names of the getters (`isError`, `isWarn`,
+  ..., `isAll`) are deprecated, and so is `isSilent`, which is always true.
 - The constructor accepts an optional object with the `level`, the
   `console`, and the `timestamp` option (see `LoggerParams`). The
   `console` option lets tests inject `@xpack/mock-console` to capture the

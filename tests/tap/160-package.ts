@@ -286,6 +286,13 @@ await test('the declarations keep the deprecations', (t) => {
   for (const name of [
     'defaultLevel',
     'isSilent',
+    'isError',
+    'isWarn',
+    'isInfo',
+    'isVerbose',
+    'isDebug',
+    'isTrace',
+    'isAll',
     '_console',
     'levelNumericValue',
     'levelName',
@@ -303,6 +310,11 @@ await test('the declarations keep the deprecations', (t) => {
     recommended && !ts.getJSDocDeprecatedTag(recommended),
     'recommendedLevel is not deprecated'
   )
+
+  for (const name of ['isErrorEnabled', 'isWarnEnabled', 'isAllEnabled']) {
+    const node = members.get(name)
+    t.ok(node && !ts.getJSDocDeprecatedTag(node), `${name} is not deprecated`)
+  }
 
   t.end()
 })

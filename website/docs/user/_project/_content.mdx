@@ -234,7 +234,7 @@ buffer, until the log level is set:
 - since the message is formatted when it is logged, a later change of an
   argument does not alter the buffered message.
 
-The checks of the log level (`isDebug`, `isLevel()`, and the others) are
+The checks of the log level (`isDebugEnabled`, `isLevel()`, and the others) are
 `true` in the preliminary state, so the preparation of a message guarded by
 them is done there too.
 
@@ -518,7 +518,7 @@ is low and the message is not needed.
 Instead, the log level can be checked explicitly:
 
 ```typescript
-if (log.isDebug) {
+if (log.isDebugEnabled) {
   const message = invoke_long_method()
   log.debug(message)
 }
@@ -529,7 +529,7 @@ When the log level is not known at compile time, use the generic
 is equal to the given level or higher.
 
 Before a log level is set (the preliminary state), all checks
-(`isDebug`, `isLevel()`, and the others) return `true`. This way, the
+(`isDebugEnabled`, `isLevel()`, and the others) return `true`. This way, the
 messages produced under the check are stored in the internal buffer
 rather than lost, and are filtered when the log level is set. Use
 `hasLevel` to tell whether a log level was set.

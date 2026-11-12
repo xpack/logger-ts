@@ -451,7 +451,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * if not high enough, skip the code entirely.
  *
  * ```javascript
- *   if (log.isTrace) {
+ *   if (log.isTraceEnabled) {
  *     for (const [folderName, folder] of Object.entries(folders)) {
  *       log.trace(`'${folderName}' ${folder.toolchainOptions}`)
  *     }
@@ -1036,136 +1036,297 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `error` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isError</code></li>
    * </ul>
    *
    * @returns True if the log level is `error` or higher.
    */
-  get isError(): boolean {
+  get isErrorEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.error
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `warn` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isWarn</code></li>
    * </ul>
    *
    * @returns True if the log level is `warn` or higher.
    */
-  get isWarn(): boolean {
+  get isWarnEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.warn
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `info` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isInfo</code></li>
    * </ul>
    *
    * @returns True if the log level is `info` or higher.
    */
-  get isInfo(): boolean {
+  get isInfoEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.info
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `verbose` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isVerbose</code></li>
    * </ul>
    *
    * @returns True if the log level is `verbose` or higher.
    */
-  get isVerbose(): boolean {
+  get isVerboseEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.verbose
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `debug` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isDebug</code></li>
    * </ul>
    *
    * @returns True if the log level is `debug` or higher.
    */
-  get isDebug(): boolean {
+  get isDebugEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.debug
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if the `trace` messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isTrace</code></li>
    * </ul>
    *
    * @returns True if the log level is `trace` or higher.
    */
-  get isTrace(): boolean {
+  get isTraceEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.trace
   }
 
   /**
-   * Accessor to check the log level.
+   * Accessor to check if all the messages are output.
    *
    * @remarks
+   * Use it to skip an expensive preparation of the message when the
+   * message would not be output.
+   *
    * Before a level is set (the preliminary state), it returns `true`,
    * so that the messages produced under the check are buffered rather
    * than lost; they are filtered when the level is set. Use `hasLevel`
    * to tell whether a level was set.
    *
    * <ul>
-   * <li>changed to an accessor in v3.0.0</li>
+   * <li>added in v7.0.0, as the new name of <code>isAll</code></li>
    * </ul>
    *
    * @returns True if the log level is `all`.
    */
-  get isAll(): boolean {
+  get isAllEnabled(): boolean {
     return this.#numericLevel >= Logger.numericLevels.all
+  }
+
+  /**
+   * The previous name of `isErrorEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isErrorEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isErrorEnabled`.
+   *
+   * @deprecated Use `isErrorEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isError(): boolean {
+    return this.isErrorEnabled
+  }
+
+  /**
+   * The previous name of `isWarnEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isWarnEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isWarnEnabled`.
+   *
+   * @deprecated Use `isWarnEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isWarn(): boolean {
+    return this.isWarnEnabled
+  }
+
+  /**
+   * The previous name of `isInfoEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isInfoEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isInfoEnabled`.
+   *
+   * @deprecated Use `isInfoEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isInfo(): boolean {
+    return this.isInfoEnabled
+  }
+
+  /**
+   * The previous name of `isVerboseEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isVerboseEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isVerboseEnabled`.
+   *
+   * @deprecated Use `isVerboseEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isVerbose(): boolean {
+    return this.isVerboseEnabled
+  }
+
+  /**
+   * The previous name of `isDebugEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isDebugEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isDebugEnabled`.
+   *
+   * @deprecated Use `isDebugEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isDebug(): boolean {
+    return this.isDebugEnabled
+  }
+
+  /**
+   * The previous name of `isTraceEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isTraceEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isTraceEnabled`.
+   *
+   * @deprecated Use `isTraceEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isTrace(): boolean {
+    return this.isTraceEnabled
+  }
+
+  /**
+   * The previous name of `isAllEnabled`.
+   *
+   * @remarks
+   * It has the same meaning as `isAllEnabled`.
+   *
+   * <ul>
+   * <li>changed to an accessor in v3.0.0</li>
+   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
+   * </ul>
+   *
+   * @returns The same value as `isAllEnabled`.
+   *
+   * @deprecated Use `isAllEnabled`; it will be removed in the next major
+   *   version.
+   */
+  get isAll(): boolean {
+    return this.isAllEnabled
   }
 
   // --------------------------------------------------------------------------
@@ -1211,7 +1372,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * Check if the log level is set to a given level name, or higher.
    *
    * @remarks
-   * This is a more generic version of the accessors (like `isDebug`),
+   * This is a more generic version of the accessors (like `isDebugEnabled`),
    * to be used when the log level is not known at compile time.
    *
    * Before a level is set (the preliminary state), it returns `true` for

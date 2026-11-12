@@ -106,7 +106,7 @@ await test('deprecated levelNumericValue', (t) => {
   // The previous behaviour: writing it changes the level checks, without
   // changing the level name.
   probe.probeNumericLevel = Logger.numericLevels.debug
-  t.ok(probe.isDebug, 'the checks use the new value')
+  t.ok(probe.isDebugEnabled, 'the checks use the new value')
   t.equal(probe.level, 'info', 'the name is unchanged')
 
   t.end()
@@ -122,7 +122,7 @@ await test('deprecated levelName', (t) => {
   // The previous behaviour: writing it changes the name, not the checks.
   probe.probeLevelName = 'trace'
   t.equal(probe.level, 'trace', 'the name is changed')
-  t.notOk(probe.isTrace, 'the checks are unchanged')
+  t.notOk(probe.isTraceEnabled, 'the checks are unchanged')
 
   t.end()
 })
