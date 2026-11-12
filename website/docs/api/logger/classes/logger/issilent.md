@@ -16,10 +16,10 @@ custom_edit_url: null
 
 > Warning: This API is now obsolete.
 >
-> Always `true`<!-- -->, use `log.level === 'silent'` instead.
+> Always `true`<!-- -->, use `log.level === 'silent'` instead; it  will be removed in the next major version.
 >
 
-Accessor to check the log level.
+Deprecated accessor to check the `silent` level, always `true`<!-- -->.
 
 ## Signature
 
@@ -33,7 +33,7 @@ Since `silent` is the lowest level, this accessor is always `true`<!-- -->, for 
 
 To check for the `silent` level, compare the `level` accessor.
 
-<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0</li> </ul>
 
 ## Example
 

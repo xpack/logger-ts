@@ -24,7 +24,7 @@ timestamp?: boolean | undefined;
 
 ## Remarks
 
-If true, the messages of the logging methods that have a prefix (`error()`<!-- -->, `warn()`<!-- -->, `debug()`<!-- -->, and `trace()`<!-- -->) start with a timestamp, in the local time, with milliseconds, and the prefix is replaced by the kind in square brackets, for example `2026-11-11 23:32:31.358 [warning] message`<!-- -->. Optional, the default is false. It cannot be changed after the logger is created.
+If true, the messages of the logging methods that have a prefix (`error()`<!-- -->, `warn()`<!-- -->, `debug()`<!-- -->, and `trace()`<!-- -->) start with a timestamp, in the local time, with milliseconds, and the prefix is replaced by the kind in square brackets, for example `2026-11-11 23:32:31.358 [warning] message`<!-- -->. The default is false. It cannot be changed after the logger is created.
 
 <hr/>
 

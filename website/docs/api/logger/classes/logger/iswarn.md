@@ -16,10 +16,10 @@ custom_edit_url: null
 
 > Warning: This API is now obsolete.
 >
-> Use `isWarning`<!-- -->, which has the same meaning.
+> Use `isWarnEnabled`<!-- -->; it will be removed in the next major  version.
 >
 
-Accessor to check the log level.
+Deprecated alias of `isWarnEnabled`<!-- -->.
 
 ## Signature
 
@@ -29,9 +29,9 @@ get isWarn(): boolean;
 
 ## Remarks
 
-Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
+It has the same meaning as `isWarnEnabled`<!-- -->.
 
-<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0</li> </ul>
 
 <hr/>
 

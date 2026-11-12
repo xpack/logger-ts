@@ -14,5 +14,5 @@ level?: LogLevel | undefined;
 
 ## Remarks
 
-If not passed, or `undefined`<!-- -->, the logger is created in a preliminary state, and all messages will be stored in an internal buffer, until the log level is set. Optional.
+If not passed, or `undefined`<!-- -->, the logger is created in a preliminary state, and all messages will be stored in an internal buffer, until the log level is set.
 

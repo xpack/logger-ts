@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-The numeric level of `warn`<!-- -->, the same as that of `warning`<!-- -->.
+The numeric level of `warn`<!-- -->.
 
 ## Signature
 

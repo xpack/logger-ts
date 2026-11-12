@@ -42,7 +42,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()` (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -58,7 +58,7 @@ unknown\[\]
 
 </td><td>
 
-Optional variable arguments.
+The variable arguments.
 
 
 </td></tr>
@@ -76,7 +76,7 @@ It is the only method that is written at `silent`<!-- -->, and it has no prefix.
 
 Before a log level is set (the preliminary state), the message is stored in the internal buffer, like all the others, and is written when the level is set; if the level is never set, it is never written.
 
-The message is passed via `console.log()`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, without a prefix (see <b>Logging errors</b> in the description of the class).
+The message is passed via `console.log()`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, without a prefix (see the description of `error()`<!-- -->).
 
 ## Example
 

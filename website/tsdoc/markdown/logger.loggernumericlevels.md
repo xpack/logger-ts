@@ -204,28 +204,7 @@ The numeric level of `verbose`<!-- -->.
 
 </td><td>
 
-The numeric level of `warn`<!-- -->, the same as that of `warning`<!-- -->.
-
-
-</td></tr>
-<tr><td>
-
-[warning](./logger.loggernumericlevels.warning.md)
-
-
-</td><td>
-
-`readonly`
-
-
-</td><td>
-
-20
-
-
-</td><td>
-
-The numeric level of `warning`<!-- -->, the same as that of `warn`<!-- -->.
+The numeric level of `warn`<!-- -->.
 
 
 </td></tr>

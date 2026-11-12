@@ -24,6 +24,8 @@ Description
 
 </td><td>
 
+A levelled console logger for Node.js applications and libraries.
+
 
 </td></tr>
 </tbody></table>

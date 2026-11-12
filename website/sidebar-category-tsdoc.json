@@ -76,9 +76,21 @@
                 },
                 {
                   "type": "doc",
+                  "label": "isAllEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isallenabled"
+                },
+                {
+                  "type": "doc",
                   "label": "isDebug",
                   "className": "tsdocEllipsis",
                   "id": "api/logger/classes/logger/isdebug"
+                },
+                {
+                  "type": "doc",
+                  "label": "isDebugEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isdebugenabled"
                 },
                 {
                   "type": "doc",
@@ -88,9 +100,21 @@
                 },
                 {
                   "type": "doc",
+                  "label": "isErrorEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/iserrorenabled"
+                },
+                {
+                  "type": "doc",
                   "label": "isInfo",
                   "className": "tsdocEllipsis",
                   "id": "api/logger/classes/logger/isinfo"
+                },
+                {
+                  "type": "doc",
+                  "label": "isInfoEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isinfoenabled"
                 },
                 {
                   "type": "doc",
@@ -106,9 +130,21 @@
                 },
                 {
                   "type": "doc",
+                  "label": "isTraceEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/istraceenabled"
+                },
+                {
+                  "type": "doc",
                   "label": "isVerbose",
                   "className": "tsdocEllipsis",
                   "id": "api/logger/classes/logger/isverbose"
+                },
+                {
+                  "type": "doc",
+                  "label": "isVerboseEnabled",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isverboseenabled"
                 },
                 {
                   "type": "doc",
@@ -118,9 +154,9 @@
                 },
                 {
                   "type": "doc",
-                  "label": "isWarning",
+                  "label": "isWarnEnabled",
                   "className": "tsdocEllipsis",
-                  "id": "api/logger/classes/logger/iswarning"
+                  "id": "api/logger/classes/logger/iswarnenabled"
                 },
                 {
                   "type": "doc",
@@ -416,12 +452,6 @@
                   "label": "warn",
                   "className": "tsdocEllipsis",
                   "id": "api/logger/interfaces/loggernumericlevels/warn"
-                },
-                {
-                  "type": "doc",
-                  "label": "warning",
-                  "className": "tsdocEllipsis",
-                  "id": "api/logger/interfaces/loggernumericlevels/warning"
                 }
               ]
             },

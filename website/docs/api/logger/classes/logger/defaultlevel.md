@@ -19,7 +19,7 @@ custom_edit_url: null
 > Use `Logger.recommendedLevel`<!-- -->; it will be removed in the  next major version.
 >
 
-The previous name of `recommendedLevel`<!-- -->, with the same value.
+Deprecated previous name of `recommendedLevel`<!-- -->, with the same value.
 
 ## Signature
 
@@ -31,9 +31,7 @@ static readonly defaultLevel: LogLevel;
 
 The name suggested that a logger created without a level gets this level, which the library never did.
 
-In the initializer, `this` is the class: the name `Logger` cannot be used in a static initializer, since the emitted code assigns the class alias after the class definition.
-
-<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>deprecated in v7.0.0</li> </ul>
 
 <hr/>
 

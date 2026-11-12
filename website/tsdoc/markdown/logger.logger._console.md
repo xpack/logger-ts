@@ -9,7 +9,7 @@
 > The state of the logger will be private in the next major  version; use the `console` accessor.
 > 
 
-The console object used to output the log messages.
+Deprecated access to the console object used to output the messages.
 
 **Signature:**
 
@@ -19,5 +19,5 @@ protected get _console(): C;
 
 ## Remarks
 
-<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>deprecated in v7.0.0</li> </ul>
 

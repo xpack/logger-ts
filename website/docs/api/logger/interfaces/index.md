@@ -23,7 +23,7 @@ The following interfaces are defined:
 
 </td><td>
 
-Type of a record stored in the internal buffer.
+Deprecated type of a record stored in the internal buffer.
 
 </td></tr>
 <tr><td>

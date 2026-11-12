@@ -14,5 +14,5 @@ console?: C | undefined;
 
 ## Remarks
 
-Any object with the `log()` and `error()` functions (see `LoggerConsole`<!-- -->). Optional if the JavaScript standard `console` object is of type `C` (the default `Console`<!-- -->, or a minimal `{ log, error }` type); if not passed, or `undefined`<!-- -->, that object is used. Otherwise, for example for `Logger<MockConsole>`<!-- -->, it is required.
+Any object with the `log()` and `error()` functions (see `LoggerConsole`<!-- -->). It can be omitted if the JavaScript standard `console` object is of type `C` (the default `Console`<!-- -->, or a minimal `{ log, error }` type); if not passed, or `undefined`<!-- -->, that object is used. Otherwise, for example for `Logger<MockConsole>`<!-- -->, it is required.
 

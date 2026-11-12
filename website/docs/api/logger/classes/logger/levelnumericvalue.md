@@ -19,7 +19,7 @@ custom_edit_url: null
 > The state of the logger will be private in the next major  version; use the `level`<!-- -->, `hasLevel`<!-- -->, and `isLevel()` members.
 >
 
-The numerical value of the log level.
+Deprecated access to the numeric value of the log level.
 
 ## Signature
 
@@ -35,7 +35,7 @@ It is `Logger.numericLevelUndefined` in the preliminary state.
 
 Writing it changes the level checks, but not the `level` accessor, so the two can disagree; set the `level` accessor instead.
 
-<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>deprecated in v7.0.0</li> </ul>
 
 <hr/>
 

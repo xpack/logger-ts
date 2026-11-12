@@ -4,7 +4,7 @@
 
 ## Logger.console property
 
-Accessor to get the underlying `console` object.
+Get the underlying `console` object.
 
 **Signature:**
 

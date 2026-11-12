@@ -4,7 +4,7 @@
 
 ## LoggerNumericLevels.warn property
 
-The numeric level of `warn`<!-- -->, the same as that of `warning`<!-- -->.
+The numeric level of `warn`<!-- -->.
 
 **Signature:**
 

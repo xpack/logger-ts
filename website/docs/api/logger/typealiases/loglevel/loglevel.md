@@ -19,7 +19,7 @@ Type of the strings recognised as valid level names.
 ## Signature
 
 ```typescript
-export type LogLevel = 'silent' | 'error' | 'warn' | 'warning' | 'info' | 'verbose' | 'debug' | 'trace' | 'all';
+export type LogLevel = 'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all';
 ```
 
 ## Remarks
@@ -28,7 +28,7 @@ Internally these strings are converted into numeric values (see `Logger.numericL
 
 Higher values mean more verbosity.
 
-Since v7.0.0, `warning` is the main name of this level, and `warn` is kept for compatibility: both have the same numeric level. The `level` getter returns the name that was set, so code that compares the level name must test both, or use `Logger.isLevel()`<!-- -->.
+The prefix of the messages of the `warn` level is `warning`<!-- -->, but the name of the level is `warn`<!-- -->, like that of the `warn()` method.
 
 <hr/>
 

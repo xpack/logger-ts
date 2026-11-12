@@ -14,7 +14,12 @@ custom_edit_url: null
 
 
 
-Type of a record stored in the internal buffer.
+> Warning: This API is now obsolete.
+>
+> Only the deprecated protected `buffer` member uses it; it  will not be exported in the next major version.
+>
+
+Deprecated type of a record stored in the internal buffer.
 
 ## Signature
 
@@ -26,9 +31,11 @@ export interface LoggerBufferRecord
 
 The buffer is private; this type is exported only because of the deprecated protected `buffer` member, and will not be exported in the next major version.
 
-If the logger was constructed without a log level, all initial messages are stored in a buffer, and processed at a later time, when the log level is set.
+If the logger was constructed without a log level, the messages of the preliminary state are stored in a buffer, and replayed when the log level is set.
 
 Each record in the buffer stores the message, the log level and a function to process the message.
+
+<ul> <li>deprecated in v7.0.0</li> </ul>
 
 ## Properties
 

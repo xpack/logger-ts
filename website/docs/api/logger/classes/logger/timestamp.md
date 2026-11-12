@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Accessor to check if the diagnostic messages start with a timestamp.
+Check if the diagnostic messages start with a timestamp.
 
 ## Signature
 
@@ -25,6 +25,15 @@ get timestamp(): boolean;
 ## Remarks
 
 It is the value of the `timestamp` option of the constructor, and it cannot be changed after the logger is created.
+
+If the logger is created with the `timestamp` option, the messages of the methods that have a prefix (`error()`<!-- -->, `warn()`<!-- -->, `debug()`<!-- -->, and `trace()`<!-- -->) start with a timestamp, and the prefix is replaced by the kind of the message in square brackets:
+
+```text
+2026-11-11 23:32:31.358 [warning] the file is missing
+```
+The timestamp is in the local time, without the time zone, with milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`<!-- -->. The kind is `error`<!-- -->, `warning`<!-- -->, `debug`<!-- -->, or `trace`<!-- -->. Without the option, the same messages start with the prefix, as in `warning: the file is missing`<!-- -->.
+
+The timestamp and the kind are tied to the method, not to the prefix that is written: `error()` with an `Error` that comes first has no prefix without the option, but with the option it has both, as in `2026-11-11 23:32:31.358 [error] Error: boom`<!-- -->, so all the stamped messages have the same structure. The messages without a prefix (`always()`<!-- -->, `output()`<!-- -->, `info()`<!-- -->, and `verbose()`<!-- -->) are the normal output and the progress messages, and are never stamped. The timestamp and the kind are on the first line only, like the prefix, so the stack trace of an `Error`<!-- -->, and the following lines of a multi-line message, are not stamped. The time is taken when the message is logged, so the messages of the preliminary state keep it, although they are written later.
 
 <ul> <li>added in v7.0.0</li> </ul>
 

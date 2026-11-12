@@ -4,7 +4,7 @@
 
 ## Logger.numericLevels property
 
-Internal numerical values for the log level.
+The numeric values of the log levels, by name.
 
 **Signature:**
 
@@ -14,9 +14,9 @@ static readonly numericLevels: LoggerNumericLevels;
 
 ## Remarks
 
-It is not an enum, to be able to define it inside the class, not at global level.
+The values are 0 (`silent`<!-- -->), 10 (`error`<!-- -->), 20 (`warn`<!-- -->), 30 (`info`<!-- -->), 40 (`verbose`<!-- -->), 50 (`debug`<!-- -->), 60 (`trace`<!-- -->), and 70 (`all`<!-- -->); a message is written when the numeric level of the logger is greater than or equal to that of its method.
 
-The keys are exactly the level names of `LogLevel`<!-- -->; the compiler reports an error if a name is missing or if there is an extra one. The name `warning`<!-- -->, the main one since v7.0.0, has the same value as `warn`<!-- -->, which is kept for compatibility.
+The keys are exactly the level names of `LogLevel`<!-- -->; the compiler reports an error if a name is missing or if there is an extra one.
 
 The object is frozen and its properties are read-only, so no code can change the thresholds of the levels: the compiler rejects an assignment, and at run time an assignment throws a `TypeError`<!-- -->.
 

@@ -19,7 +19,7 @@ custom_edit_url: null
 > The state of the logger will be private in the next major  version; the buffer has no replacement.
 >
 
-The buffer of the messages of the preliminary state.
+Deprecated access to the buffer of the preliminary state.
 
 ## Signature
 
@@ -33,7 +33,7 @@ protected set buffer(value: LoggerBufferRecord[]);
 
 The messages are stored in it until the log level is set.
 
-<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>deprecated in v7.0.0</li> </ul>
 
 <hr/>
 

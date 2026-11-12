@@ -74,7 +74,7 @@ string \| undefined
 
 </td><td>
 
-The log message.
+The message, already formatted and prefixed, or  `undefined`<!-- -->, when nothing is written or stored.
 
 
 </td></tr>
@@ -88,9 +88,25 @@ void
 
 It is the supported extension point of the class: every message that passes the level check is formatted, prefixed, and passed here, so an override can inspect, change, redirect, or drop it, and call `super.write()` to continue.
 
+If the log level was set, `super.write()` calls the actual logger function, otherwise it stores the message in the internal buffer, for later processing, when the log level is finally set (the function is then called when the level is set, if the message passes the level).
+
 In the preliminary state the level is not known, so every message is passed here, including those that the level, once set, will discard. `super.write()` stores them in the internal buffer, and the `level` setter filters them, and calls the stored functions directly, without calling `write()` again. An override that does not call `super.write()` must therefore not assume that a message passes the level: when `hasLevel` is true, it can compare `numericLevel` with `Logger.numericLevels[this.level]`<!-- -->.
 
-If the log level was set, call the actual logger function, otherwise store the message in the internal buffer, for later processing, when the log level is finally set (the function is then called when the level is set, if the message passes the level).
-
 If the message is `undefined`<!-- -->, nothing is written and nothing is stored. The public logging methods always pass a string; the case is part of the contract of this method, for the subclasses that call it directly.
+
+## Example
+
+
+```javascript
+class CountingLogger extends Logger {
+  count = 0
+
+  write(numericLevel, loggerFunction, message) {
+    // Also called, in the preliminary state, for the messages that
+    // the level, once set, will discard.
+    this.count++
+    super.write(numericLevel, loggerFunction, message)
+  }
+}
+```
 

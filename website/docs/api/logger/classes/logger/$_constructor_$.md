@@ -75,7 +75,7 @@ const log = new Logger({
 ```
 By default, the system console is used.
 
-The complete use case is to create the logger instance with both a `console` and a `level`<!-- -->. This might be particularly useful in tests, where a mock console can be used to capture log messages.
+The complete use case is to create the logger instance with both a `console` and a `level`<!-- -->. This might be particularly useful in tests, where a mock console can be used to capture the messages.
 
 ```javascript
 const log = new Logger({
@@ -83,7 +83,7 @@ const log = new Logger({
   level: 'info'
 })
 ```
-If present, the `console` must be an object that has the `log()` and `error()` functions (see `LoggerConsole`<!-- -->), like the node <b>Console</b>, a mock console derived from it, or a minimal `{ log, error }` object. It can be omitted only if the JavaScript standard `console` object is of the type `C` of the logger, as for the default `Console` or for a minimal type; for a richer type, like `Logger<MockConsole>`<!-- -->, it is required.
+If present, the `console` must be an object that has the `log()` and `error()` functions (see `LoggerConsole`<!-- -->), like the Node.js `Console`<!-- -->, a mock console derived from it, or a minimal `{ log, error }` object. It can be omitted only if the JavaScript standard `console` object is of the type `C` of the logger, as for the default `Console` or for a minimal type; for a richer type, like `Logger<MockConsole>`<!-- -->, it is required.
 
 The `level` property is optional since it can be set later. Without it, the constructor will create the logger in a preliminary state, and all messages will be stored in an internal buffer until the log level is set.
 

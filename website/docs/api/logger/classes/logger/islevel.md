@@ -72,7 +72,7 @@ RangeError If the level is not one of the valid names.
 
 ## Remarks
 
-This is a more generic version of the accessors (like `isDebug`<!-- -->), to be used when the log level is not known at compile time.
+This is a more generic version of the accessors (like `isDebugEnabled`<!-- -->), to be used when the log level is not known at compile time.
 
 Before a level is set (the preliminary state), it returns `true` for every level, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 

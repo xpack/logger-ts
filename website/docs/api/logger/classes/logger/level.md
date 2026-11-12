@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Accessor to get or set the log level.
+Get or set the log level.
 
 ## Signature
 
@@ -30,13 +30,11 @@ The getter returns the name of the log level, or `undefined` in the preliminary 
 
 If the log level that is set is not one of the known strings, an error is thrown (a `TypeError` for a value that is not a string, including `undefined`<!-- -->, and a `RangeError` for a string that is not a level name), with a message that lists the valid names. To validate a level that comes from an unchecked source, like a command line option, use `Logger.isLogLevel()` first; the valid names are in `Logger.levelNames`<!-- -->.
 
-If this is the first time when the log level is set, flush the internal buffer.
+If this is the first time when the log level is set, the messages of the internal buffer are replayed.
 
-The buffer is emptied before the messages are written, so each buffered message is written at most once. If the console throws while the buffer is flushed, the exception is propagated to the caller, the level remains set, and the buffered messages that were not yet written are discarded.
+The buffer is emptied before the messages are written, so each buffered message is written at most once. If the console throws while the buffer is replayed, the exception is propagated to the caller, the level remains set, and the buffered messages that were not yet written are discarded.
 
-The type of the setter is `LogLevel`<!-- -->, while the getter is `LogLevel | undefined`<!-- -->: the level is `undefined` only in the preliminary state, and cannot be set back to `undefined`<!-- -->. This is deliberate, so the lint rule that wants the type of the getter to be assignable to the type of the setter is disabled for this pair.
-
-Since v7.0.0, `warning` is the main name of this level, and `warn` is kept for compatibility, with the same meaning. The getter returns the name that was set, so after `log.level = 'warn'` it returns `'warn'`<!-- -->, not `'warning'`<!-- -->; to test the level regardless of the name, use `isLevel('warning')` or `isWarning`<!-- -->.
+The type of the setter is `LogLevel`<!-- -->, while the getter is `LogLevel | undefined`<!-- -->: the level is `undefined` only in the preliminary state, and cannot be set back to `undefined`<!-- -->.
 
 ## Example 1
 

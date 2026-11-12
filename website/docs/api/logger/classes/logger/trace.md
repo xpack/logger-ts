@@ -52,7 +52,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()` (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -68,7 +68,7 @@ unknown\[\]
 
 </td><td>
 
-Optional variable arguments.
+The variable arguments.
 
 
 </td></tr>
@@ -80,7 +80,7 @@ void
 
 ## Remarks
 
-The message is prefixed with `trace: ` and passed via `console.log()`<!-- -->. If the logger was created with the `timestamp` option, it starts with a timestamp, and the prefix is replaced by `[trace]`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, and the prefix is kept, even when the error is the first argument (`trace: Error: boom`<!-- -->, followed by the stack trace; see <b>The prefix of an <code>Error</code></b> in the description of the class).
+The message is prefixed with `trace: ` and passed via `console.log()`<!-- -->. If the logger was created with the `timestamp` option, it starts with a timestamp, and the prefix is replaced by `[trace]`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, and the prefix is kept, even when the error is the first argument (`trace: Error: boom`<!-- -->, followed by the stack trace; see the description of `error()`<!-- -->).
 
 ## Example
 

@@ -9,7 +9,7 @@
 > The state of the logger will be private in the next major  version; use the `level` accessor.
 > 
 
-The name of the log level.
+Deprecated access to the name of the log level.
 
 **Signature:**
 
@@ -23,5 +23,5 @@ protected set levelName(value: LogLevel | undefined);
 
 Writing it changes the `level` accessor, but not the level checks, so the two can disagree; set the `level` accessor instead.
 
-<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
+<ul> <li>deprecated in v7.0.0</li> </ul>
 

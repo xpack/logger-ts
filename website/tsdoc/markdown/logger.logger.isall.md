@@ -4,7 +4,12 @@
 
 ## Logger.isAll property
 
-Accessor to check the log level.
+> Warning: This API is now obsolete.
+> 
+> Use `isAllEnabled`<!-- -->; it will be removed in the next major  version.
+> 
+
+Deprecated alias of `isAllEnabled`<!-- -->.
 
 **Signature:**
 
@@ -14,7 +19,7 @@ get isAll(): boolean;
 
 ## Remarks
 
-Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
+It has the same meaning as `isAllEnabled`<!-- -->.
 
-<ul> <li>changed to an accessor in v3.0.0</li> </ul>
+<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0</li> </ul>
 
