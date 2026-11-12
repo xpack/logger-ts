@@ -43,6 +43,11 @@ those of the `tsdoc2docusaurus-cli` project, which generates the pages.
   are not documented.
 - Modifier tags, if any (for example `@override` or `@readonly`), come
   last.
+- The brief description of a deprecated member or type starts with
+  "Deprecated" (for example "Deprecated alias of `isInfoEnabled`."), so
+  that the indices of the API reference, which show only the briefs, mark
+  it. The `@deprecated` tag names the replacement and the release that
+  removes it.
 - No `@category` tag: it is a typedoc tag; the project no longer uses
   typedoc, and the API reference is generated with api-extractor, which
   does not support it (it causes `tsdoc-undefined-tag` warnings). Do not
@@ -59,9 +64,10 @@ those of the `tsdoc2docusaurus-cli` project, which generates the pages.
 - Lists in `@remarks` use the HTML tags `<ol>` and `<li>` (ordered) or
   `<ul>` and `<li>` (unordered), not Markdown lists.
 - Inside the HTML lists, use `<b>`, `<i>`, and `<code>`, not the
-  Markdown syntax, and `<code>` instead of `{@link name}`. A backslash
-  is not accepted by TSDoc there (`tsdoc-unnecessary-backslash`); write
-  `&#92;` for it.
+  Markdown syntax, and `<code>` instead of `{@link name}`. Do not write a
+  backslash in the comments: TSDoc rejects it (`tsdoc-unnecessary-backslash`),
+  and the entity `&#92;` is shown literally by api-documenter, so describe
+  the character in words (for example "a newline", not `\n`).
 - Bold and italics use `<b>` and `<i>` everywhere, and tables use the
   HTML `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, and `<td>` tags
   (no Markdown `**` or pipe tables); inside the tags, code uses `<code>`.

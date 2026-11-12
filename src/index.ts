@@ -13,6 +13,22 @@
 
 // ----------------------------------------------------------------------------
 
+/**
+ * A levelled console logger for Node.js applications and libraries.
+ *
+ * @remarks
+ * The package exports the `Logger` class, which writes messages to the
+ * console from a given log level, and the types of its options. Create a
+ * logger with a level, then call its logging methods (`error()`, `warn()`,
+ * `info()`, `verbose()`, `debug()`, and `trace()`); a message is written
+ * only if the level of the logger is equal to or higher than that of the
+ * method.
+ *
+ * The package is an ES module, and has no runtime dependencies.
+ *
+ * @packageDocumentation
+ */
+
 // Re-export the library definitions.
 export * from './lib/logger.js'
 
