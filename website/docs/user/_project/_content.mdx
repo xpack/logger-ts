@@ -85,7 +85,7 @@ console.log(log.console.outLines)
 ```
 
 The logger uses only the `log()` function, for the standard output, and the
-`error()` function, for the standard error (see the table of the output
+`error()` function, for the standard error (see the table of the logging
 methods below), so any object that has these two functions can be used, not
 only a Node.js `Console`; the TypeScript type is `LoggerConsole`:
 
@@ -253,7 +253,7 @@ is flushed, the exception is propagated from the level setter, the level
 remains set, and the buffered messages that were not yet written are
 discarded.
 
-### Output methods
+### Logging methods
 
 The following methods are available to log messages:
 
@@ -370,7 +370,7 @@ log.info(String(value))
 
 The messages are written as they are, without any escaping, so text that
 comes from outside the application (like a file name, a user name, or the
-content of a network request) can forge log lines, send control sequences
+content of a network request) can forge messages, send control sequences
 to the terminal, and be interpreted as format directives:
 
 - a newline in the text starts a new line in the output, and a prefix is
@@ -410,7 +410,7 @@ Note that `%j` calls the `toJSON()` method of an object, and that `%j` and
 `Error` objects are expanded by `util.format()`, as by `console.log()`:
 the first line has the name and the message (for example `Error: boom`),
 and it is followed by the stack trace and, if present, the `cause` chain,
-on several lines. This is the same in all output methods, which differ
+on several lines. This is the same in all logging methods, which differ
 only by the stream and the prefix.
 
 The caller decides how much of an error is shown:
@@ -500,7 +500,7 @@ buffer has no replacement).
 ### Log level checks
 
 When preparing the log messages is expensive, it makes no sense to
-do it and call the output method to simply return if the log level
+do it and call the logging method to simply return if the log level
 is low and the message is not needed.
 
 Instead, the log level can be checked explicitly:

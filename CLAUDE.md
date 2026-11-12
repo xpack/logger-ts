@@ -103,7 +103,7 @@ the other TypeScript files under `tests/`, such as `tests/samples/sample.ts`.
   - Vocabulary, used in the code, the TSDoc, and the documentation: a logger
     without a level is in the **preliminary state**; the messages logged then
     are stored in the **internal buffer**, and replayed when the level is set;
-    a **message** is what one call of an output method logs (not "log line"
+    a **message** is what one call of a logging method logs (not "log line"
     or "log entry"); a level has a **name** (`LogLevel`, like `info`) and a
     **numeric level** (`Logger.numericLevels`); a level is **set**, not
     "initialised"; the methods are the **logging methods**.

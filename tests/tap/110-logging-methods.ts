@@ -14,7 +14,7 @@
 // ----------------------------------------------------------------------------
 
 /**
- * Test the table of output methods (threshold, stream, and prefix), as
+ * Test the table of logging methods (threshold, stream, and prefix), as
  * documented in the description of the class and in the user guide.
  */
 
@@ -63,7 +63,7 @@ const table: MethodSpec[] = [
   { name: 'trace', threshold: 'trace', stream: 'stdout', prefix: 'trace: ' },
 ]
 
-await test('output methods table', (t) => {
+await test('logging methods table', (t) => {
   for (const level of Logger.levelNames) {
     const mockConsole = new MockConsole()
     const logger = new Logger({

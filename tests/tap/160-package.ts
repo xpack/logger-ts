@@ -219,7 +219,7 @@ await test('the type parameter tag does not take the class text', (t) => {
   const text = ts.getTextOfJSDocComment(tags[0]?.comment) ?? ''
   t.ok(text.length > 0, 'the tag has a text')
   t.ok(text.length < 200, `the tag text is short (${String(text.length)})`)
-  t.notMatch(text, /Output methods/, 'the tag has no description of the class')
+  t.notMatch(text, /Logging methods/, 'the tag has no description of the class')
 
   t.end()
 })

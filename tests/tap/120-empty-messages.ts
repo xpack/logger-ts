@@ -14,7 +14,7 @@
 // ----------------------------------------------------------------------------
 
 /**
- * Test the output methods with an omitted or `undefined` message, as
+ * Test the logging methods with an omitted or `undefined` message, as
  * documented in "Empty messages".
  */
 

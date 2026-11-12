@@ -14,7 +14,7 @@
 // ----------------------------------------------------------------------------
 
 /**
- * Test what the output methods pass to the protected `write()`, which
+ * Test what the logging methods pass to the protected `write()`, which
  * is the extension point used by subclasses.
  */
 

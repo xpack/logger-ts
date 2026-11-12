@@ -29,7 +29,7 @@ The `Logger` class is a levelled console logger.
   `all` (70). A message is output when the numeric level of the logger is
   greater than or equal to the level of the method.
 - `always()` uses `Logger.numericLevelAlways` (-1), so it is always output.
-- The level methods are `error()`, `warn()`, `info()`, `verbose()`,
+- The logging methods are `error()`, `warn()`, `info()`, `verbose()`,
   `debug()`, and `trace()`; `output()` writes to the standard output.
 - The `isLevel()` method and the `isError`, `isWarn`, ..., `isAll`
   getters test the current level.

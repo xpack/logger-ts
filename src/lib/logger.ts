@@ -198,7 +198,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * arguments, as defined by the Node.js console (template literals are
  * often simpler).
  *
- * All output methods accept an optional message, of any type, and
+ * All logging methods accept an optional message, of any type, and
  * possibly some arguments, as processed by the standard Node.js
  * [`util.format(msg, ...args)`](https://nodejs.org/api/util.html#utilformatformat-args)
  * function.
@@ -216,7 +216,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * with a leading space). To write the text `undefined`, convert it
  * explicitly, for example `log.info(String(value))`.
  *
- * **Output methods.** The methods differ by the level from which they
+ * **Logging methods.** The methods differ by the level from which they
  * are written (the threshold), by the console stream, and by a prefix
  * added to the message:
  *
@@ -299,7 +299,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * expanded by `util.format()`, as by `console.log()`: the first line has
  * the name and the message (for example `Error: boom`), and it is
  * followed by the stack trace and, if present, the `cause` chain, on
- * several lines. This is the same in all output methods, which differ
+ * several lines. This is the same in all logging methods, which differ
  * only by the stream and the prefix. The caller decides how much of an
  * error is shown:
  *
@@ -332,7 +332,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * **Untrusted input.** The messages are written as they are, without
  * any escaping, so text that comes from outside the application (like
  * a file name, a user name, or the content of a network request) can
- * forge log lines, send control sequences to the terminal, and be
+ * forge messages, send control sequences to the terminal, and be
  * interpreted as format directives:
  *
  * - a newline in the text starts a new line in the output, and a prefix
@@ -1180,7 +1180,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * then called when the level is set, if the message passes the level).
    *
    * If the message is `undefined`, nothing is written and nothing is
-   * stored. The public output methods always pass a string; the case is
+   * stored. The public logging methods always pass a string; the case is
    * part of the contract of this method, for the subclasses that call it
    * directly.
    *
@@ -1215,7 +1215,7 @@ export class Logger<C extends LoggerConsole = Console> {
   }
 
   /**
-   * The common implementation of the output methods.
+   * The common implementation of the logging methods.
    *
    * If the current log level is lower than the numeric level of the
    * method, nothing is done, and the message is not formatted. Otherwise
@@ -1292,8 +1292,8 @@ export class Logger<C extends LoggerConsole = Console> {
    * prefix. Use it for the messages that must be shown at every log
    * level, like the version or the result requested by the user; for the
    * normal output of an application, that `silent` suppresses, use
-   * `output()` (see the table of output methods in the description of
-   * the class).
+   * `output()` (see the table of logging methods in the description
+   * of the class).
    *
    * Before a log level is set (the preliminary state), the message is
    * stored in the internal buffer, like all the others, and is written
@@ -1393,8 +1393,8 @@ export class Logger<C extends LoggerConsole = Console> {
    * `always()`. It differs from `error()` by **not** prefixing the string
    * with `error: ` and using `console.log()` instead of
    * `console.error()`, and from `info()` by being written from the
-   * `error` level, not from the `info` level (see the table of output
-   * methods in the description of the class).
+   * `error` level, not from the `info` level (see the table of
+   * logging methods in the description of the class).
    *
    * An `Error` object is expanded as by `error()`, with the full stack
    * trace and the `cause` chain, on several lines, and passed via

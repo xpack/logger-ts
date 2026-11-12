@@ -123,7 +123,7 @@ searches alone. A useful order:
 2. the types and the constants at the top of `src/lib/logger.ts`;
 3. the constructor, the `level` setter, the buffer, and the `write()`
    method;
-4. the output methods, one by one;
+4. the logging methods, one by one;
 5. `tests/tap/`, to see which behaviour is specified, and which is
    not.
 
@@ -207,7 +207,7 @@ The findings of the newcomer exercise, and:
 
 ### 5. Simplicity and duplication
 
-- The near-identical output methods: whether the repetition is
+- The near-identical logging methods: whether the repetition is
   justified or removable without changing the behaviour.
 - Code that is not needed, state that can be derived, and paths that
   can never be taken.
@@ -240,8 +240,8 @@ million times, and report the time.
 
 ### 8. Security
 
-- Whether messages can inject terminal control sequences or forge log
-  lines (newlines, ANSI escapes) and whether the documentation tells
+- Whether messages can inject terminal control sequences or forge
+  messages (newlines, ANSI escapes) and whether the documentation tells
   the caller.
 - The handling of the formatting directives in a message that contains
   user input (`%s`, `%o`, `%j`), and prototype or getter side effects
