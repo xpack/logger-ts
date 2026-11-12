@@ -661,6 +661,9 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * It is `Logger.numericLevelUndefined` in the preliminary state.
    *
+   * Writing it changes the level checks, but not the `level` accessor, so
+   * the two can disagree; set the `level` accessor instead.
+   *
    * @remarks
    * - deprecated in v7.0.0, to be removed in the next major version
    *
@@ -679,6 +682,9 @@ export class Logger<C extends LoggerConsole = Console> {
 
   /**
    * The name of the log level.
+   *
+   * Writing it changes the `level` accessor, but not the level checks, so
+   * the two can disagree; set the `level` accessor instead.
    *
    * @remarks
    * - deprecated in v7.0.0, to be removed in the next major version
