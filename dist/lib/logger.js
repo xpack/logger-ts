@@ -14,6 +14,7 @@ export class Logger {
         silent: 0,
         error: 10,
         warn: 20,
+        warning: 20,
         info: 30,
         verbose: 40,
         debug: 50,
@@ -111,7 +112,10 @@ export class Logger {
         return this.#numericLevel >= _a.numericLevels.error;
     }
     get isWarn() {
-        return this.#numericLevel >= _a.numericLevels.warn;
+        return this.#numericLevel >= _a.numericLevels.warning;
+    }
+    get isWarning() {
+        return this.#numericLevel >= _a.numericLevels.warning;
     }
     get isInfo() {
         return this.#numericLevel >= _a.numericLevels.info;
@@ -187,7 +191,7 @@ export class Logger {
         this.emit(_a.numericLevels.error, 'log', '', false, message, args);
     }
     warn(message = '', ...args) {
-        this.emit(_a.numericLevels.warn, 'error', 'warning', false, message, args);
+        this.emit(_a.numericLevels.warning, 'error', 'warning', false, message, args);
     }
     info(message = '', ...args) {
         this.emit(_a.numericLevels.info, 'log', '', false, message, args);

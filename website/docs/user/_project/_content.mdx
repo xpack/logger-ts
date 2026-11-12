@@ -124,8 +124,23 @@ The following strings are recognised as valid level names:
 
 ```typescript
 export type LogLevel =
-  'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
+  | 'silent'
+  | 'error'
+  | 'warn'
+  | 'warning'
+  | 'info'
+  | 'verbose'
+  | 'debug'
+  | 'trace'
+  | 'all'
 ```
+
+Since v7.0.0, `warning` is the main name of the warning level, and `warn`
+is kept for compatibility; both have the same numeric level. The
+`level` getter returns the name that was set, so after
+`log.level = 'warn'` it returns `'warn'`; to test the level regardless of
+the name, use `log.isLevel('warning')` or `log.isWarning`, not a comparison
+of the name.
 
 Internally, string levels are converted to numeric values (the
 `Logger.numericLevels` object) for comparison purposes. Higher numeric
@@ -166,7 +181,7 @@ or passing it to `isLevel()` throws an error whose message lists the valid
 names, for example:
 
 ```console
-RangeError: Unsupported log level 'verbos'; valid levels are: silent, error, warn, info, verbose, debug, trace, all
+RangeError: Unsupported log level 'verbos'; valid levels are: silent, error, warn, warning, info, verbose, debug, trace, all
 ```
 
 - a `RangeError` is thrown for a string that is not a level name,

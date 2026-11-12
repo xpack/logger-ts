@@ -10,6 +10,8 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
+/* eslint-disable @typescript-eslint/no-deprecated --
+   the test checks the deprecated isWarn */
 
 // ----------------------------------------------------------------------------
 
@@ -29,12 +31,63 @@ import { MockConsole } from '@xpack/mock-console'
 
 import { Logger, type LogLevel } from '../../src/index.js'
 
+await test('warning and warn are the same level', (t) => {
+  t.equal(
+    Logger.numericLevels.warning,
+    Logger.numericLevels.warn,
+    'same numeric level'
+  )
+  t.ok(Logger.isLogLevel('warning'), 'is a log level')
+
+  for (const name of ['warn', 'warning'] as const) {
+    const mockConsole = new MockConsole()
+    const logger = new Logger({ console: mockConsole, level: name })
+    t.equal(logger.level, name, `level is the name set, '${name}'`)
+
+    t.ok(logger.isError, `isError at '${name}'`)
+    t.ok(logger.isWarn, `isWarn at '${name}'`)
+    t.ok(logger.isWarning, `isWarning at '${name}'`)
+    t.notOk(logger.isInfo, `not isInfo at '${name}'`)
+    t.ok(logger.isLevel('warn'), `isLevel('warn') at '${name}'`)
+    t.ok(logger.isLevel('warning'), `isLevel('warning') at '${name}'`)
+    t.notOk(logger.isLevel('info'), `not isLevel('info') at '${name}'`)
+
+    logger.error('e')
+    logger.warn('w')
+    logger.info('i')
+    t.same(
+      mockConsole.errLines,
+      ['error: e', 'warning: w'],
+      `stderr at '${name}'`
+    )
+    t.same(mockConsole.outLines, [], `stdout at '${name}'`)
+  }
+
+  const mockConsole = new MockConsole()
+  const logger = new Logger({ console: mockConsole })
+  logger.warn('buffered')
+  logger.level = 'warning'
+  t.same(mockConsole.errLines, ['warning: buffered'], 'buffer replayed')
+
+  t.end()
+})
+
 // ----------------------------------------------------------------------------
 
 await test('Logger.levelNames', (t) => {
   t.same(
     Logger.levelNames,
-    ['silent', 'error', 'warn', 'info', 'verbose', 'debug', 'trace', 'all'],
+    [
+      'silent',
+      'error',
+      'warn',
+      'warning',
+      'info',
+      'verbose',
+      'debug',
+      'trace',
+      'all',
+    ],
     'names in increasing order of verbosity'
   )
 
@@ -88,7 +141,7 @@ await test('Logger.isLogLevel invalid', (t) => {
     'Info',
     ' info',
     'info ',
-    'warning',
+    'warnings',
     'fatal',
     '',
     'toString',

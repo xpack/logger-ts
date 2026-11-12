@@ -30,6 +30,8 @@ The `Logger` class is a levelled console logger.
 - Levels are ordered by `Logger.numericLevels`, from `silent` (0) to
   `all` (70). A message is output when the numeric level of the logger is
   greater than or equal to the level of the method.
+- `warning` is the main name of the warning level since v7.0.0; `warn` is
+  kept for compatibility, with the same numeric level.
 - The valid level names are in `Logger.levelNames`, and
   `Logger.isLogLevel()` is a type guard for a value that comes from an
   unchecked source, like a command line option. The `level` setter throws
@@ -42,7 +44,7 @@ The `Logger` class is a levelled console logger.
   `Logger.numericLevelAlways` (-1), so it is always output; `error()` and
   `warn()` write to the standard error, the others to the standard output.
   The table of the logging methods is in the TSDoc of `Logger`.
-- The `isLevel()` method and the `isError`, `isWarn`, ..., `isAll`
+- The `isLevel()` method and the `isError`, `isWarning`, ..., `isAll`
   getters test the current level; `hasLevel` tells whether a level was
   set. The `isSilent` getter is deprecated, since it is always true.
 - The constructor accepts an optional object with the `level`, the

@@ -19,6 +19,24 @@ your tests counted the lines captured by a mock console, or compared them
 with the lines of the previous versions, remove this line from the expected
 results.
 
+The log level name `warning` was added; it is the main name of the warning
+level, and `warn` is kept for compatibility, with the same numeric level
+(this is not a breaking change). The `level` getter returns the name that
+was set, and `Logger.levelNames` now has one more element, so code that
+iterates over it, or that compares the level name with `'warn'` or
+`'warning'`, should handle both names, or use `isLevel('warning')`. The new
+`isWarning` accessor replaces `isWarn`, which is **deprecated** (this is not a breaking change):
+it still works, with the same behaviour, and will be removed in the next
+major version.
+
+If used, replace it:
+
+```javascript
+if (log.isWarning) {
+  // ...
+}
+```
+
 The `package.json` file is now exported, so tools can read it through the
 package name (`@xpack/logger/package.json`); this is not a breaking change.
 
