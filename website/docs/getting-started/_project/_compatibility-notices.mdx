@@ -55,6 +55,13 @@ passed to the `Logger` constructor, now throws a `TypeError` instead of an
 `AssertionError`; the messages are unchanged. Code that catches
 `AssertionError` to detect an invalid console must catch `TypeError` instead.
 
+**Breaking change (compile time only):** when the type argument of `Logger`
+is given explicitly, with a type that the global `console` does not satisfy
+(for example `Logger<MockConsole>`), the `console` option is now required,
+since otherwise the `console` accessor returned an object that was not of
+that type. Code that omitted the console was wrong, and fails to compile now;
+pass the console, or drop the type argument.
+
 The `console` option of the constructor now accepts any object that has the
 `log()` and `error()` functions (the new exported type `LoggerConsole`),
 not only a Node.js `Console`, so a mock or a minimal `{ log, error }` object

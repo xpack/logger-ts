@@ -122,6 +122,51 @@ export interface LoggerBufferRecord {
   func: LoggerFunction
 }
 
+/**
+ * The options of the `Logger` constructor.
+ *
+ * @typeParam C - The type of the console object.
+ */
+export interface LoggerParams<C extends LoggerConsole = Console> {
+  /**
+   * The name of the log level; if not passed, or `undefined`, the logger
+   * is created in a preliminary state, and all messages will be stored
+   * in an internal buffer, until the log level is set. Optional.
+   */
+  level?: LogLevel | undefined
+  /**
+   * The underlying console object used to log the message; any object
+   * with the `log()` and `error()` functions (see `LoggerConsole`).
+   * Optional if the JavaScript standard `console` object is of type `C`
+   * (the default `Console`, or a minimal `{ log, error }` type); if not
+   * passed, or `undefined`, that object is used. Otherwise, for example
+   * for `Logger<MockConsole>`, it is required.
+   */
+  console?: C | undefined
+  /**
+   * If true, the messages of the logging methods that have a prefix
+   * (`error()`, `warn()`, `debug()`, and `trace()`) start with a
+   * timestamp, in the local time, with milliseconds, and the prefix is
+   * replaced by the kind in square brackets, for example
+   * `2026-11-11 23:32:31.358 [warning] message`. Optional, the default
+   * is false. It cannot be changed after the logger is created.
+   */
+  timestamp?: boolean | undefined
+}
+
+/**
+ * The arguments of the `Logger` constructor: the options are optional, and
+ * so is the console, if the JavaScript standard `console` object is of type
+ * `C`; otherwise the console is required, since the logger would use an
+ * object that is not of the type that the `console` accessor promises.
+ *
+ * @typeParam C - The type of the console object.
+ */
+export type LoggerArguments<C extends LoggerConsole = Console> =
+  Console extends C
+    ? [params?: LoggerParams<C>]
+    : [params: LoggerParams<C> & { console: C }]
+
 // ============================================================================
 
 /**
@@ -134,7 +179,11 @@ export interface LoggerBufferRecord {
  * `Logger<Console>`, and a logger constructed with a `MockConsole` is a
  * `Logger<MockConsole>`, whose `console` accessor gives access to the
  * members of the mock without a cast. The type must have the `log()` and
- * `error()` functions (see `LoggerConsole`).
+ * `error()` functions (see `LoggerConsole`). Since a logger without a
+ * console uses the JavaScript standard `console` object, the console can
+ * be omitted only if that object is of the type `C`; for a richer type,
+ * like `Logger<MockConsole>`, it is required, and the compiler rejects the
+ * constructor call without it.
  *
  * Use `log.always()` instead of the `console.log()`, since it writes on the
  * console of the logger, so a test can capture it with a mock console and a
@@ -698,6 +747,10 @@ export class Logger<C extends LoggerConsole = Console> {
    * If present, the `console` must be an object that has the `log()` and
    * `error()` functions (see `LoggerConsole`), like the node **Console**,
    * a mock console derived from it, or a minimal `{ log, error }` object.
+   * It can be omitted only if the JavaScript standard `console` object is of
+   * the type `C` of the logger, as for the default `Console` or for a
+   * minimal type; for a richer type, like `Logger<MockConsole>`, it is
+   * required.
    *
    * The `level` property is optional since it can be set later.
    * Without it, the constructor will
@@ -707,8 +760,9 @@ export class Logger<C extends LoggerConsole = Console> {
    * ```javascript
    * const log = new Logger()
    * ```
-   * @param params - The generic object used to pass parameters to the
-   * constructor.
+   * @param args - The optional options object (see `LoggerParams`), which
+   *   is required if the `console` of the type `C` is required (see
+   *   `LoggerArguments`).
    *
    * @throws A `RangeError` if the level is a string that is not one of the
    *   valid names, and a `TypeError` if it is not a string (a `level` that
@@ -718,32 +772,10 @@ export class Logger<C extends LoggerConsole = Console> {
    * @throws A `TypeError` if the console does not have the `log()` and
    *   `error()` functions.
    */
-  constructor(
-    params: {
-      /**
-       * The name of the log level; if not passed, or `undefined`, the logger
-       * is created in a preliminary state, and all messages will be stored
-       * in an internal buffer, until the log level is set. Optional.
-       */
-      level?: LogLevel | undefined
-      /**
-       * The underlying console object used to log the message; any object
-       * with the `log()` and `error()` functions (see `LoggerConsole`).
-       * Optional. If not passed, or `undefined`, the JavaScript standard
-       * `console` object is used.
-       */
-      console?: C | undefined
-      /**
-       * If true, the messages of the logging methods that have a prefix
-       * (`error()`, `warn()`, `debug()`, and `trace()`) start with a
-       * timestamp, in the local time, with milliseconds, and the prefix is
-       * replaced by the kind in square brackets, for example
-       * `2026-11-11 23:32:31.358 [warning] message`. Optional, the default
-       * is false. It cannot be changed after the logger is created.
-       */
-      timestamp?: boolean | undefined
-    } = {}
-  ) {
+  constructor(...args: LoggerArguments<C>) {
+    // The conditional type is not resolved for the generic `C`.
+    const params: LoggerParams<C> = (args as [LoggerParams<C>?])[0] ?? {}
+
     // The option may come from untyped code.
     const timestamp: unknown = params.timestamp
     if (timestamp !== undefined && typeof timestamp !== 'boolean') {

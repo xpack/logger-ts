@@ -113,6 +113,11 @@ available without a cast. The default type argument keeps the existing code
 working: a variable of type `Logger`, and a class that extends `Logger`,
 mean the logger with the Node.js `Console`.
 
+Since a logger created without a console uses the global `console` object,
+the `console` option can be omitted only if that object is of the type of the
+logger. For a richer type, like `Logger<MockConsole>`, the option is
+required, and the compiler rejects the constructor call without it.
+
 ### Log levels
 
 The following strings are recognised as valid level names:

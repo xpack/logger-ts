@@ -63,7 +63,8 @@ export class Logger {
     set buffer(value) {
         this.#buffer = value;
     }
-    constructor(params = {}) {
+    constructor(...args) {
+        const params = args[0] ?? {};
         const timestamp = params.timestamp;
         if (timestamp !== undefined && typeof timestamp !== 'boolean') {
             throw new TypeError('The timestamp option must be a boolean, not ' +

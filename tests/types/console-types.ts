@@ -99,4 +99,38 @@ export function consoleTypes(): void {
   new Logger({ console: { log: () => undefined } })
 }
 
+export function consoleIsRequired(): void {
+  const mock = new MockConsole()
+
+  // The global console is of the default type, and of the minimal type, so
+  // the console is optional.
+  new Logger()
+  new Logger({ level: 'info' })
+  new Logger<Console>({ level: 'info' })
+  new Logger<LoggerConsole>()
+  new Logger<LoggerConsole>({ level: 'info' })
+
+  // A richer type is not satisfied by the global console, so the console is
+  // required, and the type of the accessor is true.
+  const mocked = new Logger<MockConsole>({ console: mock })
+  const lines: string[] = mocked.console.outLines
+  void lines
+
+  // @ts-expect-error: the global console is not a `MockConsole`.
+  new Logger<MockConsole>()
+
+  // @ts-expect-error: the global console is not a `MockConsole`.
+  new Logger<MockConsole>({ level: 'info' })
+
+  // @ts-expect-error: an explicit `undefined` is the same as nothing.
+  new Logger<MockConsole>({ console: undefined })
+
+  // The same for a subclass that fixes the type argument.
+  class MyMockLogger extends Logger<MockConsole> {}
+  new MyMockLogger({ console: mock })
+
+  // @ts-expect-error: the console is required by the subclass too.
+  new MyMockLogger()
+}
+
 // ----------------------------------------------------------------------------
