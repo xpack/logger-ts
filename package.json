@@ -60,7 +60,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^26.6.6",
+    "@types/node": "^22.12.0",
     "@xpack/mock-console": "^1.0.0",
     "del-cli": "^8.0.1",
     "tap": "^21.8.1",

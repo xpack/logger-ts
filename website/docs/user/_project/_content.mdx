@@ -10,12 +10,12 @@ In TypeScript and ECMAScript modules, use `import`:
 import { Logger } from '@xpack/logger'
 ```
 
-The typings refer to the Node.js `Console` type (imported from
-`node:console`), used by the `console` parameter of the constructor and
-by the `console` accessor, so in TypeScript projects the `@types/node`
-package must be installed, as in any other Node.js project. Without it,
-the compiler reports that it cannot find the `node:console` module, unless
-`skipLibCheck` is enabled.
+The typings refer to the global `Console` interface, declared by the
+`@types/node` package, used by the `console` parameter of the constructor
+and by the `console` accessor, so in TypeScript projects the `@types/node`
+package must be installed, as in any other Node.js project. Without it
+(and without the `dom` library), the compiler reports that it cannot find
+the name `Console`, unless `skipLibCheck` is enabled.
 
 The typings are found through the `exports` map of the package by the
 TypeScript module resolution modes `node16`, `nodenext`, and `bundler`,
