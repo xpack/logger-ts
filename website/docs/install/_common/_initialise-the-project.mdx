@@ -1,0 +1,28 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/install/_common/_initialise-the-project-liquid.mdx */}
+
+{/* ------------------------------------------------------------------------ */}
+
+### Initialise the project
+
+The project needs a `package.json` file in its root folder.
+
+Create it by running `xpm init` in the project folder (replace `my-project`
+with the name of the folder):
+
+```sh
+cd my-project
+xpm init
+```
+
+<details>
+<summary>Under the hood</summary>
+
+The primary purpose of `xpm init` is to create a `package.json` file, if not
+already present.
+
+In addition to `name` and `version`, the minimal `package.json` must
+include a property named `xpacks`, even if empty. This property is
+mandatory to identify the package as an **xpm package**.
+
+</details>

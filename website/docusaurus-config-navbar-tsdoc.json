@@ -1,0 +1,19 @@
+{
+  "label": "API Reference",
+  "position": "left",
+  "to": "/docs/api",
+  "items": [
+    {
+      "label": "Classes",
+      "to": "/docs/api/logger/classes"
+    },
+    {
+      "label": "Type Aliases",
+      "to": "/docs/api/logger/typealiases"
+    },
+    {
+      "label": "Interfaces",
+      "to": "/docs/api/logger/interfaces"
+    }
+  ]
+}

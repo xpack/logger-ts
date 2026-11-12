@@ -1,0 +1,391 @@
+{
+  "type": "category",
+  "label": "API Reference (TSDoc)",
+  "link": {
+    "type": "doc",
+    "id": "api/index"
+  },
+  "className": "tsdocEllipsis",
+  "collapsed": false,
+  "items": [
+    {
+      "type": "category",
+      "label": "@xpack/logger",
+      "link": {
+        "type": "doc",
+        "id": "api/logger"
+      },
+      "className": "tsdocEllipsis",
+      "collapsed": false,
+      "items": [
+        {
+          "type": "category",
+          "label": "Classes",
+          "link": {
+            "type": "doc",
+            "id": "api/logger/classes/index"
+          },
+          "className": "tsdocEllipsis",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "Logger",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/classes/logger/logger"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "_console",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/$_console$"
+                },
+                {
+                  "type": "doc",
+                  "label": "buffer",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/buffer"
+                },
+                {
+                  "type": "doc",
+                  "label": "console",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/console"
+                },
+                {
+                  "type": "doc",
+                  "label": "defaultLevel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/defaultlevel"
+                },
+                {
+                  "type": "doc",
+                  "label": "hasLevel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/haslevel"
+                },
+                {
+                  "type": "doc",
+                  "label": "isAll",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isall"
+                },
+                {
+                  "type": "doc",
+                  "label": "isDebug",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isdebug"
+                },
+                {
+                  "type": "doc",
+                  "label": "isError",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/iserror"
+                },
+                {
+                  "type": "doc",
+                  "label": "isInfo",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isinfo"
+                },
+                {
+                  "type": "doc",
+                  "label": "isSilent",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/issilent"
+                },
+                {
+                  "type": "doc",
+                  "label": "isTrace",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/istrace"
+                },
+                {
+                  "type": "doc",
+                  "label": "isVerbose",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isverbose"
+                },
+                {
+                  "type": "doc",
+                  "label": "isWarn",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/iswarn"
+                },
+                {
+                  "type": "doc",
+                  "label": "level",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/level"
+                },
+                {
+                  "type": "doc",
+                  "label": "levelName",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/levelname"
+                },
+                {
+                  "type": "doc",
+                  "label": "levelNames",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/levelnames"
+                },
+                {
+                  "type": "doc",
+                  "label": "levelNumericValue",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/levelnumericvalue"
+                },
+                {
+                  "type": "doc",
+                  "label": "numericLevelAlways",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/numericlevelalways"
+                },
+                {
+                  "type": "doc",
+                  "label": "numericLevels",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/numericlevels"
+                },
+                {
+                  "type": "doc",
+                  "label": "numericLevelUndefined",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/numericlevelundefined"
+                },
+                {
+                  "type": "doc",
+                  "label": "recommendedLevel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/recommendedlevel"
+                },
+                {
+                  "type": "doc",
+                  "label": "timestamp",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/timestamp"
+                },
+                {
+                  "type": "doc",
+                  "label": "(constructor)",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/$_constructor_$"
+                },
+                {
+                  "type": "doc",
+                  "label": "always()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/always"
+                },
+                {
+                  "type": "doc",
+                  "label": "debug()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/debug"
+                },
+                {
+                  "type": "doc",
+                  "label": "error()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/error"
+                },
+                {
+                  "type": "doc",
+                  "label": "info()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/info"
+                },
+                {
+                  "type": "doc",
+                  "label": "isLevel()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/islevel"
+                },
+                {
+                  "type": "doc",
+                  "label": "isLogLevel()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/isloglevel"
+                },
+                {
+                  "type": "doc",
+                  "label": "output()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/output"
+                },
+                {
+                  "type": "doc",
+                  "label": "trace()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/trace"
+                },
+                {
+                  "type": "doc",
+                  "label": "verbose()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/verbose"
+                },
+                {
+                  "type": "doc",
+                  "label": "warn()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/warn"
+                },
+                {
+                  "type": "doc",
+                  "label": "write()",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/classes/logger/write"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Type Aliases",
+          "link": {
+            "type": "doc",
+            "id": "api/logger/typealiases/index"
+          },
+          "className": "tsdocEllipsis",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "LoggerArguments",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/typealiases/loggerarguments/loggerarguments"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "LoggerConsole",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/typealiases/loggerconsole/loggerconsole"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "LoggerFunction",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/typealiases/loggerfunction/loggerfunction"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "LogLevel",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/typealiases/loglevel/loglevel"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            },
+            {
+              "type": "category",
+              "label": "NumericLogLevel",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/typealiases/numericloglevel/numericloglevel"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": []
+            }
+          ]
+        },
+        {
+          "type": "category",
+          "label": "Interfaces",
+          "link": {
+            "type": "doc",
+            "id": "api/logger/interfaces/index"
+          },
+          "className": "tsdocEllipsis",
+          "collapsed": true,
+          "items": [
+            {
+              "type": "category",
+              "label": "LoggerBufferRecord",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/interfaces/loggerbufferrecord/loggerbufferrecord"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "func",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerbufferrecord/func"
+                },
+                {
+                  "type": "doc",
+                  "label": "message",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerbufferrecord/message"
+                },
+                {
+                  "type": "doc",
+                  "label": "numericLevel",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerbufferrecord/numericlevel"
+                }
+              ]
+            },
+            {
+              "type": "category",
+              "label": "LoggerParams",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/interfaces/loggerparams/loggerparams"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "console",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerparams/console"
+                },
+                {
+                  "type": "doc",
+                  "label": "level",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerparams/level"
+                },
+                {
+                  "type": "doc",
+                  "label": "timestamp",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggerparams/timestamp"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

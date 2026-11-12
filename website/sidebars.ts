@@ -2,8 +2,7 @@
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
 import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
-// import typedocSidebarItems from "./docs/api/typedoc-sidebar.cjs";
-import typedocSidebarItems from "./typedoc-sidebar.json";
+import tsdocSidebarItems from './sidebar-category-tsdoc.json';
 
 /**
  * Creating a sidebar enables you to:
@@ -26,7 +25,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'doc',
       id: 'install/index',
-      label: 'Install Guide'
+      label: 'Installation Guide'
     },
     {
       type: 'doc',
@@ -79,24 +78,15 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'link',
-          label: 'License',
-          href: 'https://opensource.org/license/MIT',
+          label: 'Licence',
+          href: 'https://opensource.org/license/mit',
         },
       ]
     },
   ],
 
-  typedocSidebar: [
-    {
-      type: 'category',
-      label: 'API Reference (TypeDoc)',
-      link: {
-        type: 'doc',
-        id: 'api/index',
-      },
-      collapsed: false,
-      items: typedocSidebarItems,
-    },
+  tsdocSidebar: [
+    tsdocSidebarItems,
   ],
 };
 

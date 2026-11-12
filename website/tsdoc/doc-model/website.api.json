@@ -1,0 +1,2147 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.60.1",
+    "schemaVersion": 1011,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@jsx",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxRuntime",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxFrag",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@jsxImportSource",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      },
+      "reportUnsupportedHtmlElements": false
+    }
+  },
+  "projectFolderUrl": "https://github.com/xpack/logger-ts.git/tree/development",
+  "kind": "Package",
+  "canonicalReference": "@xpack/logger!",
+  "docComment": "",
+  "name": "@xpack/logger",
+  "preserveMemberOrder": false,
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@xpack/logger!",
+      "name": "",
+      "preserveMemberOrder": false,
+      "members": [
+        {
+          "kind": "Class",
+          "canonicalReference": "@xpack/logger!Logger:class",
+          "docComment": "/**\n * The `Logger` class implements the logger functionality.\n *\n * @remarks\n *\n * The logger is constructed on top of a console object, where the\n * messages are logged. The class has a type parameter, the type of the\n * console, so that the `console` accessor returns the object that was\n * passed, with its own type: a `Logger` without a console is a\n * `Logger<Console>`, and a logger constructed with a `MockConsole` is a\n * `Logger<MockConsole>`, whose `console` accessor gives access to the\n * members of the mock without a cast. The type must have the `log()` and\n * `error()` functions (see `LoggerConsole`). Since a logger without a\n * console uses the JavaScript standard `console` object, the console can\n * be omitted only if that object is of the type `C`; for a richer type,\n * like `Logger<MockConsole>`, it is required, and the compiler rejects the\n * constructor call without it.\n *\n * Use `log.always()` instead of the `console.log()`, since it writes on the\n * console of the logger, so a test can capture it with a mock console and a\n * subclass can intercept it with `write()`; in the preliminary state it is\n * buffered, like the other messages.\n *\n * There is no `critical` level, corresponding to errors that prevent\n * the program from running, since these are actually related to bugs;\n * use `assert()` instead.\n *\n * The messages may include formatting directives, with additional\n * arguments, as defined by the Node.js console (template literals are\n * often simpler).\n *\n * All logging methods accept an optional message, of any type, and\n * possibly some arguments, as processed by the standard Node.js\n * [`util.format(msg, ...args)`](https://nodejs.org/api/util.html#utilformatformat-args)\n * function.\n *\n * **Empty messages.** If the message is omitted or `undefined`, it is\n * replaced by an empty string, so `log.info()` and `log.info(undefined)`\n * write an empty line, and the methods with a prefix write only the\n * prefix (for example `debug: `). This differs from `console.log()`,\n * which writes `undefined`. Other falsy values are written as they are\n * (`null`, `0`, and `false` give `null`, `0`, and `false`), and\n * `undefined` is written as usual when it is not the first argument\n * (`log.info('value:', undefined)` gives `value: undefined`). Since\n * the empty string is still a message, any further arguments are\n * appended to it after a space (`log.info(undefined, 1)` gives ` 1`,\n * with a leading space). To write the text `undefined`, convert it\n * explicitly, for example `log.info(String(value))`.\n *\n * **Logging methods.** The methods differ by the level from which they\n * are written (the threshold), by the console stream, and by a prefix\n * added to the message:\n *\n * | Method | Written from level | Stream | Prefix |\n * | ----------- | ------------------ | ------ | ------------ |\n * | `always()` | every level | stdout | none |\n * | `error()` | `error` | stderr | `error: ` |\n * | `output()` | `error` | stdout | none |\n * | `warn()` | `warn` | stderr | `warning: ` |\n * | `info()` | `info` | stdout | none |\n * | `verbose()` | `verbose` | stdout | none |\n * | `debug()` | `debug` | stdout | `debug: ` |\n * | `trace()` | `trace` | stdout | `trace: ` |\n *\n * Here stdout is `console.log()` and stderr is `console.error()`. A\n * method is written when the log level is equal to or higher than its\n * threshold; at `silent` only `always()` is written. The method\n * `error()` omits its prefix when the first argument is an `Error`\n * (see below).\n *\n * The three methods that write on stdout without a prefix are used for\n * different purposes:\n *\n * - `always()` is for the messages that must be shown at every log level,\n *  including `silent`, like the version or the result requested by the\n *  user;\n * - `output()` is for the normal output of the application, which is\n *  suppressed at `silent`, together with all the other messages;\n * - `info()` is for informative messages, shown from the `info` level.\n *\n * **Extending the class.** A subclass can intercept the messages by\n * overriding the protected `write()` method, which is the only supported\n * extension point (see its description for the contract). The state of\n * the logger is private; use the public members, like `level`, `hasLevel`,\n * `isLevel()`, and `console`. The protected members that gave direct access\n * to the state (`_console`, `levelNumericValue`, `levelName`, and\n * `buffer`) are deprecated, still work, and will be removed in the next\n * major version.\n *\n * **Timestamps.** If the logger is created with the `timestamp` option,\n * the messages of the methods that have a prefix (`error()`, `warn()`,\n * `debug()`, and `trace()`) start with a timestamp, and the prefix is\n * replaced by the kind of the message in square brackets:\n * ```text\n * 2026-11-11 23:32:31.358 [warning] the file is missing\n * ```\n *\n * The timestamp is in the local time, without the time zone, with\n * milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`,\n * `warning`, `debug`, or `trace`. Without the option, the same messages\n * start with the prefix, as in `warning: the file is missing`.\n *\n * The timestamp and the kind are tied to the method, not to the prefix\n * that is written: `error()` with an `Error` that comes first has no\n * prefix without the option, but with the option it has both, as in\n * `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped\n * messages have the same structure. The messages without a prefix\n * (`always()`, `output()`, `info()`, and `verbose()`) are the normal output\n * and the progress messages, and are never stamped. The timestamp and the\n * kind are on the first line only, like the prefix, so the stack trace of\n * an `Error`, and the following lines of a multi-line message, are not\n * stamped. The time is taken when the message is logged, so the messages\n * of the preliminary state keep it, although they are written later. The\n * option cannot be changed after the logger is created (see the\n * `timestamp` accessor).\n *\n * **The prefix of an `Error`.** Only `error()` omits its prefix, and only\n * when the first argument is an `Error`: the first line of the expanded\n * error already starts with its name (like `Error: boom` or\n * `TypeError: bad`), which tells the severity. This is deliberate. The\n * other methods keep their prefix (`warning: Error: boom`,\n * `debug: Error: boom`), since without it a warning would look like an\n * error, and a debug message like a failure; and an `Error` that is not\n * the first argument of `error()` keeps the prefix too\n * (`error: failed: Error: boom`). It is the same for all the methods,\n * whether the message is written at once or buffered.\n *\n * **Logging errors.** `Error` objects (and objects derived from it) are\n * expanded by `util.format()`, as by `console.log()`: the first line has\n * the name and the message (for example `Error: boom`), and it is\n * followed by the stack trace and, if present, the `cause` chain, on\n * several lines. This is the same in all logging methods, which differ\n * only by the stream and the prefix. The caller decides how much of an\n * error is shown:\n *\n * - to show the full details, including the stack trace, pass the error\n *  object, for example `log.error(err)`;\n * - to show a single line, pass only its message, for example\n *  `log.error(err.message)`, which outputs `error: boom`.\n *\n * A common pattern, which also works in the preliminary state, is to show\n * the message at the `error` level, and the full details only when the\n * log level is `debug` or higher:\n * ```javascript\n * try {\n *   // ...\n * } catch (err) {\n *   // On stderr: `error: boom`.\n *   log.error(err instanceof Error ? err.message : String(err))\n *   // On stdout, only at `debug` or higher: `debug: Error: boom`,\n *   // followed by the stack trace.\n *   log.debug(err)\n * }\n * ```\n *\n * In TypeScript, the variable of a `catch` clause has the type `unknown`,\n * hence the `instanceof` check. To also keep the name of the error, use\n * `String(err)` instead of `err.message`: `log.error(String(err))`\n * outputs, for example, `error: TypeError: boom`.\n *\n * **Untrusted input.** The messages are written as they are, without\n * any escaping, so text that comes from outside the application (like\n * a file name, a user name, or the content of a network request) can\n * forge messages, send control sequences to the terminal, and be\n * interpreted as format directives:\n *\n * - a newline in the text starts a new line in the output, and a prefix\n *  is added only to the first line, so the text `'bob\\nerror: forged'`\n *  in a `warn()` call writes the line `warning: bob`, followed by a\n *  line that looks like a genuine `error: forged` message;\n * - control characters, like the ANSI escape sequences, are passed to\n *  the terminal unchanged;\n * - if the first argument contains directives (like `%s`, `%d`, or `%j`)\n *  and there are further arguments, the directives consume them, so\n *  `log.info(text, secret)` may write the secret; a single argument is\n *  not processed (`log.info('100%d')` writes `100%d`), but\n *  `log.info('100%d', 5)` writes `1005`.\n *\n * Therefore pass the untrusted text as an argument, never as the first\n * argument, with a constant format string:\n * ```javascript\n * log.info('user: %s', name)\n * ```\n *\n * This prevents the interpretation of the directives, but `%s` writes a\n * string as it is, including the newlines and the control characters. To\n * also escape them, use `%j` (JSON) or `%O` (as `util.inspect()`), which\n * write the string between quotes, with a newline as `\\n` and the\n * escape character as `\\u001b` or `\\x1B`:\n * ```javascript\n * log.info('user: %j', name)\n * ```\n *\n * Note that `%j` calls the `toJSON()` method of an object, and that\n * `%j` and `%O` quote the strings.\n *\n * If the logging code is more complex than a single line,\n * for example if it needs a long loop,\n * it is recommended to explicitly check the log level and,\n * if not high enough, skip the code entirely.\n * ```javascript\n *   if (log.isTrace) {\n *     for (const [folderName, folder] of Object.entries(folders)) {\n *       log.trace(`'${folderName}' ${folder.toolchainOptions}`)\n *     }\n *   }\n * ```\n *\n * There are cases when the logger must be created very early in the\n * life cycle of an application, even before it is practically possible\n * to determine the log level.\n *\n * For these cases, if the logger is created without a log level,\n * it is in a **preliminary state**, and all messages are\n * stored in an **internal buffer**, until the log\n * level is set, when the buffer is replayed and the messages are written.\n *\n * Nothing is written while the logger is in the preliminary state, not\n * even the messages of `always()` and `error()`. If the log level is never\n * set (for example when the application fails before it determines the\n * level), the buffered messages are never written and are lost. Set the\n * log level on every path, for example in a `catch` or `finally` block,\n * using `hasLevel` to check whether it was set:\n * ```javascript\n * try {\n *   // Determine the log level, then set it.\n *   log.level = parseLevel(process.argv)\n * } catch (err) {\n *   if (!log.hasLevel) {\n *     log.level = Logger.recommendedLevel\n *   }\n *   log.error(err)\n * }\n * ```\n *\n * **Cost of the preliminary state.** With the level set, a message that\n * is below the level is skipped before it is formatted, which costs a\n * few nanoseconds. In the preliminary state the final level is not known,\n * so every message, including `debug()` and `trace()`, is formatted\n * immediately and stored in the buffer, until the level is set:\n *\n * - the formatting is done even for the messages that are later\n *  discarded; for example, an object passed to a `%o` directive is\n *  inspected at each call (about 3 microseconds, against 0.2\n *  microseconds for a short string message);\n * - the buffer is not limited, and a message of about 70 characters\n *  takes about 250 bytes, so a long running application that logs a lot\n *  before the level is set should set it as early as possible;\n * - since the message is formatted when it is logged, a later change of\n *  an argument does not alter the buffered message.\n *\n * The check of the level before an expensive preparation of the message\n * (see above) is true in the preliminary state, so the preparation is\n * done there too.\n *\n * @typeParam C - The type of the console object; the default is the\n *  Node.js `Console`, which is used when no console is passed.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class Logger<C extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerConsole",
+              "canonicalReference": "@xpack/logger!LoggerConsole:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "C",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "isAbstract": false,
+          "name": "Logger",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#_console:member",
+              "docComment": "/**\n * The console object used to output the log messages.\n *\n * @remarks\n *\n * - deprecated in v7.0.0, to be removed in the next major version\n *\n * @deprecated\n *\n * The state of the logger will be private in the next major\n *  version; use the `console` accessor.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected get _console(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "C"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "_console",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": true,
+              "isAbstract": false
+            },
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@xpack/logger!Logger:constructor(1)",
+              "docComment": "/**\n * Create a **Logger** instance.\n *\n * @remarks\n *\n * The typical use case is to create a logger with a given log level,\n * usually `info`.\n * ```javascript\n * const log = new Logger({\n *   level: 'info'\n * })\n * ```\n *\n * By default, the system console is used.\n *\n * The complete use case is to create the logger instance with both a\n * `console` and a `level`. This might be particularly useful in tests,\n * where a mock console can be used to capture log messages.\n * ```javascript\n * const log = new Logger({\n *   console: mockConsole,\n *   level: 'info'\n * })\n * ```\n *\n * If present, the `console` must be an object that has the `log()` and\n * `error()` functions (see `LoggerConsole`), like the node **Console**,\n * a mock console derived from it, or a minimal `{ log, error }` object.\n * It can be omitted only if the JavaScript standard `console` object is of\n * the type `C` of the logger, as for the default `Console` or for a\n * minimal type; for a richer type, like `Logger<MockConsole>`, it is\n * required.\n *\n * The `level` property is optional since it can be set later.\n * Without it, the constructor will\n * create the logger in a preliminary state, and all messages will be stored\n * in an internal buffer until the log level is set.\n * ```javascript\n * const log = new Logger()\n * ```\n *\n * @param args - The optional options object (see `LoggerParams`), which\n *  is required if the `console` of the type `C` is required (see\n *  `LoggerArguments`).\n *\n * @throws\n *\n * A `RangeError` if the level is a string that is not one of the\n *  valid names, and a `TypeError` if it is not a string (a `level` that\n *  is `undefined` is the same as no level). The same errors are thrown\n *  by the `level` setter.\n *\n * @throws\n *\n * A `TypeError` if the `timestamp` option is not a boolean.\n *\n * @throws\n *\n * A `TypeError` if the console does not have the `log()` and\n *  `error()` functions.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(...args: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LoggerArguments",
+                  "canonicalReference": "@xpack/logger!LoggerArguments:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<C>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 3
+                  },
+                  "isOptional": false
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#always:member(1)",
+              "docComment": "/**\n * Always log a message, regardless of the log level.\n *\n * @remarks\n *\n * The message is logged even at `silent`, when no other messages are logged.\n *\n * It is the only method that is written at `silent`, and it has no\n * prefix. Use it for the messages that must be shown at every log\n * level, like the version or the result requested by the user; for the\n * normal output of an application, that `silent` suppresses, use\n * `output()` (see the table of logging methods in the description\n * of the class).\n *\n * Before a log level is set (the preliminary state), the message is\n * stored in the internal buffer, like all the others, and is written\n * when the level is set; if the level is never set, it is never\n * written.\n *\n * The message is passed via `console.log()`. An `Error` object is\n * expanded with the full stack trace and the `cause` chain, on several\n * lines, without a prefix (see **Logging errors** in the description of\n * the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.always(version)\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "always(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "always"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#buffer:member",
+              "docComment": "/**\n * The buffer of the messages of the preliminary state.\n *\n * @remarks\n *\n * The messages are stored in it until the log level is set.\n *\n * - deprecated in v7.0.0, to be removed in the next major version\n *\n * @deprecated\n *\n * The state of the logger will be private in the next major\n *  version; the buffer has no replacement.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected get buffer(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LoggerBufferRecord",
+                  "canonicalReference": "@xpack/logger!LoggerBufferRecord:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n\nprotected set buffer(value: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LoggerBufferRecord",
+                  "canonicalReference": "@xpack/logger!LoggerBufferRecord:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]);"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "buffer",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": false,
+              "isProtected": true,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#console:member",
+              "docComment": "/**\n * Accessor to get the underlying `console` object.\n *\n * @remarks\n *\n * Direct access to the console object is useful in tests, when\n * the console is a mock object, which allows the logged messages to be\n * checked. The type of the result is the type of the console that was\n * passed to the constructor (`Console`, if none was passed), so the\n * members of a mock object can be used without a cast.\n *\n * @returns The console object used by the logger.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get console(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "C"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "console",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#debug:member(1)",
+              "docComment": "/**\n * Log a debug message, if the log level is `debug` or higher.\n *\n * @remarks\n *\n * The message is prefixed with `debug: ` and\n * passed via `console.log()`. If the logger was created with the\n * `timestamp` option, it starts with a timestamp, and the prefix is\n * replaced by `[debug]`. An `Error` object is\n * expanded with the full stack trace and the `cause` chain, on several\n * lines, and the prefix is kept, even when the error is the first\n * argument (`debug: Error: boom`, followed by the stack trace; see **The\n * prefix of an `Error`** in the description of the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.debug(`spawn: ${cmd}`)\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "debug(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "debug"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.defaultLevel:member",
+              "docComment": "/**\n * The previous name of `recommendedLevel`, with the same value.\n *\n * @remarks\n *\n * The name suggested that a logger created without a level gets this\n * level, which the library never did.\n *\n * In the initializer, `this` is the class: the name `Logger` cannot be\n * used in a static initializer, since the emitted code assigns the class\n * alias after the class definition.\n *\n * - deprecated in v7.0.0, to be removed in the next major version\n *\n * @deprecated\n *\n * Use `Logger.recommendedLevel`; it will be removed in the\n *  next major version.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly defaultLevel: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "defaultLevel",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#error:member(1)",
+              "docComment": "/**\n * Log an error message, if the log level is `error` or higher.\n *\n * @remarks\n *\n * The message is prefixed with `error: ` and\n * passed via `console.error()`. If the logger was created with the\n * `timestamp` option, it starts with a timestamp, and the prefix is\n * replaced by `[error]`, also for an `Error` that comes first (see\n * below).\n *\n * There is a special case when the first argument is an `Error`\n * object: the prefix is omitted, since the first line of the expanded\n * error already starts with its name (for example `Error: boom`). This\n * is deliberate, and only `error()` does it. The\n * error is expanded with the full stack trace and the `cause` chain,\n * on several lines, and passed via `console.error()`.\n *\n * An `Error` passed after other arguments is also expanded, but the\n * prefix is kept: `log.error('failed:', err)` outputs\n * `error: failed: Error: boom`, followed by the stack trace.\n *\n * To show only the message of an error, on a single line with the\n * prefix, pass its message instead of the object (see\n * **Logging errors** in the description of the class):\n * ```javascript\n * try {\n *   // ...\n * } catch (err) {\n *   // `Error: boom`, followed by the stack trace.\n *   log.error(err)\n *   // `error: boom`, on a single line.\n *   log.error(err instanceof Error ? err.message : String(err))\n * }\n * ```\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.error('Not good...')\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "error(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "error"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#hasLevel:member",
+              "docComment": "/**\n * Accessor to check if the log level was set.\n *\n * @remarks\n *\n * If the logger was created without an explicit log level, the\n * logger is in a preliminary state and all messages will be stored\n * in an internal buffer until the log level is set.\n *\n * - changed to an accessor in v5.0.0\n * - added as a method in v2.1.0\n *\n * @returns True if the level was set.\n *\n * @example\n * ```javascript\n * if (!log.hasLevel) {\n *   log.level = Logger.recommendedLevel\n * }\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get hasLevel(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "hasLevel",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#info:member(1)",
+              "docComment": "/**\n * Log an informative message, if the log level is `info` or higher.\n *\n * @remarks\n *\n * The message is passed via `console.log()`. An `Error` object is\n * expanded with the full stack trace and the `cause` chain, on several\n * lines, without a prefix (see **Logging errors** in the description of\n * the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.info(title)\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "info(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "info"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isAll:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `all`.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isAll(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isAll",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isDebug:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `debug` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isDebug(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isDebug",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isError:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `error` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isError(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isError",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isInfo:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `info` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isInfo(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isInfo",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#isLevel:member(1)",
+              "docComment": "/**\n * Check if the log level is set to a given level name, or higher.\n *\n * @remarks\n *\n * This is a more generic version of the accessors (like `isDebug`),\n * to be used when the log level is not known at compile time.\n *\n * Before a level is set (the preliminary state), it returns `true` for\n * every level, so that the messages produced under the check are\n * buffered rather than lost; they are filtered when the level is set.\n * Use `hasLevel` to tell whether a level was set.\n *\n * It can also be used to ensure that the log level is not decreased.\n * Since in the preliminary state there is no level to compare with,\n * check `hasLevel` first:\n *\n * - added in v6.0.0\n *\n * @param level - The name of the log level.\n *\n * @returns True if the current log level is equal to the given\n *  level or higher.\n *\n * @example\n * ```javascript\n * if (!log.hasLevel || !log.isLevel(newLevel)) {\n *   log.level = newLevel\n * }\n * ```\n *\n * @throws\n *\n * A `TypeError` if the level is not a string.\n *\n * @throws\n *\n * A `RangeError` if the level is not one of the valid names.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "isLevel(level: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "level",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "isLevel"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger.isLogLevel:member(1)",
+              "docComment": "/**\n * Check if a value is the name of a valid log level.\n *\n * @remarks\n *\n * It is a type guard, to be used when the level comes from a source that\n * is not checked by the compiler, like a command line option or an\n * environment variable. It returns `false` for any value that is not\n * one of the strings in `levelNames`, including non-string values,\n * strings with different case, and the names of inherited properties\n * (like `'toString'`).\n *\n * - added in v7.0.0\n *\n * @param value - The value to check.\n *\n * @returns True if the value is a valid log level name.\n *\n * @example\n * ```javascript\n * const name = process.env.LOG_LEVEL\n * if (Logger.isLogLevel(name)) {\n *   log.level = name\n * } else {\n *   log.error(`Level must be one of: ${Logger.levelNames.join(', ')}`)\n * }\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static isLogLevel(value: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "value",
+                  "canonicalReference": "@xpack/logger!~value"
+                },
+                {
+                  "kind": "Content",
+                  "text": " is "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": true,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "value",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "isLogLevel"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isSilent:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Since `silent` is the lowest level, this accessor is always `true`,\n * for every level that was set, and also before a level is set (the\n * preliminary state). It cannot tell whether the logger is silent.\n *\n * To check for the `silent` level, compare the `level` accessor.\n *\n * - changed to an accessor in v3.0.0;\n * - deprecated in v7.0.0, to be removed in the next major version.\n *\n * @deprecated\n *\n * Always `true`, use `log.level === 'silent'` instead.\n *\n * @returns Always `true`.\n *\n * @example\n * ```javascript\n * if (log.level === 'silent') {\n *   // Nothing but `always()` messages are output.\n * }\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isSilent(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isSilent",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isTrace:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `trace` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isTrace(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isTrace",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isVerbose:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `verbose` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isVerbose(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isVerbose",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#isWarn:member",
+              "docComment": "/**\n * Accessor to check the log level.\n *\n * @remarks\n *\n * Before a level is set (the preliminary state), it returns `true`,\n * so that the messages produced under the check are buffered rather\n * than lost; they are filtered when the level is set. Use `hasLevel`\n * to tell whether a level was set.\n *\n * - changed to an accessor in v3.0.0.\n *\n * @returns True if the log level is `warn` or higher.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get isWarn(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "isWarn",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#level:member",
+              "docComment": "/**\n * Accessor to get or set the log level.\n *\n * @remarks\n *\n * The getter returns the name of the log level, or `undefined` in the\n * preliminary state (see `hasLevel`).\n *\n * If the log level that is set is not one of the known strings, an error\n * is thrown (a `TypeError` for a value that is not a string, including\n * `undefined`, and a `RangeError` for a string that is not a level\n * name), with a message that lists the valid names. To validate a level\n * that comes from an unchecked source, like a command line option, use\n * `Logger.isLogLevel()` first; the valid names are in\n * `Logger.levelNames`.\n *\n * If this is the first time when the log level is set,\n * flush the internal buffer.\n *\n * The buffer is emptied before the messages are written, so each\n * buffered message is written at most once. If the console throws\n * while the buffer is flushed, the exception is propagated to the\n * caller, the level remains set, and the buffered messages that were\n * not yet written are discarded.\n *\n * The type of the setter is `LogLevel`, while the getter is\n * `LogLevel | undefined`: the level is `undefined` only in the\n * preliminary state, and cannot be set back to `undefined`. This is\n * deliberate, so the lint rule that wants the type of the getter to be\n * assignable to the type of the setter is disabled for this pair.\n *\n * @returns A string with the log level name, or `undefined` in the\n *  preliminary state.\n *\n * @example\n * ```javascript\n * log.level = 'info'\n * ```\n *\n * @example\n * ```javascript\n * console.log(log.level)\n * ```\n *\n * @throws\n *\n * A `TypeError` if the level that is set is not a string.\n *\n * @throws\n *\n * A `RangeError` if the level that is set is not one of the\n *  valid names.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get level(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n\nset level(level: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "level",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#levelName:member",
+              "docComment": "/**\n * The name of the log level.\n *\n * @remarks\n *\n * Writing it changes the `level` accessor, but not the level checks, so\n * the two can disagree; set the `level` accessor instead.\n *\n * - deprecated in v7.0.0, to be removed in the next major version\n *\n * @deprecated\n *\n * The state of the logger will be private in the next major\n *  version; use the `level` accessor.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected get levelName(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n\nprotected set levelName(value: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined);"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "levelName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": false,
+              "isProtected": true,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.levelNames:member",
+              "docComment": "/**\n * The names of the valid log levels.\n *\n * @remarks\n *\n * They are in increasing order of verbosity, from `silent` to `all`.\n *\n * The array is frozen. It is derived from the keys of `numericLevels`,\n * so that the two cannot drift apart.\n *\n * - added in v7.0.0\n *\n * @example\n * ```javascript\n * console.log(`Valid levels: ${Logger.levelNames.join(', ')}`)\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly levelNames: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "readonly "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "levelNames",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 4
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#levelNumericValue:member",
+              "docComment": "/**\n * The numerical value of the log level.\n *\n * @remarks\n *\n * It is `Logger.numericLevelUndefined` in the preliminary state.\n *\n * Writing it changes the level checks, but not the `level` accessor, so\n * the two can disagree; set the `level` accessor instead.\n *\n * - deprecated in v7.0.0, to be removed in the next major version\n *\n * @deprecated\n *\n * The state of the logger will be private in the next major\n *  version; use the `level`, `hasLevel`, and `isLevel()` members.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected get levelNumericValue(): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";\n\nprotected set levelNumericValue(value: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "levelNumericValue",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": true,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.numericLevelAlways:member",
+              "docComment": "/**\n * The value used for the `always` case (minimum value).\n *\n * @remarks\n *\n * It is read-only, like `recommendedLevel`.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly numericLevelAlways: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "numericLevelAlways",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.numericLevels:member",
+              "docComment": "/**\n * Internal numerical values for the log level.\n *\n * @remarks\n *\n * It is not an enum, to be able to define it inside the class, not at\n * global level.\n *\n * The keys are exactly the level names of `LogLevel`; the compiler\n * reports an error if a name is missing or if there is an extra one.\n *\n * The object is frozen and its properties are read-only, so no code can\n * change the thresholds of the levels: the compiler rejects an\n * assignment, and at run time an assignment throws a `TypeError`.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly numericLevels: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Readonly",
+                  "canonicalReference": "!Readonly:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<{\n        readonly silent: 0;\n        readonly error: 10;\n        readonly warn: 20;\n        readonly info: 30;\n        readonly verbose: 40;\n        readonly debug: 50;\n        readonly trace: 60;\n        readonly all: 70;\n    }>"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "numericLevels",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.numericLevelUndefined:member",
+              "docComment": "/**\n * The numeric level of the preliminary state.\n *\n * @remarks\n *\n * It is the maximum value, used when no log level was set.\n *\n * It is read-only, like `recommendedLevel`.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly numericLevelUndefined: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "numericLevelUndefined",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#output:member(1)",
+              "docComment": "/**\n * Log a message on the standard output from the `error` level.\n *\n * @remarks\n *\n * It is meant for the normal output of an application, that is\n * suppressed at `silent`, like all the other messages except\n * `always()`. It differs from `error()` by **not** prefixing the string\n * with `error: ` and using `console.log()` instead of\n * `console.error()`, and from `info()` by being written from the\n * `error` level, not from the `info` level (see the table of\n * logging methods in the description of the class).\n *\n * An `Error` object is expanded as by `error()`, with the full stack\n * trace and the `cause` chain, on several lines, and passed via\n * `console.log()`. To show only the message, without the stack trace,\n * pass its message instead of the object (see **Logging errors** in\n * the description of the class):\n * ```javascript\n * try {\n *   // ...\n * } catch (err) {\n *   // `boom`, on a single line, without the stack trace.\n *   log.output(err instanceof Error ? err.message : String(err))\n * }\n * ```\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.output('Not good either...')\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "output(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "output"
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger.recommendedLevel:member",
+              "docComment": "/**\n * The recommended log level, `info`.\n *\n * @remarks\n *\n * It is meant for the applications that need a level when none was chosen.\n *\n * The library never applies it: a logger created without a level stays\n * in the preliminary state, until the level is set, so the application\n * must use this value explicitly, for example\n * `log.level = Logger.recommendedLevel`.\n *\n * It is read-only: the compiler rejects an assignment, and at run time\n * the class is frozen, so an assignment throws a `TypeError`.\n *\n * - added in v7.0.0, as the new name of `defaultLevel`\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "static readonly recommendedLevel: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "recommendedLevel",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": true,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Property",
+              "canonicalReference": "@xpack/logger!Logger#timestamp:member",
+              "docComment": "/**\n * Accessor to check if the diagnostic messages start with a timestamp.\n *\n * @remarks\n *\n * It is the value of the `timestamp` option of the constructor, and it\n * cannot be changed after the logger is created.\n *\n * - added in v7.0.0\n *\n * @returns True if the messages of `error()`, `warn()`, `debug()`, and\n *  `trace()` start with a timestamp.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "get timestamp(): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": true,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "timestamp",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "isStatic": false,
+              "isProtected": false,
+              "isAbstract": false
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#trace:member(1)",
+              "docComment": "/**\n * Log a trace message, if the log level is `trace` or higher.\n *\n * @remarks\n *\n * The message is prefixed with `trace: ` and\n * passed via `console.log()`. If the logger was created with the\n * `timestamp` option, it starts with a timestamp, and the prefix is\n * replaced by `[trace]`. An `Error` object is\n * expanded with the full stack trace and the `cause` chain, on several\n * lines, and the prefix is kept, even when the error is the first\n * argument (`trace: Error: boom`, followed by the stack trace; see **The\n * prefix of an `Error`** in the description of the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.trace(`${this.constructor.name}.doRun()`)\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "trace(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "trace"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#verbose:member(1)",
+              "docComment": "/**\n * Log a verbose message, if the log level is `verbose` or higher.\n *\n * @remarks\n *\n * The message is passed via `console.log()`. An `Error` object is\n * expanded with the full stack trace and the `cause` chain, on several\n * lines, without a prefix (see **Logging errors** in the description of\n * the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.verbose('Configurations:')\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "verbose(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "verbose"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#warn:member(1)",
+              "docComment": "/**\n * Log a warning message, if the log level is `warn` or higher.\n *\n * @remarks\n *\n * The message is prefixed with `warning: ` and\n * passed via `console.error()`. If the logger was created with the\n * `timestamp` option, it starts with a timestamp, and the prefix is\n * replaced by `[warning]`.\n *\n * An `Error` object is expanded with the full stack trace and the\n * `cause` chain, on several lines; unlike in `error()`, the prefix is\n * kept even when the error is the first argument\n * (`warning: Error: boom`, followed by the stack trace). To show only\n * the message, pass `err.message` instead of the object (see\n * **Logging errors** in the description of the class).\n *\n * @param message - Message to log, as accepted by `util.format()`. If\n *  omitted or `undefined`, it is replaced by an empty string (see\n *  **Empty messages** in the description of the class).\n *\n * @param args - Optional variable arguments.\n *\n * @example\n * ```javascript\n * log.warn('The configuration file is missing, using the defaults')\n * ```\n *\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "warn(message?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", ...args: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "unknown[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 5,
+                "endIndex": 6
+              },
+              "releaseTag": "Public",
+              "isProtected": false,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": true
+                },
+                {
+                  "parameterName": "args",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "warn"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@xpack/logger!Logger#write:member(1)",
+              "docComment": "/**\n * The internal log writer, which subclasses may override.\n *\n * @remarks\n *\n * It is the supported extension point of the class: every message that\n * passes the level check is formatted, prefixed, and passed here, so an\n * override can inspect, change, redirect, or drop it, and call\n * `super.write()` to continue.\n *\n * In the preliminary state the level is not known, so every message is\n * passed here, including those that the level, once set, will discard.\n * `super.write()` stores them in the internal buffer, and the `level`\n * setter filters them, and calls the stored functions directly, without\n * calling `write()` again. An override that does not call\n * `super.write()` must therefore not assume that a message passes the\n * level: when `hasLevel` is true, it can compare `numericLevel` with\n * `Logger.numericLevels[this.level]`.\n *\n * If the log level was set, call the actual logger function, otherwise\n * store the message in the internal buffer, for later\n * processing, when the log level is finally set (the function is\n * then called when the level is set, if the message passes the level).\n *\n * If the message is `undefined`, nothing is written and nothing is\n * stored. The public logging methods always pass a string; the case is\n * part of the contract of this method, for the subclasses that call it\n * directly.\n *\n * @param numericLevel - The log numeric level.\n *\n * @param loggerFunction - The function to be used to write\n * the message.\n *\n * @param message - The log message.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "protected write(numericLevel: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", loggerFunction: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LoggerFunction",
+                  "canonicalReference": "@xpack/logger!LoggerFunction:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", message: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Content",
+                  "text": "void"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 7,
+                "endIndex": 8
+              },
+              "releaseTag": "Public",
+              "isProtected": true,
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "numericLevel",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "loggerFunction",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  },
+                  "isOptional": false
+                },
+                {
+                  "parameterName": "message",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  },
+                  "isOptional": false
+                }
+              ],
+              "isOptional": false,
+              "isAbstract": false,
+              "name": "write"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/logger!LoggerArguments:type",
+          "docComment": "/**\n * The arguments of the `Logger` constructor.\n *\n * @remarks\n *\n * The options are optional, and so is the console, if the JavaScript standard\n * `console` object is of type `C`; otherwise the console is required, since the\n * logger would use an object that is not of the type that the `console`\n * accessor promises.\n *\n * @typeParam C - The type of the console object.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type LoggerArguments<C extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerConsole",
+              "canonicalReference": "@xpack/logger!LoggerConsole:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "> = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " extends C ? [params?: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerParams",
+              "canonicalReference": "@xpack/logger!LoggerParams:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<C>] : [params: "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerParams",
+              "canonicalReference": "@xpack/logger!LoggerParams:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "<C> & {\n    console: C;\n}]"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "LoggerArguments",
+          "typeParameters": [
+            {
+              "typeParameterName": "C",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "typeTokenRange": {
+            "startIndex": 5,
+            "endIndex": 11
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@xpack/logger!LoggerBufferRecord:interface",
+          "docComment": "/**\n * Type of a record stored in the internal buffer.\n *\n * @remarks\n *\n * The buffer is private; this type is exported only because of the\n * deprecated protected `buffer` member, and will not be exported in the\n * next major version.\n *\n * If the logger was constructed without a log level, all initial\n * messages are stored in a buffer, and processed at a later time,\n * when the log level is set.\n *\n * Each record in the buffer stores the message, the log level and\n * a function to process the message.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface LoggerBufferRecord "
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "LoggerBufferRecord",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerBufferRecord#func:member",
+              "docComment": "/**\n * The function to be called to log the message.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "func: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LoggerFunction",
+                  "canonicalReference": "@xpack/logger!LoggerFunction:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "func",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerBufferRecord#message:member",
+              "docComment": "/**\n * The string message to be logged.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "message: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "message",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerBufferRecord#numericLevel:member",
+              "docComment": "/**\n * The numeric log level at the time of the call.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "numericLevel: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "NumericLogLevel",
+                  "canonicalReference": "@xpack/logger!NumericLogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "numericLevel",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/logger!LoggerConsole:type",
+          "docComment": "/**\n * Type of the console objects accepted by the logger.\n *\n * @remarks\n *\n * The logger uses only the `log()` function, for the standard output, and\n * the `error()` function, for the standard error, so any object that has\n * them can be used, not only a Node.js `Console`: a mock console, a custom\n * object, or a minimal `{ log, error }` object.\n *\n * The functions are called as methods of the object, so they may use\n * `this`.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type LoggerConsole = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Pick",
+              "canonicalReference": "!Pick:type"
+            },
+            {
+              "kind": "Content",
+              "text": "<"
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": ", 'log' | 'error'>"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "LoggerConsole",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 5
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/logger!LoggerFunction:type",
+          "docComment": "/**\n * Type of the function that writes a message.\n *\n * @remarks\n *\n * It is passed to the `write()` method, which subclasses may override: it\n * writes the message on the console, on the standard output or on the standard\n * error.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type LoggerFunction = "
+            },
+            {
+              "kind": "Content",
+              "text": "(message: string) => void"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "LoggerFunction",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@xpack/logger!LoggerParams:interface",
+          "docComment": "/**\n * The options of the `Logger` constructor.\n *\n * @typeParam C - The type of the console object.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface LoggerParams<C extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "LoggerConsole",
+              "canonicalReference": "@xpack/logger!LoggerConsole:type"
+            },
+            {
+              "kind": "Content",
+              "text": " = "
+            },
+            {
+              "kind": "Reference",
+              "text": "Console",
+              "canonicalReference": "!\"\\\"node:console\\\"\".console.Console#Console:interface"
+            },
+            {
+              "kind": "Content",
+              "text": "> "
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "typeParameters": [
+            {
+              "typeParameterName": "C",
+              "constraintTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              "defaultTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 4
+              }
+            }
+          ],
+          "name": "LoggerParams",
+          "preserveMemberOrder": false,
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerParams#console:member",
+              "docComment": "/**\n * The underlying console object used to log the message.\n *\n * @remarks\n *\n * Any object with the `log()` and `error()` functions (see `LoggerConsole`).\n * Optional if the JavaScript standard `console` object is of type `C` (the\n * default `Console`, or a minimal `{ log, error }` type); if not passed, or\n * `undefined`, that object is used. Otherwise, for example for\n * `Logger<MockConsole>`, it is required.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "console?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "C | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "console",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerParams#level:member",
+              "docComment": "/**\n * The name of the log level.\n *\n * @remarks\n *\n * If not passed, or `undefined`, the logger is created in a preliminary\n * state, and all messages will be stored in an internal buffer, until the log\n * level is set. Optional.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "level?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "LogLevel",
+                  "canonicalReference": "@xpack/logger!LogLevel:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": " | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "level",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@xpack/logger!LoggerParams#timestamp:member",
+              "docComment": "/**\n * Whether the diagnostic messages start with a timestamp.\n *\n * @remarks\n *\n * If true, the messages of the logging methods that have a prefix (`error()`,\n * `warn()`, `debug()`, and `trace()`) start with a timestamp, in the local\n * time, with milliseconds, and the prefix is replaced by the kind in square\n * brackets, for example `2026-11-11 23:32:31.358 [warning] message`.\n * Optional, the default is false. It cannot be changed after the logger is\n * created.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "timestamp?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean | undefined"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isReadonly": false,
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "timestamp",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/logger!LogLevel:type",
+          "docComment": "/**\n * Type of the strings recognised as valid level names.\n *\n * @remarks\n *\n * Internally these strings are converted into numeric values (see\n * `Logger.numericLevels`), and these numbers are used in comparisons.\n *\n * Higher values mean more verbosity.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type LogLevel = "
+            },
+            {
+              "kind": "Content",
+              "text": "'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "LogLevel",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@xpack/logger!NumericLogLevel:type",
+          "docComment": "/**\n * Type of the numeric log level.\n *\n * @remarks\n *\n * The numeric log level is used in log level comparisons; its values are\n * in `Logger.numericLevels`. It is the type of the first argument of the\n * `write()` method, which subclasses may override.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export type NumericLogLevel = "
+            },
+            {
+              "kind": "Content",
+              "text": "number"
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "fileUrlPath": "../src/lib/logger.ts",
+          "releaseTag": "Public",
+          "name": "NumericLogLevel",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -5,11 +5,11 @@
  * This file is part of the xPack project (http://xpack.github.io).
  * Copyright (c) 2024-2026 Liviu Ionescu. All rights reserved.
  *
- * Permission to use, copy, modify, and/or distribute this software
- * for any purpose is hereby granted, under the terms of the MIT license.
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose is hereby granted, under the terms of the MIT license.
  *
- * If a copy of the license was not distributed with this file, it can
- * be obtained from https://opensource.org/licenses/mit.
+ * If a copy of the license was not distributed with this file, it can be
+ * obtained from https://opensource.org/licenses/mit.
  */
 
 import Link from '@docusaurus/Link';
@@ -22,7 +22,7 @@ export const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/mosaic.svg').default,
     description: (
       <>
-        The module is compatible with <b>TypeScript</b> and <b>JavaScript</b> projects, and can be utilized across multiple platforms (<b>Windows</b>, <b>macOS</b>, <b>GNU/Linux</b>).
+        The module is compatible with <b>TypeScript</b> and <b>JavaScript</b> projects, and may be used across multiple platforms (<b>Windows</b>, <b>macOS</b>, <b>GNU/Linux</b>).
       </>
     ),
   },

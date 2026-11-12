@@ -1,0 +1,34 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/_common/_code-formatting-liquid.mdx */}
+
+{/* ------------------------------------------------------------------------ */}
+
+## Code formatting
+
+For formatting style, the library employs a
+[.clang-format](https://clang.llvm.org/docs/ClangFormat.html)
+configuration file based on the GNU style, in the `maintenance/config` folder.
+
+The source files are formatted with the `clang-format` xpm action,
+which runs `clang-format` with that configuration on the C and C++ files of
+the project:
+
+```sh
+xpm run clang-format -C ~/Work/xpack/logger-ts.git
+```
+
+Similarly, the `cmake-format` and `jsonc-format` actions format the CMake and
+the JSONC files.
+
+:::info
+
+The `clang-format` program is installed by `xpm install`, as a development
+dependency of the project, in the `xpacks/.bin` folder.
+
+:::
+
+:::tip
+
+Reformat the modified source files before committing them.
+
+:::

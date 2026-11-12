@@ -1,0 +1,41 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/_common/_xpm-clean-ups-liquid.mdx */}
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+{/* ------------------------------------------------------------------------ */}
+
+For a complete clean-up, note that **xpm** uses two folders:
+
+
+<Tabs groupId="operating-systems">
+
+<TabItem value="windows" label="Windows" default>
+
+- `%APPDATA%\xPacks`
+- `%LOCALAPPDATA%\Caches\xPacks`
+
+</TabItem>
+
+<TabItem value="macos" label="macOS">
+
+- `${HOME}/Library/xPacks`
+- `${HOME}/Library/Caches/xPacks`
+
+</TabItem>
+
+<TabItem value="linux" label="GNU/Linux">
+
+- `${HOME}/.local/xPacks`
+- `${HOME}/.cache/xPacks`
+
+</TabItem>
+
+</Tabs>
+
+They can be removed at any time and space reclaimed;
+**xpm** will recreate them during new installations.
+
+However, the projects that link to the user's global xPacks store will have
+broken links.

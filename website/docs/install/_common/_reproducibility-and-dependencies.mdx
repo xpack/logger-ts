@@ -1,0 +1,46 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/install/_common/_reproducibility-and-dependencies-liquid.mdx */}
+
+import CodeBlock from '@theme/CodeBlock';
+
+{/* ------------------------------------------------------------------------ */}
+
+<details>
+<summary>Reproducibility and `dependencies`</summary>
+
+To ensure reproducibility, it is essential for each project to always
+use the exact desired versions of the required libraries, regardless of the
+libraries installed in the system.
+
+To achieve this objective, **xpm** records all locally installed packages
+as dependencies in the project `package.json` file.
+
+The result appears as follows:
+
+<CodeBlock language="json"> {
+`  "xpack": {
+    "minimumXpmRequired": "0.23.3",
+    "dependencies": {
+      "@xpack/logger": {
+        "specifier": "7.0.0",
+        "local": "link",
+        "platforms": "all"
+      }
+    },
+    "devDependencies": {},
+    "properties": {},
+    "actions": {},
+    "buildConfigurations": {}
+  }
+`} </CodeBlock>
+
+If the `package.json` is saved in the revision system, the above
+definition acts as a firm reference to the specific version of
+xPack Logger.
+
+After cloning the project into a different location, the command `xpm install`
+may be used to install all dependencies.
+
+This is particularly useful for CI/CD environments.
+
+</details>

@@ -1,0 +1,28 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/_common/_prerequisites-liquid.mdx */}
+
+import CodeBlock from '@theme/CodeBlock';
+
+{/* ------------------------------------------------------------------------ */}
+
+## Prerequisites
+
+**@xpack/logger** is
+a portable Node.js module;
+development can be
+conducted on macOS, GNU/Linux, and Windows (although some npm scripts
+must be executed within a Git Bash terminal).
+
+The prerequisites are:
+
+- git
+- node >= {props.nodeVersion || 'N.N.N'}
+- npm
+
+
+To check the compatibility with the oldest supported node version, switch to it:
+
+<CodeBlock language="console"> {
+`nvm use --lts ${props.nodeVersionMajor || 'NN'}
+code
+`} </CodeBlock>

@@ -1,0 +1,25 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/maintainer/_common/_prepare-new-blog-post-liquid.mdx */}
+
+{/* ------------------------------------------------------------------------ */}
+
+### Prepare a new blog post
+
+- Check and possibly update the `website/blog/_templates/blog-post*-release-liquid.mdx`
+- Execute the **generate-website-blog-post** npm script; this will add a file to the `website/blog` folder:
+  ```sh
+  npm --prefix ~/Work/xpack/logger-ts.git/website run generate-website-blog-post
+  ```
+- Fix the TODO in the front matter `description` property (select maintenance vs. new release)
+- Fix the TODO in the summary (select maintenance vs. new release)
+- In the relevant sections (**Major changes**, **Bug fixes**, **Enhancements**), replace the `- None.` placeholder with entries; to link to GitHub issues, use:
+  ```
+  - [[#N](https://github.com/xpack/logger-ts/issues/N)]: Title
+  ```
+- If compatibility notices were added for the release, move their details
+  from the **Getting Started** category to a **Detailed changes** section at
+  the end of the blog post, with the `{#details}` anchor
+  (`## Detailed changes {#details}`), and replace the notice with a summary
+  of no more than three sentences, which links to that section
+  (`/blog/YYYY/MM/DD/<post>/#details`)
+- **Commit** with the message _**website: blog post release 7.0.0 published**_

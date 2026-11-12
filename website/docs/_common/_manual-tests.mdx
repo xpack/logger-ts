@@ -1,0 +1,83 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/_common/_manual-tests-liquid.mdx */}
+
+import CommonXpmCleanUps from '@site/docs/_common/_xpm-clean-ups.mdx';
+
+{/* ------------------------------------------------------------------------ */}
+
+### Manual tests
+
+There are predefined xpm actions available to manually execute various
+tests on the local development machine.
+
+Start with a clean-up (not needed after the initial `git clone`):
+
+```sh
+npm --prefix ~/Work/xpack/logger-ts.git/tests install
+npm --prefix ~/Work/xpack/logger-ts.git/tests run deep-clean
+npm --prefix ~/Work/xpack/logger-ts.git/tests install
+```
+
+:::tip
+
+During the initial execution, the installation step may require a considerable
+amount of time, as it needs to download the toolchain archives, which
+can be relatively large, up to several hundred megabytes.
+
+:::
+
+To execute the tests with the system compiler (usually not available on Windows):
+
+```sh
+xpm run install -C ~/Work/xpack/logger-ts.git/tests
+xpm run test -C ~/Work/xpack/logger-ts.git/tests
+```
+
+To execute a selection of tests with the latest versions of toolchains:
+
+```sh
+xpm run install-selected -C ~/Work/xpack/logger-ts.git/tests
+xpm run test-selected -C ~/Work/xpack/logger-ts.git/tests
+```
+
+To execute all tests with the latest versions of toolchains:
+
+```sh
+xpm run install-latest -C ~/Work/xpack/logger-ts.git/tests
+xpm run test-latest -C ~/Work/xpack/logger-ts.git/tests
+```
+
+To execute all tests with all toolchain versions:
+
+```sh
+xpm run install-all -C ~/Work/xpack/logger-ts.git/tests
+xpm run test-all -C ~/Work/xpack/logger-ts.git/tests
+```
+
+To build the physical boards binaries with the latest versions of toolchains:
+
+```sh
+xpm run install-boards -C ~/Work/xpack/logger-ts.git/tests
+xpm run build-boards -C ~/Work/xpack/logger-ts.git/tests
+```
+
+### Clean-ups
+
+Executing all tests may require several gigabytes of space.
+
+To clean up the tests folder, use:
+
+```sh
+npm --prefix ~/Work/xpack/logger-ts.git/tests install
+npm --prefix ~/Work/xpack/logger-ts.git/tests run deep-clean
+```
+
+A considerable amount of space may also be used by the toolchains.
+When no longer required, they can be removed with `xpm uninstall`.
+
+<details>
+<summary>xpm clean-ups</summary>
+
+<CommonXpmCleanUps />
+
+</details>

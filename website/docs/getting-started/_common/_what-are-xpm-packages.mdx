@@ -1,0 +1,61 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/getting-started/_common/_what-are-xpm-packages-liquid.mdx */}
+
+{/* ------------------------------------------------------------------------ */}
+
+## What are xpm packages? (xPacks) {#xpm-packages}
+
+**xpm packages**, also known as **xPacks**, are language-neutral software
+packages, used in C and C++ projects.
+
+<details>
+<summary>Why xpm packages, and not another package format?</summary>
+
+In practice, xpm packages are simple. They automate frequent tasks of
+software development, such as installing the dependencies, and make the
+builds reproducible.
+
+xpm packages are managed by **[xpm](https://xpack.github.io/xpm/)**
+(the xPack Project Manager), a
+utility that complements the **[npm](https://docs.npmjs.com/cli/)**
+CLI, the widely used JavaScript
+package manager, by introducing language-neutral features.
+
+The xPack Framework **does not define a new package format**; it
+**adopts the standard npm package format**, which comprises
+a collection of files and folders, with a `package.json`
+file containing the metadata.
+
+**xpm** can install packages from the same repositories
+as **npm**, public or private.
+
+Packages, which are typically regular archives or git repositories,
+are extracted into distinct folders within the project.
+
+Based on their contents, xpm packages fall into two categories:
+
+- Source xpm packages: these contain source libraries;
+- Binary xpm packages: these typically consist of executables,
+  often platform-specific binary tools.
+
+**Source xpm packages** are standard npm packages that incorporate
+**library source files**, usually written in C/C++, although they
+are not restricted to any particular programming language.
+
+**Binary xpm packages** are also standard npm packages but have
+minimal contents, generally limited to a `package.json` file.
+Since these packages provide executables for multiple platforms —
+many of which can be considerably large — it is impractical to
+include all binaries within the npm package itself. Instead, the
+`package.json` file includes references (URLs) to platform-specific
+binary archives (e.g., `.tar.gz` for Unix or `.zip` for Windows).
+
+These archives, along with the package metadata, are extracted.
+Additionally, links or forwarders to the executables are created
+within a `.bin` folder, thereby eliminating the need to add multiple
+folders to the system PATH.
+
+For more information, see the
+[xpm Concepts](https://xpack.github.io/xpm/docs/guide/concepts/) page.
+
+</details>

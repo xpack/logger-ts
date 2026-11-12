@@ -1,0 +1,9 @@
+{
+  "branding": "",
+  "metadataKeywords": "xpm, xpack, build, test, dependencies, npm, reproducibility",
+  "nodeVersion": "18.20.4",
+  "title": "logger - The xPack Logger",
+  "hasTSDocDocusaurusApi": true,
+  "skipAlgolia": true,
+  "useApiDocumenter": true
+}

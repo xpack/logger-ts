@@ -1,14 +1,16 @@
 // DO NOT EDIT!
 // Automatically generated from docusaurus-template-liquid/templates/docusaurus.
 
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+/* eslint-disable */
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 // import logger from '@docusaurus/logger';
 import util from 'node:util';
 
-import {redirects} from './docusaurus-config-redirects';
-import {getCustomFields} from './customFields';
+import tsdocApiMenu from './docusaurus-config-navbar-tsdoc.json'
+import { redirects } from './docusaurus-config-redirects';
+import { getCustomFields } from './customFields';
 
 // The node.js modules cannot be used in modules imported in browser code:
 // webpack < 5 used to include polyfills for node.js core modules by default.
@@ -21,14 +23,14 @@ const customFields = getCustomFields();
 console.log('customFields: ' + util.inspect(customFields));
 
 const actualBaseUrl = process.env.DOCUSAURUS_BASEURL ??
-    '/logger-ts/';
+  '/logger-ts/';
 
 // ----------------------------------------------------------------------------
 
 const config: Config = {
   title: 'logger - The xPack Logger' +
     ((process.env.DOCUSAURUS_IS_PREVIEW === 'true') ? ' (preview)' : ''),
-  tagline: 'A Node.js CommonJS/ES6 module with a generic console logger class',
+  tagline: 'A Node.js ES module with a generic console logger class',
 
   // Explicitly set in headTags.
   // favicon: '/img/favicon.ico',
@@ -46,7 +48,6 @@ const config: Config = {
 
   onBrokenAnchors: 'throw',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
 
   onDuplicateRoutes: 'throw',
 
@@ -62,73 +63,18 @@ const config: Config = {
     locales: ['en'],
   },
 
+  markdown: {
+    format: 'detect',
+    hooks: {
+        onBrokenMarkdownLinks: 'throw'
+    }
+  },
+
   plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        sidebarPath: './sidebars.ts',
-        // Please change this to your repo.
-        // Remove this to remove the "edit this page" links.
-        editUrl: 'https://github.com/xpack/logger-ts/edit/website/website/',
-        // showLastUpdateAuthor: true,
-        showLastUpdateTime: true,
-      },
-    ],
-    [
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog
-      '@docusaurus/plugin-content-blog',
-      {
-        showReadingTime: true,
-        blogSidebarCount: 8,
-        feedOptions: {
-          type: ['rss', 'atom'],
-          xslt: true,
-        },
-        // Please change this to your repo.
-        // Remove this to remove the "edit this page" links.
-        editUrl: 'https://github.com/xpack/logger-ts/edit/website/website/',
-        // Useful options to enforce blogging best practices
-        onInlineTags: 'warn',
-        onInlineAuthors: 'warn',
-        onUntruncatedBlogPosts: 'warn',
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-pages',
-      {}
-    ],
     [
       // https://docusaurus.io/docs/next/api/plugins/@docusaurus/plugin-client-redirects#redirects
       '@docusaurus/plugin-client-redirects',
       redirects,
-    ],
-    [
-      '@docusaurus/plugin-debug',
-      {}
-    ],
-    [
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-google-gtag
-      // https://tagassistant.google.com
-      '@docusaurus/plugin-google-gtag',
-      {
-        trackingID: 'G-8WX9T80JEK',
-        anonymizeIP: false,
-      }
-    ],
-    [
-      // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
-      '@docusaurus/plugin-sitemap',
-      {
-        lastmod: 'date',
-        changefreq: 'weekly',
-        priority: 0.5,
-        ignorePatterns: [
-          actualBaseUrl + 'blog/archive/**',
-          actualBaseUrl + 'blog/authors/**',
-          actualBaseUrl + 'blog/tags/**'
-        ],
-        filename: 'sitemap.xml',
-      }
     ],
     [
       '@docusaurus/plugin-ideal-image',
@@ -140,69 +86,83 @@ const config: Config = {
         disableInDev: false,
       },
     ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        // https://typedoc-plugin-markdown.org/docs/options#display-options
-        blockTagsPreserveOrder: [
-          "@example"
-        ],
-        categorizeByGroup: false, // Otherwise it fails to load the sidebar.
-        classPropertiesFormat: "list", // "table" not, it may have examples
-        entryPointStrategy: "resolve",
-        entryPoints: [
-          "../src/index.ts"
-        ],
-        enumMembersFormat: "table",
-        excludeExternals: true,
-        excludeInternal: true,
-        expandObjects: true,
-        expandParameters: true,
-        indexFormat: "table",
-        interfacePropertiesFormat: "list", // "table" not, it may have examples
-        logLevel: "Verbose",
-        parametersFormat: "table",
-        plugin: [
-          "typedoc-plugin-markdown"
-        ],
-        propertyMembersFormat: "table",
-        readme: "none",
-        skipErrorChecking: true,
-        sort: [
-          "instance-first",
-          "visibility"
-        ],
-        tsconfig: '../tsconfig.json',
-        "tableColumnSettings": {
-          "leftAlignHeaders": true
-        },
-        typeDeclarationFormat: "table",
-        useCodeBlocks: false, // Nice, but it might be mistaken for examples.
-      }
-    ],
 
     // Local plugins.
     './src/plugins/SelectReleasesPlugin',
   ],
 
-  themes: [
+  presets: [
     [
-      '@docusaurus/theme-classic',
+      'classic',
       {
-        customCss: './src/css/custom.css',
-      }
-    ],
-    [
-      // Explicitly required when not using `preset-classic`.
-      // https://docusaurus.io/docs/search#using-algolia-docsearch
-      '@docusaurus/theme-search-algolia',
-      {
-      }
+        docs: {
+          sidebarPath: './sidebars.ts',
+          // No `editUrl`, to have no "edit this page" links: most pages are
+          // generated from templates, and the links would lead to files whose
+          // changes are overwritten.
+          // showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
+        },
+        // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog
+        blog: {
+          showReadingTime: true,
+          blogSidebarCount: 8,
+          feedOptions: {
+            type: ['rss', 'atom'],
+            xslt: true,
+          },
+          // No `editUrl`, to have no "edit this page" links: most pages are
+          // generated from templates, and the links would lead to files whose
+          // changes are overwritten.
+          // Useful options to enforce blogging best practices
+          onInlineTags: 'warn',
+          onInlineAuthors: 'warn',
+          onUntruncatedBlogPosts: 'warn',
+        },
+        pages: {},
+        // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-google-gtag
+        // https://tagassistant.google.com
+        gtag: {
+          trackingID: 'G-8WX9T80JEK',
+          anonymizeIP: false,
+        },
+        // https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-sitemap
+        sitemap: {
+          lastmod: 'date',
+          changefreq: 'weekly',
+          priority: 0.5,
+          ignorePatterns: [
+            actualBaseUrl + 'blog/archive/**',
+            actualBaseUrl + 'blog/authors/**',
+            actualBaseUrl + 'blog/tags/**'
+          ],
+          filename: 'sitemap.xml',
+        },
+
+        debug: true,
+
+        theme: {
+          customCss: [
+            './src/css/custom.css',
+            './src/css/custom-tsdoc2docusaurus.css'
+          ],
+        },
+
+      } satisfies Preset.Options,
     ],
   ],
 
   // https://docusaurus.io/docs/api/docusaurus-config#headTags
   headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'icon',
+        type: 'image/png',
+        href: actualBaseUrl + 'favicons/favicon-96x96.png',
+        sizes: '96x96'
+      }
+    },
     {
       tagName: 'link',
       attributes: {
@@ -260,7 +220,7 @@ const config: Config = {
 
       logo: {
         alt: 'xPack Logo',
-        src: 'img/components-256.png',
+        src: 'img/logo-256.png',
         href: 'https://xpack.github.io/'
       },
       items: [
@@ -281,7 +241,7 @@ const config: Config = {
               to: '/docs/getting-started'
             },
             {
-              label: 'Install Guide',
+              label: 'Installation Guide',
               to: '/docs/install'
             },
             {
@@ -314,11 +274,7 @@ const config: Config = {
             },
           ],
         },
-        {
-          to: '/docs/api',
-          label: 'API',
-          position: 'left',
-        },
+        tsdocApiMenu,
         {
           type: 'dropdown',
           to: '/blog',
@@ -409,11 +365,11 @@ const config: Config = {
             },
             {
               label: 'Discord',
-              href: 'https://discord.com/invite/kbzWaJerFG',
+              href: 'https://discord.gg/EkU7Spstr',
             },
             {
               label: 'X/Twitter',
-              href: 'https://twitter.com/xpack_project',
+              href: 'https://x.com/xpack_project',
             },
           ],
         },
@@ -445,47 +401,15 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-    // https://docusaurus.io/docs/search#using-algolia-docsearch
-    // https://docsearch.algolia.com/docs/docsearch-v3/
-    algolia: {
-      // The application ID provided by Algolia
-      appId: "KIDD7R4CL1",
-
-      // Public API key: it is safe to commit it
-      apiKey: "ca2ffc431941284609f2d50202fc5506",
-
-      indexName: "xpackio",
-
-      // It ensures that search results are relevant to the current
-      // language and version. Enabled by default.
-      contextualSearch: true,
-
-      // Optional: Specify domains where the navigation should occur
-      // through window.location instead on history.push. Useful when
-      // our Algolia config crawls multiple documentation sites and
-      // we want to navigate with window.location.href to them.
-      // externalUrlRegex: 'external\\.com|domain\\.com',
-      externalUrlRegex: 'xpack\\.github\\.io|xpack-dev-tools\\.github\\.io',
-
-      // Optional: Replace parts of the item URLs from Algolia.
-      // Useful when using the same search index for multiple deployments
-      // using a different baseUrl. You can use regexp or string in the
-      // `from` param. For example: localhost:3000 vs myCompany.com/docs
-      // replaceSearchResultPathname: {
-      //  from: '/docs/', // or as RegExp: /\/docs\//
-      //  to: '/',
-      // },
-
-      // Optional: Algolia search parameters
-      searchParameters: {},
-
-      // Optional: path for search page that enabled by default (`false` to disable it)
-      searchPagePath: 'search',
-
-      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
-      insights: false,
-    },
   } satisfies Preset.ThemeConfig,
+
+  // https://docusaurus.io/blog/releases/3.6#docusaurus-faster
+  future: {
+    v4: {
+      removeLegacyPostBuildHeadAttribute: true,
+    },
+    faster: true,
+  },
 
   customFields: customFields,
 };

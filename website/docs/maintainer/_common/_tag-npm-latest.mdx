@@ -1,0 +1,42 @@
+{/* DO NOT EDIT! Automatically generated from template file: */}
+{/* docusaurus-template-liquid/templates/common/docs/maintainer/_common/_tag-npm-latest-liquid.mdx */}
+
+import CodeBlock from '@theme/CodeBlock';
+
+{/* ------------------------------------------------------------------------ */}
+
+### Check npm package tags
+
+Execute the following command in a terminal:
+
+```sh
+npm dist-tag ls @xpack/logger
+```
+
+### Tag the npm package as `latest`
+
+When the release is considered stable, promote it as `latest`:
+
+<CodeBlock language="sh"> {
+`npm dist-tag add @xpack/logger@7.0.0 latest
+`} </CodeBlock>
+
+Check the result:
+
+<CodeBlock language="sh"> {
+`npm dist-tag ls @xpack/logger
+`} </CodeBlock>
+
+Should the release prove problematic, deprecate it, so that the users get a
+warning when they install it; the version remains available:
+
+<CodeBlock language="sh"> {
+`npm deprecate @xpack/logger@7.0.0 "<reason>"
+`} </CodeBlock>
+
+npm allows unpublishing a version only within 72 hours of its publication, so
+this should be used only for a release published by mistake:
+
+<CodeBlock language="sh"> {
+`npm unpublish @xpack/logger@7.0.0
+`} </CodeBlock>
