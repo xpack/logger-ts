@@ -6,6 +6,7 @@ import CodeBlock from '@theme/CodeBlock';
 import CommonBuildWebsiteLocally from '@site/docs/_common/_build-website-locally.mdx';
 import CommonPrerequisites from '@site/docs/_common/_prerequisites.mdx';
 import CommonGetProjectSources from '@site/docs/_common/_get-project-sources.mdx';
+import CommonGetHelperSources from '@site/docs/_common/_get-helper-sources-details.mdx';
 import CommonStartLocalWebServer from '@site/docs/_common/_start-local-web-server.mdx';
 import CommonPublishWebsite from '@site/docs/_common/_publish-website.mdx';
 import CommonPrepareWebsite from '@site/docs/_common/_prepare-website.mdx';
@@ -28,6 +29,8 @@ import CommonPrepareRelease from '../_common/_prepare-release.mdx'
 import CommonUpdateChangelog from '../_common/_update-changelog.mdx';
 import CommonUpdateWebsiteConfig from '../_common/_update-website-config.mdx';
 
+import BranchesDetails from '@site/docs/_common//_branches-details.mdx'
+
 import ProjectDependenciesDetails from '../_project/_dependencies-details.mdx';
 import ProjectMore from '../_project/_more.mdx';
 
@@ -35,7 +38,33 @@ import ProjectMore from '../_project/_more.mdx';
 
 <CommonPrerequisites nodeVersion="22.12" nodeVersionMajor="22"/>
 
-<CommonGetProjectSources />
+## Obtain project sources
+
+The project is hosted on GitHub:
+
+- https://github.com/xpack/logger-ts.git
+
+<BranchesDetails />
+
+To clone the development branch (`development`), execute the
+following commands in a terminal (on Windows use the _Git Bash_ console):
+
+```sh
+rm -rf ~/Work/xpack/logger-ts.git && \
+mkdir -p ~/Work/xpack && \
+git clone \
+  --branch development \
+  https://github.com/xpack/logger-ts.git \
+  ~/Work/xpack/logger-ts.git
+```
+
+Alternatively, if the repository has already been cloned:
+
+```sh
+git -C ~/Work/xpack/logger-ts.git pull
+```
+
+<CommonGetHelperSources helperOrganizationName="xpack"  helperProjectName="npm-packages-helper" helperBranchName="master" />
 
 ## Release schedule
 
@@ -54,9 +83,7 @@ There are no fixed releases.
 - **Commit** the changes
 
 Keep the version of `@types/node` in sync with the Node.js version
-specified in `package.json` (`22.12`).
-
-<ProjectDependenciesDetails />
+specified in `package.json` (currently 22.12).
 
 <CommonIncreaseVersion />
 

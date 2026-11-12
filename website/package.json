@@ -89,14 +89,6 @@
       "last 5 safari version"
     ]
   },
-  "_websiteConfig": {
-    "title": "logger - The xPack Logger",
-    "metadataDescription": "A Node.js ES module with a generic console logger class",
-    "metadataKeywords": "xpm, xpack, build, test, dependencies, npm, reproducibility",
-    "hasApi": "true",
-    "has100coverage": "true",
-    "nodeVersion": "18.20.4"
-  },
   "engines": {
     "node": ">=22.12"
   }

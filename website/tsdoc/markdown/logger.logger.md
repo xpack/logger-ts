@@ -30,7 +30,7 @@ The messages may include formatting directives, with additional arguments, as de
 
 All logging methods accept an optional message, of any type, and possibly some arguments, as processed by the standard Node.js [util.format()](https://nodejs.org/api/util.html#utilformatformat-args) function.
 
-<b>Empty messages.</b> If the message is omitted or `undefined`<!-- -->, it is replaced by an empty string, so `log.info()` and `log.info(undefined)` write an empty line, and the methods with a prefix write only the prefix (for example `debug: `<!-- -->). This differs from `console.log()`<!-- -->, which writes `undefined`<!-- -->. Other falsy values are written as they are (`null`<!-- -->, `0`<!-- -->, and `false` give `null`<!-- -->, `0`<!-- -->, and `false`<!-- -->), and `undefined` is written as usual when it is not the first argument (`log.info('value:', undefined)` gives `value: undefined`<!-- -->). Since the empty string is still a message, any further arguments are appended to it after a space (`log.info(undefined, 1)` gives ` 1`<!-- -->, with a leading space). To write the text `undefined`<!-- -->, convert it explicitly, for example `log.info(String(value))`<!-- -->.
+<b>Empty messages.</b> If the message is omitted or `undefined`<!-- -->, it is replaced by an empty string, so `log.info()` writes an empty line, and the methods with a prefix write only the prefix; this differs from `console.log()`<!-- -->, which writes `undefined`<!-- -->. The other values, and the details, are in the section "Empty messages" of the User's Guide.
 
 <b>Logging methods.</b> The methods differ by the level from which they are written (the threshold), by the console stream, and by a prefix added to the message:
 
@@ -44,53 +44,19 @@ The three methods that write on stdout without a prefix are used for different p
 
 <b>Extending the class.</b> A subclass can intercept the messages by overriding the protected `write()` method, which is the only supported extension point (see its description for the contract). The state of the logger is private; use the public members, like `level`<!-- -->, `hasLevel`<!-- -->, `isLevel()`<!-- -->, and `console`<!-- -->. The protected members that gave direct access to the state (`_console`<!-- -->, `levelNumericValue`<!-- -->, `levelName`<!-- -->, and `buffer`<!-- -->) are deprecated, still work, and will be removed in the next major version.
 
-<b>Timestamps.</b> If the logger is created with the `timestamp` option, the messages of the methods that have a prefix start with the local time, and the prefix is replaced by the kind of the message in square brackets; the format and the details are in the description of the `timestamp` accessor.
+<b>Timestamps.</b> If the logger is created with the `timestamp` option, the messages of the methods that have a prefix start with the local time, and the prefix is replaced by the kind of the message in square brackets; the format and the rules are in the description of the `timestamp` accessor.
 
 <b>Errors.</b> An `Error` passed to a logging method is expanded with its stack trace and its `cause` chain, and `error()` omits its prefix for it; the details, and how to show only the message, are in the description of `error()`<!-- -->.
 
-<b>Untrusted input.</b> The messages are written as they are, without any escaping, so text that comes from outside the application (like a file name, a user name, or the content of a network request) can forge messages, send control sequences to the terminal, and be interpreted as format directives:
+<b>Untrusted input.</b> The messages are written as they are, without any escaping, so text that comes from outside the application can forge messages, send control sequences to the terminal, and be interpreted as format directives. Pass such text as an argument, never as the first argument, with a constant format string, for example `log.info('user: %j', name)`<!-- -->, where `%j` also escapes the newlines and the control characters; see the section "Logging untrusted input" of the User's Guide.
 
-<ul> <li>a newline in the text starts a new line in the output, and a prefix is added only to the first line, so the text <code>bob</code>, a newline, and <code>error: forged</code> in a <code>warn()</code> call writes the line <code>warning: bob</code>, followed by a line that looks like a genuine <code>error: forged</code> message;</li> <li>control characters, like the ANSI escape sequences, are passed to the terminal unchanged;</li> <li>if the first argument contains directives (like <code>%s</code>, <code>%d</code>, or <code>%j</code>) and there are further arguments, the directives consume them, so <code>log.info(text, secret)</code> may write the secret; a single argument is not processed (<code>log.info('100%d')</code> writes <code>100%d</code>), but <code>log.info('100%d', 5)</code> writes <code>1005</code>.</li> </ul>
+To skip the preparation of a message when the message would not be written, check the level first, with `isDebugEnabled` or the other checks of the level; see the section "Log level checks" of the User's Guide.
 
-Therefore pass the untrusted text as an argument, never as the first argument, with a constant format string:
-
-```javascript
-log.info('user: %s', name)
-```
-This prevents the interpretation of the directives, but `%s` writes a string as it is, including the newlines and the control characters. To also escape them, use `%j` (JSON) or `%O` (as `util.inspect()`<!-- -->), which write the string between quotes, with a newline as `\n` and the escape character as `\u001b` or `\x1B`<!-- -->:
-
-```javascript
-log.info('user: %j', name)
-```
-Note that `%j` calls the `toJSON()` method of an object, and that `%j` and `%O` quote the strings.
-
-If the logging code is more complex than a single line, for example if it needs a long loop, it is recommended to explicitly check the log level and, if not high enough, skip the code entirely.
-
-```javascript
-  if (log.isTraceEnabled) {
-    for (const [folderName, folder] of Object.entries(folders)) {
-      log.trace(`'${folderName}' ${folder.toolchainOptions}`)
-    }
-  }
-```
 There are cases when the logger must be created very early in the life cycle of an application, even before it is practically possible to determine the log level.
 
 For these cases, if the logger is created without a log level, it is in a <b>preliminary state</b>, and all messages are stored in an <b>internal buffer</b>, until the log level is set, when the buffer is replayed and the messages are written.
 
-Nothing is written while the logger is in the preliminary state, not even the messages of `always()` and `error()`<!-- -->. If the log level is never set (for example when the application fails before it determines the level), the buffered messages are never written and are lost. Set the log level on every path, for example in a `catch` or `finally` block, using `hasLevel` to check whether it was set:
-
-```javascript
-try {
-  // Determine the log level, then set it.
-  log.level = parseLevel(process.argv)
-} catch (err) {
-  if (!log.hasLevel) {
-    log.level = Logger.recommendedLevel
-  }
-  log.error(err)
-}
-```
-The cost of the preliminary state, which formats and stores every message, is described in the description of `hasLevel`<!-- -->.
+Nothing is written while the logger is in the preliminary state, not even the messages of `always()` and `error()`<!-- -->. If the log level is never set (for example when the application fails before it determines the level), the buffered messages are never written and are lost. Set the log level on every path, for example in a `catch` or `finally` block, using `hasLevel` to check whether it was set. The example and the cost of the preliminary state, which formats and stores every message, are in the section "Delaying setting the log level" of the User's Guide.
 
 ## Example
 

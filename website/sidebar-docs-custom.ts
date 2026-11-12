@@ -21,20 +21,9 @@ export const customDocsSidebar = [
     label: 'Installation Guide',
   },
   {
-    type: 'category',
+    type: 'doc',
+    id: 'user/index',
     label: "User's Guide",
-    link: {
-      type: 'doc',
-      id: 'user/index',
-    },
-    collapsed: false,
-    items: [
-      // {
-      //   type: 'doc',
-      //   id: 'user/configuration/index',
-      //   label: 'Configuration Variables',
-      // },
-    ],
   },
   // {
   //   type: 'doc',

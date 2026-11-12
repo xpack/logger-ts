@@ -42,9 +42,9 @@ Version **{{releaseVersion}}** is a new release; it adds ....
 <PageMetadata title={frontMatter.seo_title} />
 
 The [xPack Logger](https://xpack.github.io/logger-ts/)
-project is a TypeScript and dual mode CommonJS/ECMAScript Node.js module.
+project is a TypeScript Node.js ES module.
 
-<Prerequisites nodeVersion="18.0.0"/>
+<Prerequisites nodeVersion="22.12"/>
 
 ## Install
 
@@ -60,10 +60,11 @@ To include this module in TypeScript and ECMAScript modules, use `import`:
 import { Logger } from '@xpack/logger'
 ```
 
-In JavaScript with CommonJS, use `require()`:
+In JavaScript with CommonJS, use `require()`, which loads ES modules in
+Node.js 22.12 or later:
 
 ```javascript
-const { Logger } = request('@xpack/logger')
+const { Logger } = require('@xpack/logger')
 ```
 
 ## Source code
@@ -84,7 +85,7 @@ const { Logger } = request('@xpack/logger')
 
 ## CI tests
 
-Before publishing, a set of tests were performed .
+Before publishing, a set of tests was performed.
 The results are available from:
 
 - [GitHub Actions](https://github.com/xpack/logger-ts/actions)

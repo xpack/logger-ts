@@ -32,7 +32,7 @@ import Link from '@docusaurus/Link';
 import Prerequisites from './_common/_prerequisites.mdx';
 import DownloadAnalytics from './_common/_download-analytics.mdx';
 
-Version **5.0.0** is a new major release; it ...
+Version **5.0.0** is a new major release; it changes `hasLevel` from a method to an accessor.
 
 <!-- truncate -->
 
@@ -53,6 +53,13 @@ page.
 
 - <Link to={frontMatter.release_tag_url}>GitHub tag v{frontMatter.version} tree</Link>
 
+## Major changes
+
+- `hasLevel` was changed from a method to an accessor
+- the log level starts as `undefined`, instead of the string `'undefined'`
+
+See the [compatibility notices](/docs/getting-started/).
+
 ## Bug fixes
 
 - none
@@ -67,7 +74,7 @@ page.
 
 ## CI tests
 
-Before publishing, a set of tests were performed.
+Before publishing, a set of tests was performed.
 The results are available from:
 
 - [GitHub Actions](https://github.com/xpack/logger-ts/actions)

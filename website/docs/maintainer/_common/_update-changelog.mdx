@@ -5,31 +5,6 @@
 
 ### Update `CHANGELOG.md`
 
-- Open the `CHANGELOG.md` file
-- Check if all previously fixed issues are included
-- Check the latest commits with `npm run git-log`; if necessary, copy/paste lines,
-  group by dates and edit them using the regular expressions below
-- To convert the dates into headings, change from:
-  ```txt
-
-
-  ([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) [*]
-  ```
-  to:
-  ```txt
-
-
-  ## $1
-
-  *
-  ```
-- To remove the remaining dates, change from:
-  ```txt
-  ^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9] [*]
-  ```
-  to:
-  ```txt
-  *
-  ```
+- Run `npm run update-changelog`; this should update the `CHANGELOG.md` file with the latest changes
 - Add a new entry such as _**\* v7.0.0 prepared**_
 - **Commit** with the message _**prepare v7.0.0**_

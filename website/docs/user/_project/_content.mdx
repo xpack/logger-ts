@@ -1,8 +1,30 @@
 
 {/* ------------------------------------------------------------------------ */}
 
-The `@xpack/logger` module can be imported into both TypeScript
-and JavaScript Node.js code.
+## Using the logger
+
+The `@xpack/logger` module can be used in both TypeScript and JavaScript
+Node.js code; the class can be used directly, or a custom class can be
+derived from it for a custom behaviour.
+
+The typical use case is to create an instance of the `Logger` object,
+then log messages at different levels:
+
+```javascript
+import { Logger } from '@xpack/logger'
+
+const log = new Logger({
+  level: 'info'
+})
+
+log.info('hello') // Displayed on stdout.
+log.debug('world') // Ignored.
+```
+
+When the preparation of a message is expensive, check the log level first
+(see [Log level checks](#log-level-checks)).
+
+## Importing the module
 
 In TypeScript and ECMAScript modules, use `import`:
 
@@ -27,7 +49,11 @@ removing these two fields; projects that still use it should migrate to one
 of the modern modes.
 
 The `package.json` file of the package can be read through the package
-name, for example with `require('@xpack/logger/package.json')`.
+name, for example:
+
+```javascript
+require('@xpack/logger/package.json')
+```
 
 The package is an ES module only. In JavaScript with CommonJS, use
 `require()`, which loads ES modules by default in Node.js 22.12 or later
@@ -49,76 +75,7 @@ async function main() {
 }
 ```
 
-The module can be included in any application and the class can be used
-directly or a custom class can be derived from it for a custom behaviour.
-
-The typical use case is to create an instance of the `Logger` object,
-then log messages at different levels:
-
-```javascript
-const log = new Logger({
-  level: 'info'
-})
-
-log.info('hello') // Displayed on stdout.
-log.debug('world') // Ignored.
-```
-
-In more complex use cases, the log level can be tested and the (possibly)
-long operations be performed only if necessary.
-
-### The console
-
-By default, the logger writes on the global `console`. A different console
-can be passed to the constructor, for example a mock console, to capture
-the messages in tests:
-
-```typescript
-import { MockConsole } from '@xpack/mock-console'
-
-const mock = new MockConsole()
-const log = new Logger({ console: mock, level: 'info' })
-
-log.info('hello')
-// The `console` accessor returns the mock, with its own type.
-console.log(log.console.outLines)
-```
-
-The logger uses only the `log()` function, for the standard output, and the
-`error()` function, for the standard error (see the table of the logging
-methods below), so any object that has these two functions can be used, not
-only a Node.js `Console`; the TypeScript type is `LoggerConsole`:
-
-```typescript
-const lines: string[] = []
-const log = new Logger({
-  console: {
-    log: (message: unknown) => lines.push(`${String(message)}`),
-    error: (message: unknown) => lines.push(`error: ${String(message)}`),
-  },
-  level: 'info',
-})
-```
-
-The functions are called as methods of the object, so they may use `this`.
-An object without the `log()` or the `error()` function is rejected by the
-constructor with a `TypeError`.
-
-In TypeScript, the class has a type parameter, the type of the console, which
-the `console` accessor returns. Without a console it is the Node.js
-`Console`, so `log.console.table()` is available; with a minimal object it is
-the type of that object, so the compiler does not allow functions that it
-does not have; with a mock it is the type of the mock, so its members are
-available without a cast. The default type argument keeps the existing code
-working: a variable of type `Logger`, and a class that extends `Logger`,
-mean the logger with the Node.js `Console`.
-
-Since a logger created without a console uses the global `console` object,
-the `console` option can be omitted only if that object is of the type of the
-logger. For a richer type, like `Logger<MockConsole>`, the option is
-required, and the compiler rejects the constructor call without it.
-
-### Log levels
+## Log levels
 
 The following strings are recognised as valid level names:
 
@@ -136,6 +93,19 @@ export type LogLevel =
 
 The name of the warning level is `warn`, like the `warn()` method; the
 messages of this level start with the prefix `warning: `.
+
+The levels, their numeric values, and their purpose are:
+
+| Level | Value | Used for |
+| --- | --- | --- |
+| `silent` | 0 | no messages, except those of `always()` |
+| `error` | 10 | errors, and the output of `output()` |
+| `warn` | 20 | warnings |
+| `info` | 30 | informative messages, the progress of the application |
+| `verbose` | 40 | additional details of the progress |
+| `debug` | 50 | the information needed to diagnose a problem |
+| `trace` | 60 | the flow of the execution |
+| `all` | 70 | everything |
 
 Internally, string levels are converted to numeric values (the
 `Logger.numericLevels` object) for comparison purposes. Higher numeric
@@ -198,84 +168,16 @@ with the compiler option `exactOptionalPropertyTypes`, which is the same
 as not passing them, so `new Logger({ level: process.env.LOG_LEVEL })` can
 be written when the value is already checked with `Logger.isLogLevel()`.
 
-### Delaying setting the log level
+## Logging methods
 
-In some cases, the logger needs to be created very early in the
-application's lifecycle, even before the log level can be determined.
-
-In such cases, if the logger is created without a log level, it is in a
-**preliminary state**. During this time, all messages are
-stored in an **internal buffer**. Once the log level is set, the buffer
-is replayed, and the messages are written, or discarded, according to the
-log level.
+All the logging methods, `always()`, `error()`, `output()`, `warn()`,
+`info()`, `verbose()`, `debug()`, and `trace()`, have the same signature, with
+an optional message of any type and further arguments, as accepted by
+`util.format()`:
 
 ```typescript
-const log = new Logger()
-log.trace('...') // Not shown immediately
-log.level = 'trace' // Set level and show the buffered messages.
-
-log.info('hello') // Displayed on stdout.
-log.debug('world') // Ignored.
+(message?: unknown, ...args: unknown[]): void
 ```
-
-With the log level set, a message that is below the level is skipped
-before it is formatted, which costs a few nanoseconds. In the preliminary
-state the final log level is not known, so every message, including
-`debug()` and `trace()`, is formatted immediately and stored in the
-buffer, until the log level is set:
-
-- the formatting is done even for the messages that are later discarded;
-  for example, an object passed to a `%o` directive is inspected at each
-  call (about 3 microseconds, against 0.2 microseconds for a short string
-  message);
-- the buffer is not limited, and a message of about 70 characters takes
-  about 250 bytes, so a long running application that logs a lot before
-  the log level is set should set it as early as possible;
-- since the message is formatted when it is logged, a later change of an
-  argument does not alter the buffered message.
-
-The checks of the log level (`isDebugEnabled`, `isLevel()`, and the others) are
-`true` in the preliminary state, so the preparation of a message guarded by
-them is done there too.
-
-Nothing is written while the logger is in the preliminary state, not even
-the messages of `always()` and `error()`. If the log level is never set
-(for example when the application fails before it determines the level),
-the buffered messages are never written and are lost. Set the log level on
-every path, for example in a `catch` block, using `hasLevel` to check
-whether it was set:
-
-```typescript
-try {
-  // Determine the log level, then set it.
-  log.level = parseLevel(process.argv)
-} catch (err) {
-  if (!log.hasLevel) {
-    log.level = Logger.recommendedLevel
-  }
-  log.error(err)
-}
-```
-
-The buffer is emptied before the messages are written, so each buffered
-message is written at most once. If the console throws while the buffer
-is flushed, the exception is propagated from the level setter, the level
-remains set, and the buffered messages that were not yet written are
-discarded.
-
-### Logging methods
-
-The following methods are available to log messages:
-
-- `always (message: any = '', ...args: any[]): void`
-- `error (message: any = '', ...args: any[]): void`
-- `error (message: Error): void`
-- `output (message: any = '', ...args: any[]): void`
-- `warn (message: any = '', ...args: any[]): void`
-- `info (message: any = '', ...args: any[]): void`
-- `verbose (message: any = '', ...args: any[]): void`
-- `debug (message: any = '', ...args: any[]): void`
-- `trace (message: any = '', ...args: any[]): void`
 
 The methods differ by the level from which they are written (the
 threshold), by the console stream, and by a prefix added to the message:
@@ -306,116 +208,102 @@ different purposes:
   suppressed at `silent`, together with all the other messages;
 - `info()` is for informative messages, shown from the `info` level.
 
-### Timestamps
+## The console
 
-If the logger is created with the `timestamp` option, the messages of the
-methods that have a prefix (`error()`, `warn()`, `debug()`, and `trace()`)
-start with a timestamp, and the prefix is replaced by the kind of the
-message in square brackets:
-
-```typescript
-const log = new Logger({ level: 'info', timestamp: true })
-
-log.warn('the file is missing')
-// 2026-11-11 23:32:31.358 [warning] the file is missing
-```
-
-Without the option, the same message is written as
-`warning: the file is missing`.
-
-The timestamp is in the local time, without the time zone, with
-milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`, `warning`,
-`debug`, or `trace`. The layout is the one of the logs of many editors and
-tools:
-
-```console
-2026-11-11 23:32:31.358 [error] Calculating the configuration failed.
-Error: No configuration found.
-    at getConfig (/project/src/config.js:10:11)
-```
-
-The rules are:
-
-- it is tied to the method, not to the prefix that is written: `error()`
-  with an `Error` that comes first has no prefix without the option (see
-  below), but with the option it has the timestamp and the kind, as
-  `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped messages
-  have the same structure;
-- the messages without a prefix (`always()`, `output()`, `info()`, and
-  `verbose()`) are the normal output and the progress messages, and are
-  never stamped;
-- the timestamp and the kind are written on the first line only, like the
-  prefix, so the stack trace of an `Error`, and the following lines of a
-  multi-line message, are not stamped;
-- the time is taken when the message is logged, so the messages of the
-  preliminary state keep it, although they are written later, when the log
-  level is set;
-- the local time has no time zone, so a log file does not say its own, and
-  the hour is repeated when the clocks change;
-- the option is fixed when the logger is created, and cannot be changed
-  later; the `timestamp` accessor returns its value;
-- a value that is not a boolean is rejected with a `TypeError`.
-
-### Empty messages
-
-If the message is omitted or `undefined`, it is replaced by an empty
-string, so `log.info()` and `log.info(undefined)` write an empty line, and
-the methods with a prefix write only the prefix (for example `debug: `).
-This differs from `console.log()`, which writes `undefined`.
-
-Other falsy values are written as they are (`null`, `0`, and `false` give
-`null`, `0`, and `false`), and `undefined` is written as usual when it is
-not the first argument (`log.info('value:', undefined)` gives
-`value: undefined`). Since the empty string is still a message, any
-further arguments are appended to it after a space (`log.info(undefined, 1)`
-gives ` 1`, with a leading space).
-
-To write the text `undefined`, convert it explicitly:
+By default, the logger writes on the global `console`. A different console
+can be passed to the constructor, for example a mock console, to capture
+the messages in tests:
 
 ```typescript
-log.info(String(value))
+import { MockConsole } from '@xpack/mock-console'
+
+const mock = new MockConsole()
+const log = new Logger({ console: mock, level: 'info' })
+
+log.info('hello')
+// The `console` accessor returns the mock, with its own type.
+console.log(log.console.outLines)
 ```
 
-### Logging untrusted input
-
-The messages are written as they are, without any escaping, so text that
-comes from outside the application (like a file name, a user name, or the
-content of a network request) can forge messages, send control sequences
-to the terminal, and be interpreted as format directives:
-
-- a newline in the text starts a new line in the output, and a prefix is
-  added only to the first line, so the text `'bob\nerror: forged'` in a
-  `warn()` call writes the line `warning: bob`, followed by a line that
-  looks like a genuine `error: forged` message;
-- control characters, like the ANSI escape sequences, are passed to the
-  terminal unchanged;
-- if the first argument contains directives (like `%s`, `%d`, or `%j`) and
-  there are further arguments, the directives consume them, so
-  `log.info(text, secret)` may write the secret; a single argument is not
-  processed (`log.info('100%d')` writes `100%d`), but `log.info('100%d', 5)`
-  writes `1005`.
-
-Therefore pass the untrusted text as an argument, never as the first
-argument, with a constant format string:
+The logger uses only the `log()` function, for the standard output, and the
+`error()` function, for the standard error (see the table of the logging
+methods above), so any object that has these two functions can be used, not
+only a Node.js `Console`; the TypeScript type is `LoggerConsole`:
 
 ```typescript
-log.info('user: %s', name)
+const lines: string[] = []
+const log = new Logger({
+  console: {
+    log: (message: unknown) => lines.push(`${String(message)}`),
+    error: (message: unknown) => lines.push(`error: ${String(message)}`),
+  },
+  level: 'info',
+})
 ```
 
-This prevents the interpretation of the directives, but `%s` writes a
-string as it is, including the newlines and the control characters. To also
-escape them, use `%j` (JSON) or `%O` (as `util.inspect()`), which write the
-string between quotes, with a newline as `\n` and the escape character as
-`\u001b` or `\x1B`:
+The functions are called as methods of the object, so they may use `this`.
+An object without the `log()` or the `error()` function is rejected by the
+constructor with a `TypeError`.
+
+In TypeScript, the class has a type parameter, the type of the console, which
+the `console` accessor returns. Without a console it is the Node.js
+`Console`, so `log.console.table()` is available; with a minimal object it is
+the type of that object, so the compiler does not allow functions that it
+does not have; with a mock it is the type of the mock, so its members are
+available without a cast. The default type argument keeps the existing code
+working: a variable of type `Logger`, and a class that extends `Logger`,
+mean the logger with the Node.js `Console`.
+
+Since a logger created without a console uses the global `console` object,
+the `console` option can be omitted only if that object is of the type of the
+logger. For a richer type, like `Logger<MockConsole>`, the option is
+required, and the compiler rejects the constructor call without it.
+
+## Log level checks
+
+When the preparation of a message is expensive, check the log level first,
+so that the work is done only if the message will be written:
 
 ```typescript
-log.info('user: %j', name)
+if (log.isDebugEnabled) {
+  const message = invoke_long_method()
+  log.debug(message)
+}
 ```
 
-Note that `%j` calls the `toJSON()` method of an object, and that `%j` and
-`%O` quote the strings.
+There is a check for each level: `isErrorEnabled`, `isWarnEnabled`,
+`isInfoEnabled`, `isVerboseEnabled`, `isDebugEnabled`, `isTraceEnabled`, and
+`isAllEnabled`. Each is `true` when the messages of its level are written,
+that is when the current log level is that level or a higher one; for
+example, `isInfoEnabled` is `true` at `debug`. Their previous names
+(`isError`, `isWarn`, `isInfo`, `isVerbose`, `isDebug`, `isTrace`, and
+`isAll`) are deprecated, with the same behaviour, and will be removed in the
+next major version.
 
-### Logging errors
+When the log level is not known at compile time, use the generic
+`isLevel(level)` method, which returns `true` if the current log level
+is equal to the given level or higher.
+
+Before a log level is set (the preliminary state), all checks
+(`isDebugEnabled`, `isLevel()`, and the others) return `true`. This way, the
+messages produced under the check are stored in the internal buffer
+rather than lost, and are filtered when the log level is set. Use
+`hasLevel` to tell whether a log level was set.
+
+For example, to ensure that the log level is not decreased, check
+`hasLevel` first, since in the preliminary state there is no level
+to compare with:
+
+```typescript
+if (!log.hasLevel || !log.isLevel(newLevel)) {
+  log.level = newLevel
+}
+```
+
+The `isSilent` accessor is deprecated, since it is always `true`; to
+check for the `silent` level, use `log.level === 'silent'`.
+
+## Logging errors
 
 `Error` objects are expanded by `util.format()`, as by `console.log()`:
 the first line has the name and the message (for example `Error: boom`),
@@ -474,6 +362,184 @@ hence the `instanceof` check. To also keep the name of the error, use
 `String(err)` instead of `err.message`: `log.error(String(err))` outputs,
 for example, `error: TypeError: boom`.
 
+## Timestamps
+
+If the logger is created with the `timestamp` option, the messages of the
+methods that have a prefix (`error()`, `warn()`, `debug()`, and `trace()`)
+start with a timestamp, and the prefix is replaced by the kind of the
+message in square brackets:
+
+```typescript
+const log = new Logger({ level: 'info', timestamp: true })
+
+log.warn('the file is missing')
+// 2026-11-11 23:32:31.358 [warning] the file is missing
+```
+
+Without the option, the same message is written as
+`warning: the file is missing`.
+
+The timestamp is in the local time, without the time zone, with
+milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`, `warning`,
+`debug`, or `trace`. The layout is the one of the logs of many editors and
+tools:
+
+```console
+2026-11-11 23:32:31.358 [error] Calculating the configuration failed.
+Error: No configuration found.
+    at getConfig (/project/src/config.js:10:11)
+```
+
+The rules are:
+
+- it is tied to the method, not to the prefix that is written: `error()`
+  with an `Error` that comes first has no prefix without the option (see
+  [Logging errors](#logging-errors)), but with the option it has the timestamp and the kind, as
+  `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped messages
+  have the same structure;
+- the messages without a prefix (`always()`, `output()`, `info()`, and
+  `verbose()`) are the normal output and the progress messages, and are
+  never stamped;
+- the timestamp and the kind are written on the first line only, like the
+  prefix, so the stack trace of an `Error`, and the following lines of a
+  multi-line message, are not stamped;
+- the time is taken when the message is logged, so the messages of the
+  preliminary state keep it, although they are written later, when the log
+  level is set;
+- the local time has no time zone, so a log file does not say its own, and
+  the hour is repeated when the clocks change;
+- the option is fixed when the logger is created, and cannot be changed
+  later; the `timestamp` accessor returns its value;
+- a value that is not a boolean is rejected with a `TypeError`.
+
+## Empty messages
+
+If the message is omitted or `undefined`, it is replaced by an empty
+string, so `log.info()` and `log.info(undefined)` write an empty line, and
+the methods with a prefix write only the prefix (for example `debug: `).
+This differs from `console.log()`, which writes `undefined`.
+
+Other falsy values are written as they are (`null`, `0`, and `false` give
+`null`, `0`, and `false`), and `undefined` is written as usual when it is
+not the first argument (`log.info('value:', undefined)` gives
+`value: undefined`). Since the empty string is still a message, any
+further arguments are appended to it after a space (`log.info(undefined, 1)`
+gives ` 1`, with a leading space).
+
+To write the text `undefined`, convert it explicitly:
+
+```typescript
+log.info(String(value))
+```
+
+## Logging untrusted input
+
+The messages are written as they are, without any escaping, so text that
+comes from outside the application (like a file name, a user name, or the
+content of a network request) can forge messages, send control sequences
+to the terminal, and be interpreted as format directives:
+
+- a newline in the text starts a new line in the output, and a prefix is
+  added only to the first line, so the text `'bob\nerror: forged'` in a
+  `warn()` call writes the line `warning: bob`, followed by a line that
+  looks like a genuine `error: forged` message;
+- control characters, like the ANSI escape sequences, are passed to the
+  terminal unchanged;
+- if the first argument contains directives (like `%s`, `%d`, or `%j`) and
+  there are further arguments, the directives consume them, so
+  `log.info(text, secret)` may write the secret; a single argument is not
+  processed (`log.info('100%d')` writes `100%d`), but `log.info('100%d', 5)`
+  writes `1005`.
+
+Therefore pass the untrusted text as an argument, never as the first
+argument, with a constant format string:
+
+```typescript
+log.info('user: %s', name)
+```
+
+This prevents the interpretation of the directives, but `%s` writes a
+string as it is, including the newlines and the control characters. To also
+escape them, use `%j` (JSON) or `%O` (as `util.inspect()`), which write the
+string between quotes, with a newline as `\n` and the escape character as
+`\u001b` or `\x1B`:
+
+```typescript
+log.info('user: %j', name)
+```
+
+Note that `%j` calls the `toJSON()` method of an object, and that `%j` and
+`%O` quote the strings.
+
+## Advanced topics
+
+### Delaying setting the log level
+
+In some cases, the logger needs to be created very early in the
+application's lifecycle, even before the log level can be determined.
+
+In such cases, if the logger is created without a log level, it is in a
+**preliminary state**. During this time, all messages are
+stored in an **internal buffer**. Once the log level is set, the buffer
+is replayed, and the messages are written, or discarded, according to the
+log level.
+
+```typescript
+const log = new Logger()
+log.trace('...') // Not shown immediately
+log.level = 'trace' // Set level and show the buffered messages.
+
+log.info('hello') // Displayed on stdout.
+log.debug('world') // Ignored.
+```
+
+With the log level set, a message that is below the level is skipped
+before it is formatted, which costs a few nanoseconds. In the preliminary
+state the final log level is not known, so every message, including
+`debug()` and `trace()`, is formatted immediately and stored in the
+buffer, until the log level is set:
+
+- the formatting is done even for the messages that are later discarded;
+  for example, an object passed to a `%o` directive is inspected at each
+  call (a few microseconds, against a fraction of a microsecond for a short
+  string message);
+- the buffer is not limited, and a message of about 70 characters takes
+  several hundred bytes, so a long running application that logs a lot before
+  the log level is set should set it as early as possible;
+- since the message is formatted when it is logged, a later change of an
+  argument does not alter the buffered message.
+
+The times and the sizes depend on the machine and on the Node.js version.
+
+The checks of the log level (`isDebugEnabled`, `isLevel()`, and the others) are
+`true` in the preliminary state, so the preparation of a message guarded by
+them is done there too.
+
+Nothing is written while the logger is in the preliminary state, not even
+the messages of `always()` and `error()`. If the log level is never set
+(for example when the application fails before it determines the level),
+the buffered messages are never written and are lost. Set the log level on
+every path, for example in a `catch` block, using `hasLevel` to check
+whether it was set:
+
+```typescript
+try {
+  // Determine the log level, then set it.
+  log.level = parseLevel(process.argv)
+} catch (err) {
+  if (!log.hasLevel) {
+    log.level = Logger.recommendedLevel
+  }
+  log.error(err)
+}
+```
+
+The buffer is emptied before the messages are written, so each buffered
+message is written at most once. If the console throws while the buffer
+is replayed, the exception is propagated from the level setter, the level
+remains set, and the buffered messages that were not yet written are
+discarded.
+
 ### Extending the logger
 
 A class can be derived from `Logger`, for example to redirect the messages,
@@ -508,41 +574,3 @@ and `buffer`) are **deprecated**: they still work, with the same
 behaviour, but they will be removed in the next major version; use the
 public `console`, `level`, `hasLevel`, and `isLevel()` members instead (the
 buffer has no replacement).
-
-### Log level checks
-
-When preparing the log messages is expensive, it makes no sense to
-do it and call the logging method to simply return if the log level
-is low and the message is not needed.
-
-Instead, the log level can be checked explicitly:
-
-```typescript
-if (log.isDebugEnabled) {
-  const message = invoke_long_method()
-  log.debug(message)
-}
-```
-
-When the log level is not known at compile time, use the generic
-`isLevel(level)` method, which returns `true` if the current log level
-is equal to the given level or higher.
-
-Before a log level is set (the preliminary state), all checks
-(`isDebugEnabled`, `isLevel()`, and the others) return `true`. This way, the
-messages produced under the check are stored in the internal buffer
-rather than lost, and are filtered when the log level is set. Use
-`hasLevel` to tell whether a log level was set.
-
-For example, to ensure that the log level is not decreased, check
-`hasLevel` first, since in the preliminary state there is no level
-to compare with:
-
-```typescript
-if (!log.hasLevel || !log.isLevel(newLevel)) {
-  log.level = newLevel
-}
-```
-
-The `isSilent` accessor is deprecated, since it is always `true`; to
-check for the `silent` level, use `log.level === 'silent'`.

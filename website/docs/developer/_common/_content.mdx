@@ -27,8 +27,18 @@ npm install
 
 ## Start the compile background task
 
-The TypeScript compiler can automatically recompile modified files. For
-this, start it in `watch` mode.
+TypeScript requires a compile step to transform the source code into
+JavaScript that can be executed.
+
+The configuration provides a separate command to perform the compilation:
+
+```sh
+npm run compile
+```
+
+To avoid recompiling manually, the TypeScript compiler can watch the
+source files and recompile them when they change. For this, start it in
+`watch` mode:
 
 ```sh
 npm run compile-watch
@@ -42,9 +52,8 @@ The current version is compiled with TypeScript 6.0.3:
 - https://www.typescriptlang.org/docs/handbook
 
 
-The compiler is configured to produce ECMAScript6 `es2020` files
-that can be imported
-by any other project either via `import`.
+The compiler is configured to produce ECMAScript 2020 (`es2020`) files
+that can be imported by any other project via `import`.
 
 
 For more details on how to configure `tsconfig.json`, please see:
@@ -54,9 +63,9 @@ For more details on how to configure `tsconfig.json`, please see:
 ## Style
 
 As style, the project uses [typescript-eslint](https://typescript-eslint.io),
-a set of rules for static analysis of JavaScript and TypeScript code
+a set of rules for static analysis of JavaScript and TypeScript code.
 
-For spacial cases, it is possible to configure/disable some rules.
+For special cases, it is possible to configure or disable some rules.
 
 ```js
 /* eslint-disable-next-line no-xxx-yyy */
@@ -81,10 +90,10 @@ explicit types, as they are provided by TypeScript.
 The tests use the [`node-tap`](http://www.node-tap.org) framework
 (_A Test-Anything-Protocol library for Node.js_, written by Isaac Schlueter).
 
-Tests can be written in TypeScript, provided `ts-node` is also installed.
+With recent versions, tests can also be written in TypeScript.
 
-As with any `npm` package, the standard method to execute the project tests is via
-`npm run test`:
+As with any `npm` package, the standard method to run the project tests
+is `npm run test`:
 
 ```sh
 npm install
@@ -98,7 +107,7 @@ npm run test
 The module is 
 subject to CI testing on every push via
 [GitHub Actions](https://github.com/xpack/logger-ts/actions), on Ubuntu,
-Windows and macOS, using node 22, 24 and 26.
+Windows and macOS, using Node.js 22, 24 and 26.
 
 ## Tips and tricks
 
@@ -106,5 +115,5 @@ To trace which files module imports resolve to, enable TypeScript
 module resolution tracing:
 
 ```json
-    "compile": "tsc --traceResolution  -p ./",
+    "compile": "tsc --traceResolution -p ./",
 ```

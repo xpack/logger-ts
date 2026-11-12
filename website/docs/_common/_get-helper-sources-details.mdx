@@ -12,7 +12,7 @@ The project has a dependency on a common helper, which is normally installed
 as a read-only dependency; for development purposes, to enable modifications
 to the scripts located within the helper, clone the
 <code>{props.helperBranchName}</code> branch and link it to the
-user's global xPacks store:
+global packages location:
 
 <CodeBlock language="sh"> {
 `rm -rf ~/Work/${props.helperOrganizationName}/${props.helperProjectName}.git && \\
@@ -29,11 +29,36 @@ Alternatively, if the repository has already been cloned:
 `git -C ~/Work/${props.helperOrganizationName}/${props.helperProjectName}.git pull
 `} </CodeBlock>
 
-If a writable instance of this library is required in another project,
-add a link from the user's global xPacks store to it:
+Tell the global npm configuration where the local development
+folder is located (_link_ the project):
 
 <CodeBlock language="sh"> {
-`xpm link -C ~/Work/${props.helperOrganizationName}/${props.helperProjectName}.git
+`npm --prefix ~/Work/${props.helperOrganizationName}/${props.helperProjectName}.git link
 `} </CodeBlock>
 
+Similarly, for the website helper, clone the
+<code>master</code> branch and link it to the
+global packages location:
+
+<CodeBlock language="sh"> {
+`rm -rf ~/Work/xpacks/docusaurus-template-liquid.git && \\
+mkdir -p ~/Work/xpacks/docusaurus-template-liquid && \\
+git clone \\
+\  --branch master \\
+\  https://github.com/xpacks/docusaurus-template-liquid.git \\
+\  ~/Work/xpacks/docusaurus-template-liquid.git \
+`} </CodeBlock>
+
+Alternatively, if the repository has already been cloned:
+
+<CodeBlock language="sh"> {
+`git -C ~/Work/xpacks/docusaurus-template-liquid.git pull
+`} </CodeBlock>
+
+Tell the global npm configuration where the local development
+folder is located (_link_ the project):
+
+<CodeBlock language="sh"> {
+`npm --prefix ~/Work/xpacks/docusaurus-template-liquid.git link
+`} </CodeBlock>
 </details>

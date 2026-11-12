@@ -59,12 +59,19 @@ import { Logger } from '@xpack/logger'
 In JavaScript with CommonJS, use `require()`:
 
 ```javascript
-const { Logger } = request('@xpack/logger')
+const { Logger } = require('@xpack/logger')
 ```
 
 ## Source code
 
 - <Link to={frontMatter.release_tag_url}>GitHub tag v{frontMatter.version} tree</Link>
+
+## Major changes
+
+- the TypeScript code is compiled into CommonJS modules, with an ES6 wrapper, so that the package can be used by both TypeScript and JavaScript projects, with `import` and `require()`
+- the function `isLevel(level)` was added
+
+See the [compatibility notices](/docs/getting-started/).
 
 ## Bug fixes
 
@@ -80,7 +87,7 @@ const { Logger } = request('@xpack/logger')
 
 ## CI tests
 
-Before publishing, a set of tests were performed .
+Before publishing, a set of tests was performed.
 The results are available from:
 
 - [GitHub Actions](https://github.com/xpack/logger-ts/actions)

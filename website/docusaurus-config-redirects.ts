@@ -9,8 +9,6 @@
  * be obtained from https://opensource.org/licenses/mit.
  */
 
-import logger from '@docusaurus/logger';
-
 export const redirects = {
   // fromExtensions: ['html', 'htm'], // /myPage.html -> /myPage
   // toExtensions: ['exe', 'zip'], // /myAsset -> /myAsset.zip (if latter exists)
@@ -27,7 +25,6 @@ export const redirects = {
     //   },
   ],
   createRedirects(existingPath) {
-    logger.info(existingPath);
     //   if (existingPath.includes('/evenimente')) {
     //     // logger.info(`to ${existingPath} from ${existingPath.replace('/evenimente', '/events')}`);
     //     // Redirect from /events/X to /evenimente/X

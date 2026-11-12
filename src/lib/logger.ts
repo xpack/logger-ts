@@ -280,17 +280,10 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * function.
  *
  * <b>Empty messages.</b> If the message is omitted or `undefined`, it is
- * replaced by an empty string, so `log.info()` and `log.info(undefined)`
- * write an empty line, and the methods with a prefix write only the
- * prefix (for example `debug: `). This differs from `console.log()`,
- * which writes `undefined`. Other falsy values are written as they are
- * (`null`, `0`, and `false` give `null`, `0`, and `false`), and
- * `undefined` is written as usual when it is not the first argument
- * (`log.info('value:', undefined)` gives `value: undefined`). Since
- * the empty string is still a message, any further arguments are
- * appended to it after a space (`log.info(undefined, 1)` gives ` 1`,
- * with a leading space). To write the text `undefined`, convert it
- * explicitly, for example `log.info(String(value))`.
+ * replaced by an empty string, so `log.info()` writes an empty line, and
+ * the methods with a prefix write only the prefix; this differs from
+ * `console.log()`, which writes `undefined`. The other values, and the
+ * details, are in the section "Empty messages" of the User's Guide.
  *
  * <b>Logging methods.</b> The methods differ by the level from which they
  * are written (the threshold), by the console stream, and by a prefix
@@ -353,7 +346,7 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * <b>Timestamps.</b> If the logger is created with the `timestamp` option,
  * the messages of the methods that have a prefix start with the local
  * time, and the prefix is replaced by the kind of the message in square
- * brackets; the format and the details are in the description of the
+ * brackets; the format and the rules are in the description of the
  * `timestamp` accessor.
  *
  * <b>Errors.</b> An `Error` passed to a logging method is expanded with its
@@ -362,59 +355,17 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * `error()`.
  *
  * <b>Untrusted input.</b> The messages are written as they are, without
- * any escaping, so text that comes from outside the application (like
- * a file name, a user name, or the content of a network request) can
- * forge messages, send control sequences to the terminal, and be
- * interpreted as format directives:
+ * any escaping, so text that comes from outside the application can forge
+ * messages, send control sequences to the terminal, and be interpreted as
+ * format directives. Pass such text as an argument, never as the first
+ * argument, with a constant format string, for example
+ * `log.info('user: %j', name)`, where `%j` also escapes the newlines and the
+ * control characters; see the section "Logging untrusted input" of the
+ * User's Guide.
  *
- * <ul>
- * <li>a newline in the text starts a new line in the output, and a prefix
- * is added only to the first line, so the text <code>bob</code>, a newline,
- * and <code>error: forged</code> in a <code>warn()</code> call writes the
- * line <code>warning: bob</code>, followed by a line that looks like a
- * genuine <code>error: forged</code> message;</li>
- * <li>control characters, like the ANSI escape sequences, are passed to
- * the terminal unchanged;</li>
- * <li>if the first argument contains directives (like <code>%s</code>,
- * <code>%d</code>, or <code>%j</code>) and there are further arguments, the
- * directives consume them, so <code>log.info(text, secret)</code> may write
- * the secret; a single argument is not processed
- * (<code>log.info('100%d')</code> writes <code>100%d</code>), but
- * <code>log.info('100%d', 5)</code> writes <code>1005</code>.</li>
- * </ul>
- *
- * Therefore pass the untrusted text as an argument, never as the first
- * argument, with a constant format string:
- *
- * ```javascript
- * log.info('user: %s', name)
- * ```
- *
- * This prevents the interpretation of the directives, but `%s` writes a
- * string as it is, including the newlines and the control characters. To
- * also escape them, use `%j` (JSON) or `%O` (as `util.inspect()`), which
- * write the string between quotes, with a newline as `\n` and the
- * escape character as `\u001b` or `\x1B`:
- *
- * ```javascript
- * log.info('user: %j', name)
- * ```
- *
- * Note that `%j` calls the `toJSON()` method of an object, and that
- * `%j` and `%O` quote the strings.
- *
- * If the logging code is more complex than a single line,
- * for example if it needs a long loop,
- * it is recommended to explicitly check the log level and,
- * if not high enough, skip the code entirely.
- *
- * ```javascript
- *   if (log.isTraceEnabled) {
- *     for (const [folderName, folder] of Object.entries(folders)) {
- *       log.trace(`'${folderName}' ${folder.toolchainOptions}`)
- *     }
- *   }
- * ```
+ * To skip the preparation of a message when the message would not be
+ * written, check the level first, with `isDebugEnabled` or the other checks
+ * of the level; see the section "Log level checks" of the User's Guide.
  *
  * There are cases when the logger must be created very early in the
  * life cycle of an application, even before it is practically possible
@@ -430,22 +381,9 @@ export type LoggerArguments<C extends LoggerConsole = Console> =
  * set (for example when the application fails before it determines the
  * level), the buffered messages are never written and are lost. Set the
  * log level on every path, for example in a `catch` or `finally` block,
- * using `hasLevel` to check whether it was set:
- *
- * ```javascript
- * try {
- *   // Determine the log level, then set it.
- *   log.level = parseLevel(process.argv)
- * } catch (err) {
- *   if (!log.hasLevel) {
- *     log.level = Logger.recommendedLevel
- *   }
- *   log.error(err)
- * }
- * ```
- *
- * The cost of the preliminary state, which formats and stores every message,
- * is described in the description of `hasLevel`.
+ * using `hasLevel` to check whether it was set. The example and the cost of
+ * the preliminary state, which formats and stores every message, are in
+ * the section "Delaying setting the log level" of the User's Guide.
  *
  * @example
  * ```javascript
@@ -865,29 +803,9 @@ export class Logger<C extends LoggerConsole = Console> {
    * logger is in a preliminary state and all messages will be stored
    * in an internal buffer until the log level is set.
    *
-   * <b>Cost of the preliminary state.</b> With the level set, a message that
-   * is below the level is skipped before it is formatted, which costs a
-   * few nanoseconds (all the times and sizes in this section are indicative,
-   * and depend on the machine and on the Node.js version). In the
-   * preliminary state the final level is not known, so every message,
-   * including `debug()` and `trace()`, is formatted
-   * immediately and stored in the buffer, until the level is set:
-   *
-   * <ul>
-   * <li>the formatting is done even for the messages that are later
-   * discarded; for example, an object passed to a <code>%o</code> directive
-   * is inspected at each call (a few microseconds, against a
-   * fraction of a microsecond for a short string message);</li>
-   * <li>the buffer is not limited, and a message of about 70 characters
-   * takes several hundred bytes, so a long running application that logs
-   * a lot before the level is set should set it as early as possible;</li>
-   * <li>since the message is formatted when it is logged, a later change of
-   * an argument does not alter the buffered message.</li>
-   * </ul>
-   *
-   * The check of the level before an expensive preparation of the message
-   * (see the example in the description of `Logger`) is true in the
-   * preliminary state, so the preparation is done there too.
+   * Until the level is set, every message is formatted and stored in the
+   * buffer, which has a cost; see the section "Delaying setting the log
+   * level" of the User's Guide.
    *
    * <ul>
    * <li>changed to an accessor in v5.0.0</li>
@@ -1318,31 +1236,18 @@ export class Logger<C extends LoggerConsole = Console> {
    * It is the value of the `timestamp` option of the constructor, and it
    * cannot be changed after the logger is created.
    *
-   * If the logger is created with the `timestamp` option,
-   * the messages of the methods that have a prefix (`error()`, `warn()`,
-   * `debug()`, and `trace()`) start with a timestamp, and the prefix is
-   * replaced by the kind of the message in square brackets:
+   * If it is true, the messages of the methods that have a prefix (`error()`,
+   * `warn()`, `debug()`, and `trace()`) start with the local time, without
+   * the time zone, as `YYYY-MM-DD HH:mm:ss.SSS`, and the prefix is replaced
+   * by the kind of the message in square brackets:
    *
    * ```text
    * 2026-11-11 23:32:31.358 [warning] the file is missing
    * ```
    *
-   * The timestamp is in the local time, without the time zone, with
-   * milliseconds, as `YYYY-MM-DD HH:mm:ss.SSS`. The kind is `error`,
-   * `warning`, `debug`, or `trace`. Without the option, the same messages
-   * start with the prefix, as in `warning: the file is missing`.
-   *
-   * The timestamp and the kind are tied to the method, not to the prefix
-   * that is written: `error()` with an `Error` that comes first has no
-   * prefix without the option, but with the option it has both, as in
-   * `2026-11-11 23:32:31.358 [error] Error: boom`, so all the stamped
-   * messages have the same structure. The messages without a prefix
-   * (`always()`, `output()`, `info()`, and `verbose()`) are the normal output
-   * and the progress messages, and are never stamped. The timestamp and the
-   * kind are on the first line only, like the prefix, so the stack trace of
-   * an `Error`, and the following lines of a multi-line message, are not
-   * stamped. The time is taken when the message is logged, so the messages
-   * of the preliminary state keep it, although they are written later.
+   * The stamp is tied to the method, not to the prefix that is written, and
+   * is only on the first line of a message. The rules are in the section
+   * "Timestamps" of the User's Guide.
    *
    * <ul>
    * <li>added in v7.0.0</li>
@@ -1590,51 +1495,13 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * <b>The prefix of an <code>Error</code>.</b> Only `error()` omits its
    * prefix, and only when the first argument is an `Error`: the first line
-   * of the expanded error already starts with its name (like `Error: boom` or
-   * `TypeError: bad`), which tells the severity. This is deliberate. The
-   * other methods keep their prefix (`warning: Error: boom`,
-   * `debug: Error: boom`), since without it a warning would look like an
-   * error, and a debug message like a failure; and an `Error` that is not
-   * the first argument of `error()` keeps the prefix too
-   * (`error: failed: Error: boom`). It is the same for all the methods,
-   * whether the message is written at once or buffered.
+   * of the expanded error already starts with its name (like `Error: boom`),
+   * which tells the severity. This is deliberate. The other methods keep
+   * their prefix, and an `Error` that is not the first argument of `error()`
+   * keeps the prefix too (`error: failed: Error: boom`).
    *
-   * <b>Logging errors.</b> `Error` objects (and objects derived from it) are
-   * expanded by `util.format()`, as by `console.log()`: the first line has
-   * the name and the message (for example `Error: boom`), and it is
-   * followed by the stack trace and, if present, the `cause` chain, on
-   * several lines. This is the same in all logging methods, which differ
-   * only by the stream and the prefix. The caller decides how much of an
-   * error is shown:
-   *
-   * <ul>
-   * <li>to show the full details, including the stack trace, pass the error
-   * object, for example <code>log.error(err)</code>;</li>
-   * <li>to show a single line, pass only its message, for example
-   * <code>log.error(err.message)</code>, which outputs
-   * <code>error: boom</code>.</li>
-   * </ul>
-   *
-   * A common pattern, which also works in the preliminary state, is to show
-   * the message at the `error` level, and the full details only when the
-   * log level is `debug` or higher:
-   *
-   * ```javascript
-   * try {
-   *   // ...
-   * } catch (err) {
-   *   // On stderr: `error: boom`.
-   *   log.error(err instanceof Error ? err.message : String(err))
-   *   // On stdout, only at `debug` or higher: `debug: Error: boom`,
-   *   // followed by the stack trace.
-   *   log.debug(err)
-   * }
-   * ```
-   *
-   * In TypeScript, the variable of a `catch` clause has the type `unknown`,
-   * hence the `instanceof` check. To also keep the name of the error, use
-   * `String(err)` instead of `err.message`: `log.error(String(err))`
-   * outputs, for example, `error: TypeError: boom`.
+   * To show only the message, on a single line, pass `err.message` instead of
+   * the object; see the section "Logging errors" of the User's Guide.
    *
    * @example
    * ```javascript

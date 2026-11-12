@@ -72,26 +72,9 @@ void
 
 The message is prefixed with `error: ` and passed via `console.error()`<!-- -->. If the logger was created with the `timestamp` option, it starts with a timestamp, and the prefix is replaced by `[error]`<!-- -->, also for an `Error` that comes first (see below).
 
-<b>The prefix of an <code>Error</code>.</b> Only `error()` omits its prefix, and only when the first argument is an `Error`<!-- -->: the first line of the expanded error already starts with its name (like `Error: boom` or `TypeError: bad`<!-- -->), which tells the severity. This is deliberate. The other methods keep their prefix (`warning: Error: boom`<!-- -->, `debug: Error: boom`<!-- -->), since without it a warning would look like an error, and a debug message like a failure; and an `Error` that is not the first argument of `error()` keeps the prefix too (`error: failed: Error: boom`<!-- -->). It is the same for all the methods, whether the message is written at once or buffered.
+<b>The prefix of an <code>Error</code>.</b> Only `error()` omits its prefix, and only when the first argument is an `Error`<!-- -->: the first line of the expanded error already starts with its name (like `Error: boom`<!-- -->), which tells the severity. This is deliberate. The other methods keep their prefix, and an `Error` that is not the first argument of `error()` keeps the prefix too (`error: failed: Error: boom`<!-- -->).
 
-<b>Logging errors.</b> `Error` objects (and objects derived from it) are expanded by `util.format()`<!-- -->, as by `console.log()`<!-- -->: the first line has the name and the message (for example `Error: boom`<!-- -->), and it is followed by the stack trace and, if present, the `cause` chain, on several lines. This is the same in all logging methods, which differ only by the stream and the prefix. The caller decides how much of an error is shown:
-
-<ul> <li>to show the full details, including the stack trace, pass the error object, for example <code>log.error(err)</code>;</li> <li>to show a single line, pass only its message, for example <code>log.error(err.message)</code>, which outputs <code>error: boom</code>.</li> </ul>
-
-A common pattern, which also works in the preliminary state, is to show the message at the `error` level, and the full details only when the log level is `debug` or higher:
-
-```javascript
-try {
-  // ...
-} catch (err) {
-  // On stderr: `error: boom`.
-  log.error(err instanceof Error ? err.message : String(err))
-  // On stdout, only at `debug` or higher: `debug: Error: boom`,
-  // followed by the stack trace.
-  log.debug(err)
-}
-```
-In TypeScript, the variable of a `catch` clause has the type `unknown`<!-- -->, hence the `instanceof` check. To also keep the name of the error, use `String(err)` instead of `err.message`<!-- -->: `log.error(String(err))` outputs, for example, `error: TypeError: boom`<!-- -->.
+To show only the message, on a single line, pass `err.message` instead of the object; see the section "Logging errors" of the User's Guide.
 
 ## Example
 

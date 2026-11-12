@@ -13,24 +13,24 @@ The project is hosted on GitHub:
 
 <BranchesDetails />
 
-To clone the stable branch (`master`), execute the following
-commands in a terminal (on Windows use the _Git Bash_ console):
+To contribute **Pull Requests**, fork the project and make sure the
+**Copy the master branch only** option is **disabled**, so that
+the `development` branch is also copied and can be used for
+contributions.
+
+:::tip
+
+After making changes, direct the Pull Requests to the
+`development` branch.
+
+:::
+
+The next step would normally be to **clone the forked repository**.
+
+However, if Pull Requests are not intended, directly clone the
+`development` branch of the original repository:
 
 ```sh
-rm -rf ~/Work/xpack/logger-ts.git && \
-mkdir -p ~/Work/xpack && \
-git clone \
-  --branch master \
-  https://github.com/xpack/logger-ts.git \
-  ~/Work/xpack/logger-ts.git
-```
-
-<details>
-<summary>For development purposes, clone the
-`development` branch.</summary>
-
-```sh
-rm -rf ~/Work/xpack/logger-ts.git && \
 mkdir -p ~/Work/xpack && \
 git clone \
   --branch development \
@@ -38,58 +38,47 @@ git clone \
   ~/Work/xpack/logger-ts.git
 ```
 
-</details>
-
-Alternatively, if the repository has already been cloned:
+If the repository has already been cloned, update it with:
 
 ```sh
 git -C ~/Work/xpack/logger-ts.git pull
 ```
 
-:::tip
+<details>
+<summary>Add links for development</summary>
 
-To contribute Pull Requests, fork the project and ensure that
-**Copy the master branch only** is **disabled**.
+By default, npm dependencies are installed as sub-folders of
+`node_modules`, with filtered content; developer-related files are not
+installed. These sub-folders are also overwritten on each `npm install`,
+so any changes made there are lost.
 
-Use the `development` branch, and direct the Pull Requests to the
-same branch.
+Therefore, during development, if this project is used as a dependency
+of another project, it is convenient to use the full version of the
+project and make changes directly in the local development folder.
 
-:::
-
-## Add links for development
-
-By default, to prevent inadvertent changes, npm dependencies are
-installed in read-only folders.
-
-However, during development, it is convenient to maintain a writable
-instance of the code to enable changes in parallel with the parent
-project.
-
-npm allows linking local development folders to the global npm store,
-enabling changes to be reflected in dependent projects without
-reinstalling.
+The mechanism npm uses for this is called _linking_.
 
 The process has two steps:
 
 1. Tell the global npm configuration where the local development
    folder is located.
-2. Tell the local project to use the linked development folder
+2. Tell the top project to use the linked development folder
    instead of the installed read-only dependency.
 
 The first step requires executing the `npm link` command in the
 local development folder, as shown below:
 
 ```sh
-npm --prefix ~/Work/xpack/logger-ts.git \
-  link
+npm --prefix ~/Work/xpack/logger-ts.git link
 ```
 
 The result is the creation of a symbolic link in the global npm
 store pointing to the local development folder.
 
-For the second step, in the local project, instead of adding the
+For the second step, in the top project, instead of adding the
 dependency by installing it, run the command to link it:
 
 ```sh
 npm link @xpack/logger
 ```
+</details>

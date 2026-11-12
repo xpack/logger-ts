@@ -3,6 +3,8 @@
 
 ### v7.0.0
 
+#### Breaking changes
+
 **Breaking change:** the package is now an **ES module only**; the
 CommonJS build, with the ES6 wrapper of v6, was removed.
 
@@ -13,11 +15,57 @@ projects need no change. CommonJS projects can keep using
 `require('@xpack/logger')` on Node.js 22.12 or later, or use
 `await import('@xpack/logger')`.
 
+**Breaking change:** an invalid log level, passed to the constructor, to
+the `level` setter, or to `isLevel()`, now throws a `RangeError` (for a
+string that is not a level name) or a `TypeError` (for a value that is not
+a string), with a message that lists the valid names, instead of an
+`AssertionError` with the message `Log level 'xyz' not supported.`
+(or, for an empty value, the generic message `The expression evaluated to
+a falsy value`). Code that catches `AssertionError` to detect an invalid
+level must catch these errors instead; to avoid the exception, check the
+value first with the new `Logger.isLogLevel()`.
+
+**Breaking change:** a console without the `log()` or the `error()` function,
+passed to the `Logger` constructor, now throws a `TypeError` instead of an
+`AssertionError`; the messages are unchanged. Code that catches
+`AssertionError` to detect an invalid console must catch `TypeError` instead.
+
 **Breaking change:** the `Logger` constructor no longer logs the line
 `trace: Logger.constructor()` when the log level is `trace` or `all`. If
 your tests counted the lines captured by a mock console, or compared them
 with the lines of the previous versions, remove this line from the expected
 results.
+
+**Breaking change:** the static members of `Logger` are now constants. In
+TypeScript, `Logger.recommendedLevel`, `Logger.numericLevels` (and its
+properties), `Logger.numericLevelUndefined`, and `Logger.numericLevelAlways`
+are `readonly`, and the numeric levels have literal types; at run time the
+`Logger` class and the `numericLevels` object are frozen, so an assignment
+to any of them, or adding a member, throws a `TypeError`, instead of
+silently changing the behaviour of all the loggers in the process (for
+example `Logger.numericLevels.debug = 0` made `debug()` write at the
+`info` level). Code that changes these members must stop; to change the
+level of a logger, set its `level`. A subclass must not assign to the
+inherited static members.
+
+**Breaking change (compile time only):** the type of the `level` setter is
+now `LogLevel`, not `LogLevel | undefined`, so TypeScript code that assigns
+`undefined` to `log.level` no longer compiles. Such an assignment was
+already rejected at run time (with a `TypeError` since this version), so
+the code was wrong; to use a level that may be missing, check it with
+`Logger.isLogLevel()` first. The getter still returns
+`LogLevel | undefined`. The `level` and `console` constructor options now
+accept an explicit `undefined`, also with `exactOptionalPropertyTypes`,
+which is not a breaking change.
+
+**Breaking change (compile time only):** when the type argument of `Logger`
+is given explicitly, with a type that the global `console` does not satisfy
+(for example `Logger<MockConsole>`), the `console` option is now required,
+since otherwise the `console` accessor returned an object that was not of
+that type. Code that omitted the console was wrong, and fails to compile now;
+pass the console, or drop the type argument.
+
+#### Deprecations
 
 The accessors that check the log level have new names, `isErrorEnabled`,
 `isWarnEnabled`, `isInfoEnabled`, `isVerboseEnabled`, `isDebugEnabled`,
@@ -36,9 +84,6 @@ if (log.isDebugEnabled) {
 }
 ```
 
-The `package.json` file is now exported, so tools can read it through the
-package name (`@xpack/logger/package.json`); this is not a breaking change.
-
 The TypeScript module resolution mode `node10`, which ignores the `exports`
 map, is still supported through the legacy `main` and `typings` fields of
 `package.json`, but it is **deprecated**: **support for `node10` will be
@@ -46,58 +91,6 @@ removed in a future major release**. Projects that use it, usually the
 ones with `"module": "commonjs"` and no explicit `moduleResolution`,
 should migrate to `node16`, `nodenext`, or `bundler`. This is not a
 breaking change in this version.
-
-**Breaking change:** an invalid log level, passed to the constructor, to
-the `level` setter, or to `isLevel()`, now throws a `RangeError` (for a
-string that is not a level name) or a `TypeError` (for a value that is not
-a string), with a message that lists the valid names, instead of an
-`AssertionError` with the message `Log level 'xyz' not supported.`
-(or, for an empty value, the generic message `The expression evaluated to
-a falsy value`). Code that catches `AssertionError` to detect an invalid
-level must catch these errors instead; to avoid the exception, check the
-value first with the new `Logger.isLogLevel()`.
-
-**Breaking change (compile time only):** the type of the `level` setter is
-now `LogLevel`, not `LogLevel | undefined`, so TypeScript code that assigns
-`undefined` to `log.level` no longer compiles. Such an assignment was
-already rejected at run time (with a `TypeError` since this version), so
-the code was wrong; to use a level that may be missing, check it with
-`Logger.isLogLevel()` first. The getter still returns
-`LogLevel | undefined`. The `level` and `console` constructor options now
-accept an explicit `undefined`, also with `exactOptionalPropertyTypes`,
-which is not a breaking change.
-
-**Breaking change:** a console without the `log()` or the `error()` function,
-passed to the `Logger` constructor, now throws a `TypeError` instead of an
-`AssertionError`; the messages are unchanged. Code that catches
-`AssertionError` to detect an invalid console must catch `TypeError` instead.
-
-**Breaking change (compile time only):** when the type argument of `Logger`
-is given explicitly, with a type that the global `console` does not satisfy
-(for example `Logger<MockConsole>`), the `console` option is now required,
-since otherwise the `console` accessor returned an object that was not of
-that type. Code that omitted the console was wrong, and fails to compile now;
-pass the console, or drop the type argument.
-
-The `console` option of the constructor now accepts any object that has the
-`log()` and `error()` functions (the new exported type `LoggerConsole`),
-not only a Node.js `Console`, so a mock or a minimal `{ log, error }` object
-no longer needs a cast. The `Logger` class has a new type parameter, the
-type of the console, which the `console` accessor returns; its default is
-the Node.js `Console`, so the existing code is not affected (this is not a
-breaking change).
-
-**Breaking change:** the static members of `Logger` are now constants. In
-TypeScript, `Logger.recommendedLevel`, `Logger.numericLevels` (and its
-properties), `Logger.numericLevelUndefined`, and `Logger.numericLevelAlways`
-are `readonly`, and the numeric levels have literal types; at run time the
-`Logger` class and the `numericLevels` object are frozen, so an assignment
-to any of them, or adding a member, throws a `TypeError`, instead of
-silently changing the behaviour of all the loggers in the process (for
-example `Logger.numericLevels.debug = 0` made `debug()` write at the
-`info` level). Code that changes these members must stop; to change the
-level of a logger, set its `level`. A subclass must not assign to the
-inherited static members.
 
 `Logger.defaultLevel` was renamed `Logger.recommendedLevel`, because the old
 name suggested that a logger created without a level gets that level, which
@@ -118,6 +111,32 @@ which is now documented, with the types `NumericLogLevel` and
 `LoggerFunction` of its signature. This is not a breaking change in this
 version.
 
+The `isSilent` accessor was deprecated (this is not a breaking change).
+Since `silent` is the lowest level, it was always `true`, for every level,
+so it could not tell whether the logger is silent. It will be removed in
+the next major version.
+
+If used, replace it with a comparison of the log level name:
+
+```javascript
+if (log.level === 'silent') {
+  // ...
+}
+```
+
+#### Additions
+
+The `package.json` file is now exported, so tools can read it through the
+package name (`@xpack/logger/package.json`); this is not a breaking change.
+
+The `console` option of the constructor now accepts any object that has the
+`log()` and `error()` functions (the new exported type `LoggerConsole`),
+not only a Node.js `Console`, so a mock or a minimal `{ log, error }` object
+no longer needs a cast. The `Logger` class has a new type parameter, the
+type of the console, which the `console` accessor returns; its default is
+the Node.js `Console`, so the existing code is not affected (this is not a
+breaking change).
+
 The new boolean option `timestamp` of the constructor makes the messages of
 `error()`, `warn()`, `debug()`, and `trace()`, the methods that have a
 prefix, start with a timestamp in the local time, with milliseconds, and
@@ -131,19 +150,6 @@ the library, so editors show the documentation, and the deprecations of this
 version (like the strike-through of `isSilent` and `defaultLevel`); before,
 the comments were removed by the compiler. The compiled JavaScript files
 still have no comments.
-
-The `isSilent` accessor was deprecated (this is not a breaking change).
-Since `silent` is the lowest level, it was always `true`, for every level,
-so it could not tell whether the logger is silent. It will be removed in
-the next major version.
-
-If used, replace it with a comparison of the log level name:
-
-```javascript
-if (log.level === 'silent') {
-  // ...
-}
-```
 
 ### v6.0.0
 
@@ -164,8 +170,8 @@ accessor.
 Internally, the log level starts as `undefined` instead of the
 string `'undefined'`, as in previous versions.
 
-This should not be a problem, given that the method to check if
-the level was set is via `hasLevel()`.
+This should not be a problem: to check if the level was set, use the
+accessor `hasLevel`.
 
 ### v4.0.0
 

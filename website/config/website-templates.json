@@ -1,7 +1,7 @@
 {
   "branding": "",
-  "metadataKeywords": "xpm, xpack, build, test, dependencies, npm, reproducibility",
-  "nodeVersion": "18.20.4",
+  "metadataKeywords": "xpack, logger, console, log level, nodejs, typescript",
+  "nodeVersion": "22.12.0",
   "title": "logger - The xPack Logger",
   "hasTSDocDocusaurusApi": true,
   "skipAlgolia": true,

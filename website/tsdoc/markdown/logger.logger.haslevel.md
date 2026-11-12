@@ -16,11 +16,7 @@ get hasLevel(): boolean;
 
 If the logger was created without an explicit log level, the logger is in a preliminary state and all messages will be stored in an internal buffer until the log level is set.
 
-<b>Cost of the preliminary state.</b> With the level set, a message that is below the level is skipped before it is formatted, which costs a few nanoseconds (all the times and sizes in this section are indicative, and depend on the machine and on the Node.js version). In the preliminary state the final level is not known, so every message, including `debug()` and `trace()`<!-- -->, is formatted immediately and stored in the buffer, until the level is set:
-
-<ul> <li>the formatting is done even for the messages that are later discarded; for example, an object passed to a <code>%o</code> directive is inspected at each call (a few microseconds, against a fraction of a microsecond for a short string message);</li> <li>the buffer is not limited, and a message of about 70 characters takes several hundred bytes, so a long running application that logs a lot before the level is set should set it as early as possible;</li> <li>since the message is formatted when it is logged, a later change of an argument does not alter the buffered message.</li> </ul>
-
-The check of the level before an expensive preparation of the message (see the example in the description of `Logger`<!-- -->) is true in the preliminary state, so the preparation is done there too.
+Until the level is set, every message is formatted and stored in the buffer, which has a cost; see the section "Delaying setting the log level" of the User's Guide.
 
 <ul> <li>changed to an accessor in v5.0.0</li> <li>added as a method in v2.1.0</li> </ul>
 

@@ -212,7 +212,7 @@ const config: Config = {
     metadata: [
       {
         name: 'keywords',
-        content: 'xpm, xpack, build, test, dependencies, npm, reproducibility'
+        content: 'xpack, logger, console, log level, nodejs, typescript'
       }
     ],
     navbar: {

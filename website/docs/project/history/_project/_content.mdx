@@ -1,21 +1,53 @@
 
 {/* ------------------------------------------------------------------------ */}
 
-### April 2017
+## April 2017
 
-The project was created in **April 2017**, when it was extrated as
+The project was created in April 2017, when it was extracted as
 a separate project from the early **xpm** version.
 
 The initial implementation was based on ECMAScript 2017, the first
-version to support async/await.
+version to include async/await.
 
-### May 2021
+## December 2018 (1.0 to 2.0)
 
-In **May 2021**, with the release of version 4.0.0, the project
-was migrated to **TypeScript**.
+The first releases, 1.0.0, 1.0.1, and 2.0.0, were published on
+30 December 2018. Version 2.0.0 changed the constructor to use a generic
+arguments object.
 
-### February 2023
+## November 2019 (3.0)
 
-In **February 2023**, version 6.0.0 introduced an **ES6** wrapper for
-the **CommonJS** modules. This addition allows the module to be used
-with TypeScript as well as both new and legacy JavaScript packages.
+In November 2019, version 3.0.0 changed the functions that check the
+level (`isXyx`) to accessors.
+
+## May 2021 (4.0 to 5.0)
+
+In May 2021, version 4.0.0 migrated the project to **TypeScript**.
+Version 5.0.0, two days later, changed `hasLevel` to an accessor.
+
+## October 2024 (6.0)
+
+In October 2024, version 6.0.0 added support for ECMAScript modules,
+making the package usable as both a CommonJS and an ECMAScript module,
+from TypeScript and from JavaScript.
+
+## November 2026 (7.0)
+
+Version 7.0.0 is the next major release; it is not yet published. The main
+changes are:
+
+- the package is an ES module only, with Node.js 22.12 or later as the
+  minimum version, so CommonJS projects can still use `require()`;
+- the validation is stricter: an invalid level or console throws a
+  `RangeError` or a `TypeError`, and the static members of `Logger` are
+  read-only;
+- new `isXyzEnabled` accessors, `Logger.isLogLevel()`, and the `timestamp`
+  constructor option;
+- the state of the logger is private; `isXyz`, `isSilent`, `defaultLevel`,
+  and the protected `_console`, `levelNumericValue`, `levelName`, and
+  `buffer` are deprecated, to be removed in the next major version;
+- the published declaration files include the TSDoc comments.
+
+For the complete list, see the
+[compatibility notices](/docs/getting-started/); when the release is
+published, it will be listed on the [Releases](/docs/releases/) page.
