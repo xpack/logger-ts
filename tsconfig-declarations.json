@@ -7,9 +7,6 @@
   // the compiled files. The TSDoc comments of the declarations are what
   // the editors of the users of the package show, together with the
   // deprecations. See the `compile` script in package.json.
-  //
-  // TODO: add this file, and the second step of the `compile` script, to
-  // the template of the generated files.
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "./tsconfig.json",
   "compilerOptions": {
