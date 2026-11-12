@@ -96,7 +96,7 @@ program in `<scratch>/newcomer/`, then run it:
 2. create a logger with a level and write a message at each level;
 3. create a logger without a level, log some messages, set the level,
    and see which messages appear;
-4. check the level before doing expensive work (`isDebug`, `isLevel()`);
+4. check the level before doing expensive work (`isDebugEnabled`, `isLevel()`);
 5. use a different console (for example a mock) to capture the output;
 6. log an `Error`, a message with format directives, `undefined`, and
    an object;

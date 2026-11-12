@@ -353,7 +353,7 @@ Words such as "immediately", "always", "never", "each", "by default",
 - the effect of an invalid level name or value, in the constructor and
   in the setter (an exception, or a silent fallback);
 - the stream used by each logging method;
-- which of the level checks (`isInfo()` and the others) are true at each
+- which of the level checks (`isInfoEnabled` and the others) are true at each
   level, including `silent` and `all`;
 - the effect of `timestamp` on each method, and on `error(err)`;
 - the behaviour of the deprecated members, which must be stated on the
