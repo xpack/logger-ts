@@ -21,5 +21,5 @@ get isWarn(): boolean;
 
 Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 
-- changed to an accessor in v3.0.0; - deprecated in v7.0.0, to be removed in the next major version.
+<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 

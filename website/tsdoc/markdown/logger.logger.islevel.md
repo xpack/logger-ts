@@ -56,9 +56,9 @@ True if the current log level is equal to the given  level or higher.
 
 ## Exceptions
 
-A `TypeError` if the level is not a string.
+TypeError If the level is not a string.
 
-A `RangeError` if the level is not one of the valid names.
+RangeError If the level is not one of the valid names.
 
 ## Remarks
 
@@ -66,9 +66,9 @@ This is a more generic version of the accessors (like `isDebug`<!-- -->), to be 
 
 Before a level is set (the preliminary state), it returns `true` for every level, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 
-It can also be used to ensure that the log level is not decreased. Since in the preliminary state there is no level to compare with, check `hasLevel` first:
+It can also be used to ensure that the log level is not decreased. Since in the preliminary state there is no level to compare with, check `hasLevel` first, as in the example.
 
-- added in v6.0.0
+<ul> <li>added in v6.0.0</li> </ul>
 
 ## Example
 

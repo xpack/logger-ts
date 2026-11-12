@@ -20,5 +20,5 @@ The library never applies it: a logger created without a level stays in the prel
 
 It is read-only: the compiler rejects an assignment, and at run time the class is frozen, so an assignment throws a `TypeError`<!-- -->.
 
-- added in v7.0.0, as the new name of `defaultLevel`
+<ul> <li>added in v7.0.0, as the new name of <code>defaultLevel</code></li> </ul>
 

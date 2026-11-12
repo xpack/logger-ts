@@ -33,7 +33,7 @@ protected set buffer(value: LoggerBufferRecord[]);
 
 The messages are stored in it until the log level is set.
 
-- deprecated in v7.0.0, to be removed in the next major version
+<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 
 <hr/>
 

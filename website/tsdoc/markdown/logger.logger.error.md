@@ -42,7 +42,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  \*\*Empty messages\*\* in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -76,7 +76,7 @@ There is a special case when the first argument is an `Error` object: the prefix
 
 An `Error` passed after other arguments is also expanded, but the prefix is kept: `log.error('failed:', err)` outputs `error: failed: Error: boom`<!-- -->, followed by the stack trace.
 
-To show only the message of an error, on a single line with the prefix, pass its message instead of the object (see \*\*Logging errors\*\* in the description of the class):
+To show only the message of an error, on a single line with the prefix, pass its message instead of the object (see <b>Logging errors</b> in the description of the class):
 
 ```javascript
 try {

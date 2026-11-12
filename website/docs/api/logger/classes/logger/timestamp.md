@@ -26,7 +26,7 @@ get timestamp(): boolean;
 
 It is the value of the `timestamp` option of the constructor, and it cannot be changed after the logger is created.
 
-- added in v7.0.0
+<ul> <li>added in v7.0.0</li> </ul>
 
 <hr/>
 

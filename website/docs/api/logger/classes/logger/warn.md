@@ -52,7 +52,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  \*\*Empty messages\*\* in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -82,7 +82,7 @@ void
 
 The message is prefixed with `warning: ` and passed via `console.error()`<!-- -->. If the logger was created with the `timestamp` option, it starts with a timestamp, and the prefix is replaced by `[warning]`<!-- -->.
 
-An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines; unlike in `error()`<!-- -->, the prefix is kept even when the error is the first argument (`warning: Error: boom`<!-- -->, followed by the stack trace). To show only the message, pass `err.message` instead of the object (see \*\*Logging errors\*\* in the description of the class).
+An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines; unlike in `error()`<!-- -->, the prefix is kept even when the error is the first argument (`warning: Error: boom`<!-- -->, followed by the stack trace). To show only the message, pass `err.message` instead of the object (see <b>Logging errors</b> in the description of the class).
 
 ## Example
 

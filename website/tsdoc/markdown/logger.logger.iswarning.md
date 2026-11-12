@@ -16,5 +16,5 @@ get isWarning(): boolean;
 
 It has the same meaning as the deprecated `isWarn`<!-- -->, and matches the level name `warning`<!-- -->. Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 
-- added in v7.0.0
+<ul> <li>added in v7.0.0</li> </ul>
 

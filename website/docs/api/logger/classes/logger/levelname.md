@@ -33,7 +33,7 @@ protected set levelName(value: LogLevel | undefined);
 
 Writing it changes the `level` accessor, but not the level checks, so the two can disagree; set the `level` accessor instead.
 
-- deprecated in v7.0.0, to be removed in the next major version
+<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 
 <hr/>
 

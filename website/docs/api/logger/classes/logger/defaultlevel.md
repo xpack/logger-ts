@@ -33,7 +33,7 @@ The name suggested that a logger created without a level gets this level, which 
 
 In the initializer, `this` is the class: the name `Logger` cannot be used in a static initializer, since the emitted code assigns the class alias after the class definition.
 
-- deprecated in v7.0.0, to be removed in the next major version
+<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 
 <hr/>
 

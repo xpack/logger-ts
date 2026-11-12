@@ -36,6 +36,8 @@ The buffer is emptied before the messages are written, so each buffered message 
 
 The type of the setter is `LogLevel`<!-- -->, while the getter is `LogLevel | undefined`<!-- -->: the level is `undefined` only in the preliminary state, and cannot be set back to `undefined`<!-- -->. This is deliberate, so the lint rule that wants the type of the getter to be assignable to the type of the setter is disabled for this pair.
 
+Since v7.0.0, `warning` is the main name of this level, and `warn` is kept for compatibility, with the same meaning. The getter returns the name that was set, so after `log.level = 'warn'` it returns `'warn'`<!-- -->, not `'warning'`<!-- -->; to test the level regardless of the name, use `isLevel('warning')` or `isWarning`<!-- -->.
+
 ## Example 1
 
 
@@ -49,7 +51,6 @@ log.level = 'info'
 ```javascript
 console.log(log.level)
 ```
-Since v7.0.0, `warning` is the main name of this level, and `warn` is kept for compatibility, with the same meaning. The getter returns the name that was set, so after `log.level = 'warn'` it returns `'warn'`<!-- -->, not `'warning'`<!-- -->; to test the level regardless of the name, use `isLevel('warning')` or `isWarning`<!-- -->.
 
 <hr/>
 

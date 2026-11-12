@@ -14,7 +14,7 @@ custom_edit_url: null
 
 
 
-Create a \*\*Logger\*\* instance.
+Create a <b>Logger</b> instance.
 
 ## Signature
 
@@ -60,11 +60,9 @@ The optional options object (see `LoggerParams`<!-- -->), which  is required if 
 
 ## Exceptions
 
-A `RangeError` if the level is a string that is not one of the  valid names, and a `TypeError` if it is not a string (a `level` that  is `undefined` is the same as no level). The same errors are thrown  by the `level` setter.
+RangeError If the level is a string that is not one of the valid names.
 
-A `TypeError` if the `timestamp` option is not a boolean.
-
-A `TypeError` if the console does not have the `log()` and  `error()` functions.
+TypeError If the level is not a string (a `level` that is `undefined` is the same as no level), if the `timestamp` option is not a boolean, or if the console does not have the `log()` and `error()` functions. The level errors are the same as those of the `level` setter.
 
 ## Remarks
 
@@ -85,7 +83,7 @@ const log = new Logger({
   level: 'info'
 })
 ```
-If present, the `console` must be an object that has the `log()` and `error()` functions (see `LoggerConsole`<!-- -->), like the node \*\*Console\*\*, a mock console derived from it, or a minimal `{ log, error }` object. It can be omitted only if the JavaScript standard `console` object is of the type `C` of the logger, as for the default `Console` or for a minimal type; for a richer type, like `Logger<MockConsole>`<!-- -->, it is required.
+If present, the `console` must be an object that has the `log()` and `error()` functions (see `LoggerConsole`<!-- -->), like the node <b>Console</b>, a mock console derived from it, or a minimal `{ log, error }` object. It can be omitted only if the JavaScript standard `console` object is of the type `C` of the logger, as for the default `Console` or for a minimal type; for a richer type, like `Logger<MockConsole>`<!-- -->, it is required.
 
 The `level` property is optional since it can be set later. Without it, the constructor will create the logger in a preliminary state, and all messages will be stored in an internal buffer until the log level is set.
 

@@ -361,6 +361,72 @@
             },
             {
               "type": "category",
+              "label": "LoggerNumericLevels",
+              "link": {
+                "type": "doc",
+                "id": "api/logger/interfaces/loggernumericlevels/loggernumericlevels"
+              },
+              "className": "tsdocEllipsis",
+              "collapsed": true,
+              "items": [
+                {
+                  "type": "doc",
+                  "label": "all",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/all"
+                },
+                {
+                  "type": "doc",
+                  "label": "debug",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/debug"
+                },
+                {
+                  "type": "doc",
+                  "label": "error",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/error"
+                },
+                {
+                  "type": "doc",
+                  "label": "info",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/info"
+                },
+                {
+                  "type": "doc",
+                  "label": "silent",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/silent"
+                },
+                {
+                  "type": "doc",
+                  "label": "trace",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/trace"
+                },
+                {
+                  "type": "doc",
+                  "label": "verbose",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/verbose"
+                },
+                {
+                  "type": "doc",
+                  "label": "warn",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/warn"
+                },
+                {
+                  "type": "doc",
+                  "label": "warning",
+                  "className": "tsdocEllipsis",
+                  "id": "api/logger/interfaces/loggernumericlevels/warning"
+                }
+              ]
+            },
+            {
+              "type": "category",
               "label": "LoggerParams",
               "link": {
                 "type": "doc",

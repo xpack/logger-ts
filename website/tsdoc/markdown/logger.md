@@ -56,6 +56,17 @@ Type of a record stored in the internal buffer.
 </td></tr>
 <tr><td>
 
+[LoggerNumericLevels](./logger.loggernumericlevels.md)
+
+
+</td><td>
+
+The numeric levels of the log level names.
+
+
+</td></tr>
+<tr><td>
+
 [LoggerParams](./logger.loggerparams.md)
 
 

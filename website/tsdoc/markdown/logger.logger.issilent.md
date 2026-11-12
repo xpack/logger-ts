@@ -23,7 +23,7 @@ Since `silent` is the lowest level, this accessor is always `true`<!-- -->, for 
 
 To check for the `silent` level, compare the `level` accessor.
 
-- changed to an accessor in v3.0.0; - deprecated in v7.0.0, to be removed in the next major version.
+<ul> <li>changed to an accessor in v3.0.0</li> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 
 ## Example
 

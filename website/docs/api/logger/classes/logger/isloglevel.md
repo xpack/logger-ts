@@ -68,7 +68,7 @@ True if the value is a valid log level name.
 
 It is a type guard, to be used when the level comes from a source that is not checked by the compiler, like a command line option or an environment variable. It returns `false` for any value that is not one of the strings in `levelNames`<!-- -->, including non-string values, strings with different case, and the names of inherited properties (like `'toString'`<!-- -->).
 
-- added in v7.0.0
+<ul> <li>added in v7.0.0</li> </ul>
 
 ## Example
 

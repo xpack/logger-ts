@@ -19,5 +19,5 @@ protected get _console(): C;
 
 ## Remarks
 
-- deprecated in v7.0.0, to be removed in the next major version
+<ul> <li>deprecated in v7.0.0, to be removed in the next major version</li> </ul>
 

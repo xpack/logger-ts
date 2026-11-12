@@ -52,7 +52,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  \*\*Empty messages\*\* in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -80,9 +80,9 @@ void
 
 ## Remarks
 
-It is meant for the normal output of an application, that is suppressed at `silent`<!-- -->, like all the other messages except `always()`<!-- -->. It differs from `error()` by \*\*not\*\* prefixing the string with `error: ` and using `console.log()` instead of `console.error()`<!-- -->, and from `info()` by being written from the `error` level, not from the `info` level (see the table of logging methods in the description of the class).
+It is meant for the normal output of an application, that is suppressed at `silent`<!-- -->, like all the other messages except `always()`<!-- -->. It differs from `error()` by <b>not</b> prefixing the string with `error: ` and using `console.log()` instead of `console.error()`<!-- -->, and from `info()` by being written from the `error` level, not from the `info` level (see the table of logging methods in the description of the class).
 
-An `Error` object is expanded as by `error()`<!-- -->, with the full stack trace and the `cause` chain, on several lines, and passed via `console.log()`<!-- -->. To show only the message, without the stack trace, pass its message instead of the object (see \*\*Logging errors\*\* in the description of the class):
+An `Error` object is expanded as by `error()`<!-- -->, with the full stack trace and the `cause` chain, on several lines, and passed via `console.log()`<!-- -->. To show only the message, without the stack trace, pass its message instead of the object (see <b>Logging errors</b> in the description of the class):
 
 ```javascript
 try {

@@ -19,17 +19,7 @@ Internal numerical values for the log level.
 ## Signature
 
 ```typescript
-static readonly numericLevels: Readonly<{
-        readonly silent: 0;
-        readonly error: 10;
-        readonly warn: 20;
-        readonly warning: 20;
-        readonly info: 30;
-        readonly verbose: 40;
-        readonly debug: 50;
-        readonly trace: 60;
-        readonly all: 70;
-    }>;
+static readonly numericLevels: LoggerNumericLevels;
 ```
 
 ## Remarks

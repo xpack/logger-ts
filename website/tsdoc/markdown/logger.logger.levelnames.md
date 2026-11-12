@@ -18,7 +18,7 @@ They are in increasing order of verbosity, from `silent` to `all`<!-- -->; `warn
 
 The array is frozen. It is derived from the keys of `numericLevels`<!-- -->, so that the two cannot drift apart.
 
-- added in v7.0.0
+<ul> <li>added in v7.0.0</li> </ul>
 
 ## Example
 

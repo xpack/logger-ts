@@ -24,21 +24,21 @@ The messages may include formatting directives, with additional arguments, as de
 
 All logging methods accept an optional message, of any type, and possibly some arguments, as processed by the standard Node.js \[`util.format(msg, ...args)`<!-- -->\](https://nodejs.org/api/util.html\#utilformatformat-args) function.
 
-\*\*Empty messages.\*\* If the message is omitted or `undefined`<!-- -->, it is replaced by an empty string, so `log.info()` and `log.info(undefined)` write an empty line, and the methods with a prefix write only the prefix (for example `debug: `<!-- -->). This differs from `console.log()`<!-- -->, which writes `undefined`<!-- -->. Other falsy values are written as they are (`null`<!-- -->, `0`<!-- -->, and `false` give `null`<!-- -->, `0`<!-- -->, and `false`<!-- -->), and `undefined` is written as usual when it is not the first argument (`log.info('value:', undefined)` gives `value: undefined`<!-- -->). Since the empty string is still a message, any further arguments are appended to it after a space (`log.info(undefined, 1)` gives ` 1`<!-- -->, with a leading space). To write the text `undefined`<!-- -->, convert it explicitly, for example `log.info(String(value))`<!-- -->.
+<b>Empty messages.</b> If the message is omitted or `undefined`<!-- -->, it is replaced by an empty string, so `log.info()` and `log.info(undefined)` write an empty line, and the methods with a prefix write only the prefix (for example `debug: `<!-- -->). This differs from `console.log()`<!-- -->, which writes `undefined`<!-- -->. Other falsy values are written as they are (`null`<!-- -->, `0`<!-- -->, and `false` give `null`<!-- -->, `0`<!-- -->, and `false`<!-- -->), and `undefined` is written as usual when it is not the first argument (`log.info('value:', undefined)` gives `value: undefined`<!-- -->). Since the empty string is still a message, any further arguments are appended to it after a space (`log.info(undefined, 1)` gives ` 1`<!-- -->, with a leading space). To write the text `undefined`<!-- -->, convert it explicitly, for example `log.info(String(value))`<!-- -->.
 
-\*\*Logging methods.\*\* The methods differ by the level from which they are written (the threshold), by the console stream, and by a prefix added to the message:
+<b>Logging methods.</b> The methods differ by the level from which they are written (the threshold), by the console stream, and by a prefix added to the message:
 
-\| Method \| Written from level \| Stream \| Prefix \| \| \-\-\-\-\-\-\-\-\--- \| \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\- \| \-\-\-\-\-\- \| \-\-\-\-\-\-\-\-\-\-\-\- \| \| `always()` \| every level \| stdout \| none \| \| `error()` \| `error` \| stderr \| `error: ` \| \| `output()` \| `error` \| stdout \| none \| \| `warn()` \| `warn` \| stderr \| `warning: ` \| \| `info()` \| `info` \| stdout \| none \| \| `verbose()` \| `verbose` \| stdout \| none \| \| `debug()` \| `debug` \| stdout \| `debug: ` \| \| `trace()` \| `trace` \| stdout \| `trace: ` \|
+<table> <thead> <tr><th>Method</th><th>Written from level</th> <th>Stream</th><th>Prefix</th></tr> </thead> <tbody> <tr><td><code>always()</code></td><td>every level</td> <td>stdout</td><td>none</td></tr> <tr><td><code>error()</code></td><td><code>error</code></td> <td>stderr</td><td><code>error: </code></td></tr> <tr><td><code>output()</code></td><td><code>error</code></td> <td>stdout</td><td>none</td></tr> <tr><td><code>warn()</code></td><td><code>warn</code></td> <td>stderr</td><td><code>warning: </code></td></tr> <tr><td><code>info()</code></td><td><code>info</code></td> <td>stdout</td><td>none</td></tr> <tr><td><code>verbose()</code></td><td><code>verbose</code></td> <td>stdout</td><td>none</td></tr> <tr><td><code>debug()</code></td><td><code>debug</code></td> <td>stdout</td><td><code>debug: </code></td></tr> <tr><td><code>trace()</code></td><td><code>trace</code></td> <td>stdout</td><td><code>trace: </code></td></tr> </tbody> </table>
 
 Here stdout is `console.log()` and stderr is `console.error()`<!-- -->. A method is written when the log level is equal to or higher than its threshold; at `silent` only `always()` is written. The method `error()` omits its prefix when the first argument is an `Error` (see below).
 
 The three methods that write on stdout without a prefix are used for different purposes:
 
-- `always()` is for the messages that must be shown at every log level,  including `silent`<!-- -->, like the version or the result requested by the  user; - `output()` is for the normal output of the application, which is  suppressed at `silent`<!-- -->, together with all the other messages; - `info()` is for informative messages, shown from the `info` level.
+<ul> <li><code>always()</code> is for the messages that must be shown at every log level, including <code>silent</code>, like the version or the result requested by the user;</li> <li><code>output()</code> is for the normal output of the application, which is suppressed at <code>silent</code>, together with all the other messages;</li> <li><code>info()</code> is for informative messages, shown from the <code>info</code> level.</li> </ul>
 
-\*\*Extending the class.\*\* A subclass can intercept the messages by overriding the protected `write()` method, which is the only supported extension point (see its description for the contract). The state of the logger is private; use the public members, like `level`<!-- -->, `hasLevel`<!-- -->, `isLevel()`<!-- -->, and `console`<!-- -->. The protected members that gave direct access to the state (`_console`<!-- -->, `levelNumericValue`<!-- -->, `levelName`<!-- -->, and `buffer`<!-- -->) are deprecated, still work, and will be removed in the next major version.
+<b>Extending the class.</b> A subclass can intercept the messages by overriding the protected `write()` method, which is the only supported extension point (see its description for the contract). The state of the logger is private; use the public members, like `level`<!-- -->, `hasLevel`<!-- -->, `isLevel()`<!-- -->, and `console`<!-- -->. The protected members that gave direct access to the state (`_console`<!-- -->, `levelNumericValue`<!-- -->, `levelName`<!-- -->, and `buffer`<!-- -->) are deprecated, still work, and will be removed in the next major version.
 
-\*\*Timestamps.\*\* If the logger is created with the `timestamp` option, the messages of the methods that have a prefix (`error()`<!-- -->, `warn()`<!-- -->, `debug()`<!-- -->, and `trace()`<!-- -->) start with a timestamp, and the prefix is replaced by the kind of the message in square brackets:
+<b>Timestamps.</b> If the logger is created with the `timestamp` option, the messages of the methods that have a prefix (`error()`<!-- -->, `warn()`<!-- -->, `debug()`<!-- -->, and `trace()`<!-- -->) start with a timestamp, and the prefix is replaced by the kind of the message in square brackets:
 
 ```text
 2026-11-11 23:32:31.358 [warning] the file is missing
@@ -47,11 +47,11 @@ The timestamp is in the local time, without the time zone, with milliseconds, as
 
 The timestamp and the kind are tied to the method, not to the prefix that is written: `error()` with an `Error` that comes first has no prefix without the option, but with the option it has both, as in `2026-11-11 23:32:31.358 [error] Error: boom`<!-- -->, so all the stamped messages have the same structure. The messages without a prefix (`always()`<!-- -->, `output()`<!-- -->, `info()`<!-- -->, and `verbose()`<!-- -->) are the normal output and the progress messages, and are never stamped. The timestamp and the kind are on the first line only, like the prefix, so the stack trace of an `Error`<!-- -->, and the following lines of a multi-line message, are not stamped. The time is taken when the message is logged, so the messages of the preliminary state keep it, although they are written later. The option cannot be changed after the logger is created (see the `timestamp` accessor).
 
-\*\*The prefix of an `Error`<!-- -->.\*\* Only `error()` omits its prefix, and only when the first argument is an `Error`<!-- -->: the first line of the expanded error already starts with its name (like `Error: boom` or `TypeError: bad`<!-- -->), which tells the severity. This is deliberate. The other methods keep their prefix (`warning: Error: boom`<!-- -->, `debug: Error: boom`<!-- -->), since without it a warning would look like an error, and a debug message like a failure; and an `Error` that is not the first argument of `error()` keeps the prefix too (`error: failed: Error: boom`<!-- -->). It is the same for all the methods, whether the message is written at once or buffered.
+<b>The prefix of an <code>Error</code>.</b> Only `error()` omits its prefix, and only when the first argument is an `Error`<!-- -->: the first line of the expanded error already starts with its name (like `Error: boom` or `TypeError: bad`<!-- -->), which tells the severity. This is deliberate. The other methods keep their prefix (`warning: Error: boom`<!-- -->, `debug: Error: boom`<!-- -->), since without it a warning would look like an error, and a debug message like a failure; and an `Error` that is not the first argument of `error()` keeps the prefix too (`error: failed: Error: boom`<!-- -->). It is the same for all the methods, whether the message is written at once or buffered.
 
-\*\*Logging errors.\*\* `Error` objects (and objects derived from it) are expanded by `util.format()`<!-- -->, as by `console.log()`<!-- -->: the first line has the name and the message (for example `Error: boom`<!-- -->), and it is followed by the stack trace and, if present, the `cause` chain, on several lines. This is the same in all logging methods, which differ only by the stream and the prefix. The caller decides how much of an error is shown:
+<b>Logging errors.</b> `Error` objects (and objects derived from it) are expanded by `util.format()`<!-- -->, as by `console.log()`<!-- -->: the first line has the name and the message (for example `Error: boom`<!-- -->), and it is followed by the stack trace and, if present, the `cause` chain, on several lines. This is the same in all logging methods, which differ only by the stream and the prefix. The caller decides how much of an error is shown:
 
-- to show the full details, including the stack trace, pass the error  object, for example `log.error(err)`<!-- -->; - to show a single line, pass only its message, for example  `log.error(err.message)`<!-- -->, which outputs `error: boom`<!-- -->.
+<ul> <li>to show the full details, including the stack trace, pass the error object, for example <code>log.error(err)</code>;</li> <li>to show a single line, pass only its message, for example <code>log.error(err.message)</code>, which outputs <code>error: boom</code>.</li> </ul>
 
 A common pattern, which also works in the preliminary state, is to show the message at the `error` level, and the full details only when the log level is `debug` or higher:
 
@@ -68,9 +68,9 @@ try {
 ```
 In TypeScript, the variable of a `catch` clause has the type `unknown`<!-- -->, hence the `instanceof` check. To also keep the name of the error, use `String(err)` instead of `err.message`<!-- -->: `log.error(String(err))` outputs, for example, `error: TypeError: boom`<!-- -->.
 
-\*\*Untrusted input.\*\* The messages are written as they are, without any escaping, so text that comes from outside the application (like a file name, a user name, or the content of a network request) can forge messages, send control sequences to the terminal, and be interpreted as format directives:
+<b>Untrusted input.</b> The messages are written as they are, without any escaping, so text that comes from outside the application (like a file name, a user name, or the content of a network request) can forge messages, send control sequences to the terminal, and be interpreted as format directives:
 
-- a newline in the text starts a new line in the output, and a prefix  is added only to the first line, so the text `'bob\nerror: forged'`  in a `warn()` call writes the line `warning: bob`<!-- -->, followed by a  line that looks like a genuine `error: forged` message; - control characters, like the ANSI escape sequences, are passed to  the terminal unchanged; - if the first argument contains directives (like `%s`<!-- -->, `%d`<!-- -->, or `%j`<!-- -->)  and there are further arguments, the directives consume them, so  `log.info(text, secret)` may write the secret; a single argument is  not processed (`log.info('100%d')` writes `100%d`<!-- -->), but  `log.info('100%d', 5)` writes `1005`<!-- -->.
+<ul> <li>a newline in the text starts a new line in the output, and a prefix is added only to the first line, so the text <code>'bob&amp;\#92;nerror: forged'</code> in a <code>warn()</code> call writes the line <code>warning: bob</code>, followed by a line that looks like a genuine <code>error: forged</code> message;</li> <li>control characters, like the ANSI escape sequences, are passed to the terminal unchanged;</li> <li>if the first argument contains directives (like <code>%s</code>, <code>%d</code>, or <code>%j</code>) and there are further arguments, the directives consume them, so <code>log.info(text, secret)</code> may write the secret; a single argument is not processed (<code>log.info('100%d')</code> writes <code>100%d</code>), but <code>log.info('100%d', 5)</code> writes <code>1005</code>.</li> </ul>
 
 Therefore pass the untrusted text as an argument, never as the first argument, with a constant format string:
 
@@ -95,7 +95,7 @@ If the logging code is more complex than a single line, for example if it needs 
 ```
 There are cases when the logger must be created very early in the life cycle of an application, even before it is practically possible to determine the log level.
 
-For these cases, if the logger is created without a log level, it is in a \*\*preliminary state\*\*, and all messages are stored in an \*\*internal buffer\*\*, until the log level is set, when the buffer is replayed and the messages are written.
+For these cases, if the logger is created without a log level, it is in a <b>preliminary state</b>, and all messages are stored in an <b>internal buffer</b>, until the log level is set, when the buffer is replayed and the messages are written.
 
 Nothing is written while the logger is in the preliminary state, not even the messages of `always()` and `error()`<!-- -->. If the log level is never set (for example when the application fails before it determines the level), the buffered messages are never written and are lost. Set the log level on every path, for example in a `catch` or `finally` block, using `hasLevel` to check whether it was set:
 
@@ -110,9 +110,9 @@ try {
   log.error(err)
 }
 ```
-\*\*Cost of the preliminary state.\*\* With the level set, a message that is below the level is skipped before it is formatted, which costs a few nanoseconds. In the preliminary state the final level is not known, so every message, including `debug()` and `trace()`<!-- -->, is formatted immediately and stored in the buffer, until the level is set:
+<b>Cost of the preliminary state.</b> With the level set, a message that is below the level is skipped before it is formatted, which costs a few nanoseconds. In the preliminary state the final level is not known, so every message, including `debug()` and `trace()`<!-- -->, is formatted immediately and stored in the buffer, until the level is set:
 
-- the formatting is done even for the messages that are later  discarded; for example, an object passed to a `%o` directive is  inspected at each call (about 3 microseconds, against 0.2  microseconds for a short string message); - the buffer is not limited, and a message of about 70 characters  takes about 250 bytes, so a long running application that logs a lot  before the level is set should set it as early as possible; - since the message is formatted when it is logged, a later change of  an argument does not alter the buffered message.
+<ul> <li>the formatting is done even for the messages that are later discarded; for example, an object passed to a <code>%o</code> directive is inspected at each call (about 3 microseconds, against 0.2 microseconds for a short string message);</li> <li>the buffer is not limited, and a message of about 70 characters takes about 250 bytes, so a long running application that logs a lot before the level is set should set it as early as possible;</li> <li>since the message is formatted when it is logged, a later change of an argument does not alter the buffered message.</li> </ul>
 
 The check of the level before an expensive preparation of the message (see above) is true in the preliminary state, so the preparation is done there too.
 
@@ -144,7 +144,7 @@ Description
 
 </td><td>
 
-Create a \*\*Logger\*\* instance.
+Create a <b>Logger</b> instance.
 
 
 </td></tr>
@@ -592,7 +592,7 @@ The value used for the `always` case (minimum value).
 
 </td><td>
 
-Readonly&lt;{ readonly silent: 0; readonly error: 10; readonly warn: 20; readonly warning: 20; readonly info: 30; readonly verbose: 40; readonly debug: 50; readonly trace: 60; readonly all: 70; }&gt;
+[LoggerNumericLevels](./logger.loggernumericlevels.md)
 
 
 </td><td>

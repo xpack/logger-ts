@@ -26,7 +26,7 @@ get isVerbose(): boolean;
 
 Before a level is set (the preliminary state), it returns `true`<!-- -->, so that the messages produced under the check are buffered rather than lost; they are filtered when the level is set. Use `hasLevel` to tell whether a level was set.
 
-- changed to an accessor in v3.0.0.
+<ul> <li>changed to an accessor in v3.0.0</li> </ul>
 
 <hr/>
 

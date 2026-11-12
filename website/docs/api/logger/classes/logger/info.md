@@ -52,7 +52,7 @@ unknown
 
 </td><td>
 
-_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  \*\*Empty messages\*\* in the description of the class).
+_(Optional)_ Message to log, as accepted by `util.format()`<!-- -->. If  omitted or `undefined`<!-- -->, it is replaced by an empty string (see  <b>Empty messages</b> in the description of the class).
 
 
 </td></tr>
@@ -80,7 +80,7 @@ void
 
 ## Remarks
 
-The message is passed via `console.log()`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, without a prefix (see \*\*Logging errors\*\* in the description of the class).
+The message is passed via `console.log()`<!-- -->. An `Error` object is expanded with the full stack trace and the `cause` chain, on several lines, without a prefix (see <b>Logging errors</b> in the description of the class).
 
 ## Example
 

@@ -26,7 +26,7 @@ get hasLevel(): boolean;
 
 If the logger was created without an explicit log level, the logger is in a preliminary state and all messages will be stored in an internal buffer until the log level is set.
 
-- changed to an accessor in v5.0.0 - added as a method in v2.1.0
+<ul> <li>changed to an accessor in v5.0.0</li> <li>added as a method in v2.1.0</li> </ul>
 
 ## Example
 

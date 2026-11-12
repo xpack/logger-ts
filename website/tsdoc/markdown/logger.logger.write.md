@@ -58,7 +58,7 @@ loggerFunction
 
 </td><td>
 
-The function to be used to write the message.
+The function to be used to write  the message.
 
 
 </td></tr>
