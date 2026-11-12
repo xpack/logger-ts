@@ -33,8 +33,7 @@ import { Logger, type LogLevel } from '../../src/index.js'
 // ----------------------------------------------------------------------------
 
 const validList =
-  'valid levels are: silent, error, warn, warning, info, verbose, debug, ' +
-  'trace, all'
+  'valid levels are: silent, error, warn, info, verbose, debug, trace, ' + 'all'
 
 // Each way of passing a level: the same value must give the same error.
 const callers: [string, (value: unknown) => void][] = [

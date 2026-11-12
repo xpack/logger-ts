@@ -77,7 +77,6 @@ await test('numericLevels is frozen', (t) => {
       silent: 0,
       error: 10,
       warn: 20,
-      warning: 20,
       info: 30,
       verbose: 40,
       debug: 50,
@@ -140,7 +139,7 @@ await test('the class is frozen', (t) => {
   t.equal(Logger.defaultLevel, 'info', 'defaultLevel is unchanged')
   t.equal(Logger.numericLevelUndefined, Infinity, 'undefined is unchanged')
   t.equal(Logger.numericLevelAlways, -1, 'always is unchanged')
-  t.equal(Logger.levelNames.length, 9, 'levelNames is unchanged')
+  t.equal(Logger.levelNames.length, 8, 'levelNames is unchanged')
 
   t.end()
 })

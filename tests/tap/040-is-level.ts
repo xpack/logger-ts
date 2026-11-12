@@ -115,7 +115,6 @@ await test('logger level verbose', (t) => {
   t.ok(logger.isVerbose, 'is Verbose')
   t.ok(logger.isInfo, 'is Info')
   t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isWarning, 'is Warning')
   t.ok(logger.isError, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
@@ -138,7 +137,6 @@ await test('logger level info', (t) => {
   t.notOk(logger.isVerbose, 'is not Verbose')
   t.ok(logger.isInfo, 'is Info')
   t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isWarning, 'is Warning')
   t.ok(logger.isError, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
@@ -161,7 +159,6 @@ await test('logger level warn', (t) => {
   t.notOk(logger.isVerbose, 'is not Verbose')
   t.notOk(logger.isInfo, 'is not Info')
   t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isWarning, 'is Warning')
   t.ok(logger.isError, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
@@ -184,7 +181,6 @@ await test('logger level error', (t) => {
   t.notOk(logger.isVerbose, 'is not Verbose')
   t.notOk(logger.isInfo, 'is not Info')
   t.notOk(logger.isWarn, 'is not Warn')
-  t.notOk(logger.isWarning, 'is not Warning')
   t.ok(logger.isError, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 
@@ -207,7 +203,6 @@ await test('logger level silent', (t) => {
   t.notOk(logger.isVerbose, 'is not Verbose')
   t.notOk(logger.isInfo, 'is not Info')
   t.notOk(logger.isWarn, 'is not Warn')
-  t.notOk(logger.isWarning, 'is not Warning')
   t.notOk(logger.isError, 'is not Error')
   t.ok(logger.isSilent, 'is Silent')
 
@@ -250,7 +245,6 @@ await test('logger preliminary state checks', (t) => {
   t.ok(logger.isVerbose, 'is Verbose')
   t.ok(logger.isInfo, 'is Info')
   t.ok(logger.isWarn, 'is Warn')
-  t.ok(logger.isWarning, 'is Warning')
   t.ok(logger.isError, 'is Error')
   t.ok(logger.isSilent, 'is Silent')
 

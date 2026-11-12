@@ -34,21 +34,11 @@ import * as util from 'node:util'
  *
  * Higher values mean more verbosity.
  *
- * Since v7.0.0, `warning` is the main name of this level, and `warn` is
- * kept for compatibility: both have the same numeric level. The `level`
- * getter returns the name that was set, so code that compares the level
- * name must test both, or use `Logger.isLevel()`.
+ * The prefix of the messages of the `warn` level is `warning`, but the name
+ * of the level is `warn`, like that of the `warn()` method.
  */
 export type LogLevel =
-  | 'silent'
-  | 'error'
-  | 'warn'
-  | 'warning'
-  | 'info'
-  | 'verbose'
-  | 'debug'
-  | 'trace'
-  | 'all'
+  'silent' | 'error' | 'warn' | 'info' | 'verbose' | 'debug' | 'trace' | 'all'
 
 /**
  * Type of the console objects accepted by the logger.
@@ -125,10 +115,8 @@ export interface LoggerNumericLevels extends Readonly<
   readonly silent: 0
   /** The numeric level of `error`. */
   readonly error: 10
-  /** The numeric level of `warn`, the same as that of `warning`. */
+  /** The numeric level of `warn`. */
   readonly warn: 20
-  /** The numeric level of `warning`, the same as that of `warn`. */
-  readonly warning: 20
   /** The numeric level of `info`. */
   readonly info: 30
   /** The numeric level of `verbose`. */
@@ -576,8 +564,6 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * The keys are exactly the level names of `LogLevel`; the compiler
    * reports an error if a name is missing or if there is an extra one.
-   * The name `warning`, the main one since v7.0.0, has the same value as
-   * `warn`, which is kept for compatibility.
    *
    * The object is frozen and its properties are read-only, so no code can
    * change the thresholds of the levels: the compiler rejects an
@@ -587,7 +573,6 @@ export class Logger<C extends LoggerConsole = Console> {
     silent: 0,
     error: 10,
     warn: 20,
-    warning: 20,
     info: 30,
     verbose: 40,
     debug: 50,
@@ -617,9 +602,7 @@ export class Logger<C extends LoggerConsole = Console> {
    * The names of the valid log levels.
    *
    * @remarks
-   * They are in increasing order of verbosity, from `silent` to `all`;
-   * `warning`, the main name since v7.0.0, follows `warn`, which is kept
-   * for compatibility, with the same numeric level.
+   * They are in increasing order of verbosity, from `silent` to `all`.
    *
    * The array is frozen. It is derived from the keys of `numericLevels`,
    * so that the two cannot drift apart.
@@ -976,12 +959,6 @@ export class Logger<C extends LoggerConsole = Console> {
    * deliberate, so the lint rule that wants the type of the getter to be
    * assignable to the type of the setter is disabled for this pair.
    *
-   * Since v7.0.0, `warning` is the main name of this level, and `warn` is
-   * kept for compatibility, with the same meaning. The getter returns the
-   * name that was set, so after `log.level = 'warn'` it returns `'warn'`,
-   * not `'warning'`; to test the level regardless of the name, use
-   * `isLevel('warning')` or `isWarning`.
-   *
    * @example
    * ```javascript
    * log.level = 'info'
@@ -1088,37 +1065,12 @@ export class Logger<C extends LoggerConsole = Console> {
    *
    * <ul>
    * <li>changed to an accessor in v3.0.0</li>
-   * <li>deprecated in v7.0.0, to be removed in the next major version</li>
    * </ul>
    *
-   * @returns True if the log level is `warning` (or `warn`) or
-   *   higher.
-   *
-   * @deprecated Use `isWarning`, which has the same meaning.
+   * @returns True if the log level is `warn` or higher.
    */
   get isWarn(): boolean {
-    return this.#numericLevel >= Logger.numericLevels.warning
-  }
-
-  /**
-   * Accessor to check the log level, the replacement of `isWarn`.
-   *
-   * @remarks
-   * It has the same meaning as the deprecated `isWarn`, and matches the
-   * level name `warning`. Before a level is set (the preliminary state),
-   * it returns `true`, so that the messages produced under the check are
-   * buffered rather than lost; they are filtered when the level is set. Use
-   * `hasLevel` to tell whether a level was set.
-   *
-   * <ul>
-   * <li>added in v7.0.0</li>
-   * </ul>
-   *
-   * @returns True if the log level is `warning` (or `warn`) or
-   *   higher.
-   */
-  get isWarning(): boolean {
-    return this.#numericLevel >= Logger.numericLevels.warning
+    return this.#numericLevel >= Logger.numericLevels.warn
   }
 
   /**
@@ -1593,7 +1545,7 @@ export class Logger<C extends LoggerConsole = Console> {
    */
   warn(message: unknown = '', ...args: unknown[]): void {
     this.emit(
-      Logger.numericLevels.warning,
+      Logger.numericLevels.warn,
       'error',
       'warning',
       false,

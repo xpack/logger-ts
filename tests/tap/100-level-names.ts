@@ -10,8 +10,6 @@
  */
 
 /* eslint max-len: [ "error", 80, { "ignoreUrls": true } ] */
-/* eslint-disable @typescript-eslint/no-deprecated --
-   the test checks the deprecated isWarn */
 
 // ----------------------------------------------------------------------------
 
@@ -31,43 +29,36 @@ import { MockConsole } from '@xpack/mock-console'
 
 import { Logger, type LogLevel } from '../../src/index.js'
 
-await test('warning and warn are the same level', (t) => {
-  t.equal(
-    Logger.numericLevels.warning,
-    Logger.numericLevels.warn,
-    'same numeric level'
-  )
-  t.ok(Logger.isLogLevel('warning'), 'is a log level')
-
-  for (const name of ['warn', 'warning'] as const) {
-    const mockConsole = new MockConsole()
-    const logger = new Logger({ console: mockConsole, level: name })
-    t.equal(logger.level, name, `level is the name set, '${name}'`)
-
-    t.ok(logger.isError, `isError at '${name}'`)
-    t.ok(logger.isWarn, `isWarn at '${name}'`)
-    t.ok(logger.isWarning, `isWarning at '${name}'`)
-    t.notOk(logger.isInfo, `not isInfo at '${name}'`)
-    t.ok(logger.isLevel('warn'), `isLevel('warn') at '${name}'`)
-    t.ok(logger.isLevel('warning'), `isLevel('warning') at '${name}'`)
-    t.notOk(logger.isLevel('info'), `not isLevel('info') at '${name}'`)
-
-    logger.error('e')
-    logger.warn('w')
-    logger.info('i')
-    t.same(
-      mockConsole.errLines,
-      ['error: e', 'warning: w'],
-      `stderr at '${name}'`
-    )
-    t.same(mockConsole.outLines, [], `stdout at '${name}'`)
-  }
+await test('the warn level has the prefix warning', (t) => {
+  t.notOk(Logger.isLogLevel('warning'), 'warning is not a log level')
 
   const mockConsole = new MockConsole()
-  const logger = new Logger({ console: mockConsole })
-  logger.warn('buffered')
-  logger.level = 'warning'
-  t.same(mockConsole.errLines, ['warning: buffered'], 'buffer replayed')
+  const logger = new Logger({ console: mockConsole, level: 'warn' })
+  t.equal(logger.level, 'warn', 'level is the name set')
+
+  t.ok(logger.isError, 'isError at warn')
+  t.ok(logger.isWarn, 'isWarn at warn')
+  t.notOk(logger.isInfo, 'not isInfo at warn')
+  t.ok(logger.isLevel('warn'), "isLevel('warn') at warn")
+  t.notOk(logger.isLevel('info'), "not isLevel('info') at warn")
+
+  logger.error('e')
+  logger.warn('w')
+  logger.info('i')
+  t.same(mockConsole.errLines, ['error: e', 'warning: w'], 'stderr')
+  t.same(mockConsole.outLines, [], 'stdout')
+
+  t.throws(
+    () => new Logger({ console: mockConsole, level: 'warning' as LogLevel }),
+    RangeError,
+    'warning is rejected as a level name'
+  )
+
+  const preliminary = new MockConsole()
+  const buffered = new Logger({ console: preliminary })
+  buffered.warn('buffered')
+  buffered.level = 'warn'
+  t.same(preliminary.errLines, ['warning: buffered'], 'buffer replayed')
 
   t.end()
 })
@@ -77,17 +68,7 @@ await test('warning and warn are the same level', (t) => {
 await test('Logger.levelNames', (t) => {
   t.same(
     Logger.levelNames,
-    [
-      'silent',
-      'error',
-      'warn',
-      'warning',
-      'info',
-      'verbose',
-      'debug',
-      'trace',
-      'all',
-    ],
+    ['silent', 'error', 'warn', 'info', 'verbose', 'debug', 'trace', 'all'],
     'names in increasing order of verbosity'
   )
 
