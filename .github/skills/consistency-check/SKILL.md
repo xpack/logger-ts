@@ -106,11 +106,9 @@ Stale or incorrect content in:
   `update-changelog` script and its documentation);
 - `package.json` metadata (`description`, `repository`, `bugs`,
   `homepage`, `keywords`, `author`);
-- the TSDoc comments and the examples in them, including their structure:
-  a single line brief description, the only text before the first block
-  tag, and the full description after `@remarks`, which is the first block
-  tag, and no `@category` tag (see "Documentation (TSDoc)" in the
-  `code-review` skill).
+- the TSDoc comments and the examples in them, including their structure
+  and markup (see `.github/skills/tsdoc-rules.md`), and that
+  `tests/tap/160-package.ts` checks the same rules.
 
 Look for: commands, scripts, and files that do not exist (for example
 a configuration path named in the instructions that is not in the

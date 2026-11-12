@@ -72,38 +72,9 @@ Review every item below, with file and line references.
 
 ### Documentation (TSDoc)
 
-- Every class, method, property, parameter, and return value has a
-  TSDoc comment, including `protected` members and the members marked
-  `@internal`.
-- Every TSDoc comment has the same structure: the **brief description**
-  is a single line, the only text before the first block tag (a
-  comment that wraps the first sentence over several lines, or has
-  paragraphs before the tags, is wrong); the full description follows
-  the `@remarks` tag, which is the first block tag, directly after the
-  brief description; then come `@example`, `@param`, `@returns`,
-  `@throws`, and `@deprecated`, and the modifier tags like `@internal`,
-  last. A comment with no more to say than the brief
-  description has no `@remarks`. The notes of the version history
-  ("added in", "deprecated in") are bullets at the end of the
-  `@remarks`. `tests/tap/160-package.ts` checks the structure of all
-  the comments of `src/lib/logger.ts`.
-- The comments do not use the `@category` tag. It is a typedoc tag; the
-  project no longer uses typedoc, and the API reference is generated
-  with api-extractor and tsdoc2docusaurus, which do not support it (it
-  causes `tsdoc-undefined-tag` warnings). Do not add it, and report it
-  where it is found. `tests/tap/160-package.ts` checks that it is not
-  used.
-- A setter has no TSDoc comment: the documentation of an accessor pair
-  is on the getter, which describes both (api-extractor reports
-  `ae-setter-with-docs` otherwise). A type marked `@internal` is not
-  used in the signature of a public or protected member
-  (`ae-incompatible-release-tags`), nor exported without the `_`
-  prefix (`ae-internal-missing-underscore`).
-- Examples in the comments are valid and still match the signature.
-- Comments use British English spelling ("behaviour", "initialise"),
-  formal wording, no contractions, and the Oxford comma.
-- Existing documentation is reviewed: improve it where it is vague,
-  repeats the signature, or is out of date with the change.
+- Check every comment against `.github/skills/tsdoc-rules.md` (coverage,
+  structure, markup, and language), and report each deviation where it
+  is found.
 - The file header carries the xPack MIT licence block, with a
   plausible copyright year range, and the `max-len` eslint comment.
 

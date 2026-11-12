@@ -159,10 +159,8 @@ one, naming only that one.
      not only adjust the existing ones;
    - the TSDoc comments of every member whose behaviour, parameters,
      or examples are affected, since they are the source of the
-     generated API reference; keep the structure of the comments: a
-     single line brief description, then the full description after
-     `@remarks` (see "Documentation (TSDoc)" in the `code-review`
-     skill);
+     generated API reference; follow `.github/skills/tsdoc-rules.md`
+     (structure, markup, and language of the comments);
    - the user-written documentation of the website, mainly the files
      `website/docs/*/_project/*.mdx` (in particular the user guide,
      `website/docs/user/_project/_content.mdx`). Skip

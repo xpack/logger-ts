@@ -104,7 +104,7 @@ into the repository), and read the HTML files of the output folder with
 the same extraction as for the downloaded pages:
 
 ```sh
-cd website && DOCUSAURUS_BASEURL=/ npx docusaurus build \
+cd website && npx docusaurus build \
   --out-dir <scratch>/site-build > <scratch>/build.log 2>&1
 grep -n -i -E 'broken|warn|error' <scratch>/build.log
 ```

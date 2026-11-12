@@ -143,13 +143,17 @@ into the repository), and read the HTML files under `docs/api/` of the
 output folder with the same extraction:
 
 ```sh
-cd website && DOCUSAURUS_BASEURL=/ npx docusaurus build \
+cd website && npx docusaurus build \
   --out-dir <scratch>/site-build > <scratch>/build.log 2>&1
 grep -n -i -E 'broken|warn|error' <scratch>/build.log
 ```
 
 It takes a few minutes; run it in the background. The build uses the
 committed `website/docs/api/`; it does not regenerate it (see Step 1).
+Do not set `DOCUSAURUS_BASEURL`: the generated pages link to
+`/logger-ts/...` (the `baseUrl` of `website/config/tsdoc2docusaurus.json`),
+so another base URL makes every link of the API pages "broken".
+The folder of the output is then served under `/logger-ts/`.
 
 ## The Site Sources
 
@@ -209,12 +213,9 @@ src/lib/logger.ts ─ tsc ─> tsdoc/dist/*.d.ts ─ api-extractor ─> tsdoc/do
   - **[code]**: a change to the library code or API (use the marks of
     `.github/skills/review-common.md`, **[breaking]** or
     **[internal]**, in addition).
-- The TSDoc structure that the project requires (see
-  `.github/copilot-instructions.md`): a single-line brief description,
-  then `@remarks` as the first block tag, then `@example`, `@param`,
-  `@returns`, `@throws`, and `@deprecated`; no `@category` (a typedoc
-  tag that api-extractor does not support). A deviation is a finding
-  against the comment.
+- The rules for the TSDoc comments (coverage, structure, markup, and
+  language) are in `.github/skills/tsdoc-rules.md`; a deviation is a
+  finding against the comment.
 - api-extractor reads the declaration files, so the members the pages
   show are those of `tsdoc/dist/`, with the access that TypeScript
   declares; ES private fields (`#numericLevel`) never appear, while the
@@ -439,7 +440,10 @@ Build a table of the names used for the same thing and propose one:
   level, "set" a level (not "initialise"), logging methods;
 - the mood of the briefs (third person: "Logs", "Returns", "Checks");
 - the structure of the comments (brief, `@remarks`, `@example`,
-  `@param`, `@returns`, `@throws`, `@deprecated`, in this order);
+  `@param`, `@returns`, `@throws`, `@deprecated`, in this order), the
+  order of the content of `@remarks` (why, how, notes), the format of the
+  `@throws` tags, and the markup of the lists (see
+  `.github/skills/tsdoc-rules.md`);
 - the wording of the parameter descriptions for the same parameter in
   the constructor, the interface, and the accessors;
 - the format of the deprecation notes;
