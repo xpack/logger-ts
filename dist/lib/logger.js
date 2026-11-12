@@ -24,8 +24,7 @@ export class Logger {
     static numericLevelAlways = -1;
     static levelNames = Object.freeze(Object.keys(this.numericLevels));
     static isLogLevel(value) {
-        return (typeof value === 'string' &&
-            Object.prototype.hasOwnProperty.call(_a.numericLevels, value));
+        return (typeof value === 'string' && Object.hasOwn(_a.numericLevels, value));
     }
     static assertLogLevel(value) {
         if (typeof value !== 'string') {

@@ -513,8 +513,7 @@ export class Logger<C extends LoggerConsole = Console> {
    */
   static isLogLevel(value: unknown): value is LogLevel {
     return (
-      typeof value === 'string' &&
-      Object.prototype.hasOwnProperty.call(Logger.numericLevels, value)
+      typeof value === 'string' && Object.hasOwn(Logger.numericLevels, value)
     )
   }
 
