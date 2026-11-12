@@ -2,125 +2,45 @@
   // Use IntelliSense to learn about possible Node.js debug attributes.
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  //
+  // The tests run under tap, which starts each test file in a child
+  // process; the integrated terminal of the debugger attaches to it.
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceRoot}/index.ts"
+      "name": "tap: current file",
+      "command": "npm run test-one -- ${relativeFile}",
+      "cwd": "${workspaceFolder}"
     },
     {
-      "type": "node",
-      "request": "attach",
-      "name": "Attach to Port",
-      "address": "localhost",
-      "port": 5858
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "tap 010-mock-console.ts",
-      "program": "${workspaceRoot}/tests/tap/010-mock-console.ts",
-      "stopOnEntry": true,
-      "args": [
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--loader=ts-node/esm",
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true
-    },
-    {
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
       "name": "tap 020-logger-single.ts",
-      "program": "${workspaceRoot}/tests/tap/020-logger-single.ts",
-      "stopOnEntry": true,
-      "args": [
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--loader=ts-node/esm",
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true
+      "command": "npm run test-one -- tests/tap/020-logger-single.ts",
+      "cwd": "${workspaceFolder}"
     },
     {
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
       "name": "tap 030-logger-multi.ts",
-      "program": "${workspaceRoot}/tests/tap/030-logger-multi.ts",
-      "stopOnEntry": true,
-      "args": [
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--loader=ts-node/esm",
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true
+      "command": "npm run test-one -- tests/tap/030-logger-multi.ts",
+      "cwd": "${workspaceFolder}"
     },
     {
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
       "name": "tap 040-is-level.ts",
-      "program": "${workspaceRoot}/tests/tap/040-is-level.ts",
-      "stopOnEntry": true,
-      "args": [
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--loader=ts-node/esm",
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true
+      "command": "npm run test-one -- tests/tap/040-is-level.ts",
+      "cwd": "${workspaceFolder}"
     },
     {
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
       "name": "tap 050-buffer.ts",
-      "program": "${workspaceRoot}/tests/tap/050-buffer.ts",
-      "stopOnEntry": true,
-      "args": [
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--loader=ts-node/esm",
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true
+      "command": "npm run test-one -- tests/tap/050-buffer.ts",
+      "cwd": "${workspaceFolder}"
     }
   ]
 }
